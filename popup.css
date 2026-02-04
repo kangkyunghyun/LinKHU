@@ -1,0 +1,81 @@
+:root {
+  --primary-color: #9d2235; /* 경희대 레드 */
+  --bg-color: #f8f9fa; /* 전체 배경색 */
+  --card-bg: #ffffff; /* 카드 배경색 */
+  --text-main: #333333; /* 기본 텍스트 */
+  --border-color: #eeeeee; /* 테두리 색 */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 6px 12px rgba(157, 34, 53, 0.15);
+  --radius-md: 12px;
+}
+
+body {
+  width: 320px;
+  margin: 0;
+  padding: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  background-color: var(--bg-color);
+}
+
+.container {
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.grid-item {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.grid-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: #ffadad;
+}
+
+.grid-item:active {
+  transform: scale(0.98);
+}
+
+.grid-item img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.grid-item span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
