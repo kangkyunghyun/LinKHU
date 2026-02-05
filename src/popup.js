@@ -15,7 +15,11 @@ const SITE_LIST = [
     url: "https://e-campus.khu.ac.kr",
     imgSrc: "images/ecampus.png",
   },
-  { name: "웹메일", url: "https://mail.khu.ac.kr", imgSrc: "images/mail.png" },
+  {
+    name: "에브리타임",
+    url: "https://everytime.kr",
+    imgSrc: "images/everytime.png",
+  },
   {
     name: "공지사항",
     url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200316",
@@ -26,6 +30,7 @@ const SITE_LIST = [
     url: "https://janghak.khu.ac.kr/janghak/user/main/view.do",
     imgSrc: "images/scholarship.png",
   },
+  { name: "웹메일", url: "https://mail.khu.ac.kr", imgSrc: "images/mail.png" },
   {
     name: "현장실습",
     url: "https://intern.khu.ac.kr",
