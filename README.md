@@ -4,6 +4,7 @@
 
 [![Chrome Web Store](./docs/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
 [![Naver Whale Store](./docs/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
+[![Firefox Add-ons](./docs/firefox-sm.png)](https://addons.mozilla.org/ko/firefox/addon/linkhu)
 
 ## 🔗 경희대학교 자주 찾는 웹서비스 바로가기 제공
 ### 🏫 지원 웹서비스
@@ -19,8 +20,8 @@
 
 ## 👀 미리보기
 
-| 팝업 화면 | 실행 화면 |
-| :---: | :---: |
+|                                 팝업 화면                                 |                              실행 화면                               |
+| :-----------------------------------------------------------------------: | :------------------------------------------------------------------: |
 | <img src="docs/screenshot-popup.png" alt="Popup Screenshot" width="270"/> | <img src="docs/screenshot.png" alt="LinKHU Screenshot" width="500"/> |
 
 ## 🚀 설치 방법
