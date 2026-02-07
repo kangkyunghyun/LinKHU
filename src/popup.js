@@ -72,9 +72,16 @@ const App = {
     el.appendChild(img);
     el.appendChild(span);
 
-    // 클릭 이벤트 (새 탭 열기)
-    el.addEventListener("click", () => {
-      chrome.tabs.create({ url: item.url });
+    // 클릭 이벤트
+    el.addEventListener("mouseup", (e) => {
+      if (e.button === 0) {
+        // 좌클릭: 새 탭 열고 바로 이동
+        chrome.tabs.create({ url: item.url, active: true });
+      } else if (e.button === 1) {
+        // 휠클릭: 새 탭 열되 현재 창 유지
+        e.preventDefault();
+        chrome.tabs.create({ url: item.url, active: false });
+      }
     });
 
     return el;
