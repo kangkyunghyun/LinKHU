@@ -79,3 +79,20 @@ header h1 {
   color: var(--text-main);
   letter-spacing: -0.5px;
 }
+
+.grid-item.wide {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  gap: 10px;
+  height: 60px;
+}
+
+.grid-item.wide img {
+  margin-bottom: 0;
+}
+
+.grid-item.wide span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+}

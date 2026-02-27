@@ -6,7 +6,7 @@
 // 1. DATA: 사이트 정보 목록 (상수 관리)
 const SITE_LIST = [
   {
-    name: "포탈",
+    name: "경희대학교 포털",
     url: "https://portal.khu.ac.kr",
     imgSrc: "images/portal.png",
   },
@@ -46,14 +46,23 @@ const SITE_LIST = [
     url: "https://sugang.khu.ac.kr",
     imgSrc: "images/sugang.png",
   },
+  {
+    name: "ChatKHU",
+    url: "https://chat.khu.ac.kr/",
+    imgSrc: "images/chatkhu.png",
+  },
 ];
 
 // 2. LOGIC: UI 생성 및 기능 함수들
 const App = {
   // 개별 카드 아이템(HTML 요소)을 만드는 함수
-  createCardItem(item) {
+  createCardItem(item, index) {
     const el = document.createElement("div");
     el.className = "grid-item";
+
+    if (index === 0) {
+      el.classList.add("wide");
+    }
 
     // 이미지 세팅
     const img = document.createElement("img");
@@ -97,8 +106,8 @@ const App = {
     // DocumentFragment를 사용해 렌더링 성능 최적화
     const fragment = document.createDocumentFragment();
 
-    SITE_LIST.forEach((item) => {
-      const card = this.createCardItem(item);
+    SITE_LIST.forEach((item, index) => {
+      const card = this.createCardItem(item, index);
       fragment.appendChild(card);
     });
 
