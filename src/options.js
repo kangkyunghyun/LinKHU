@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.innerHTML = `
       <div class="drag-handle">≡</div>
       <img src="${site.imgSrc}" alt="icon">
-      <span class="site-name">${site.name}</span>
+      <span class="site-name">${site.name.replace(/\s+/g, "")}</span>
     `;
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
     return el;
