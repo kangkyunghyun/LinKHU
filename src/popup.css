@@ -1,16 +1,18 @@
+/* 1. 디자인 시스템 변수: 색상이나 그림자 등을 한곳에서 관리함 */
 :root {
   --primary-color: #9d2235; /* 경희대 레드 */
-  --bg-color: #f8f9fa; /* 전체 배경색 */
-  --card-bg: #ffffff; /* 카드 배경색 */
-  --text-main: #333333; /* 기본 텍스트 */
-  --border-color: #eeeeee; /* 테두리 색 */
-  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 6px 12px rgba(157, 34, 53, 0.15);
-  --radius-md: 12px;
+  --bg-color: #f8f9fa; /* 연한 회색 배경 */
+  --card-bg: #ffffff; /* 카드(버튼) 배경색 */
+  --text-main: #333333; /* 기본 글자색 */
+  --border-color: #eeeeee; /* 카드 테두리 색 */
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05); /* 기본 그림자 */
+  --shadow-hover: 0 6px 12px rgba(157, 34, 53, 0.15); /* 호버 시 붉은 톤 그림자 */
+  --radius-md: 12px; /* 둥근 모서리 크기 */
 }
 
+/* 2. 팝업 기본 설정 */
 body {
-  width: 320px;
+  width: 320px; /* 크롬 팝업의 가로 길이를 320px로 고정 */
   margin: 0;
   padding: 0;
   font-family: "Noto Sans KR", sans-serif;
@@ -18,9 +20,10 @@ body {
 }
 
 .container {
-  padding: 20px;
+  padding: 20px; /* 팝업 테두리와 내부 요소 사이의 간격 */
 }
 
+/* 3. 헤더 영역 */
 header {
   display: flex;
   justify-content: center;
@@ -35,64 +38,104 @@ header h1 {
   color: var(--primary-color);
 }
 
+/* 4. 그리드 컨테이너: 버튼들이 놓이는 3x3 격자판 */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr); /* 1:1:1 비율로 정확히 3열 배치 */
+  gap: 12px; /* 버튼 사이의 간격 */
+  max-height: 300px; /* 내용이 많아지면 스크롤이 생기도록 높이 제한 */
+  overflow-y: auto; /* 세로 스크롤 허용 */
+  overflow-x: hidden; /* 가로 스크롤은 금지 */
+
+  /* ✨ 팁: 호버 애니메이션(translateY) 시 1행 윗부분이 잘리지 않게 여유 패딩을 줌 */
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px; /* 스크롤바와 버튼 사이 간격 */
+  padding-left: 3px;
 }
 
+/* 스크롤바 커스텀: 팝업창에 어울리게 얇고 깔끔하게 수정 */
+.grid-container::-webkit-scrollbar {
+  width: 6px;
+}
+.grid-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.grid-container::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+.grid-container::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* 5. 개별 아이템(카드) 스타일 */
 .grid-item {
   background: var(--card-bg);
   border-radius: var(--radius-md);
-  height: 90px;
+  height: 90px; /* 높이를 고정하여 모든 버튼의 크기를 일치시킴 */
+  min-width: 0; /* 내용물이 길어도 박스가 가로로 늘어나지 않게 방어 */
+  width: 100%;
+
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: column; /* 아이콘과 글자를 위아래로 배치 */
   align-items: center;
+
+  /* ✨ 아이콘 위치를 상단 10px 지점에 고정 */
+  padding: 10px 5px 8px 5px;
+  box-sizing: border-box; /* 패딩이 전체 높이 90px 안에 포함되도록 함 */
+
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
+  transition: all 0.2s ease; /* 모든 상태 변화를 부드럽게 */
   text-decoration: none;
 }
 
+/* 마우스 호버 효과 */
 .grid-item:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px); /* 위로 3px 살짝 띄움 */
   box-shadow: var(--shadow-hover);
-  border-color: #ffadad;
+  border-color: #ffadad; /* 경희대 레드와 어울리는 연한 핑크 테두리 */
 }
 
+/* 클릭 시 꾹 눌리는 효과 */
 .grid-item:active {
-  transform: scale(0.98);
+  transform: scale(0.98); /* 크기를 2% 줄여서 클릭감 부여 */
 }
 
+/* 6. 아이콘 이미지 설정 */
 .grid-item img {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-  margin-bottom: 8px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain; /* 이미지가 찌그러지지 않고 비율을 유지하며 상자에 맞춤 */
+  flex-shrink: 0; /* 공간이 부족해도 아이콘 크기가 줄어들지 않게 보호 */
 }
 
+/* 7. 글자 레이아웃 설정 */
 .grid-item span {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11.5px;
   color: var(--text-main);
-  letter-spacing: -0.5px;
-}
-
-.grid-item.wide {
-  grid-column: 1 / -1;
-  flex-direction: row;
-  gap: 10px;
-  height: 60px;
-}
-
-.grid-item.wide img {
-  margin-bottom: 0;
-}
-
-.grid-item.wide span {
-  font-size: 14px;
   font-weight: 500;
-  color: var(--text-main);
+  letter-spacing: -0.5px; /* 자간을 줄여서 가독성 향상 */
+  text-align: center;
+  line-height: 1.25;
+
+  width: 100%;
+  padding: 0 2px;
+  box-sizing: border-box;
+
+  /* ✨ 줄바꿈 로직: 단어 단위로 끊되, 상자 밖으로 나가는 긴 단어는 강제 줄바꿈 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+
+  /* ✨ 수직 중앙 정렬 마법: 아이콘 아래 남는 공간을 위아래 여백으로 똑같이 나눠 가짐 */
+  margin-top: auto;
+  margin-bottom: auto;
+
+  /* ✨ 2줄 제한: 글자가 길어도 2줄까지만 보여주고 넘치면 숨김 */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

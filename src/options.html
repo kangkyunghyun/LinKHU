@@ -3,106 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <title>LinKHU 설정</title>
-    <style>
-      body {
-        font-family: "Noto Sans KR", sans-serif;
-        background-color: #f8f9fa;
-        padding: 40px;
-      }
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        color: #9d2235;
-        text-align: center;
-      }
-      .info {
-        text-align: center;
-        color: #666;
-        margin-bottom: 20px;
-        font-size: 14px;
-      }
-
-      #sortable-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-      .list-item {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        margin-bottom: 10px;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        cursor: grab;
-        transition: background 0.2s;
-      }
-      .list-item:active {
-        cursor: grabbing;
-      }
-      .list-item.dragging {
-        opacity: 0.5;
-        background: #f0f0f0;
-      }
-      .list-item img {
-        width: 30px;
-        height: 30px;
-        margin: 0 15px;
-      }
-
-      .drag-handle {
-        color: #aaa;
-        font-size: 20px;
-        padding: 0 10px;
-      }
-      .site-name {
-        flex-grow: 1;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .toggle-wrap {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-        color: #555;
-      }
-
-      .save-btn {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        margin-top: 30px;
-        background-color: #9d2235;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
-      .save-btn:hover {
-        background-color: #7a1a29;
-      }
-    </style>
+    <link rel="stylesheet" href="options.css" />
   </head>
   <body>
     <div class="container">
       <h1>⚙️ LinKHU 설정</h1>
       <p class="info">
-        항목을 드래그하여 순서를 변경하거나, 체크를 해제하여 숨길 수 있습니다.
+        원하는 사이트를 드래그하여 오른쪽 '내 바로가기'로 옮겨주세요.
       </p>
 
-      <ul id="sortable-list"></ul>
+      <div class="board">
+        <div class="column">
+          <h2>사용 가능한 사이트</h2>
+          <div class="scroll-area">
+            <div class="category-group">
+              <div class="category-title">📌 공통 서비스</div>
+              <div id="zone-공통" class="drop-zone" data-category="공통"></div>
+            </div>
+            <div class="category-group">
+              <div class="category-title">🏛️ 단과대학</div>
+              <div
+                id="zone-단과대"
+                class="drop-zone"
+                data-category="단과대"
+              ></div>
+            </div>
+            <div class="category-group">
+              <div class="category-title">🎓 학과/전공</div>
+              <div id="zone-학과" class="drop-zone" data-category="학과"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="column">
+          <h2>내 바로가기 (활성화됨)</h2>
+          <div class="scroll-area">
+            <div
+              id="active-list"
+              class="drop-zone"
+              style="min-height: 100%"
+            ></div>
+          </div>
+        </div>
+      </div>
 
       <button id="save-btn" class="save-btn">변경사항 저장하기</button>
     </div>

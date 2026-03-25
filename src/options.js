@@ -1,86 +1,131 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const listContainer = document.getElementById("sortable-list");
+  // 1. 필요한 HTML 요소들 미리 찾아두기
+  const activeList = document.getElementById("active-list");
   const saveBtn = document.getElementById("save-btn");
+  const leftColumn = document.querySelector(".column:first-child"); // 왼쪽 후보 영역
 
-  // 1. 기존 설정 불러와서 리스트 그리기
-  chrome.storage.local.get(["userOrder", "hiddenSites"], (result) => {
-    const order = result.userOrder || MASTER_SITE_LIST.map((s) => s.id);
-    const hidden = result.hiddenSites || [];
+  // 왼쪽 카테고리별 구역(Drop Zone) 매핑
+  const categoryZones = {
+    공통: document.getElementById("zone-공통"),
+    단과대: document.getElementById("zone-단과대"),
+    학과: document.getElementById("zone-학과"),
+  };
 
-    order.forEach((id) => {
-      const site = MASTER_SITE_LIST.find((s) => s.id === id);
-      if (site) {
-        const li = document.createElement("li");
-        li.className = "list-item";
-        li.draggable = true; // 드래그 기능 활성화
-        li.dataset.id = site.id;
+  // 🔠 [함수] 리스트를 가나다순으로 자동 정렬
+  function sortZoneAlphabetically(zone) {
+    const items = Array.from(zone.querySelectorAll(".list-item"));
+    items.sort((a, b) => {
+      const nameA = a.querySelector(".site-name").textContent;
+      const nameB = b.querySelector(".site-name").textContent;
+      return nameA.localeCompare(nameB, "ko-KR"); // 한국어 기준 비교
+    });
+    // 정렬된 순서대로 다시 화면에 붙여넣기
+    items.forEach((item) => zone.appendChild(item));
+  }
 
-        const isChecked = hidden.includes(site.id) ? "" : "checked";
+  // 2. 초기 데이터 로딩: 저장된 설정 불러와서 배치하기
+  chrome.storage.local.get(["userOrder"], (result) => {
+    // 저장된 데이터가 없으면 '공통' 사이트들만 기본값으로 설정
+    const activeOrder =
+      result.userOrder ||
+      MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
 
-        li.innerHTML = `
-          <div class="drag-handle">≡</div>
-          <img src="${site.imgSrc}" alt="icon">
-          <span class="site-name">${site.name}</span>
-          <label class="toggle-wrap">
-            <input type="checkbox" class="visibility-toggle" ${isChecked}>
-            표시
-          </label>
-        `;
-        listContainer.appendChild(li);
-        addDragEvents(li);
+    MASTER_SITE_LIST.forEach((site) => {
+      const el = createListItem(site);
+
+      if (activeOrder.includes(site.id)) {
+        activeList.appendChild(el); // 오른쪽(내 바로가기)으로 배치
+      } else {
+        if (categoryZones[site.category]) {
+          categoryZones[site.category].appendChild(el); // 원래 카테고리 칸으로 배치
+        }
       }
     });
-  });
 
-  // 2. 저장 버튼 클릭 시
-  saveBtn.addEventListener("click", () => {
-    const items = document.querySelectorAll(".list-item");
-    const newOrder = [];
-    const newHidden = [];
-
-    items.forEach((item) => {
-      const id = item.dataset.id;
-      const isVisible = item.querySelector(".visibility-toggle").checked;
-      newOrder.push(id);
-      if (!isVisible) newHidden.push(id);
-    });
-
-    // 스토리지에 저장
-    chrome.storage.local.set(
-      { userOrder: newOrder, hiddenSites: newHidden },
-      () => {
-        alert("설정이 성공적으로 저장되었습니다!");
-      },
+    // 왼쪽 구역들은 배치가 끝나면 바로 가나다 정렬 실행
+    Object.values(categoryZones).forEach((zone) =>
+      sortZoneAlphabetically(zone),
     );
+
+    // 오른쪽은 사용자가 저장했던 '그 순서' 그대로 다시 재배치
+    activeOrder.forEach((id) => {
+      const item = activeList.querySelector(`[data-id="${id}"]`);
+      if (item) activeList.appendChild(item);
+    });
   });
 
-  // 3. 드래그 앤 드롭 기능 구현 (HTML5 Drag & Drop API)
+  // 3. [함수] 사이트 리스트 아이템 HTML 생성
+  function createListItem(site) {
+    const el = document.createElement("div");
+    el.className = "list-item";
+    el.draggable = true; // 드래그 가능하게 설정
+    el.dataset.id = site.id;
+    el.dataset.category = site.category;
+    el.innerHTML = `
+      <div class="drag-handle">≡</div>
+      <img src="${site.imgSrc}" alt="icon">
+      <span class="site-name">${site.name}</span>
+    `;
+    addDragEvents(el); // 아이템에 드래그 기능 심어주기
+    return el;
+  }
+
+  // 4. 저장 버튼: 현재 오른쪽 리스트의 순서를 따서 저장
+  saveBtn.addEventListener("click", () => {
+    const activeItems = activeList.querySelectorAll(".list-item");
+    const newOrder = Array.from(activeItems).map((item) => item.dataset.id);
+
+    chrome.storage.local.set({ userOrder: newOrder }, () => {
+      alert("성공적으로 저장되었습니다.");
+    });
+  });
+
+  // 5. 드래그 앤 드롭 핵심 로직
   let draggedItem = null;
 
   function addDragEvents(item) {
     item.addEventListener("dragstart", function () {
-      draggedItem = this;
-      setTimeout(() => this.classList.add("dragging"), 0);
+      draggedItem = this; // 드래그 시작한 아이템 기억
+      setTimeout(() => this.classList.add("dragging"), 0); // 시각 효과
     });
 
     item.addEventListener("dragend", function () {
       this.classList.remove("dragging");
       draggedItem = null;
     });
-
-    listContainer.addEventListener("dragover", function (e) {
-      e.preventDefault(); // 드롭 허용
-      const afterElement = getDragAfterElement(listContainer, e.clientY);
-      const currentDrag = document.querySelector(".dragging");
-      if (afterElement == null) {
-        listContainer.appendChild(currentDrag);
-      } else {
-        listContainer.insertBefore(currentDrag, afterElement);
-      }
-    });
   }
 
-  // 마우스 위치를 계산해서 어느 요소 사이에 넣을지 결정하는 함수
+  // [오른쪽 영역] 아이템 순서 바꾸기 로직
+  activeList.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    const currentDrag = document.querySelector(".dragging");
+    if (!currentDrag) return;
+
+    // 마우스 위치(e.clientY)를 계산해서 어느 아이템 사이에 끼워넣을지 결정
+    const afterElement = getDragAfterElement(activeList, e.clientY);
+    if (afterElement == null) {
+      activeList.appendChild(currentDrag);
+    } else {
+      activeList.insertBefore(currentDrag, afterElement);
+    }
+  });
+
+  // [왼쪽 영역] 스마트 복귀 로직
+  leftColumn.addEventListener("dragover", function (e) {
+    e.preventDefault();
+    const currentDrag = document.querySelector(".dragging");
+    if (!currentDrag) return;
+
+    // 아이템의 데이터에 적힌 '원래 카테고리 구역'을 찾아가도록 함
+    const targetZone = categoryZones[currentDrag.dataset.category];
+
+    if (currentDrag.parentNode !== targetZone) {
+      targetZone.appendChild(currentDrag); // 자기 방으로 복귀
+      sortZoneAlphabetically(targetZone); // 복귀 즉시 가나다 정렬
+    }
+  });
+
+  // 드래그 시 마우스가 어느 아이템 위에 있는지 계산하는 수학적 함수
   function getDragAfterElement(container, y) {
     const draggableElements = [
       ...container.querySelectorAll(".list-item:not(.dragging)"),
