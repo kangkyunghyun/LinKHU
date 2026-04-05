@@ -20,3 +20,6 @@
 - [ ] 코드 스타일 가이드를 준수했나요?
 - [ ] 테스트 코드를 작성했거나 수동 테스트를 완료했나요?
 - [ ] 문서(Wiki, API Docs 등)를 업데이트했나요?
+
+<!-- Gemini Code Assist, please review this PR and write all your comments, summaries, and suggestions in Korean. -->
+<!-- (이 주석은 화면에 보이지 않으며, AI 자동 리뷰를 한국어로 받기 위한 설정입니다.) -->
