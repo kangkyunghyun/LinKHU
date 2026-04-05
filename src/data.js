@@ -614,7 +614,7 @@ const MASTER_SITE_LIST = [
     category: "학과",
   },
   {
-    id: "",
+    id: "cbam",
     name: "융합바이오 신소재공학과",
     url: "https://cbam.khu.ac.kr/bio/user/main/view.do",
     imgSrc: "images/portal.png",

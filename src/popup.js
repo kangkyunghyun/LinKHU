@@ -6,13 +6,15 @@
 const App = {
   // 1. [함수] 사이트 버튼(카드) 하나하나를 만드는 공장
   createCardItem(item) {
-    const el = document.createElement("div");
+    const el = document.createElement("a");
     el.className = "grid-item"; // CSS 적용을 위한 클래스명
+    el.href = item.url;
 
     // 이미지(로고) 생성
     const img = document.createElement("img");
     img.src = item.imgSrc;
     img.alt = item.name;
+    img.draggable = false; // 이미지 자체 드래그 방지, a 태그의 링크 드래그 유도
 
     // 이미지 로드 실패 시: 엑스박스 대신 기본 아이콘 보여주기
     img.onerror = () => {
@@ -28,12 +30,16 @@ const App = {
     el.appendChild(span);
 
     // 클릭 이벤트 처리
-    el.addEventListener("mouseup", (e) => {
-      if (e.button === 0) {
-        // [좌클릭] 현재 탭을 해당 사이트로 이동
-        chrome.tabs.update({ url: item.url });
-        window.close(); // 이동 후 팝업창 닫기 (깔끔함!)
-      } else if (e.button === 1) {
+    el.addEventListener("click", (e) => {
+      e.preventDefault(); // a 태그 기본 이동 방지
+      const isBackground = e.ctrlKey || e.metaKey;
+      chrome.tabs.create({ url: item.url, active: !isBackground });
+      if (!isBackground) window.close();
+    });
+
+    // 휠클릭 이벤트 처리
+    el.addEventListener("auxclick", (e) => {
+      if (e.button === 1) {
         // [휠클릭] 새 탭을 백그라운드에서 열기
         e.preventDefault();
         chrome.tabs.create({ url: item.url, active: false });
