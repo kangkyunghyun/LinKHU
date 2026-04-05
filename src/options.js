@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.dataset.category = site.category;
     el.innerHTML = `
       <div class="drag-handle">≡</div>
-      <img src="${site.imgSrc}" alt="icon">
+      <img src="${site.imgSrc}" alt="icon" draggable="false">
       <span class="site-name">${site.name.replace(/\s+/g, "")}</span>
     `;
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
@@ -82,6 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 5. 드래그 앤 드롭 핵심 로직
   let draggedItem = null;
+  let scrollInterval = null;
+  let scrollDirection = 0; // 0: 정지, -1: 위, 1: 아래
 
   function addDragEvents(item) {
     item.addEventListener("dragstart", function () {
@@ -92,8 +94,52 @@ document.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("dragend", function () {
       this.classList.remove("dragging");
       draggedItem = null;
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+      scrollDirection = 0;
+      currentScrollArea = null;
+      scrollAreaRect = null;
     });
   }
+
+  // 자동 스크롤 로직 추가
+  const SCROLL_SPEED = 8;
+  const SCROLL_SENSITIVITY = 40;
+  let currentScrollArea = null;
+  let scrollAreaRect = null;
+
+  document.addEventListener("dragover", (e) => {
+    if (!draggedItem) return;
+
+    const area = e.target.closest(".scroll-area");
+    // 의도적 처리: 마우스가 스크롤 영역 밖을 벗어나도 직전 영역을 기억하여 스크롤 동작 유지
+    if (area && area !== currentScrollArea) {
+      currentScrollArea = area;
+      scrollAreaRect = area.getBoundingClientRect(); // 레이아웃 계산(리플로우) 최소화를 위해 캐싱
+    }
+    
+    if (!currentScrollArea || !scrollAreaRect) return;
+
+    let newDirection = 0;
+    
+    if (e.clientY < scrollAreaRect.top + SCROLL_SENSITIVITY) {
+      newDirection = -1;
+    } else if (e.clientY > scrollAreaRect.bottom - SCROLL_SENSITIVITY) {
+      newDirection = 1;
+    }
+
+    if (scrollDirection !== newDirection) {
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+      scrollDirection = newDirection;
+
+      if (scrollDirection !== 0) {
+        scrollInterval = setInterval(() => {
+          currentScrollArea.scrollTop += scrollDirection * SCROLL_SPEED;
+        }, 16);
+      }
+    }
+  });
 
   // [오른쪽 영역] 아이템 순서 바꾸기 로직
   activeList.addEventListener("dragover", function (e) {
