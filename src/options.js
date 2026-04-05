@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // 5. 드래그 앤 드롭 핵심 로직
   let draggedItem = null;
   let scrollInterval = null;
+  let scrollDirection = 0; // 0: 정지, -1: 위, 1: 아래
 
   function addDragEvents(item) {
     item.addEventListener("dragstart", function () {
@@ -94,11 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
       this.classList.remove("dragging");
       draggedItem = null;
       clearInterval(scrollInterval);
+      scrollInterval = null;
+      scrollDirection = 0;
     });
   }
 
   // 자동 스크롤 로직 추가
-  const SCROLL_SPEED = 15;
+  const SCROLL_SPEED = 8;
   const SCROLL_SENSITIVITY = 40;
   let currentScrollArea = null;
 
@@ -109,21 +112,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (area) {
       currentScrollArea = area;
     }
-
+    
     if (!currentScrollArea) return;
 
-    clearInterval(scrollInterval);
     const box = currentScrollArea.getBoundingClientRect();
+    let newDirection = 0;
     
     if (e.clientY < box.top + SCROLL_SENSITIVITY) {
-      scrollInterval = setInterval(() => (currentScrollArea.scrollTop -= SCROLL_SPEED), 16);
+      newDirection = -1;
     } else if (e.clientY > box.bottom - SCROLL_SENSITIVITY) {
-      scrollInterval = setInterval(() => (currentScrollArea.scrollTop += SCROLL_SPEED), 16);
+      newDirection = 1;
+    }
+
+    if (scrollDirection !== newDirection) {
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+      scrollDirection = newDirection;
+
+      if (scrollDirection !== 0) {
+        scrollInterval = setInterval(() => {
+          currentScrollArea.scrollTop += scrollDirection * SCROLL_SPEED;
+        }, 16);
+      }
     }
   });
 
   document.addEventListener("drop", () => {
     clearInterval(scrollInterval);
+    scrollInterval = null;
+    scrollDirection = 0;
     currentScrollArea = null;
   });
 
