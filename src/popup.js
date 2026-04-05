@@ -90,4 +90,15 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.runtime.openOptionsPage();
     });
   }
+
+  // 1~9 숫자 키보드 입력 시 해당하는 순서의 버튼(새 탭 열기) 클릭 이벤트 실행
+  document.addEventListener("keydown", (e) => {
+    if (e.key >= "1" && e.key <= "9") {
+      const index = parseInt(e.key, 10) - 1; // 1~9를 인덱스 0~8로 변환
+      const items = document.querySelectorAll(".grid-item");
+      if (items[index]) {
+        items[index].click();
+      }
+    }
+  });
 });
