@@ -33,9 +33,9 @@ const App = {
     el.addEventListener("click", (e) => {
       e.preventDefault(); // a 태그 기본 이동 방지
       if (e.button === 0) {
-        // [좌클릭] 새 탭을 해당 사이트로 이동
-        chrome.tabs.create({ url: item.url });
-        window.close(); // 이동 후 팝업창 닫기 (깔끔함!)
+        const isBackground = e.ctrlKey || e.metaKey;
+        chrome.tabs.create({ url: item.url, active: !isBackground });
+        if (!isBackground) window.close();
       }
     });
 
