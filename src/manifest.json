@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "LinKHU",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
   "action": {
     "default_popup": "popup.html",
@@ -9,6 +9,15 @@
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
+    }
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "LinKHU 열기"
     }
   },
   "icons": {
