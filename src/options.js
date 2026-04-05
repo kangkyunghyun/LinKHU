@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 5. 드래그 앤 드롭 핵심 로직
   let draggedItem = null;
+  let scrollInterval = null;
 
   function addDragEvents(item) {
     item.addEventListener("dragstart", function () {
@@ -92,8 +93,39 @@ document.addEventListener("DOMContentLoaded", () => {
     item.addEventListener("dragend", function () {
       this.classList.remove("dragging");
       draggedItem = null;
+      clearInterval(scrollInterval);
     });
   }
+
+  // 자동 스크롤 로직 추가
+  const SCROLL_SPEED = 15;
+  const SCROLL_SENSITIVITY = 40;
+  let currentScrollArea = null;
+
+  document.addEventListener("dragover", (e) => {
+    if (!draggedItem) return;
+
+    const area = e.target.closest(".scroll-area");
+    if (area) {
+      currentScrollArea = area;
+    }
+
+    if (!currentScrollArea) return;
+
+    clearInterval(scrollInterval);
+    const box = currentScrollArea.getBoundingClientRect();
+    
+    if (e.clientY < box.top + SCROLL_SENSITIVITY) {
+      scrollInterval = setInterval(() => (currentScrollArea.scrollTop -= SCROLL_SPEED), 16);
+    } else if (e.clientY > box.bottom - SCROLL_SENSITIVITY) {
+      scrollInterval = setInterval(() => (currentScrollArea.scrollTop += SCROLL_SPEED), 16);
+    }
+  });
+
+  document.addEventListener("drop", () => {
+    clearInterval(scrollInterval);
+    currentScrollArea = null;
+  });
 
   // [오른쪽 영역] 아이템 순서 바꾸기 로직
   activeList.addEventListener("dragover", function (e) {
