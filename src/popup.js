@@ -32,11 +32,9 @@ const App = {
     // 클릭 이벤트 처리
     el.addEventListener("click", (e) => {
       e.preventDefault(); // a 태그 기본 이동 방지
-      if (e.button === 0) {
-        const isBackground = e.ctrlKey || e.metaKey;
-        chrome.tabs.create({ url: item.url, active: !isBackground });
-        if (!isBackground) window.close();
-      }
+      const isBackground = e.ctrlKey || e.metaKey;
+      chrome.tabs.create({ url: item.url, active: !isBackground });
+      if (!isBackground) window.close();
     });
 
     // 휠클릭 이벤트 처리
