@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "LinKHU",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
   "action": {
     "default_popup": "popup.html",
@@ -20,14 +20,5 @@
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{7d6a54b3-2e1a-4f8a-96d0-1b2c3d4e5f6a}",
-      "strict_min_version": "140.0",
-      "data_collection_permissions": {
-        "required": ["none"]
-      }
-    }
   }
 }
