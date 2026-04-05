@@ -97,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInterval(scrollInterval);
       scrollInterval = null;
       scrollDirection = 0;
+      currentScrollArea = null;
+      scrollAreaRect = null;
     });
   }
 
@@ -104,23 +106,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const SCROLL_SPEED = 8;
   const SCROLL_SENSITIVITY = 40;
   let currentScrollArea = null;
+  let scrollAreaRect = null;
 
   document.addEventListener("dragover", (e) => {
     if (!draggedItem) return;
 
     const area = e.target.closest(".scroll-area");
-    if (area) {
+    // 의도적 처리: 마우스가 스크롤 영역 밖을 벗어나도 직전 영역을 기억하여 스크롤 동작 유지
+    if (area && area !== currentScrollArea) {
       currentScrollArea = area;
+      scrollAreaRect = area.getBoundingClientRect(); // 레이아웃 계산(리플로우) 최소화를 위해 캐싱
     }
     
-    if (!currentScrollArea) return;
+    if (!currentScrollArea || !scrollAreaRect) return;
 
-    const box = currentScrollArea.getBoundingClientRect();
     let newDirection = 0;
     
-    if (e.clientY < box.top + SCROLL_SENSITIVITY) {
+    if (e.clientY < scrollAreaRect.top + SCROLL_SENSITIVITY) {
       newDirection = -1;
-    } else if (e.clientY > box.bottom - SCROLL_SENSITIVITY) {
+    } else if (e.clientY > scrollAreaRect.bottom - SCROLL_SENSITIVITY) {
       newDirection = 1;
     }
 
@@ -135,13 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 16);
       }
     }
-  });
-
-  document.addEventListener("drop", () => {
-    clearInterval(scrollInterval);
-    scrollInterval = null;
-    scrollDirection = 0;
-    currentScrollArea = null;
   });
 
   // [오른쪽 영역] 아이템 순서 바꾸기 로직
