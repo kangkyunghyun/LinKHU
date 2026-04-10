@@ -78,10 +78,134 @@ const App = {
   },
 };
 
+// [버전 관리] 확장 프로그램 버전 및 최신 릴리스 버전 확인 로직
+const VersionManager = {
+  // 현재 설치된 확장 프로그램의 버전을 가져옵니다.
+  async getCurrentVersion() {
+    const manifest = chrome.runtime.getManifest();
+    return manifest.version;
+  },
+
+  // GitHub API를 사용하여 최신 릴리스 버전을 가져옵니다.
+  // API Rate Limit를 고려하여 storage에 12시간 동안 캐싱합니다.
+  async getLatestGithubReleaseVersion() {
+    const CACHE_KEY = "latestReleaseVersion";
+    const CACHE_TIME_KEY = "latestReleaseVersionTime";
+    const CACHE_DURATION_MS = 12 * 60 * 60 * 1000; // 12시간
+
+    const result = await chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY]);
+    const now = Date.now();
+    const cachedVersion = result[CACHE_KEY];
+    const cachedTime = result[CACHE_TIME_KEY];
+
+    if (cachedVersion && cachedTime && (now - cachedTime < CACHE_DURATION_MS)) {
+      return cachedVersion;
+    }
+
+    const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
+    const repoName = "LinKHU";         // GitHub 저장소 이름
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`GitHub API error (${response.status}): ${errorText}`);
+        return cachedVersion || null; // 에러 시 기존 캐시 반환
+      }
+      const data = await response.json();
+      const version = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+      
+      if (version) {
+        await chrome.storage.local.set({
+          [CACHE_KEY]: version,
+          [CACHE_TIME_KEY]: now
+        });
+      }
+      return version;
+    } catch (error) {
+      console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
+      return cachedVersion || null;
+    }
+  },
+
+  // 두 버전을 비교합니다. (예: "1.0.0" vs "1.1.0")
+  // v1이 더 낮으면 -1, 같으면 0, v1이 더 높으면 1을 반환합니다.
+  compareVersions(v1, v2) {
+    const parts1 = (v1 || '0.0.0').split('.').map(Number);
+    const parts2 = (v2 || '0.0.0').split('.').map(Number);
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+      const p1 = parts1[i] || 0;
+      const p2 = parts2[i] || 0;
+      if (p1 < p2) return -1;
+      if (p1 > p2) return 1;
+    }
+    return 0;
+  },
+
+  // 설치 환경(브라우저, 개발자모드 여부)에 따라 적절한 업데이트 링크를 반환합니다.
+  async getUpdateLink() {
+    let link = "https://github.com/kangkyunghyun/LinKHU/releases/latest";
+    try {
+      // 개발자 모드(unpacked) 여부 확인: 스토어 업데이트 URL이 없으면 개발 모드로 간주
+      const isDevMode = !chrome.runtime.getManifest().update_url;
+
+      // 개발자 모드(수동 설치)가 아니면 브라우저별 스토어 링크 제공
+      if (!isDevMode) {
+        const ua = navigator.userAgent;
+        if (ua.includes("Whale")) {
+          link = "https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc";
+        } else if (ua.includes("Firefox")) {
+          link = "https://addons.mozilla.org/ko/firefox/addon/linkhu";
+        } else {
+          // 크롬, 엣지 등 그 외 Chromium 기반
+          link = "https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp";
+        }
+      }
+    } catch (e) {
+      console.warn("설치 정보 확인 실패, 기본 링크 사용:", e);
+    }
+    return link;
+  },
+
+  // 팝업/옵션 페이지에 버전 정보를 표시하고 업데이트 필요 여부를 알립니다.
+  async displayVersionInfo(currentVersionElId, updateMessageElId) {
+    const [currentVersion, latestVersion] = await Promise.all([
+      this.getCurrentVersion(),
+      this.getLatestGithubReleaseVersion()
+    ]);
+
+    const currentVersionEl = document.getElementById(currentVersionElId);
+    const updateMessageEl = document.getElementById(updateMessageElId);
+
+    if (currentVersionEl) {
+      currentVersionEl.textContent = `v${currentVersion}`;
+    }
+
+    if (updateMessageEl && latestVersion) {
+      if (this.compareVersions(currentVersion, latestVersion) < 0) {
+        const storeLink = await this.getUpdateLink();
+        
+        const updateLink = document.createElement('a');
+        updateLink.href = storeLink;
+        updateLink.target = '_blank';
+        updateLink.style.cssText = 'color: #ff6b6b; text-decoration: none; font-size: 12px; margin-left: 8px;';
+        updateLink.textContent = `(업데이트 가능: v${latestVersion})`;
+        updateMessageEl.replaceChildren(updateLink);
+      } else {
+        updateMessageEl.textContent = '';
+      }
+    }
+  }
+};
+
 // 3. [시작] HTML 문서 로드가 끝나면 바로 실행되는 부분
 document.addEventListener("DOMContentLoaded", () => {
   // 초기 화면 렌더링
   App.render();
+
+  // 버전 정보 표시
+  VersionManager.displayVersionInfo("current-version", "update-message");
 
   // 톱니바퀴 버튼 클릭 시 '설정' 페이지 열기
   const settingsBtn = document.getElementById("settings-btn");
