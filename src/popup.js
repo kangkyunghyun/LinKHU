@@ -78,10 +78,118 @@ const App = {
   },
 };
 
+// [버전 관리] 확장 프로그램 버전 및 최신 릴리스 버전 확인 로직
+const VersionManager = {
+  // 현재 설치된 확장 프로그램의 버전을 가져옵니다.
+  async getCurrentVersion() {
+    const manifest = chrome.runtime.getManifest();
+    return manifest.version;
+  },
+
+  // GitHub API를 사용하여 최신 릴리스 버전을 가져옵니다.
+  // (주의: GitHub API 호출 시 Too Many Requests 에러가 발생할 수 있으므로,
+  // 실제 서비스에서는 Background Script에서 일정 주기마다 호출 후 storage에 저장하여 사용하는 것을 권장합니다.)
+  async getLatestGithubReleaseVersion() {
+    // TODO: LinKHU GitHub 저장소의 정확한 OWNER와 REPO 이름을 입력해주세요.
+    // 예시: const repoOwner = "your-github-username"; const repoName = "LinKHU";
+    const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
+    const repoName = "LinKHU";         // GitHub 저장소 이름
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
+
+    try {
+      const response = await fetch(apiUrl, {
+        headers: {
+          // GitHub API Rate Limit를 줄이기 위해 User-Agent 헤더 추가 권장
+          'User-Agent': 'LinKHU-Extension-Version-Checker'
+        }
+      });
+      if (!response.ok) {
+        // Rate Limit 초과 등 오류 발생 시 에러 메시지 로깅
+        const errorText = await response.text();
+        console.error(`GitHub API error (${response.status}): ${errorText}`);
+        throw new Error(`GitHub API error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      // 릴리스 태그 이름이 "v1.0.0"과 같은 형식일 수 있으므로, 'v' 접두사를 제거합니다.
+      return data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+    } catch (error) {
+      console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
+      return null;
+    }
+  },
+
+  // 두 버전을 비교합니다. (예: "1.0.0" vs "1.1.0")
+  // v1이 더 낮으면 -1, 같으면 0, v1이 더 높으면 1을 반환합니다.
+  compareVersions(v1, v2) {
+    const parts1 = (v1 || '0.0.0').split('.').map(Number);
+    const parts2 = (v2 || '0.0.0').split('.').map(Number);
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+      const p1 = parts1[i] || 0;
+      const p2 = parts2[i] || 0;
+      if (p1 < p2) return -1;
+      if (p1 > p2) return 1;
+    }
+    return 0;
+  },
+
+  // 설치 환경(브라우저, 개발자모드 여부)에 따라 적절한 업데이트 링크를 반환합니다.
+  async getUpdateLink() {
+    let link = "https://github.com/kangkyunghyun/LinKHU/releases/latest";
+    try {
+      let isDevMode = false;
+      if (chrome.management && chrome.management.getSelf) {
+        const selfInfo = await new Promise((resolve) => chrome.management.getSelf(resolve));
+        isDevMode = selfInfo.installType === "development";
+      }
+
+      // 개발자 모드(수동 설치)가 아니면 브라우저별 스토어 링크 제공
+      if (!isDevMode) {
+        const ua = navigator.userAgent;
+        if (ua.includes("Whale")) {
+          link = "https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc";
+        } else if (ua.includes("Firefox")) {
+          link = "https://addons.mozilla.org/ko/firefox/addon/linkhu";
+        } else {
+          // 크롬, 엣지 등 그 외 Chromium 기반
+          link = "https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp";
+        }
+      }
+    } catch (e) {
+      console.warn("설치 정보 확인 실패, 기본 링크 사용:", e);
+    }
+    return link;
+  },
+
+  // 팝업/옵션 페이지에 버전 정보를 표시하고 업데이트 필요 여부를 알립니다.
+  async displayVersionInfo(currentVersionElId, updateMessageElId) {
+    const currentVersion = await this.getCurrentVersion();
+    const latestVersion = await this.getLatestGithubReleaseVersion();
+
+    const currentVersionEl = document.getElementById(currentVersionElId);
+    const updateMessageEl = document.getElementById(updateMessageElId);
+
+    if (currentVersionEl) {
+      currentVersionEl.textContent = `v${currentVersion}`;
+    }
+
+    if (updateMessageEl && latestVersion) {
+      if (this.compareVersions(currentVersion, latestVersion) < 0) {
+        const storeLink = await this.getUpdateLink();
+        updateMessageEl.innerHTML = `<a href="${storeLink}" target="_blank" style="color: #ff6b6b; text-decoration: none; font-size: 12px; margin-left: 8px;">(업데이트 가능: v${latestVersion})</a>`;
+      } else {
+        updateMessageEl.innerHTML = '';
+      }
+    }
+  }
+};
+
 // 3. [시작] HTML 문서 로드가 끝나면 바로 실행되는 부분
 document.addEventListener("DOMContentLoaded", () => {
   // 초기 화면 렌더링
   App.render();
+
+  // 버전 정보 표시
+  VersionManager.displayVersionInfo("current-version", "update-message");
 
   // 톱니바퀴 버튼 클릭 시 '설정' 페이지 열기
   const settingsBtn = document.getElementById("settings-btn");
