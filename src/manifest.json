@@ -14,8 +14,8 @@
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+L",
-        "mac": "Command+Shift+L"
+        "default": "Ctrl+Shift+K",
+        "mac": "Command+Shift+K"
       },
       "description": "LinKHU 열기"
     }
@@ -26,6 +26,7 @@
     "128": "icons/icon128.png"
   },
   "permissions": ["storage"],
+  "host_permissions": ["https://api.github.com/*"],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true

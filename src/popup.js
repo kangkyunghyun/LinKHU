@@ -93,45 +93,40 @@ const VersionManager = {
     const CACHE_TIME_KEY = "latestReleaseVersionTime";
     const CACHE_DURATION_MS = 12 * 60 * 60 * 1000; // 12시간
 
-    return new Promise((resolve) => {
-      chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY], async (result) => {
-        const now = Date.now();
-        const cachedVersion = result[CACHE_KEY];
-        const cachedTime = result[CACHE_TIME_KEY];
+    const result = await chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY]);
+    const now = Date.now();
+    const cachedVersion = result[CACHE_KEY];
+    const cachedTime = result[CACHE_TIME_KEY];
 
-        if (cachedVersion && cachedTime && (now - cachedTime < CACHE_DURATION_MS)) {
-          resolve(cachedVersion);
-          return;
-        }
+    if (cachedVersion && cachedTime && (now - cachedTime < CACHE_DURATION_MS)) {
+      return cachedVersion;
+    }
 
-        const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
-        const repoName = "LinKHU";         // GitHub 저장소 이름
-        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
+    const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
+    const repoName = "LinKHU";         // GitHub 저장소 이름
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
 
-        try {
-          const response = await fetch(apiUrl);
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`GitHub API error (${response.status}): ${errorText}`);
-            resolve(cachedVersion || null); // 에러 시 기존 캐시 반환
-            return;
-          }
-          const data = await response.json();
-          const version = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
-          
-          if (version) {
-            chrome.storage.local.set({
-              [CACHE_KEY]: version,
-              [CACHE_TIME_KEY]: now
-            });
-          }
-          resolve(version);
-        } catch (error) {
-          console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
-          resolve(cachedVersion || null);
-        }
-      });
-    });
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`GitHub API error (${response.status}): ${errorText}`);
+        return cachedVersion || null; // 에러 시 기존 캐시 반환
+      }
+      const data = await response.json();
+      const version = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+      
+      if (version) {
+        await chrome.storage.local.set({
+          [CACHE_KEY]: version,
+          [CACHE_TIME_KEY]: now
+        });
+      }
+      return version;
+    } catch (error) {
+      console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
+      return cachedVersion || null;
+    }
   },
 
   // 두 버전을 비교합니다. (예: "1.0.0" vs "1.1.0")
@@ -152,11 +147,8 @@ const VersionManager = {
   async getUpdateLink() {
     let link = "https://github.com/kangkyunghyun/LinKHU/releases/latest";
     try {
-      let isDevMode = false;
-      if (chrome.management && chrome.management.getSelf) {
-        const selfInfo = await new Promise((resolve) => chrome.management.getSelf(resolve));
-        isDevMode = selfInfo.installType === "development";
-      }
+      // 개발자 모드(unpacked) 여부 확인: 스토어 업데이트 URL이 없으면 개발 모드로 간주
+      const isDevMode = !chrome.runtime.getManifest().update_url;
 
       // 개발자 모드(수동 설치)가 아니면 브라우저별 스토어 링크 제공
       if (!isDevMode) {
@@ -178,8 +170,10 @@ const VersionManager = {
 
   // 팝업/옵션 페이지에 버전 정보를 표시하고 업데이트 필요 여부를 알립니다.
   async displayVersionInfo(currentVersionElId, updateMessageElId) {
-    const currentVersion = await this.getCurrentVersion();
-    const latestVersion = await this.getLatestGithubReleaseVersion();
+    const [currentVersion, latestVersion] = await Promise.all([
+      this.getCurrentVersion(),
+      this.getLatestGithubReleaseVersion()
+    ]);
 
     const currentVersionEl = document.getElementById(currentVersionElId);
     const updateMessageEl = document.getElementById(updateMessageElId);
