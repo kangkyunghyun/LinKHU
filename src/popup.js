@@ -87,35 +87,51 @@ const VersionManager = {
   },
 
   // GitHub API를 사용하여 최신 릴리스 버전을 가져옵니다.
-  // (주의: GitHub API 호출 시 Too Many Requests 에러가 발생할 수 있으므로,
-  // 실제 서비스에서는 Background Script에서 일정 주기마다 호출 후 storage에 저장하여 사용하는 것을 권장합니다.)
+  // API Rate Limit를 고려하여 storage에 12시간 동안 캐싱합니다.
   async getLatestGithubReleaseVersion() {
-    // TODO: LinKHU GitHub 저장소의 정확한 OWNER와 REPO 이름을 입력해주세요.
-    // 예시: const repoOwner = "your-github-username"; const repoName = "LinKHU";
-    const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
-    const repoName = "LinKHU";         // GitHub 저장소 이름
-    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
+    const CACHE_KEY = "latestReleaseVersion";
+    const CACHE_TIME_KEY = "latestReleaseVersionTime";
+    const CACHE_DURATION_MS = 12 * 60 * 60 * 1000; // 12시간
 
-    try {
-      const response = await fetch(apiUrl, {
-        headers: {
-          // GitHub API Rate Limit를 줄이기 위해 User-Agent 헤더 추가 권장
-          'User-Agent': 'LinKHU-Extension-Version-Checker'
+    return new Promise((resolve) => {
+      chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY], async (result) => {
+        const now = Date.now();
+        const cachedVersion = result[CACHE_KEY];
+        const cachedTime = result[CACHE_TIME_KEY];
+
+        if (cachedVersion && cachedTime && (now - cachedTime < CACHE_DURATION_MS)) {
+          resolve(cachedVersion);
+          return;
+        }
+
+        const repoOwner = "kangkyunghyun"; // GitHub 사용자 이름
+        const repoName = "LinKHU";         // GitHub 저장소 이름
+        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/releases/latest`;
+
+        try {
+          const response = await fetch(apiUrl);
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error(`GitHub API error (${response.status}): ${errorText}`);
+            resolve(cachedVersion || null); // 에러 시 기존 캐시 반환
+            return;
+          }
+          const data = await response.json();
+          const version = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+          
+          if (version) {
+            chrome.storage.local.set({
+              [CACHE_KEY]: version,
+              [CACHE_TIME_KEY]: now
+            });
+          }
+          resolve(version);
+        } catch (error) {
+          console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
+          resolve(cachedVersion || null);
         }
       });
-      if (!response.ok) {
-        // Rate Limit 초과 등 오류 발생 시 에러 메시지 로깅
-        const errorText = await response.text();
-        console.error(`GitHub API error (${response.status}): ${errorText}`);
-        throw new Error(`GitHub API error: ${response.statusText}`);
-      }
-      const data = await response.json();
-      // 릴리스 태그 이름이 "v1.0.0"과 같은 형식일 수 있으므로, 'v' 접두사를 제거합니다.
-      return data.tag_name ? data.tag_name.replace(/^v/, '') : null;
-    } catch (error) {
-      console.error("최신 GitHub 릴리스 버전을 가져오는 중 오류 발생:", error);
-      return null;
-    }
+    });
   },
 
   // 두 버전을 비교합니다. (예: "1.0.0" vs "1.1.0")
@@ -175,9 +191,15 @@ const VersionManager = {
     if (updateMessageEl && latestVersion) {
       if (this.compareVersions(currentVersion, latestVersion) < 0) {
         const storeLink = await this.getUpdateLink();
-        updateMessageEl.innerHTML = `<a href="${storeLink}" target="_blank" style="color: #ff6b6b; text-decoration: none; font-size: 12px; margin-left: 8px;">(업데이트 가능: v${latestVersion})</a>`;
+        
+        const updateLink = document.createElement('a');
+        updateLink.href = storeLink;
+        updateLink.target = '_blank';
+        updateLink.style.cssText = 'color: #ff6b6b; text-decoration: none; font-size: 12px; margin-left: 8px;';
+        updateLink.textContent = `(업데이트 가능: v${latestVersion})`;
+        updateMessageEl.replaceChildren(updateLink);
       } else {
-        updateMessageEl.innerHTML = '';
+        updateMessageEl.textContent = '';
       }
     }
   }
