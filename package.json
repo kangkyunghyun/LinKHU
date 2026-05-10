@@ -1,0 +1,9 @@
+{
+  "name": "linkhu",
+  "private": true,
+  "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
+  "scripts": {
+    "validate:data": "node scripts/validate-data.js"
+  },
+  "license": "MIT"
+}
