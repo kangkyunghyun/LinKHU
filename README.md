@@ -4,12 +4,12 @@
 
 <p>
   <a href="https://github.com/kangkyunghyun/LinKHU/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/kangkyunghyun/LinKHU?style=flat-square&logo=github&label=release"></a>
-  <a href="./LICENSE"><img alt="License" src="https://img.shields.io/github/license/kangkyunghyun/LinKHU?style=flat-square"></a>
+  <a href="./LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/kangkyunghyun/LinKHU?style=flat-square&logo=github"></a>
   <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20users"></a>
-  <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Version" src="https://img.shields.io/chrome-web-store/v/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome"></a>
+  <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Version" src="https://img.shields.io/chrome-web-store/v/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20version"></a>
   <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Rating" src="https://img.shields.io/chrome-web-store/rating/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20rating"></a>
   <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Users" src="https://img.shields.io/amo/users/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20users"></a>
-  <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Version" src="https://img.shields.io/amo/v/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox"></a>
+  <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Version" src="https://img.shields.io/amo/v/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20version"></a>
   <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Weekly Downloads" src="https://img.shields.io/amo/dw/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20downloads"></a>
 </p>
 
