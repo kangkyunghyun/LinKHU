@@ -68,16 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const icon = document.createElement("img");
     icon.src = site.imgSrc;
-    icon.alt = "icon";
+    icon.alt = "";
     icon.draggable = false;
 
     const siteName = document.createElement("span");
     siteName.className = "site-name";
     siteName.textContent = site.name.replace(/\s+/g, "");
 
-    el.appendChild(dragHandle);
-    el.appendChild(icon);
-    el.appendChild(siteName);
+    el.append(dragHandle, icon, siteName);
 
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
     return el;
