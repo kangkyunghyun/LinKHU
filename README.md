@@ -5,6 +5,7 @@
 <p>
   <a href="https://github.com/kangkyunghyun/LinKHU/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/kangkyunghyun/LinKHU?style=flat-square&logo=github&label=release"></a>
   <a href="./LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/kangkyunghyun/LinKHU?style=flat-square&logo=github"></a>
+  <a href="https://github.com/kangkyunghyun/LinKHU/actions/workflows/validation.yml"><img alt="Validation Status" src="https://img.shields.io/github/actions/workflow/status/kangkyunghyun/LinKHU/validation.yml?branch=main&style=flat-square&logo=githubactions&label=validation"></a>
   <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20users"></a>
   <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Version" src="https://img.shields.io/chrome-web-store/v/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20version"></a>
   <a href="https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp"><img alt="Chrome Web Store Rating" src="https://img.shields.io/chrome-web-store/rating/ihidkmjkpfphgljieecfcikljaopcldp?style=flat-square&logo=googlechrome&label=chrome%20rating"></a>
