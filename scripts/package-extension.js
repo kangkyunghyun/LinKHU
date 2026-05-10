@@ -140,21 +140,24 @@ function createZip(files, outputFile) {
     createUInt16(0),
   ]);
 
-  fs.writeFileSync(
-    outputFile,
-    Buffer.concat([...localParts, centralDirectory, endOfCentralDirectory]),
-  );
+  localParts.push(centralDirectory, endOfCentralDirectory);
+  fs.writeFileSync(outputFile, Buffer.concat(localParts));
 }
 
 function main() {
-  const manifest = readManifest();
-  const files = collectFiles(SRC_ROOT);
-  const outputFile = path.join(DIST_ROOT, `linkhu-v${manifest.version}.zip`);
+  try {
+    const manifest = readManifest();
+    const files = collectFiles(SRC_ROOT);
+    const outputFile = path.join(DIST_ROOT, `linkhu-v${manifest.version}.zip`);
 
-  fs.mkdirSync(DIST_ROOT, { recursive: true });
-  createZip(files, outputFile);
+    fs.mkdirSync(DIST_ROOT, { recursive: true });
+    createZip(files, outputFile);
 
-  console.log(`Packaged ${files.length} files into ${path.relative(PROJECT_ROOT, outputFile)}.`);
+    console.log(`Packaged ${files.length} files into ${path.relative(PROJECT_ROOT, outputFile)}.`);
+  } catch (error) {
+    console.error(`Packaging failed: ${error.message}`);
+    process.exitCode = 1;
+  }
 }
 
 main();
