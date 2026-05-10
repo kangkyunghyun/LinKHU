@@ -61,11 +61,24 @@ document.addEventListener("DOMContentLoaded", () => {
     el.draggable = true; // 드래그 가능하게 설정
     el.dataset.id = site.id;
     el.dataset.category = site.category;
-    el.innerHTML = `
-      <div class="drag-handle">≡</div>
-      <img src="${site.imgSrc}" alt="icon" draggable="false">
-      <span class="site-name">${site.name.replace(/\s+/g, "")}</span>
-    `;
+
+    const dragHandle = document.createElement("div");
+    dragHandle.className = "drag-handle";
+    dragHandle.textContent = "≡";
+
+    const icon = document.createElement("img");
+    icon.src = site.imgSrc;
+    icon.alt = "icon";
+    icon.draggable = false;
+
+    const siteName = document.createElement("span");
+    siteName.className = "site-name";
+    siteName.textContent = site.name.replace(/\s+/g, "");
+
+    el.appendChild(dragHandle);
+    el.appendChild(icon);
+    el.appendChild(siteName);
+
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
     return el;
   }
