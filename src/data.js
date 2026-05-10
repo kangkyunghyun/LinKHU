@@ -119,6 +119,20 @@ const MASTER_SITE_LIST = [
     imgSrc: "images/portal.png",
     category: "공통",
   },
+  {
+    id: "oia",
+    name: "국제교류팀",
+    url: "https://oia.khu.ac.kr/oiak_kor/user/main/view.do",
+    imgSrc: "images/portal.png",
+    category: "공통",
+  },
+  {
+    id: "isss",
+    name: "글로벌교육지원팀",
+    url: "https://isss.khu.ac.kr/globalcenter/user/main/view.do",
+    imgSrc: "images/portal.png",
+    category: "공통",
+  },
 
   // 단과대
   {
