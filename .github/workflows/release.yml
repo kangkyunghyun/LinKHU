@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify tag matches manifest version
+        run: |
+          manifest_version="$(node -p "require('./src/manifest.json').version")"
+          tag_version="${GITHUB_REF_NAME#v}"
+
+          if [ "$manifest_version" != "$tag_version" ]; then
+            echo "Tag version v$tag_version does not match manifest version v$manifest_version."
+            exit 1
+          fi
+
+      - name: Build extension package
+        run: npm run build
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/*.zip \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes
