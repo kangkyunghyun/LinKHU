@@ -35,11 +35,22 @@ jobs:
       - name: Build extension package
         run: npm run build
 
+      - name: Verify release notes
+        run: |
+          notes_file="release-notes/$GITHUB_REF_NAME.md"
+
+          if [ ! -f "$notes_file" ]; then
+            echo "Release notes file not found: $notes_file"
+            exit 1
+          fi
+
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          notes_file="release-notes/$GITHUB_REF_NAME.md"
+
           gh release create "$GITHUB_REF_NAME" \
             dist/*.zip \
             --title "$GITHUB_REF_NAME" \
-            --generate-notes
+            --notes-file "$notes_file"
