@@ -47,13 +47,28 @@ PR: feat: 공통 서비스 바로가기 추가
 - 이슈 제목은 기존 패턴을 따른다.
   - 기능: `[FEAT] ...`
   - 버그: `[BUG] ...`
-- 브랜치 이름은 `type/issue-number-short-title` 형식을 사용한다. `type`은 `feat`, `fix`, `chore`, `docs` 등 Conventional Commit 타입을 따른다.
+- 브랜치 이름은 `type/issue-number-short-title` 형식을 사용한다. `type`은 아래 커밋 헤더 타입을 따른다.
   - 예: `feat/11-project-work-harness`
   - 예: `fix/1-drag-link-opens-icon`
-- 커밋과 PR 제목은 Conventional Commit 형식을 따른다.
+- 커밋과 PR 제목은 `type: 작업 내용` 형식을 따른다.
   - 예: `feat: 단축키 기능 추가`
   - 예: `fix: 설정 페이지 자동 스크롤 기능`
   - 예: `chore: 프로젝트 작업 하네스 설정`
+
+커밋 헤더 타입:
+
+- `feat`: 새로운 기능 추가
+- `fix`: 버그 수정
+- `docs`: 문서 수정
+- `style`: 코드 formatting, 세미콜론 누락 등 코드 변경이 없는 경우
+- `refactor`: 코드 리팩토링
+- `test`: 테스트 코드 추가 또는 수정. 프로덕션 코드 변경은 포함하지 않는다.
+- `chore`: 빌드 업무, 패키지 매니저, `.gitignore` 같은 설정 수정
+- `comment`: 필요한 주석 추가 및 변경
+- `rename`: 파일 혹은 폴더명을 수정하거나 옮기는 작업만 있는 경우
+- `remove`: 파일 삭제 작업만 있는 경우
+- `!BREAKING CHANGE`: 커다란 API 변경이 있는 경우
+- `!HOTFIX`: 급하게 치명적인 버그를 고쳐야 하는 경우
 
 ## 안전 규칙
 
