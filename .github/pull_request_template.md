@@ -17,8 +17,10 @@
 - 성능상 문제가 될 만한 부분이 있을까요?
 
 ## ✅ 체크리스트
+- [ ] 이슈를 먼저 만들고 이슈 번호가 포함된 브랜치에서 작업했나요?
 - [ ] 코드 스타일 가이드를 준수했나요?
 - [ ] 테스트 코드를 작성했거나 수동 테스트를 완료했나요?
+- [ ] `src/data.js` 변경 시 데이터 검증 결과를 PR 본문에 남겼나요?
 - [ ] 문서(Wiki, API Docs 등)를 업데이트했나요?
 
 <!-- Gemini Code Assist, please review this PR and write all your comments, summaries, and suggestions in Korean. -->
