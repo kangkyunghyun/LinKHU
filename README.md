@@ -63,9 +63,11 @@ npm run build
 
 ## 🚢 릴리스
 
-`src/manifest.json`의 `version`과 같은 버전 태그를 push하면 GitHub Release가 자동 생성됩니다.
+릴리스 준비 PR에서 `src/manifest.json`의 `version`을 수정하고 `main`에 머지한 뒤, 같은 버전 태그를 push하면 GitHub Release가 자동 생성됩니다.
 
 ```bash
+git switch main
+git pull --ff-only
 VERSION=$(node -p "require('./src/manifest.json').version")
 git tag "v$VERSION"
 git push origin "v$VERSION"
