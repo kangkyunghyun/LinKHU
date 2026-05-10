@@ -1,0 +1,33 @@
+name: Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build extension package
+        run: npm run build
+
+      - name: Upload extension package
+        uses: actions/upload-artifact@v4
+        with:
+          name: linkhu-extension
+          path: dist/*.zip
