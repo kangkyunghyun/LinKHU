@@ -47,7 +47,7 @@ PR: feat: 공통 서비스 바로가기 추가
 - 이슈 제목은 기존 패턴을 따른다.
   - 기능: `[FEAT] ...`
   - 버그: `[BUG] ...`
-- 브랜치 이름은 `type/issue-number-short-title` 형식을 사용한다.
+- 브랜치 이름은 `type/issue-number-short-title` 형식을 사용한다. `type`은 `feat`, `fix`, `chore`, `docs` 등 Conventional Commit 타입을 따른다.
   - 예: `feat/11-project-work-harness`
   - 예: `fix/1-drag-link-opens-icon`
 - 커밋과 PR 제목은 Conventional Commit 형식을 따른다.
