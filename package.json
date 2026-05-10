@@ -3,7 +3,9 @@
   "private": true,
   "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
   "scripts": {
-    "validate:data": "node scripts/validate-data.js"
+    "validate:data": "node scripts/validate-data.js",
+    "package": "node scripts/package-extension.js",
+    "build": "npm run validate:data && npm run package"
   },
   "license": "MIT"
 }

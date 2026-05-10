@@ -48,6 +48,18 @@
 5. 다운로드 받은 폴더 내 src 폴더를 선택합니다.
 6. 확장 앱을 브라우저에 고정해 두고 사용하면 더욱 편리합니다.
 
+## 🛠 개발 및 패키징
+
+```bash
+npm run validate:data
+npm run package
+npm run build
+```
+
+- `npm run validate:data`: `src/data.js`의 사이트 데이터를 검증합니다.
+- `npm run package`: `src/`를 `dist/linkhu-v{manifest.version}.zip`으로 패키징합니다.
+- `npm run build`: 데이터 검증 후 패키징까지 한 번에 실행합니다.
+
 ## 🐛 버그 제보 및 기여
 사이트 추가 또는 서비스 개선 등 Issue와 Pull Request를 통한 버그 제보 및 새로운 기능 제안은 언제나 환영입니다!
 
