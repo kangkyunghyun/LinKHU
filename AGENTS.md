@@ -122,6 +122,8 @@ PR: feat: 공통 서비스 바로가기 추가
 - 같은 PR에서 `release-notes/v{version}.md` 파일을 기존 릴리스 노트 형식에 맞춰 작성한다.
 - 릴리스 노트는 사용자에게 보이는 변경 사항 중심으로 작성한다.
 - 릴리스 준비 PR이 머지된 뒤 같은 버전 태그를 push한다.
+- 버전 태그 push는 GitHub Release와 ZIP 첨부만 자동화한다.
+- Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다룬다.
 
 ## 수동 검증 기준
 
