@@ -7,6 +7,8 @@ const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
 const ALLOWED_CATEGORIES = new Set(["공통", "단과대", "학과"]);
 const REQUIRED_FIELDS = ["id", "name", "url", "imgSrc", "category"];
+const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
+const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
 
 function loadSiteList() {
   const source = fs.readFileSync(DATA_FILE, "utf8");
@@ -48,6 +50,10 @@ function validateSiteList(siteList) {
     });
 
     if (isNonEmptyString(site.id)) {
+      if (!VALID_ID_PATTERN.test(site.id)) {
+        errors.push(`${label}: id must use lowercase letters, numbers, or hyphens only.`);
+      }
+
       const firstIndex = seenIds.get(site.id);
       if (firstIndex !== undefined) {
         errors.push(
@@ -67,6 +73,12 @@ function validateSiteList(siteList) {
     }
 
     if (isNonEmptyString(site.imgSrc)) {
+      if (!VALID_IMAGE_EXTENSION_PATTERN.test(site.imgSrc)) {
+        errors.push(
+          `${label}: imgSrc must be a valid image file (.png, .jpg, .jpeg, .svg).`,
+        );
+      }
+
       const imagePath = path.join(SRC_ROOT, site.imgSrc);
       const relativePath = path.relative(SRC_ROOT, imagePath);
       const escapesSrcRoot =
