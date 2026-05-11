@@ -126,6 +126,7 @@ PR: feat: 공통 서비스 바로가기 추가
 - Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다루며 `docs/store-release-checklist.md`를 따른다.
 - Chrome Web Store 자동 배포는 `docs/chrome-web-store-automation.md`를 따른다.
 - Firefox Add-ons 자동 배포는 `docs/firefox-addons-automation.md`를 따른다.
+- Whale Store는 공개 배포 API가 확인되기 전까지 `docs/whale-store-automation.md`에 따라 수동 배포로 유지한다.
 
 ## 수동 검증 기준
 
