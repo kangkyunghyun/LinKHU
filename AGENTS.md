@@ -116,6 +116,8 @@ PR: feat: 공통 서비스 바로가기 추가
 
 데이터를 변경한 뒤에는 `npm run validate:data`를 실행하고 결과를 PR 본문에 적는다.
 
+서비스 아이콘을 추가하거나 변경할 때는 `docs/icon-style-guide.md`를 따른다.
+
 ## 릴리스 준비 규칙
 
 - 릴리스 준비 PR에서는 `src/manifest.json`의 `version`을 변경한다.
