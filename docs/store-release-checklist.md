@@ -35,7 +35,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
 - 업로드 후 표시되는 manifest 정보와 버전을 확인한다.
 - 권한 변경, 개인정보 처리, 심사용 안내가 필요한지 확인한다.
-- Store Listing, Privacy, Distribution 정보 변경 필요 여부를 확인한다.
+- Store Listing(What's new 포함), Privacy, Distribution 정보 변경 필요 여부를 확인한다.
 - 제출 전 미리보기와 경고 메시지를 확인한다.
 - `Submit for Review`로 제출한다.
 - 제출 후 심사 상태와 게시 상태를 기록한다.
@@ -54,10 +54,10 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 
 ## Naver Whale Store
 
-- [Whale Store](https://store.whale.naver.com/)에 로그인한다.
+- [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 접속하여 로그인한다.
 - My extensions 또는 개발자 관리 화면에서 LinKHU 항목으로 이동한다.
 - 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
-- 필수 정보, 권한, 심사용 설명을 확인한다.
+- 필수 정보, 권한, 심사용 설명 및 버전 설명(`release-notes/v{version}.md` 내용 활용)을 확인한다.
 - 스토어 설명, 스크린샷, 카테고리 변경 필요 여부를 확인한다.
 - 제출 전 경고 메시지를 확인한다.
 - 심사를 제출한다.
