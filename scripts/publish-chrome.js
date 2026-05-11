@@ -82,7 +82,7 @@ async function getAccessToken(clientId, clientSecret, refreshToken) {
 }
 
 async function uploadPackage(accessToken, publisherId, extensionId, packageFile) {
-  const packageData = fs.readFileSync(packageFile);
+  const packageData = await fs.promises.readFile(packageFile);
   const url =
     `https://chromewebstore.googleapis.com/upload/v2/publishers/` +
     `${publisherId}/items/${extensionId}:upload`;
@@ -149,13 +149,13 @@ async function main() {
       extensionId,
       packageFile,
     );
-    console.log(`Chrome upload response: ${JSON.stringify(uploadResponse)}`);
+    console.log(`Chrome upload response: ${JSON.stringify(uploadResponse, null, 2)}`);
 
     const publishResponse = await publishPackage(accessToken, publisherId, extensionId);
-    console.log(`Chrome publish response: ${JSON.stringify(publishResponse)}`);
+    console.log(`Chrome publish response: ${JSON.stringify(publishResponse, null, 2)}`);
 
     const statusResponse = await fetchStatus(accessToken, publisherId, extensionId);
-    console.log(`Chrome item status: ${JSON.stringify(statusResponse)}`);
+    console.log(`Chrome item status: ${JSON.stringify(statusResponse, null, 2)}`);
   } catch (error) {
     console.error(`Chrome publish failed: ${error.message}`);
     process.exitCode = 1;
