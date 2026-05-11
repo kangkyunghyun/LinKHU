@@ -1,0 +1,65 @@
+name: Publish Firefox Add-ons
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Manifest version to publish, for example 2.3.0"
+        required: true
+        type: string
+      confirm_publish:
+        description: "Type publish-firefox to confirm Firefox Add-ons submission"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish Firefox Add-ons
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify release input
+        env:
+          CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_REF_NAME" != "main" ]; then
+            echo "Firefox publish workflow must be run from main."
+            exit 1
+          fi
+
+          if [ "$CONFIRM_PUBLISH" != "publish-firefox" ]; then
+            echo "confirm_publish must be publish-firefox."
+            exit 1
+          fi
+
+          manifest_version="$(node -p "require('./src/manifest.json').version")"
+          if [ "$manifest_version" != "$INPUT_VERSION" ]; then
+            echo "Input version $INPUT_VERSION does not match manifest version $manifest_version."
+            exit 1
+          fi
+
+      - name: Build extension package
+        run: npm run build
+
+      - name: Publish to Firefox Add-ons
+        env:
+          FIREFOX_ADDON_ID: linkhu
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+          FIREFOX_LICENSE: MIT
+          FIREFOX_PACKAGE_FILE: dist/linkhu-v${{ inputs.version }}.zip
+          FIREFOX_RELEASE_NOTES_FILE: release-notes/v${{ inputs.version }}.md
+          FIREFOX_RELEASE_NOTES_LOCALE: ko
+        run: node scripts/publish-firefox.js

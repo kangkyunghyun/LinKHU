@@ -125,6 +125,7 @@ PR: feat: 공통 서비스 바로가기 추가
 - 버전 태그 push는 GitHub Release와 ZIP 첨부만 자동화한다.
 - Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다루며 `docs/store-release-checklist.md`를 따른다.
 - Chrome Web Store 자동 배포는 `docs/chrome-web-store-automation.md`를 따른다.
+- Firefox Add-ons 자동 배포는 `docs/firefox-addons-automation.md`를 따른다.
 
 ## 수동 검증 기준
 
