@@ -75,6 +75,8 @@ git push origin "v$VERSION"
 
 릴리스 워크플로우는 `npm run build`로 패키징한 ZIP 파일을 첨부하고, `release-notes/v{version}.md` 내용을 릴리스 노트로 사용합니다.
 
+스토어 배포는 [스토어 배포 체크리스트](./docs/store-release-checklist.md)를 따릅니다.
+
 ## 🐛 버그 제보 및 기여
 사이트 추가 또는 서비스 개선 등 Issue와 Pull Request를 통한 버그 제보 및 새로운 기능 제안은 언제나 환영입니다!
 
