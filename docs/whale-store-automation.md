@@ -23,14 +23,9 @@ Whale Store 배포는 자동화하지 않고 [Store Release Checklist](./store-r
 - Whale Store 개발자 페이지에서 API key, OAuth, service account 같은 자동화용 인증 수단을 제공한다.
 - Naver Whale 팀이 공식 CLI 또는 GitHub Actions 연동 방법을 문서화한다.
 
-## 수동 배포 요약
+## 수동 배포 절차
 
-1. [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 접속하여 로그인한다.
-2. LinKHU 확장앱 관리 화면으로 이동한다.
-3. GitHub Release asset의 `linkhu-v{version}.zip`을 업로드한다.
-4. 새로운 기능 또는 버전 설명에 `release-notes/v{version}.md` 내용을 반영한다.
-5. 필수 정보, 권한, 스토어 설명, 스크린샷 변경 필요 여부를 확인한다.
-6. 리뷰를 요청하고 심사 상태를 기록한다.
+Whale Store의 구체적인 수동 배포 단계는 [Store Release Checklist](./store-release-checklist.md#naver-whale-store)를 참고한다.
 
 ## 참고 문서
 

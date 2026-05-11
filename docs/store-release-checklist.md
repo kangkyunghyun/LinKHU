@@ -59,7 +59,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 
 ## Naver Whale Store
 
-공개 배포 API가 확인되지 않아 기본 배포 경로는 수동 절차다. 자동화 가능성 조사 결과는 [Whale Store Automation Research](./whale-store-automation.md)를 따른다.
+공개 배포 API가 확인되지 않아 기본 배포 경로는 수동 절차다. 자동화 가능성 조사 결과 및 판단 근거는 [Whale Store Automation Research](./whale-store-automation.md)에서 확인할 수 있다.
 
 - [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 접속하여 로그인한다.
 - My extensions 또는 개발자 관리 화면에서 LinKHU 항목으로 이동한다.
