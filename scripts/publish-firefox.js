@@ -8,6 +8,8 @@ const DEFAULT_API_BASE_URL = "https://addons.mozilla.org/api/v5";
 const DEFAULT_LICENSE = "MIT";
 const DEFAULT_POLL_INTERVAL_MS = 10000;
 const DEFAULT_POLL_TIMEOUT_MS = 10 * 60 * 1000;
+const DEFAULT_RELEASE_NOTES_LOCALE = "ko";
+const JWT_EXPIRATION_SECONDS = 5 * 60;
 
 function getRequiredEnv(name) {
   const value = process.env[name];
@@ -69,7 +71,7 @@ function createJwt(issuer, secret) {
     iss: issuer,
     jti: crypto.randomUUID(),
     iat: issuedAt,
-    exp: issuedAt + 60,
+    exp: issuedAt + JWT_EXPIRATION_SECONDS,
   };
   const unsignedToken = `${base64UrlEncode(JSON.stringify(header))}.${base64UrlEncode(
     JSON.stringify(payload),
@@ -188,6 +190,7 @@ async function createVersion(
   addonId,
   uploadUuid,
   releaseNotes,
+  releaseNotesLocale,
   license,
 ) {
   return requestJson(
@@ -202,7 +205,7 @@ async function createVersion(
         upload: uploadUuid,
         license,
         release_notes: {
-          "en-US": releaseNotes,
+          [releaseNotesLocale]: releaseNotes,
         },
       }),
     },
@@ -216,6 +219,8 @@ async function main() {
     const addonId = getRequiredEnv("FIREFOX_ADDON_ID");
     const packageFile = getPackageFile();
     const releaseNotesFile = getReleaseNotesFile();
+    const releaseNotesLocale =
+      process.env.FIREFOX_RELEASE_NOTES_LOCALE || DEFAULT_RELEASE_NOTES_LOCALE;
     const license = process.env.FIREFOX_LICENSE || DEFAULT_LICENSE;
     const relativePackageFile = path.relative(PROJECT_ROOT, packageFile);
     const relativeReleaseNotesFile = path.relative(PROJECT_ROOT, releaseNotesFile);
@@ -223,7 +228,8 @@ async function main() {
     if (process.env.FIREFOX_DRY_RUN === "true") {
       console.log(
         `Firefox dry run: ${relativePackageFile} would be uploaded to ${addonId} ` +
-          `with ${relativeReleaseNotesFile} and ${license} license.`,
+          `with ${relativeReleaseNotesFile}, ${releaseNotesLocale} release notes, ` +
+          `and ${license} license.`,
       );
       return;
     }
@@ -248,6 +254,7 @@ async function main() {
       addonId,
       uploadResponse.uuid,
       releaseNotes,
+      releaseNotesLocale,
       license,
     );
     console.log(`Firefox version response: ${JSON.stringify(versionResponse, null, 2)}`);
