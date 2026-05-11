@@ -44,6 +44,8 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 
 ## Firefox Add-ons
 
+기본 배포 경로는 [Firefox Add-ons Automation](./firefox-addons-automation.md)의 `Publish Firefox Add-ons` 워크플로우다. 워크플로우 실행 후 Add-ons Developer Hub에서 validator 결과와 제출 상태를 확인하며, 아래 수동 절차는 자동 배포 실패 또는 긴급 fallback이 필요할 때 사용한다.
+
 - [Add-ons Developer Hub](https://addons.mozilla.org/developers/)에 접속한다.
 - 기존 LinKHU add-on 관리 페이지로 이동한다.
 - 새 버전으로 `linkhu-v{version}.zip`을 업로드한다.
@@ -77,6 +79,5 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 ## 자동화 후보
 
 - Chrome Web Store API 기반 패키지 업로드 및 게시
-- Firefox Add-ons API 기반 패키지 업로드 및 게시
 - Whale Store 자동화 가능성 조사
 - 스토어 배포 완료 상태를 기록하는 릴리스 체크 이슈 템플릿

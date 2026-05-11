@@ -77,6 +77,7 @@ git push origin "v$VERSION"
 
 스토어 배포는 [스토어 배포 체크리스트](./docs/store-release-checklist.md)를 따릅니다.
 Chrome Web Store 자동 배포는 [Chrome Web Store Automation](./docs/chrome-web-store-automation.md)을 따릅니다.
+Firefox Add-ons 자동 배포는 [Firefox Add-ons Automation](./docs/firefox-addons-automation.md)을 따릅니다.
 
 ## 🐛 버그 제보 및 기여
 사이트 추가 또는 서비스 개선 등 Issue와 Pull Request를 통한 버그 제보 및 새로운 기능 제안은 언제나 환영입니다!
