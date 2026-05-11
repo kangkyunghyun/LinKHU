@@ -1,0 +1,64 @@
+name: Publish Chrome Web Store
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Manifest version to publish, for example 2.3.0"
+        required: true
+        type: string
+      confirm_publish:
+        description: "Type publish-chrome to confirm Chrome Web Store submission"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish Chrome Web Store
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify release input
+        env:
+          CONFIRM_PUBLISH: ${{ inputs.confirm_publish }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if [ "$GITHUB_REF_NAME" != "main" ]; then
+            echo "Chrome publish workflow must be run from main."
+            exit 1
+          fi
+
+          if [ "$CONFIRM_PUBLISH" != "publish-chrome" ]; then
+            echo "confirm_publish must be publish-chrome."
+            exit 1
+          fi
+
+          manifest_version="$(node -p "require('./src/manifest.json').version")"
+          if [ "$manifest_version" != "$INPUT_VERSION" ]; then
+            echo "Input version $INPUT_VERSION does not match manifest version $manifest_version."
+            exit 1
+          fi
+
+      - name: Build extension package
+        run: npm run build
+
+      - name: Publish to Chrome Web Store
+        env:
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_EXTENSION_ID: ihidkmjkpfphgljieecfcikljaopcldp
+          CHROME_PACKAGE_FILE: dist/linkhu-v${{ inputs.version }}.zip
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        run: node scripts/publish-chrome.js
