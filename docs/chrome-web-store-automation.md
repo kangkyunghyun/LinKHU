@@ -34,7 +34,6 @@ Chrome Web Store extension ID는 워크플로우에 `ihidkmjkpfphgljieecfcikljao
 - Actions 로그에서 upload, publish, fetchStatus 응답을 확인한다.
 - Chrome Web Store Developer Dashboard에서 새 버전이 심사 제출 상태인지 확인한다.
 - 심사 중 추가 조치가 필요한 경고나 메일이 있는지 확인한다.
-- 심사 통과 후 Chrome Web Store에 표시되는 버전이 `src/manifest.json`의 `version`과 일치하는지 확인한다.
 
 ## 사전 확인
 

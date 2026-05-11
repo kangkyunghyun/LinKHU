@@ -30,7 +30,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 
 ## Chrome Web Store
 
-기본 배포 경로는 [Chrome Web Store Automation](./chrome-web-store-automation.md)의 `Publish Chrome Web Store` 워크플로우다. 아래 수동 절차는 자동 배포 실패 또는 긴급 fallback이 필요할 때 사용한다.
+기본 배포 경로는 [Chrome Web Store Automation](./chrome-web-store-automation.md)의 `Publish Chrome Web Store` 워크플로우다. 워크플로우 실행 후 대시보드에서 심사 제출 상태를 확인하며, 아래 수동 절차는 자동 배포 실패 또는 긴급 fallback이 필요할 때 사용한다.
 
 - [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole)에 접속한다.
 - LinKHU 아이템을 선택한다.
@@ -68,7 +68,6 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 ## 배포 후 확인
 
 - Chrome Web Store에서 표시되는 버전이 Release tag와 일치하는지 확인한다.
-- Chrome Web Store 자동 배포 실행 후 심사 제출 상태가 표시되는지 확인한다.
 - Firefox Add-ons에서 표시되는 버전이 Release tag와 일치하는지 확인한다.
 - Whale Store에서 표시되는 버전이 Release tag와 일치하는지 확인한다.
 - 각 스토어에서 새 설치 또는 업데이트가 가능한지 확인한다.
