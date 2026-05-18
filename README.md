@@ -14,9 +14,9 @@
   <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Weekly Downloads" src="https://img.shields.io/amo/dw/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20downloads"></a>
 </p>
 
-[![Chrome Web Store](./docs/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
-[![Naver Whale Store](./docs/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
-[![Firefox Add-ons](./docs/firefox-sm.png)](https://addons.mozilla.org/ko/firefox/addon/linkhu)
+[![Chrome Web Store](./docs/assets/store/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
+[![Naver Whale Store](./docs/assets/store/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
+[![Firefox Add-ons](./docs/assets/store/firefox-sm.png)](https://addons.mozilla.org/ko/firefox/addon/linkhu)
 
 ## 🔗 경희대학교 자주 찾는 웹서비스 바로가기 제공
 ### 🏫 지원 웹서비스
@@ -32,9 +32,9 @@
 
 |                                  실행 화면                                   |                                 팝업 화면                                 |
 | :--------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-|     <img src="docs/screenshot.png" alt="LinKHU Screenshot" width="500"/>     | <img src="docs/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
+|     <img src="docs/assets/screenshots/screenshot.png" alt="LinKHU Screenshot" width="500"/>     | <img src="docs/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
 |                                  설정 화면                                   |                                                                           |
-| <img src="docs/screenshot-options.png" alt="LinKHU Screenshot" width="500"/> |                                                                           |
+| <img src="docs/assets/screenshots/screenshot-options.png" alt="LinKHU Screenshot" width="500"/> |                                                                           |
 
 ## 🚀 설치 방법
 
@@ -67,10 +67,11 @@ npm run build
 
 - `src/`: 확장 프로그램 소스
 - `src/data.js`: 지원 서비스 목록
-- `src/images/`: 서비스 아이콘
+- `src/images/`: 카테고리별 서비스 아이콘
 - `scripts/`: 데이터 검증, 패키징, 스토어 배포 스크립트
 - `.github/workflows/`: 검증, 릴리스, 스토어 배포 자동화
-- `docs/`: 배포/운영 문서와 README 이미지
+- `docs/`: 배포/운영 문서
+- `docs/assets/`: README와 스토어용 이미지
 - `release-notes/`: 버전별 릴리스 노트
 
 ## 🚢 릴리스
