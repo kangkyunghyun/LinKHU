@@ -51,6 +51,19 @@
 5. 다운로드 받은 폴더 내 src 폴더를 선택합니다.
 6. 확장 앱을 브라우저에 고정해 두고 사용하면 더욱 편리합니다.
 
+## ⌨️ 단축키
+
+LinKHU 팝업은 기본 단축키로 빠르게 열 수 있습니다.
+
+- Windows/Linux: `Ctrl + Shift + L`
+- macOS: `Command + Shift + L`
+
+브라우저나 다른 확장 프로그램의 단축키와 충돌하면 기본 단축키가 동작하지 않을 수 있습니다. 이 경우 브라우저 확장 프로그램 단축키 설정 화면에서 LinKHU 단축키를 직접 다시 지정해주세요.
+
+- Chrome: `chrome://extensions/shortcuts`
+- Whale: `whale://extensions/shortcuts`
+- Firefox: `about:addons` → 톱니바퀴 메뉴 → 확장 기능 단축키 관리
+
 ## 🛠 개발 및 패키징
 
 ```bash
@@ -94,7 +107,13 @@ Firefox Add-ons 자동 배포는 [Firefox Add-ons Automation](./docs/firefox-add
 Whale Store 배포는 [Whale Store Automation Research](./docs/whale-store-automation.md)에 따라 수동 절차를 유지합니다.
 
 ## 🐛 버그 제보 및 기여
-사이트 추가 또는 서비스 개선 등 Issue와 Pull Request를 통한 버그 제보 및 새로운 기능 제안은 언제나 환영입니다!
+
+Issue와 Pull Request를 통한 제보와 기여는 언제나 환영입니다.
+
+- 버그 제보: Bug Report 템플릿을 사용해주세요.
+- 지원 웹 서비스 추가 요청: Service Request 템플릿에 서비스 이름, URL, 카테고리, 아이콘 정보를 적어주세요.
+- 기능 제안: Feature Request 템플릿에 제안 배경과 기대 동작을 적어주세요.
+- 직접 수정 PR: 관련 이슈를 먼저 만들고, 변경 후 검증 결과를 PR 본문에 남겨주세요.
 
 ## 📜 License
 This project is licensed under the [MIT License](./LICENSE)  

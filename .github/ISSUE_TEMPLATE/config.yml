@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: LinKHU 지원 웹 서비스 목록
+    url: https://github.com/kangkyunghyun/LinKHU/blob/main/docs/supported-services.md
+    about: 요청하려는 서비스가 이미 등록되어 있는지 먼저 확인해주세요.
