@@ -1,4 +1,4 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
   - name: LinKHU 지원 웹 서비스 목록
     url: https://github.com/kangkyunghyun/LinKHU/blob/main/docs/supported-services.md
