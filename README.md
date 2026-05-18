@@ -63,6 +63,16 @@ npm run build
 - `npm run package`: `src/`를 `dist/linkhu-v{manifest.version}.zip`으로 패키징합니다.
 - `npm run build`: 데이터 검증 후 패키징까지 한 번에 실행합니다.
 
+## 📁 프로젝트 구조
+
+- `src/`: 확장 프로그램 소스
+- `src/data.js`: 지원 서비스 목록
+- `src/images/`: 서비스 아이콘
+- `scripts/`: 데이터 검증, 패키징, 스토어 배포 스크립트
+- `.github/workflows/`: 검증, 릴리스, 스토어 배포 자동화
+- `docs/`: 배포/운영 문서와 README 이미지
+- `release-notes/`: 버전별 릴리스 노트
+
 ## 🚢 릴리스
 
 릴리스 준비 PR에서 `src/manifest.json`의 `version`을 수정하고 `release-notes/v{version}.md`를 작성한 뒤 `main`에 머지합니다. 이후 같은 버전 태그를 push하면 GitHub Release가 자동 생성됩니다.
