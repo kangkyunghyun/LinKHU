@@ -9,8 +9,8 @@ LinKHU 서비스 아이콘은 팝업과 설정 화면에서 작은 크기로 표
 - 주요 색상은 경희대 레드 `#9d2235`를 사용한다.
 - 보조 선이나 세부 요소에는 `#1f1f1f`를 사용한다.
 - 파일명은 가능하면 `src/data.js`의 `id`와 맞춘다.
-- 서비스 아이콘은 카테고리에 따라 `src/images/common/`, `src/images/colleges/`, `src/images/departments/`에 둔다.
-- 새 아이콘을 추가하면 해당 서비스의 `imgSrc`를 `src/` 기준 상대 경로로 변경한다.
+- 서비스 아이콘은 카테고리에 따라 `src/images/common/`, `src/images/colleges/`, `src/images/departments/` 폴더에 관리한다.
+- 새 아이콘을 추가하면 `src/data.js`의 `imgSrc` 필드에 `src/` 폴더를 기준으로 한 상대 경로(예: `images/common/icon.png`)를 지정한다.
 
 ## 작업 단위
 

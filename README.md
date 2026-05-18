@@ -32,9 +32,9 @@
 
 |                                  실행 화면                                   |                                 팝업 화면                                 |
 | :--------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-|     <img src="docs/assets/screenshots/screenshot.png" alt="LinKHU Screenshot" width="500"/>     | <img src="docs/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
+|     <img src="docs/assets/screenshots/screenshot.png" alt="Main Screenshot" width="500"/>     | <img src="docs/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
 |                                  설정 화면                                   |                                                                           |
-| <img src="docs/assets/screenshots/screenshot-options.png" alt="LinKHU Screenshot" width="500"/> |                                                                           |
+| <img src="docs/assets/screenshots/screenshot-options.png" alt="Options Screenshot" width="500"/> |                                                                           |
 
 ## 🚀 설치 방법
 
