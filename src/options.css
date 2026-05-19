@@ -38,12 +38,12 @@ body {
 h1 {
   color: #9d2235;
   text-align: center;
-  margin-bottom: 5px;
+  margin: 0 0 4px;
 }
 .info {
   text-align: center;
   color: #666;
-  margin-bottom: 30px;
+  margin: 0 0 24px;
   font-size: 14px;
 }
 
