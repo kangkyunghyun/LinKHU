@@ -41,6 +41,8 @@ header h1 {
 /* 4. 검색 입력 */
 .search-bar {
   margin-bottom: 10px;
+  padding-right: 5px;
+  padding-left: 3px;
 }
 
 .search-bar input {
