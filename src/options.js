@@ -22,9 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.tabs.create({ url }, () => {
         if (!chrome.runtime.lastError) return;
 
-        navigator.clipboard.writeText(url).then(() => {
-          alert(`${url} 주소를 복사했습니다. 주소창에 붙여넣어 이동해주세요.`);
-        });
+        navigator.clipboard.writeText(url)
+          .then(() => {
+            alert(`${url} 주소를 복사했습니다. 주소창에 붙여넣어 이동해주세요.`);
+          })
+          .catch(() => {
+            alert(`${url} 주소를 직접 복사하여 주소창에 붙여넣어 이동해주세요.`);
+          });
       });
     });
   });
