@@ -38,13 +38,58 @@ body {
 h1 {
   color: #9d2235;
   text-align: center;
-  margin-bottom: 5px;
+  margin: 0 0 4px;
 }
 .info {
   text-align: center;
   color: #666;
-  margin-bottom: 30px;
+  margin: 0 0 24px;
   font-size: 14px;
+}
+
+.shortcut-guide {
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid #f1c7cf;
+  border-radius: 8px;
+  background: #fff7f8;
+  color: #333;
+  font-size: 13px;
+}
+
+.shortcut-guide strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #9d2235;
+}
+
+.shortcut-guide p {
+  margin: 0 0 8px;
+  color: #555;
+}
+
+.shortcut-guide ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.shortcut-guide li + li {
+  margin-top: 4px;
+}
+
+.shortcut-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #9d2235;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.shortcut-link:hover {
+  text-decoration: underline;
 }
 
 /* 3. 2단 레이아웃 (왼쪽 후보 구역 / 오른쪽 내 바로가기 구역) */

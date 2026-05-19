@@ -3,6 +3,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const activeList = document.getElementById("active-list");
   const saveBtn = document.getElementById("save-btn");
   const leftColumn = document.querySelector(".column:first-child"); // 왼쪽 후보 영역
+  const shortcutGuide = document.getElementById("shortcut-guide");
+
+  if (shortcutGuide && chrome.commands?.getAll) {
+    chrome.commands.getAll((commands) => {
+      const actionCommand = commands.find(
+        (command) => command.name === "_execute_action",
+      );
+      shortcutGuide.hidden = Boolean(actionCommand?.shortcut);
+    });
+  }
+
+  document.querySelectorAll(".shortcut-link").forEach((button) => {
+    button.addEventListener("click", () => {
+      const url = button.dataset.shortcutUrl;
+      if (!url) return;
+
+      chrome.tabs.create({ url }, () => {
+        if (!chrome.runtime.lastError) return;
+
+        navigator.clipboard.writeText(url)
+          .then(() => {
+            alert(`${url} 주소를 복사했습니다. 주소창에 붙여넣어 이동해주세요.`);
+          })
+          .catch(() => {
+            alert(`${url} 주소를 직접 복사하여 주소창에 붙여넣어 이동해주세요.`);
+          });
+      });
+    });
+  });
 
   // 왼쪽 카테고리별 구역(Drop Zone) 매핑
   const categoryZones = {
