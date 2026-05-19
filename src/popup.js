@@ -4,6 +4,33 @@
  */
 
 const App = {
+  searchQuery: "",
+  currentItems: [],
+
+  normalize(value) {
+    return value.toLowerCase().replace(/\s+/g, "");
+  },
+
+  matchesSearch(item) {
+    const query = this.normalize(this.searchQuery);
+    if (!query) return true;
+
+    return [item.name, item.id, item.category]
+      .some((value) => this.normalize(value).includes(query));
+  },
+
+  openInCurrentTab(item) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const currentTab = tabs[0];
+      if (currentTab?.id) {
+        chrome.tabs.update(currentTab.id, { url: item.url });
+      } else {
+        chrome.tabs.create({ url: item.url, active: true });
+      }
+      window.close();
+    });
+  },
+
   // 1. [함수] 사이트 버튼(카드) 하나하나를 만드는 공장
   createCardItem(item) {
     const el = document.createElement("a");
@@ -51,6 +78,7 @@ const App = {
   // 2. [함수] 저장된 데이터를 가져와서 화면에 쫙 뿌려주는 역할
   render() {
     const gridContainer = document.getElementById("grid-container");
+    const emptyMessage = document.getElementById("empty-message");
     gridContainer.innerHTML = ""; // 기존 내용 초기화
 
     // 성능 최적화용 가상 보관함 (한꺼번에 그리기 위해 사용)
@@ -63,14 +91,23 @@ const App = {
         result.userOrder ||
         MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
 
+      const configuredSites = order
+        .map((id) => MASTER_SITE_LIST.find((s) => s.id === id))
+        .filter(Boolean);
+
+      const sourceSites = this.searchQuery ? MASTER_SITE_LIST : configuredSites;
+      const displaySites = sourceSites.filter((site) => this.matchesSearch(site));
+      this.currentItems = displaySites;
+
       // 순서대로 사이트 데이터를 찾아 버튼 생성
-      order.forEach((id) => {
-        const siteData = MASTER_SITE_LIST.find((s) => s.id === id);
-        if (siteData) {
-          const card = this.createCardItem(siteData);
-          fragment.appendChild(card); // 가상 보관함에 차곡차곡 담기
-        }
+      displaySites.forEach((siteData) => {
+        const card = this.createCardItem(siteData);
+        fragment.appendChild(card); // 가상 보관함에 차곡차곡 담기
       });
+
+      if (emptyMessage) {
+        emptyMessage.hidden = displaySites.length > 0;
+      }
 
       // 보관함에 담긴 버튼들을 한 번에 실제 화면에 붙이기
       gridContainer.appendChild(fragment);
@@ -212,6 +249,23 @@ document.addEventListener("DOMContentLoaded", () => {
   if (settingsBtn) {
     settingsBtn.addEventListener("click", () => {
       chrome.runtime.openOptionsPage();
+    });
+  }
+
+  const searchInput = document.getElementById("service-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      App.searchQuery = e.target.value.trim();
+      App.render();
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" || e.isComposing || e.repeat) return;
+      const firstItem = App.currentItems[0];
+      if (!firstItem) return;
+
+      e.preventDefault();
+      App.openInCurrentTab(firstItem);
     });
   }
 

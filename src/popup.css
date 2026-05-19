@@ -38,6 +38,39 @@ header h1 {
   color: var(--primary-color);
 }
 
+/* 4. 검색 입력 */
+.search-bar {
+  margin-bottom: 10px;
+}
+
+.search-bar input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-bar input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+}
+
+.empty-message {
+  margin: 22px 0;
+  color: #777777;
+  font-size: 13px;
+  text-align: center;
+}
+
 /* 4. 그리드 컨테이너: 버튼들이 놓이는 3x3 격자판 */
 .grid-container {
   display: grid;
