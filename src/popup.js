@@ -4,6 +4,40 @@
  */
 
 const App = {
+  searchQuery: "",
+  currentItems: [],
+  renderToken: 0,
+
+  normalize(value) {
+    return String(value || "").toLowerCase().replace(/\s+/g, "");
+  },
+
+  matchesSearch(item, query) {
+    return [item.name, item.id, item.category]
+      .some((value) => this.normalize(value).includes(query));
+  },
+
+  getUniqueSites(sites) {
+    const seenIds = new Set();
+    return sites.filter((site) => {
+      if (seenIds.has(site.id)) return false;
+      seenIds.add(site.id);
+      return true;
+    });
+  },
+
+  openInCurrentTab(item) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const currentTab = tabs[0];
+      if (currentTab?.id) {
+        chrome.tabs.update(currentTab.id, { url: item.url });
+      } else {
+        chrome.tabs.create({ url: item.url, active: true });
+      }
+      window.close();
+    });
+  },
+
   // 1. [함수] 사이트 버튼(카드) 하나하나를 만드는 공장
   createCardItem(item) {
     const el = document.createElement("a");
@@ -51,6 +85,8 @@ const App = {
   // 2. [함수] 저장된 데이터를 가져와서 화면에 쫙 뿌려주는 역할
   render() {
     const gridContainer = document.getElementById("grid-container");
+    const emptyMessage = document.getElementById("empty-message");
+    const renderToken = ++this.renderToken;
     gridContainer.innerHTML = ""; // 기존 내용 초기화
 
     // 성능 최적화용 가상 보관함 (한꺼번에 그리기 위해 사용)
@@ -58,19 +94,33 @@ const App = {
 
     // 사용자가 설정한 순서 가져오기
     chrome.storage.local.get(["userOrder"], (result) => {
+      if (renderToken !== this.renderToken) return;
+
       // 저장된 순서가 없으면 '공통' 카테고리 사이트들을 기본값으로 사용
       const order =
         result.userOrder ||
         MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
 
+      const configuredSites = order
+        .map((id) => MASTER_SITE_LIST.find((s) => s.id === id))
+        .filter(Boolean);
+
+      const query = this.normalize(this.searchQuery);
+      const sourceSites = query ? MASTER_SITE_LIST : configuredSites;
+      const displaySites = this.getUniqueSites(
+        sourceSites.filter((site) => !query || this.matchesSearch(site, query)),
+      );
+      this.currentItems = displaySites;
+
       // 순서대로 사이트 데이터를 찾아 버튼 생성
-      order.forEach((id) => {
-        const siteData = MASTER_SITE_LIST.find((s) => s.id === id);
-        if (siteData) {
-          const card = this.createCardItem(siteData);
-          fragment.appendChild(card); // 가상 보관함에 차곡차곡 담기
-        }
+      displaySites.forEach((siteData) => {
+        const card = this.createCardItem(siteData);
+        fragment.appendChild(card); // 가상 보관함에 차곡차곡 담기
       });
+
+      if (emptyMessage) {
+        emptyMessage.hidden = displaySites.length > 0;
+      }
 
       // 보관함에 담긴 버튼들을 한 번에 실제 화면에 붙이기
       gridContainer.appendChild(fragment);
@@ -215,6 +265,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const searchInput = document.getElementById("service-search");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      App.searchQuery = e.target.value.trim();
+      App.render();
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" || e.isComposing || e.repeat) return;
+      const firstItem = App.currentItems[0];
+      if (!firstItem) return;
+
+      e.preventDefault();
+      App.openInCurrentTab(firstItem);
+    });
+  }
+
   // 1~9 숫자 키보드 입력 시 해당하는 순서의 버튼(새 탭 열기) 클릭 이벤트 실행
   document.addEventListener("keydown", (e) => {
     // 입력 중이거나 보조 키(Ctrl, Alt, Cmd 등)가 눌린 경우, 또는 키 반복 입력인 경우 무시
@@ -227,6 +294,12 @@ document.addEventListener("DOMContentLoaded", () => {
       e.metaKey ||
       e.repeat
     ) {
+      return;
+    }
+
+    if (e.key === "/") {
+      e.preventDefault();
+      searchInput?.focus();
       return;
     }
 
