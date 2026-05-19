@@ -9,13 +9,10 @@ const App = {
   renderToken: 0,
 
   normalize(value) {
-    return value.toLowerCase().replace(/\s+/g, "");
+    return String(value || "").toLowerCase().replace(/\s+/g, "");
   },
 
-  matchesSearch(item) {
-    const query = this.normalize(this.searchQuery);
-    if (!query) return true;
-
+  matchesSearch(item, query) {
     return [item.name, item.id, item.category]
       .some((value) => this.normalize(value).includes(query));
   },
@@ -108,9 +105,10 @@ const App = {
         .map((id) => MASTER_SITE_LIST.find((s) => s.id === id))
         .filter(Boolean);
 
-      const sourceSites = this.searchQuery ? MASTER_SITE_LIST : configuredSites;
+      const query = this.normalize(this.searchQuery);
+      const sourceSites = query ? MASTER_SITE_LIST : configuredSites;
       const displaySites = this.getUniqueSites(
-        sourceSites.filter((site) => this.matchesSearch(site)),
+        sourceSites.filter((site) => !query || this.matchesSearch(site, query)),
       );
       this.currentItems = displaySites;
 
