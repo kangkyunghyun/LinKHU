@@ -46,26 +46,46 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(value || "").toLowerCase().replace(/\s+/g, "");
   }
 
-  function matchesSearch(item, query) {
-    return item.dataset.searchText.includes(query);
+  const siteSearchTextById = new Map(
+    MASTER_SITE_LIST.map((site) => [
+      site.id,
+      normalize(`${site.name}${site.id}${site.category}`),
+    ]),
+  );
+
+  function matchesSearch(site, query) {
+    return siteSearchTextById.get(site.id).includes(query);
+  }
+
+  function getActiveIds() {
+    return new Set(
+      Array.from(activeList.querySelectorAll(".list-item")).map(
+        (item) => item.dataset.id,
+      ),
+    );
   }
 
   function updateSearchResults() {
     const query = normalize(searchInput?.value);
+    const activeIds = getActiveIds();
     let visibleCount = 0;
 
     Object.entries(categoryZones).forEach(([, zone]) => {
       const group = zone.closest(".category-group");
-      let groupVisibleCount = 0;
+      zone.innerHTML = "";
 
-      zone.querySelectorAll(".list-item").forEach((item) => {
-        const isVisible = !query || matchesSearch(item, query);
-        item.hidden = !isVisible;
-        if (isVisible) groupVisibleCount += 1;
+      const matchingSites = MASTER_SITE_LIST.filter((site) => {
+        if (activeIds.has(site.id)) return false;
+        if (site.category !== zone.dataset.category) return false;
+        return !query || matchesSearch(site, query);
+      }).sort((a, b) => a.name.localeCompare(b.name, "ko-KR"));
+
+      matchingSites.forEach((site) => {
+        zone.appendChild(createListItem(site));
       });
 
-      visibleCount += groupVisibleCount;
-      if (group) group.hidden = Boolean(query && groupVisibleCount === 0);
+      visibleCount += matchingSites.length;
+      if (group) group.hidden = Boolean(query && matchingSites.length === 0);
     });
 
     if (searchEmptyMessage) {
@@ -92,21 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
       result.userOrder ||
       MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
 
-    MASTER_SITE_LIST.forEach((site) => {
-      const el = createListItem(site);
-
-      if (activeOrder.includes(site.id)) {
+    MASTER_SITE_LIST.filter((site) => activeOrder.includes(site.id)).forEach(
+      (site) => {
+        const el = createListItem(site);
         activeList.appendChild(el); // 오른쪽(내 바로가기)으로 배치
-      } else {
-        if (categoryZones[site.category]) {
-          categoryZones[site.category].appendChild(el); // 원래 카테고리 칸으로 배치
-        }
-      }
-    });
-
-    // 왼쪽 구역들은 배치가 끝나면 바로 가나다 정렬 실행
-    Object.values(categoryZones).forEach((zone) =>
-      sortZoneAlphabetically(zone),
+      },
     );
 
     // 오른쪽은 사용자가 저장했던 '그 순서' 그대로 다시 재배치
@@ -115,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item) activeList.appendChild(item);
     });
 
+    // 왼쪽 후보 목록은 전체 서비스에서 활성화된 항목을 제외하고 렌더링
     updateSearchResults();
   });
 
@@ -126,7 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
     el.dataset.id = site.id;
     el.dataset.name = site.name;
     el.dataset.category = site.category;
-    el.dataset.searchText = normalize(`${site.name}${site.id}${site.category}`);
 
     const dragHandle = document.createElement("div");
     dragHandle.className = "drag-handle";
