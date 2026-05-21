@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveBtn = document.getElementById("save-btn");
   const leftColumn = document.querySelector(".column:first-child"); // 왼쪽 후보 영역
   const shortcutGuide = document.getElementById("shortcut-guide");
+  const searchInput = document.getElementById("site-search");
+  const searchEmptyMessage = document.getElementById("search-empty-message");
 
   if (shortcutGuide && chrome.commands?.getAll) {
     chrome.commands.getAll((commands) => {
@@ -40,6 +42,57 @@ document.addEventListener("DOMContentLoaded", () => {
     학과: document.getElementById("zone-학과"),
   };
 
+  function normalize(value) {
+    return String(value || "").toLowerCase().replace(/\s+/g, "");
+  }
+
+  const siteSearchTextById = new Map(
+    MASTER_SITE_LIST.map((site) => [
+      site.id,
+      normalize(`${site.name}${site.id}${site.category}`),
+    ]),
+  );
+  const listItemById = new Map();
+
+  function matchesSearch(site, query) {
+    return siteSearchTextById.get(site.id).includes(query);
+  }
+
+  function getActiveIds() {
+    return new Set(
+      Array.from(activeList.querySelectorAll(".list-item")).map(
+        (item) => item.dataset.id,
+      ),
+    );
+  }
+
+  function updateSearchResults() {
+    const query = normalize(searchInput?.value);
+    const activeIds = getActiveIds();
+    let visibleCount = 0;
+
+    const filteredSites = MASTER_SITE_LIST.filter((site) => {
+      if (activeIds.has(site.id)) return false;
+      return !query || matchesSearch(site, query);
+    }).sort((a, b) => a.name.localeCompare(b.name, "ko-KR"));
+
+    Object.entries(categoryZones).forEach(([category, zone]) => {
+      const group = zone.closest(".category-group");
+      const matchingSites = filteredSites.filter(
+        (site) => site.category === category,
+      );
+
+      zone.replaceChildren(...matchingSites.map((site) => createListItem(site)));
+
+      visibleCount += matchingSites.length;
+      if (group) group.hidden = Boolean(query && matchingSites.length === 0);
+    });
+
+    if (searchEmptyMessage) {
+      searchEmptyMessage.hidden = !query || visibleCount > 0;
+    }
+  }
+
   // 🔠 [함수] 리스트를 가나다순으로 자동 정렬
   function sortZoneAlphabetically(zone) {
     const items = Array.from(zone.querySelectorAll(".list-item"));
@@ -59,21 +112,11 @@ document.addEventListener("DOMContentLoaded", () => {
       result.userOrder ||
       MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
 
-    MASTER_SITE_LIST.forEach((site) => {
-      const el = createListItem(site);
-
-      if (activeOrder.includes(site.id)) {
+    MASTER_SITE_LIST.filter((site) => activeOrder.includes(site.id)).forEach(
+      (site) => {
+        const el = createListItem(site);
         activeList.appendChild(el); // 오른쪽(내 바로가기)으로 배치
-      } else {
-        if (categoryZones[site.category]) {
-          categoryZones[site.category].appendChild(el); // 원래 카테고리 칸으로 배치
-        }
-      }
-    });
-
-    // 왼쪽 구역들은 배치가 끝나면 바로 가나다 정렬 실행
-    Object.values(categoryZones).forEach((zone) =>
-      sortZoneAlphabetically(zone),
+      },
     );
 
     // 오른쪽은 사용자가 저장했던 '그 순서' 그대로 다시 재배치
@@ -81,14 +124,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const item = activeList.querySelector(`[data-id="${id}"]`);
       if (item) activeList.appendChild(item);
     });
+
+    // 왼쪽 후보 목록은 전체 서비스에서 활성화된 항목을 제외하고 렌더링
+    updateSearchResults();
   });
 
   // 3. [함수] 사이트 리스트 아이템 HTML 생성
   function createListItem(site) {
+    if (listItemById.has(site.id)) {
+      return listItemById.get(site.id);
+    }
+
     const el = document.createElement("div");
     el.className = "list-item";
     el.draggable = true; // 드래그 가능하게 설정
     el.dataset.id = site.id;
+    el.dataset.name = site.name;
     el.dataset.category = site.category;
 
     const dragHandle = document.createElement("div");
@@ -107,8 +158,33 @@ document.addEventListener("DOMContentLoaded", () => {
     el.append(dragHandle, icon, siteName);
 
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
+    listItemById.set(site.id, el);
     return el;
   }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", updateSearchResults);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.target.tagName === "INPUT" ||
+      e.target.tagName === "TEXTAREA" ||
+      e.target.tagName === "SELECT" ||
+      e.target.isContentEditable ||
+      e.ctrlKey ||
+      e.altKey ||
+      e.metaKey ||
+      e.repeat
+    ) {
+      return;
+    }
+
+    if (e.key === "/") {
+      e.preventDefault();
+      searchInput?.focus();
+    }
+  });
 
   // 4. 저장 버튼: 현재 오른쪽 리스트의 순서를 따서 저장
   saveBtn.addEventListener("click", () => {
@@ -139,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollDirection = 0;
       currentScrollArea = null;
       scrollAreaRect = null;
+      updateSearchResults();
     });
   }
 

@@ -126,6 +126,52 @@ h1 {
   flex-shrink: 0;
 }
 
+.option-search {
+  position: relative;
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+.option-search::before {
+  content: "🔍";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.option-search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 12px 0 32px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 13px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.option-search input:focus {
+  border-color: #9d2235;
+  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+}
+
+.search-empty-message {
+  flex-shrink: 0;
+  margin: 0 0 12px;
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+
 /* 4. 스크롤 영역 (덜컹거림 방지의 핵심) */
 .scroll-area {
   flex-grow: 1; /* h2 제목이 차지하고 남은 아래 공간을 꽉 채움 */
