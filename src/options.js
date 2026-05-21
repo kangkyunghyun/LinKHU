@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveBtn = document.getElementById("save-btn");
   const leftColumn = document.querySelector(".column:first-child"); // 왼쪽 후보 영역
   const shortcutGuide = document.getElementById("shortcut-guide");
+  const searchInput = document.getElementById("site-search");
+  const searchEmptyMessage = document.getElementById("search-empty-message");
 
   if (shortcutGuide && chrome.commands?.getAll) {
     chrome.commands.getAll((commands) => {
@@ -39,6 +41,38 @@ document.addEventListener("DOMContentLoaded", () => {
     단과대: document.getElementById("zone-단과대"),
     학과: document.getElementById("zone-학과"),
   };
+
+  function normalize(value) {
+    return String(value || "").toLowerCase().replace(/\s+/g, "");
+  }
+
+  function matchesSearch(item, query) {
+    return [item.dataset.name, item.dataset.id, item.dataset.category]
+      .some((value) => normalize(value).includes(query));
+  }
+
+  function updateSearchResults() {
+    const query = normalize(searchInput?.value);
+    let visibleCount = 0;
+
+    Object.entries(categoryZones).forEach(([, zone]) => {
+      const group = zone.closest(".category-group");
+      let groupVisibleCount = 0;
+
+      zone.querySelectorAll(".list-item").forEach((item) => {
+        const isVisible = !query || matchesSearch(item, query);
+        item.hidden = !isVisible;
+        if (isVisible) groupVisibleCount += 1;
+      });
+
+      visibleCount += groupVisibleCount;
+      if (group) group.hidden = Boolean(query && groupVisibleCount === 0);
+    });
+
+    if (searchEmptyMessage) {
+      searchEmptyMessage.hidden = !query || visibleCount > 0;
+    }
+  }
 
   // 🔠 [함수] 리스트를 가나다순으로 자동 정렬
   function sortZoneAlphabetically(zone) {
@@ -81,6 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const item = activeList.querySelector(`[data-id="${id}"]`);
       if (item) activeList.appendChild(item);
     });
+
+    updateSearchResults();
   });
 
   // 3. [함수] 사이트 리스트 아이템 HTML 생성
@@ -89,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.className = "list-item";
     el.draggable = true; // 드래그 가능하게 설정
     el.dataset.id = site.id;
+    el.dataset.name = site.name;
     el.dataset.category = site.category;
 
     const dragHandle = document.createElement("div");
@@ -109,6 +146,29 @@ document.addEventListener("DOMContentLoaded", () => {
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
     return el;
   }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", updateSearchResults);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.target.tagName === "INPUT" ||
+      e.target.tagName === "TEXTAREA" ||
+      e.target.isContentEditable ||
+      e.ctrlKey ||
+      e.altKey ||
+      e.metaKey ||
+      e.repeat
+    ) {
+      return;
+    }
+
+    if (e.key === "/") {
+      e.preventDefault();
+      searchInput?.focus();
+    }
+  });
 
   // 4. 저장 버튼: 현재 오른쪽 리스트의 순서를 따서 저장
   saveBtn.addEventListener("click", () => {
@@ -139,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollDirection = 0;
       currentScrollArea = null;
       scrollAreaRect = null;
+      updateSearchResults();
     });
   }
 
