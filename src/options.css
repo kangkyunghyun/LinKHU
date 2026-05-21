@@ -89,6 +89,7 @@ h1 {
   display: flex;
   gap: 20px;
   flex-grow: 1;
+  /* Flex 자식인 스크롤 영역이 자기 높이를 넘을 때 내부 스크롤을 만들 수 있게 한다. */
   min-height: 0;
 }
 

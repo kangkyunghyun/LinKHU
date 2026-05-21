@@ -188,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let draggedItem = null;
   let scrollInterval = null;
+  // 0: 정지, -1: 위, 1: 아래
   let scrollDirection = 0;
 
   function addDragEvents(item) {
@@ -217,8 +218,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!draggedItem) return;
 
     const area = e.target.closest(".scroll-area");
+    // 스크롤 영역 밖으로 잠깐 벗어나도 직전 영역 기준으로 자동 스크롤을 이어간다.
     if (area && area !== currentScrollArea) {
       currentScrollArea = area;
+      // dragover 반복 호출 중 레이아웃 계산을 줄이기 위해 영역이 바뀔 때만 갱신한다.
       scrollAreaRect = area.getBoundingClientRect();
     }
     
