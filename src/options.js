@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       normalize(`${site.name}${site.id}${site.category}`),
     ]),
   );
+  const listItemById = new Map();
 
   function matchesSearch(site, query) {
     return siteSearchTextById.get(site.id).includes(query);
@@ -70,19 +71,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const activeIds = getActiveIds();
     let visibleCount = 0;
 
-    Object.entries(categoryZones).forEach(([, zone]) => {
+    const filteredSites = MASTER_SITE_LIST.filter((site) => {
+      if (activeIds.has(site.id)) return false;
+      return !query || matchesSearch(site, query);
+    }).sort((a, b) => a.name.localeCompare(b.name, "ko-KR"));
+
+    Object.entries(categoryZones).forEach(([category, zone]) => {
       const group = zone.closest(".category-group");
-      zone.innerHTML = "";
+      const matchingSites = filteredSites.filter(
+        (site) => site.category === category,
+      );
 
-      const matchingSites = MASTER_SITE_LIST.filter((site) => {
-        if (activeIds.has(site.id)) return false;
-        if (site.category !== zone.dataset.category) return false;
-        return !query || matchesSearch(site, query);
-      }).sort((a, b) => a.name.localeCompare(b.name, "ko-KR"));
-
-      matchingSites.forEach((site) => {
-        zone.appendChild(createListItem(site));
-      });
+      zone.replaceChildren(...matchingSites.map((site) => createListItem(site)));
 
       visibleCount += matchingSites.length;
       if (group) group.hidden = Boolean(query && matchingSites.length === 0);
@@ -131,6 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. [함수] 사이트 리스트 아이템 HTML 생성
   function createListItem(site) {
+    if (listItemById.has(site.id)) {
+      return listItemById.get(site.id);
+    }
+
     const el = document.createElement("div");
     el.className = "list-item";
     el.draggable = true; // 드래그 가능하게 설정
@@ -154,6 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.append(dragHandle, icon, siteName);
 
     addDragEvents(el); // 아이템에 드래그 기능 심어주기
+    listItemById.set(site.id, el);
     return el;
   }
 
