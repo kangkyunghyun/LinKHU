@@ -47,8 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function matchesSearch(item, query) {
-    return [item.dataset.name, item.dataset.id, item.dataset.category]
-      .some((value) => normalize(value).includes(query));
+    return item.dataset.searchText.includes(query);
   }
 
   function updateSearchResults() {
@@ -127,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     el.dataset.id = site.id;
     el.dataset.name = site.name;
     el.dataset.category = site.category;
+    el.dataset.searchText = normalize(`${site.name}${site.id}${site.category}`);
 
     const dragHandle = document.createElement("div");
     dragHandle.className = "drag-handle";
@@ -155,6 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       e.target.tagName === "INPUT" ||
       e.target.tagName === "TEXTAREA" ||
+      e.target.tagName === "SELECT" ||
       e.target.isContentEditable ||
       e.ctrlKey ||
       e.altKey ||
