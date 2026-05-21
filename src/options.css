@@ -1,40 +1,33 @@
-/* options.css */
-
-/* 1. 기본 배경 및 중앙 정렬 세팅 */
 body {
   font-family: "Noto Sans KR", sans-serif;
   background-color: #f8f9fa;
   margin: 0;
-  height: 100vh; /* 화면의 전체 높이를 100% 사용 */
+  height: 100vh;
 
   display: flex;
-  align-items: center; /* 수직(위아래) 중앙 정렬 */
-  justify-content: center; /* 수평(좌우) 중앙 정렬 */
+  align-items: center;
+  justify-content: center;
 
   box-sizing: border-box;
 }
 
-/* 2. 메인 설정창 (하얀색 큰 박스) */
 .container {
   width: 100%;
-  max-width: 900px; /* 아무리 화면이 커져도 900px 이상으로는 안 늘어남 */
+  max-width: 900px;
 
-  /* 화면 크기에 반응하는 반응형 높이 설정 */
-  height: 90vh; /* 사용자 브라우저 화면 높이의 90%만큼 차지 */
-  min-height: 500px; /* 창을 너무 작게 줄였을 때 내용물이 찌그러지지 않게 방어선 설정 */
+  height: 90vh;
+  min-height: 500px;
 
   background: white;
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 입체감을 주는 그림자 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  /* 내부 요소(제목, 보드, 버튼)를 위에서 아래로 차곡차곡 쌓음 */
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
-/* 제목 부분 디자인 */
 h1 {
   color: #9d2235;
   text-align: center;
@@ -92,28 +85,24 @@ h1 {
   text-decoration: underline;
 }
 
-/* 3. 2단 레이아웃 (왼쪽 후보 구역 / 오른쪽 내 바로가기 구역) */
 .board {
-  display: flex; /* 자식 요소(.column)들을 가로로 나란히 배치 */
-  gap: 20px; /* 두 단락 사이의 간격 */
-  flex-grow: 1; /* 상단 제목과 하단 버튼이 쓰고 '남은 공간'을 모두 차지함 */
-  min-height: 0; /* ✨ 중요: 자식 요소(스크롤 영역)가 자기 범위를 넘어설 때 스크롤바를 생성하게 허용하는 핵심 코드 */
+  display: flex;
+  gap: 20px;
+  flex-grow: 1;
+  min-height: 0;
 }
 
-/* 왼쪽/오른쪽 각각의 기둥(구역) */
 .column {
-  flex: 1; /* 양쪽 열이 1:1 비율로 똑같은 너비를 나눠 가짐 */
+  flex: 1;
   background: #f1f3f5;
   border-radius: 10px;
   padding: 20px;
 
-  /* 기둥 안에서도 제목(h2)과 리스트(scroll-area)를 세로로 쌓음 */
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 요소가 둥근 테두리 밖으로 삐져나가지 않게 잘라냄 */
+  overflow: hidden;
 }
 
-/* 각 기둥의 소제목 ('사용 가능한 사이트', '내 바로가기') */
 .column h2 {
   font-size: 16px;
   margin-top: 0;
@@ -122,7 +111,6 @@ h1 {
   padding-bottom: 10px;
   border-bottom: 2px solid #ddd;
 
-  /* 리스트가 길어져도 제목은 찌그러지거나 스크롤되어 올라가지 않고 고정됨 */
   flex-shrink: 0;
 }
 
@@ -172,21 +160,15 @@ h1 {
   text-align: center;
 }
 
-/* 4. 스크롤 영역 (덜컹거림 방지의 핵심) */
 .scroll-area {
-  flex-grow: 1; /* h2 제목이 차지하고 남은 아래 공간을 꽉 채움 */
-  overflow-y: auto; /* 내용물이 넘치면 세로 스크롤바 생성 */
-
-  /* ✨ 아주 중요한 최신 CSS 기술! 
-     스크롤바가 당장 없더라도 스크롤바가 생길 자리(투명한 공간)를 미리 비워둠.
-     이 덕분에 아이템을 옮기다 스크롤바가 생겼다 사라져도 리스트 가로폭이 흔들리지 않음. */
+  flex-grow: 1;
+  overflow-y: auto;
   scrollbar-gutter: stable;
 
-  padding-right: 5px; /* 스크롤바와 아이템 사이의 여백 */
+  padding-right: 5px;
   min-height: 0;
 }
 
-/* 스크롤바 디자인 커스텀 (얇고 둥글게 깎음) */
 .scroll-area::-webkit-scrollbar {
   width: 6px;
 }
@@ -201,7 +183,6 @@ h1 {
   background: #aaa;
 }
 
-/* 5. 카테고리 그룹 스타일 ('공통', '단과대' 등 묶음 단위) */
 .category-group {
   margin-bottom: 20px;
 }
@@ -212,85 +193,75 @@ h1 {
   margin: 0 0 10px 5px;
 }
 
-/* 6. 드래그 영역 (아이템들이 담기는 투명한 상자) */
 .drop-zone {
-  min-height: 50px; /* 아이템을 다 빼서 빈 공간이 되어도 최소 높이 유지 (그래야 다시 넣을 수 있음) */
+  min-height: 50px;
   padding-bottom: 10px;
   border-radius: 8px;
-  transition: background 0.2s; /* 배경색이 변할 때 스르륵 변하게 함 */
+  transition: background 0.2s;
 }
 
-/* ✨ 가상 클래스 선택자: 드롭존 안에 아무 아이템도 없을 때(empty)만 점선 테두리를 보여줌 */
 .drop-zone:empty {
   border: 2px dashed #ccc;
   background: #fafafa;
 }
 
-/* 7. 개별 리스트 아이템 (드래그 가능한 사이트 블록) */
 .list-item {
   display: flex;
-  align-items: center; /* 줄 3개 아이콘, 로고, 글자를 수직 중앙에 맞춤 */
+  align-items: center;
   padding: 10px;
   margin-bottom: 8px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
 
-  cursor: grab; /* 마우스를 올리면 '펼친 손바닥' 모양으로 변함 (잡을 수 있다는 뜻) */
+  cursor: grab;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-/* 아이템을 클릭해서 꽉 쥐고 있을 때의 효과 */
 .list-item:active {
-  cursor: grabbing; /* '주먹 쥔 손' 모양으로 변함 */
+  cursor: grabbing;
 }
 
-/* 아이템을 드래그해서 옮기는 중일 때 원래 자리에 남은 잔상 효과 */
 .list-item.dragging {
-  opacity: 0.5; /* 반투명하게 만듦 */
-  background: #ffe3e3; /* 연한 붉은색 배경 */
+  opacity: 0.5;
+  background: #ffe3e3;
   border-color: #9d2235;
 }
 
-/* 아이템 내부 요소 디자인 (로고 이미지) */
 .list-item img {
   width: 24px;
   height: 24px;
   margin: 0 10px;
 }
 
-/* 아이템 내부 요소 (왼쪽 ≡ 모양 손잡이) */
 .drag-handle {
   color: #aaa;
   font-size: 18px;
   padding-left: 5px;
 }
 
-/* 아이템 내부 요소 (사이트 이름) */
 .site-name {
-  flex-grow: 1; /* 남은 가로 공간을 모두 차지해서 글자 영역을 확보 */
+  flex-grow: 1;
   font-weight: bold;
   color: #333;
   font-size: 13px;
 }
 
-/* 8. 맨 아래 '변경사항 저장하기' 버튼 */
 .save-btn {
   display: block;
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: #9d2235; /* 경희대 레드 */
+  background-color: #9d2235;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s; /* 마우스 올릴 때 색상이 부드럽게 변함 */
+  transition: background 0.3s;
 }
 
-/* 버튼에 마우스 올렸을 때 조금 더 진한 빨간색으로 변경 */
 .save-btn:hover {
   background-color: #7a1a29;
 }
