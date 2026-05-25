@@ -36,6 +36,20 @@ const MASTER_SITE_LIST = [
     category: "공통",
   },
   {
+    id: "seoul-meal",
+    name: "서울캠퍼스 식단",
+    url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=136",
+    imgSrc: "images/common/seoul-meal.png",
+    category: "공통",
+  },
+  {
+    id: "global-meal",
+    name: "국제캠퍼스 식단",
+    url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=137",
+    imgSrc: "images/common/global-meal.png",
+    category: "공통",
+  },
+  {
     id: "scholarship",
     name: "장학처",
     url: "https://janghak.khu.ac.kr/janghak/user/main/view.do",
