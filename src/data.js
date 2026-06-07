@@ -99,6 +99,20 @@ const MASTER_SITE_LIST = [
     category: "공통",
   },
   {
+    id: "aikhu",
+    name: "AiKHU",
+    url: "https://dx.khu.ac.kr/aimentoring.html",
+    imgSrc: "images/common/khu.png",
+    category: "공통",
+  },
+  {
+    id: "ai-hub",
+    name: "AI Hub",
+    url: "https://dx.khu.ac.kr/aihub.html",
+    imgSrc: "images/common/khu.png",
+    category: "공통",
+  },
+  {
     id: "ois",
     name: "정보처",
     url: "https://ois.khu.ac.kr/ois/user/main/view.do",
