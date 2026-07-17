@@ -22,14 +22,10 @@ function getCrc32(buffer) {
   return (crc ^ 0xffffffff) >>> 0;
 }
 
-function getDosDateTime(date) {
-  const year = Math.max(date.getFullYear(), 1980);
-  const dosTime =
-    (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
-  const dosDate = ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
-
-  return { dosDate, dosTime };
-}
+// ZIP의 최소 표현 시각(1980-01-01 00:00:00)을 사용해 체크아웃 시각과 무관한
+// 재현 가능한 패키지를 생성한다.
+const REPRODUCIBLE_DOS_DATE = (1 << 5) | 1;
+const REPRODUCIBLE_DOS_TIME = 0;
 
 function createUInt16(value) {
   const buffer = Buffer.alloc(2);
@@ -82,18 +78,16 @@ function createZip(files, outputFile) {
 
   files.forEach((file) => {
     const data = fs.readFileSync(file.absolutePath);
-    const stats = fs.statSync(file.absolutePath);
     const fileName = Buffer.from(file.archivePath);
     const crc32 = getCrc32(data);
-    const { dosDate, dosTime } = getDosDateTime(stats.mtime);
 
     const localHeader = Buffer.concat([
       createUInt32(0x04034b50),
       createUInt16(10),
       createUInt16(0),
       createUInt16(0),
-      createUInt16(dosTime),
-      createUInt16(dosDate),
+      createUInt16(REPRODUCIBLE_DOS_TIME),
+      createUInt16(REPRODUCIBLE_DOS_DATE),
       createUInt32(crc32),
       createUInt32(data.length),
       createUInt32(data.length),
@@ -108,8 +102,8 @@ function createZip(files, outputFile) {
       createUInt16(10),
       createUInt16(0),
       createUInt16(0),
-      createUInt16(dosTime),
-      createUInt16(dosDate),
+      createUInt16(REPRODUCIBLE_DOS_TIME),
+      createUInt16(REPRODUCIBLE_DOS_DATE),
       createUInt32(crc32),
       createUInt32(data.length),
       createUInt32(data.length),
@@ -160,4 +154,11 @@ function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  collectFiles,
+  createZip,
+};

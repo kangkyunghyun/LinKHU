@@ -5,7 +5,8 @@ Chrome Web Store 배포는 GitHub Actions의 `Publish Chrome Web Store` 워크�
 ## 동작 범위
 
 - `main` 브랜치에서만 실행한다.
-- 입력한 버전과 `src/manifest.json`의 `version`이 일치해야 한다.
+- 입력한 버전, `src/manifest.json`의 `version`, 현재 커밋의 태그가 일치해야 한다.
+- `release-notes/v{version}.md`가 존재해야 한다.
 - `npm run build`로 `dist/linkhu-v{version}.zip`을 생성한다.
 - Chrome Web Store API로 ZIP 패키지를 업로드한다.
 - Chrome Web Store API로 publish 요청을 보내 심사에 제출한다.
