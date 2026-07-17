@@ -44,6 +44,17 @@ function findDuplicateValues(siteList, field) {
   return [...values.entries()].filter(([, entries]) => entries.length > 1);
 }
 
+function findDuplicateFieldErrors(siteList) {
+  return ["name", "url"].flatMap((field) =>
+    findDuplicateValues(siteList, field).map(
+      ([value, entries]) =>
+        `duplicate ${field} "${value}" used by: ${entries
+          .map((entry) => entry.id)
+          .join(", ")}.`,
+    ),
+  );
+}
+
 function collectImagePaths(directory) {
   if (!fs.existsSync(directory)) return [];
 
@@ -145,15 +156,7 @@ function validateSiteList(siteList) {
     }
   });
 
-  ["name", "url", "imgSrc"].forEach((field) => {
-    findDuplicateValues(siteList, field).forEach(([value, entries]) => {
-      errors.push(
-        `duplicate ${field} "${value}" used by: ${entries
-          .map((entry) => entry.id)
-          .join(", ")}.`,
-      );
-    });
-  });
+  errors.push(...findDuplicateFieldErrors(siteList));
 
   findUnusedImages(siteList).forEach((imagePath) => {
     errors.push(`unused service image: ${imagePath}`);
@@ -199,6 +202,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  findDuplicateFieldErrors,
   findDuplicateValues,
   findUnusedImages,
   loadSiteList,

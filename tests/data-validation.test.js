@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const test = require("node:test");
 
 const {
+  findDuplicateFieldErrors,
   findDuplicateValues,
   findUnusedImages,
   loadSiteList,
@@ -27,4 +28,23 @@ test("duplicate service fields are detected", () => {
     ["같은 이름"],
   );
   assert.deepEqual(findDuplicateValues(sites, "url"), []);
+});
+
+test("multiple services may intentionally share an image", () => {
+  const sites = [
+    {
+      id: "first",
+      name: "첫 번째",
+      url: "https://example.com/first",
+      imgSrc: "images/common/khu.png",
+    },
+    {
+      id: "second",
+      name: "두 번째",
+      url: "https://example.com/second",
+      imgSrc: "images/common/khu.png",
+    },
+  ];
+
+  assert.deepEqual(findDuplicateFieldErrors(sites), []);
 });
