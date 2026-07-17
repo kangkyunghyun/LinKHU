@@ -1,8 +1,8 @@
 # Supported Services
 
-LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 115개 서비스를 지원한다.
+LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 117개 서비스를 지원한다.
 
-## 공통 서비스 (21개)
+## 공통 서비스 (23개)
 
 - 인포21
 - 경희대학교
@@ -18,6 +18,8 @@ LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 115개 서비�
 - 수강신청
 - ChatKHU
 - SW중심대학
+- AiKHU
+- AI Hub
 - 정보처
 - 우정원
 - 제2기숙사
