@@ -6,6 +6,7 @@ const {
   findDuplicateValues,
   findUnusedImages,
   loadSiteList,
+  normalizeImagePath,
   validateSiteList,
 } = require("../scripts/validate-data");
 
@@ -47,4 +48,11 @@ test("multiple services may intentionally share an image", () => {
   ];
 
   assert.deepEqual(findDuplicateFieldErrors(sites), []);
+});
+
+test("image paths use consistent separators across platforms", () => {
+  assert.equal(
+    normalizeImagePath("images\\common\\khu.png"),
+    "images/common/khu.png",
+  );
 });
