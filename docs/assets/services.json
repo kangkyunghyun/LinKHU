@@ -1,0 +1,704 @@
+[
+  {
+    "id": "info21",
+    "name": "인포21",
+    "url": "https://portal.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "khu",
+    "name": "경희대학교",
+    "url": "https://www.khu.ac.kr/kor/user/main/view.do",
+    "category": "공통"
+  },
+  {
+    "id": "ecampus",
+    "name": "e-Campus",
+    "url": "https://e-campus.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "everytime",
+    "name": "에브리타임",
+    "url": "https://everytime.kr",
+    "category": "공통"
+  },
+  {
+    "id": "notice",
+    "name": "공지사항",
+    "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200316",
+    "category": "공통"
+  },
+  {
+    "id": "seoul-meal",
+    "name": "서울캠퍼스 식단",
+    "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=136",
+    "category": "공통"
+  },
+  {
+    "id": "global-meal",
+    "name": "국제캠퍼스 식단",
+    "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=137",
+    "category": "공통"
+  },
+  {
+    "id": "scholarship",
+    "name": "장학처",
+    "url": "https://janghak.khu.ac.kr/janghak/user/main/view.do",
+    "category": "공통"
+  },
+  {
+    "id": "mail",
+    "name": "웹메일",
+    "url": "https://mail.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "intern",
+    "name": "현장실습",
+    "url": "https://intern.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "library",
+    "name": "도서관",
+    "url": "https://lib.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "sugang",
+    "name": "수강신청",
+    "url": "https://sugang.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "chatkhu",
+    "name": "ChatKHU",
+    "url": "https://chat.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "swedu",
+    "name": "SW중심대학",
+    "url": "https://swedu.khu.ac.kr",
+    "category": "공통"
+  },
+  {
+    "id": "aikhu",
+    "name": "AiKHU",
+    "url": "https://dx.khu.ac.kr/aimentoring.html",
+    "category": "공통"
+  },
+  {
+    "id": "ai-hub",
+    "name": "AI Hub",
+    "url": "https://dx.khu.ac.kr/aihub.html",
+    "category": "공통"
+  },
+  {
+    "id": "ois",
+    "name": "정보처",
+    "url": "https://ois.khu.ac.kr/ois/user/main/view.do",
+    "category": "공통"
+  },
+  {
+    "id": "wjwdorm",
+    "name": "우정원",
+    "url": "https://wjwdorm.khu.ac.kr/",
+    "category": "공통"
+  },
+  {
+    "id": "dorm2",
+    "name": "제2기숙사",
+    "url": "https://dorm2.khu.ac.kr/",
+    "category": "공통"
+  },
+  {
+    "id": "sewha",
+    "name": "세화원",
+    "url": "https://sewhahall.khu.ac.kr/",
+    "category": "공통"
+  },
+  {
+    "id": "happy",
+    "name": "행복기숙사",
+    "url": "https://happydorm.khu.ac.kr/00/0000.do",
+    "category": "공통"
+  },
+  {
+    "id": "oia",
+    "name": "국제교류팀",
+    "url": "https://oia.khu.ac.kr/oiak_kor/user/main/view.do",
+    "category": "공통"
+  },
+  {
+    "id": "isss",
+    "name": "글로벌교육지원팀",
+    "url": "https://isss.khu.ac.kr/globalcenter/user/main/view.do",
+    "category": "공통"
+  },
+  {
+    "id": "hc",
+    "name": "후마니타스 칼리지",
+    "url": "https://hc.khu.ac.kr/hc_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "human",
+    "name": "문과대학",
+    "url": "https://human.khu.ac.kr/human_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "khsma",
+    "name": "정경대학",
+    "url": "https://khsma.khu.ac.kr/khsma/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "law",
+    "name": "법과대학",
+    "url": "https://law.khu.ac.kr/",
+    "category": "단과대"
+  },
+  {
+    "id": "kbiz",
+    "name": "경영대학",
+    "url": "https://kbiz.khu.ac.kr/biz_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "hot",
+    "name": "호텔관광대학",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "science",
+    "name": "이과대학",
+    "url": "https://science.khu.ac.kr/science_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "che",
+    "name": "생활과학대학",
+    "url": "https://che.khu.ac.kr/che/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "khusm",
+    "name": "의과대학",
+    "url": "https://khusm.khu.ac.kr/",
+    "category": "단과대"
+  },
+  {
+    "id": "kmc",
+    "name": "한의과대학",
+    "url": "https://kmc.khu.ac.kr/kmc_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "dental",
+    "name": "치과대학",
+    "url": "https://dental.khu.ac.kr/dental_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "pharm",
+    "name": "약학대학",
+    "url": "https://pharm.khu.ac.kr/pharm_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "nursing",
+    "name": "간호과학대학",
+    "url": "https://nursing.khu.ac.kr/nursing_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "music",
+    "name": "음악대학",
+    "url": "http://music.khu.ac.kr/",
+    "category": "단과대"
+  },
+  {
+    "id": "khuart",
+    "name": "미술대학",
+    "url": "https://khuart.khu.ac.kr/khuart/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "dance",
+    "name": "무용학부",
+    "url": "https://dance.khu.ac.kr/dance/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "eng",
+    "name": "공과대학",
+    "url": "https://eng.khu.ac.kr/eng_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "eni",
+    "name": "전자정보대학",
+    "url": "https://eni.khu.ac.kr/eni/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "software",
+    "name": "소프트웨어 융합대학",
+    "url": "https://software.khu.ac.kr/software/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "applsci",
+    "name": "응용과학대학",
+    "url": "https://applsci.khu.ac.kr/applsci/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "cls",
+    "name": "생명과학대학",
+    "url": "https://cls.khu.ac.kr/cls/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "kic",
+    "name": "국제대학",
+    "url": "https://kic.khu.ac.kr/kic_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "foreign",
+    "name": "외국어대학",
+    "url": "https://foreign.khu.ac.kr/foreign_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "and",
+    "name": "예술디자인 대학",
+    "url": "https://and.khu.ac.kr/and_kor/user/main/view.do",
+    "category": "단과대"
+  },
+  {
+    "id": "sports",
+    "name": "체육대학",
+    "url": "http://sports.khu.ac.kr/",
+    "category": "단과대"
+  },
+  {
+    "id": "sdl",
+    "name": "융합전공",
+    "url": "https://convergence.khu.ac.kr/",
+    "category": "단과대"
+  },
+  {
+    "id": "cs",
+    "name": "컴퓨터공학부",
+    "url": "https://ce.khu.ac.kr",
+    "category": "학과"
+  },
+  {
+    "id": "sls",
+    "name": "자유전공학부",
+    "url": "https://sls.khu.ac.kr/sls_kor/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "gsm",
+    "name": "동서의과학과",
+    "url": "http://gsm.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "globaleminence",
+    "name": "자율전공학부",
+    "url": "https://globaleminence.khu.ac.kr/globaleminence/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "gukmun",
+    "name": "국어국문학과",
+    "url": "https://gukmun.khu.ac.kr/gukmun/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "khenglish",
+    "name": "영어영문학과",
+    "url": "https://khenglish.khu.ac.kr/khenglish/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "aelts",
+    "name": "응용영어 통번역학과",
+    "url": "https://aelts.khu.ac.kr/aelts/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "history",
+    "name": "사학과",
+    "url": "https://history.khu.ac.kr/history/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "sophia",
+    "name": "철학과",
+    "url": "https://sophia.khu.ac.kr/sophia/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "politics",
+    "name": "정치외교학과",
+    "url": "https://politics.khu.ac.kr/politics/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "pa",
+    "name": "행정학과",
+    "url": "https://pa.khu.ac.kr/pa/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "soc",
+    "name": "사회학과",
+    "url": "https://soc.khu.ac.kr/soc/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "mediacom",
+    "name": "미디어학과",
+    "url": "https://mediacom.khu.ac.kr/media/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "econ",
+    "name": "경제학과",
+    "url": "https://econ.khu.ac.kr/econ/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "trade",
+    "name": "무역학과",
+    "url": "http://trade.khu.ac.kr/trade/index.php",
+    "category": "학과"
+  },
+  {
+    "id": "cominv",
+    "name": "국제통상금융투자학부",
+    "url": "http://cominv.khu.ac.kr/home/index.php",
+    "category": "학과"
+  },
+  {
+    "id": "maths",
+    "name": "수학과",
+    "url": "https://maths.khu.ac.kr/maths/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "phy",
+    "name": "물리학과",
+    "url": "https://phy.khu.ac.kr/phy/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "chem",
+    "name": "화학과",
+    "url": "https://chem.khu.ac.kr/chem/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "biology",
+    "name": "생물학과",
+    "url": "https://biology.khu.ac.kr/biology/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "geo",
+    "name": "지리학과",
+    "url": "https://geo.khu.ac.kr/geo/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "display",
+    "name": "미래정보디스플레이학부",
+    "url": "https://display.khu.ac.kr/display/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "me",
+    "name": "기계공학부",
+    "url": "https://me.khu.ac.kr/me/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ie",
+    "name": "산업경영 공학과",
+    "url": "https://ie.khu.ac.kr/ie/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ne",
+    "name": "원자력공학과",
+    "url": "https://ne.khu.ac.kr/ne/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "chemeng",
+    "name": "화학공학과",
+    "url": "https://chemeng.khu.ac.kr/chemeng/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "amie",
+    "name": "신소재공학과",
+    "url": "https://amie.khu.ac.kr/amie/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "civileng",
+    "name": "사회기반 시스템공학과",
+    "url": "https://civileng.khu.ac.kr/civileng/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "archieng",
+    "name": "건축공학과",
+    "url": "https://archieng.khu.ac.kr/archieng/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "env",
+    "name": "환경학및환경공학과",
+    "url": "https://env.khu.ac.kr/env/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "archi",
+    "name": "건축학과",
+    "url": "https://archi.khu.ac.kr/archi/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ee",
+    "name": "전자공학부",
+    "url": "https://ee.khu.ac.kr/ee/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "bme",
+    "name": "생체의공학과",
+    "url": "https://bme.khu.ac.kr/bme25/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "swcon",
+    "name": "소프트웨어융합학과",
+    "url": "https://com.khu.ac.kr/swcon/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "math",
+    "name": "응용수학과",
+    "url": "https://math.khu.ac.kr/math/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "physics",
+    "name": "응용물리학과",
+    "url": "https://physics.khu.ac.kr/physics/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "applchem",
+    "name": "응용화학과",
+    "url": "https://applchem.khu.ac.kr/applchem/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "space",
+    "name": "우주과학과",
+    "url": "https://space.khu.ac.kr/space/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "genetech",
+    "name": "유전생명 공학과",
+    "url": "https://genetech.khu.ac.kr/genetech/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "fst",
+    "name": "식품생명 공학과",
+    "url": "https://fst.khu.ac.kr/fst/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ommp",
+    "name": "한방생명 공학과",
+    "url": "https://ommp.khu.ac.kr/ommp/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ecosystem",
+    "name": "식물환경 신소재공학과",
+    "url": "https://ecosystem.khu.ac.kr/ecosystem/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "hort",
+    "name": "원예생명 공학과",
+    "url": "https://hort.khu.ac.kr/hort/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "smartfarmsci",
+    "name": "스마트팜 과학과",
+    "url": "https://smartfarmsci.khu.ac.kr/smartfarm/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "cbam",
+    "name": "융합바이오 신소재공학과",
+    "url": "https://cbam.khu.ac.kr/bio/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "france",
+    "name": "프랑스어학과",
+    "url": "https://france.khu.ac.kr/france/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "spanish",
+    "name": "스페인어학과",
+    "url": "https://spanish.khu.ac.kr/spanish/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "russia",
+    "name": "러시아어학과",
+    "url": "https://russia.khu.ac.kr/russia/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "zhongwen",
+    "name": "중국어학과",
+    "url": "https://zhongwen.khu.ac.kr/zhongwen/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "japanese",
+    "name": "일본어학과",
+    "url": "https://japanese.khu.ac.kr/japanese/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "korean",
+    "name": "한국어학과",
+    "url": "https://korean.khu.ac.kr/korean/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "deptofenglish",
+    "name": "글로벌커뮤니케이션학부",
+    "url": "https://deptofenglish.khu.ac.kr/deptofenglish/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "id",
+    "name": "산업디자인 학과",
+    "url": "https://id.khu.ac.kr/id/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "vd",
+    "name": "시각디자인 학과",
+    "url": "https://vd.khu.ac.kr/vd/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "la",
+    "name": "환경조경 디자인학과",
+    "url": "https://la.khu.ac.kr/la/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "tc",
+    "name": "의류디자인 학과",
+    "url": "http://tc.khu.ac.kr/html/",
+    "category": "학과"
+  },
+  {
+    "id": "dc",
+    "name": "디지털콘텐츠학과",
+    "url": "https://com.khu.ac.kr/dc/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "pm",
+    "name": "포스트모던 음악학과",
+    "url": "http://pm.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "ft",
+    "name": "연극영화학과",
+    "url": "https://ft.khu.ac.kr/ft/user/main/view.do",
+    "category": "학과"
+  },
+  {
+    "id": "ca",
+    "name": "도예학과",
+    "url": "http://ca.khu.ac.kr/html/",
+    "category": "학과"
+  },
+  {
+    "id": "globaleng",
+    "name": "글로벌엔지니어링융합전공",
+    "url": "http://globaleng.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "gctc",
+    "name": "글로벌문화 기술융합전공",
+    "url": "http://gctc.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "4art",
+    "name": "4D아트 융합전공",
+    "url": "http://4art.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "artntech",
+    "name": "아크&테크놀 러지융합전공",
+    "url": "http://artntech.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "css",
+    "name": "사회과학 융합전공",
+    "url": "http://css.khu.ac.kr/index.do",
+    "category": "학과"
+  },
+  {
+    "id": "sic",
+    "name": "과학지능정보 융합전공",
+    "url": "http://sic.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "xrmedia",
+    "name": "실감미디어 융합전공",
+    "url": "http://xrmedia.khu.ac.kr/",
+    "category": "학과"
+  },
+  {
+    "id": "kperformingarts",
+    "name": "K퍼포밍아트 융합전공",
+    "url": "http://kperformingarts.khu.ac.kr/",
+    "category": "학과"
+  }
+]
