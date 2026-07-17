@@ -77,20 +77,23 @@ LinKHU 팝업은 기본 단축키로 빠르게 열 수 있습니다.
 ```bash
 npm test
 npm run validate:data
+npm run generate:landing-data
 npm run package
 npm run build
 ```
 
 - `npm test`: 팝업/설정의 핵심 동작, 데이터 검증, 재현 가능한 패키징을 테스트합니다.
 - `npm run validate:data`: `src/data.js`의 사이트 데이터를 검증합니다.
+- `npm run generate:landing-data`: `src/data.js`를 기준으로 랜딩 페이지 검색 데이터를 갱신합니다.
 - `npm run package`: `src/`를 `dist/linkhu-v{manifest.version}.zip`으로 패키징합니다.
-- `npm run build`: 테스트와 데이터 검증 후 패키징까지 한 번에 실행합니다.
+- `npm run build`: 테스트, 사이트 데이터와 랜딩 검색 데이터 동기화 검증 후 패키징까지 한 번에 실행합니다.
 
 ## 📁 프로젝트 구조
 
 - `src/`: 확장 프로그램 소스
 - `src/data.js`: 지원 서비스 목록
 - `src/images/`: 카테고리별 서비스 아이콘
+- `docs/index.html`: GitHub Pages용 정적 랜딩 페이지
 - `scripts/`: 데이터 검증, 패키징, 스토어 배포 스크립트
 - `.github/workflows/`: 검증, 릴리스, 스토어 배포 자동화
 - `docs/`: 배포/운영 문서

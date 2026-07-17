@@ -114,7 +114,8 @@ PR: feat: 공통 서비스 바로가기 추가
 - `imgSrc`는 확장 프로그램 루트인 `src/`를 기준으로 한 상대 경로이며, 실제 파일이 존재해야 한다.
 - `http://` URL은 가능한 경우 `https://`로 확인하되, 사이트가 HTTPS를 지원하지 않으면 유지한다.
 
-데이터를 변경한 뒤에는 `npm run validate:data`를 실행하고 결과를 PR 본문에 적는다.
+데이터를 변경한 뒤에는 `npm run generate:landing-data`로 랜딩 페이지 검색 데이터를 갱신하고,
+`npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
 
 서비스 아이콘을 추가하거나 변경할 때는 `docs/icon-style-guide.md`를 따른다.
 

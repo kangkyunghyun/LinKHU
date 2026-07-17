@@ -5,9 +5,11 @@
   "scripts": {
     "test": "node --test",
     "validate:data": "node scripts/validate-data.js",
+    "generate:landing-data": "node scripts/generate-landing-data.js",
+    "validate:landing-data": "node scripts/generate-landing-data.js --check",
     "validate:release": "node scripts/validate-release.js",
     "package": "node scripts/package-extension.js",
-    "build": "npm test && npm run validate:data && npm run package"
+    "build": "npm test && npm run validate:data && npm run validate:landing-data && npm run package"
   },
   "license": "MIT"
 }
