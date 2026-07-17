@@ -341,7 +341,7 @@ const MASTER_SITE_LIST = [
   {
     id: "sdl",
     name: "융합전공",
-    url: "https://sdl.khu.ac.kr/",
+    url: "https://convergence.khu.ac.kr/",
     imgSrc: "images/colleges/sdl.png",
     category: "단과대",
   },
@@ -356,7 +356,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "sls",
-    name: "자율전공학부",
+    name: "자유전공학부",
     url: "https://sls.khu.ac.kr/sls_kor/user/main/view.do",
     imgSrc: "images/departments/sls.png",
     category: "학과",
@@ -370,7 +370,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "globaleminence",
-    name: "글로벌리더/비즈니스전공",
+    name: "자율전공학부",
     url: "https://globaleminence.khu.ac.kr/globaleminence/user/main/view.do",
     imgSrc: "images/departments/globaleminence.png",
     category: "학과",
@@ -566,7 +566,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "ee",
-    name: "전자정보 공학부",
+    name: "전자공학부",
     url: "https://ee.khu.ac.kr/ee/user/main/view.do",
     imgSrc: "images/departments/ee.png",
     category: "학과",
@@ -581,7 +581,7 @@ const MASTER_SITE_LIST = [
   {
     id: "swcon",
     name: "소프트웨어융합학과",
-    url: "http://swcon.khu.ac.kr/wordpress/",
+    url: "https://com.khu.ac.kr/swcon/user/main/view.do",
     imgSrc: "images/departments/swcon.png",
     category: "학과",
   },
@@ -742,7 +742,7 @@ const MASTER_SITE_LIST = [
   {
     id: "dc",
     name: "디지털콘텐츠학과",
-    url: "http://dc.khu.ac.kr/html/",
+    url: "https://com.khu.ac.kr/dc/user/main/view.do",
     imgSrc: "images/departments/dc.png",
     category: "학과",
   },
