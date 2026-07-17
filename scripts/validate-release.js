@@ -7,11 +7,24 @@ const MANIFEST_FILE = path.join(PROJECT_ROOT, "src", "manifest.json");
 const VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
 
 function runGit(args) {
-  return execFileSync("git", args, {
-    cwd: PROJECT_ROOT,
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-  }).trim();
+  try {
+    return execFileSync("git", args, {
+      cwd: PROJECT_ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    }).trim();
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new Error(
+        "Git command not found. Please ensure Git is installed and in your PATH.",
+      );
+    }
+
+    const gitError = new Error(`Git command failed: git ${args.join(" ")}`);
+    gitError.status = error.status;
+    gitError.stderr = error.stderr;
+    throw gitError;
+  }
 }
 
 function validateRelease(inputVersion) {
@@ -34,12 +47,23 @@ function validateRelease(inputVersion) {
   let tagCommit;
   try {
     tagCommit = runGit(["rev-list", "-n", "1", tag]);
-  } catch {
-    errors.push(`Release tag does not exist: ${tag}`);
+  } catch (error) {
+    if (error.status === 128) {
+      errors.push(`Release tag does not exist: ${tag}`);
+    } else {
+      errors.push(`Git execution error: ${error.message}`);
+    }
     return errors;
   }
 
-  const headCommit = runGit(["rev-parse", "HEAD"]);
+  let headCommit;
+  try {
+    headCommit = runGit(["rev-parse", "HEAD"]);
+  } catch (error) {
+    errors.push(`Failed to retrieve HEAD commit: ${error.message}`);
+    return errors;
+  }
+
   if (tagCommit !== headCommit) {
     errors.push(
       `Release tag ${tag} points to ${tagCommit.slice(0, 7)}, ` +

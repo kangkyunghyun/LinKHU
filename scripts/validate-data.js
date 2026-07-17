@@ -65,19 +65,25 @@ function collectImagePaths(directory) {
   });
 }
 
+function normalizeImagePath(imagePath) {
+  return imagePath.replace(/\\/g, "/");
+}
+
 function findUnusedImages(siteList) {
   const usedImages = new Set(
     siteList
       .filter((site) => site && isNonEmptyString(site.imgSrc))
-      .map((site) => path.normalize(site.imgSrc)),
+      .map((site) => normalizeImagePath(site.imgSrc)),
   );
 
   return IMAGE_DIRECTORIES.flatMap((relativeDirectory) =>
     collectImagePaths(path.join(SRC_ROOT, relativeDirectory)),
   )
-    .map((absolutePath) => path.relative(SRC_ROOT, absolutePath))
+    .map((absolutePath) =>
+      normalizeImagePath(path.relative(SRC_ROOT, absolutePath)),
+    )
     .filter((relativePath) => VALID_IMAGE_EXTENSION_PATTERN.test(relativePath))
-    .filter((relativePath) => !usedImages.has(path.normalize(relativePath)))
+    .filter((relativePath) => !usedImages.has(relativePath))
     .sort();
 }
 
@@ -206,5 +212,6 @@ module.exports = {
   findDuplicateValues,
   findUnusedImages,
   loadSiteList,
+  normalizeImagePath,
   validateSiteList,
 };
