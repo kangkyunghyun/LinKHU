@@ -1,3 +1,11 @@
+const OptionsStorage = {
+  saveUserOrder(userOrder, callback) {
+    chrome.storage.local.set({ userOrder }, () => {
+      callback(chrome.runtime.lastError || null);
+    });
+  },
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const activeList = document.getElementById("active-list");
   const saveBtn = document.getElementById("save-btn");
@@ -181,7 +189,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const activeItems = activeList.querySelectorAll(".list-item");
     const newOrder = Array.from(activeItems).map((item) => item.dataset.id);
 
-    chrome.storage.local.set({ userOrder: newOrder }, () => {
+    OptionsStorage.saveUserOrder(newOrder, (error) => {
+      if (error) {
+        console.error("설정 저장 실패:", error);
+        alert("설정을 저장하지 못했습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
       alert("성공적으로 저장되었습니다.");
     });
   });

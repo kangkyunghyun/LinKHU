@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Build extension package
+      - name: Test and build extension package
         run: npm run build
 
       - name: Upload extension package

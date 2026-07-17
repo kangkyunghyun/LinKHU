@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,11 +46,7 @@ jobs:
             exit 1
           fi
 
-          manifest_version="$(node -p "require('./src/manifest.json').version")"
-          if [ "$manifest_version" != "$INPUT_VERSION" ]; then
-            echo "Input version $INPUT_VERSION does not match manifest version $manifest_version."
-            exit 1
-          fi
+          npm run validate:release -- "$INPUT_VERSION"
 
       - name: Build extension package
         run: npm run build

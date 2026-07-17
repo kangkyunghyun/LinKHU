@@ -9,6 +9,7 @@ const ALLOWED_CATEGORIES = new Set(["공통", "단과대", "학과"]);
 const REQUIRED_FIELDS = ["id", "name", "url", "imgSrc", "category"];
 const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
 const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
+const IMAGE_DIRECTORIES = ["images/common", "images/colleges", "images/departments"];
 
 function loadSiteList() {
   const source = fs.readFileSync(DATA_FILE, "utf8");
@@ -28,6 +29,56 @@ function loadSiteList() {
 
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
+}
+
+function findDuplicateValues(siteList, field) {
+  const values = new Map();
+
+  siteList.forEach((site, index) => {
+    if (!site || !isNonEmptyString(site[field])) return;
+    const entries = values.get(site[field]) || [];
+    entries.push({ id: site.id || `index ${index}`, index });
+    values.set(site[field], entries);
+  });
+
+  return [...values.entries()].filter(([, entries]) => entries.length > 1);
+}
+
+function findDuplicateFieldErrors(siteList) {
+  return ["name", "url"].flatMap((field) =>
+    findDuplicateValues(siteList, field).map(
+      ([value, entries]) =>
+        `duplicate ${field} "${value}" used by: ${entries
+          .map((entry) => entry.id)
+          .join(", ")}.`,
+    ),
+  );
+}
+
+function collectImagePaths(directory) {
+  if (!fs.existsSync(directory)) return [];
+
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const absolutePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) return collectImagePaths(absolutePath);
+    return entry.isFile() ? [absolutePath] : [];
+  });
+}
+
+function findUnusedImages(siteList) {
+  const usedImages = new Set(
+    siteList
+      .filter((site) => site && isNonEmptyString(site.imgSrc))
+      .map((site) => path.normalize(site.imgSrc)),
+  );
+
+  return IMAGE_DIRECTORIES.flatMap((relativeDirectory) =>
+    collectImagePaths(path.join(SRC_ROOT, relativeDirectory)),
+  )
+    .map((absolutePath) => path.relative(SRC_ROOT, absolutePath))
+    .filter((relativePath) => VALID_IMAGE_EXTENSION_PATTERN.test(relativePath))
+    .filter((relativePath) => !usedImages.has(path.normalize(relativePath)))
+    .sort();
 }
 
 function validateSiteList(siteList) {
@@ -105,6 +156,12 @@ function validateSiteList(siteList) {
     }
   });
 
+  errors.push(...findDuplicateFieldErrors(siteList));
+
+  findUnusedImages(siteList).forEach((imagePath) => {
+    errors.push(`unused service image: ${imagePath}`);
+  });
+
   return { errors, warnings };
 }
 
@@ -140,4 +197,14 @@ function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  findDuplicateFieldErrors,
+  findDuplicateValues,
+  findUnusedImages,
+  loadSiteList,
+  validateSiteList,
+};
