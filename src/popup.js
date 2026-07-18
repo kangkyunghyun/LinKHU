@@ -78,11 +78,10 @@ const App = {
         .filter(Boolean);
 
       const query = LinKHUShared.normalize(this.searchQuery);
-      const sourceSites = query ? MASTER_SITE_LIST : configuredSites;
       const displaySites = this.getUniqueSites(
-        sourceSites.filter(
-          (site) => !query || LinKHUShared.matchesSearch(site, query),
-        ),
+        query
+          ? LinKHUShared.rankSites(MASTER_SITE_LIST, this.searchQuery)
+          : configuredSites,
       );
       this.currentItems = displaySites;
 
