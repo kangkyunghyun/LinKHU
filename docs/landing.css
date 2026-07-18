@@ -1279,13 +1279,13 @@ kbd {
   font-family: inherit;
   font-size: 13px;
   font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
   cursor: pointer;
 }
 
 .footer-link-button:hover {
   color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 .landing-feedback {
