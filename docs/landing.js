@@ -59,8 +59,24 @@
     link.setAttribute("aria-label", `${service.name}, ${service.category}, 새 창에서 열기`);
 
     mark.className = "result-mark";
-    mark.textContent = [...service.name][0] || "L";
     mark.setAttribute("aria-hidden", "true");
+
+    function showFallbackMark() {
+      mark.classList.remove("has-icon");
+      mark.textContent = [...service.name][0] || "L";
+    }
+
+    if (service.imgSrc) {
+      const icon = documentObject.createElement("img");
+      icon.src = `assets/${service.imgSrc}`;
+      icon.alt = "";
+      icon.loading = "lazy";
+      icon.addEventListener("error", showFallbackMark);
+      mark.classList.add("has-icon");
+      mark.append(icon);
+    } else {
+      showFallbackMark();
+    }
 
     name.textContent = service.name;
     metadata.textContent = `${service.category} · ${service.id}`;

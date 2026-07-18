@@ -740,6 +740,17 @@ kbd {
   font-weight: 800;
 }
 
+.result-mark.has-icon {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.result-mark img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
 .search-result strong,
 .search-result small {
   display: block;
@@ -822,6 +833,12 @@ kbd {
   border-radius: 10px;
   font-size: 13px;
   font-weight: 850;
+}
+
+.list-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .list-icon-wine {

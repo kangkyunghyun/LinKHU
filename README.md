@@ -84,7 +84,7 @@ npm run build
 
 - `npm test`: 팝업/설정의 핵심 동작, 데이터 검증, 재현 가능한 패키징을 테스트합니다.
 - `npm run validate:data`: `src/data.js`의 사이트 데이터를 검증합니다.
-- `npm run generate:landing-data`: `src/data.js`를 기준으로 랜딩 페이지 검색 데이터를 갱신합니다.
+- `npm run generate:landing-data`: `src/data.js`를 기준으로 랜딩 페이지 검색 데이터와 서비스 아이콘을 갱신합니다.
 - `npm run package`: `src/`를 `dist/linkhu-v{manifest.version}.zip`으로 패키징합니다.
 - `npm run build`: 테스트, 사이트 데이터와 랜딩 검색 데이터 동기화 검증 후 패키징까지 한 번에 실행합니다.
 
