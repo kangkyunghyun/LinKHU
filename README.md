@@ -3,8 +3,7 @@
 # <img align="left" src="src/icons/icon48.png"/>LinKHU
 
 경희대학교 학생들이 자주 사용하는 핵심 웹서비스들을 클릭 한 번으로 즉시 이동하세요.
-
-🏠 홈페이지: https://kangkyunghyun.github.io/LinKHU/
+[홈페이지](https://kangkyunghyun.github.io/LinKHU/)에서 주요 기능을 한눈에 볼 수 있습니다.
 
 <p>
   <a href="https://github.com/kangkyunghyun/LinKHU/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/kangkyunghyun/LinKHU?style=flat-square&logo=github&label=release"></a>
@@ -50,9 +49,10 @@
 
 ## 🚀 설치 방법
 
-### 방법 1: Chrome 웹 스토어
-1. [Chrome 웹 스토어 링크](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)에 접속합니다.
-2. "Chrome에 추가" 버튼을 클릭합니다.
+### 방법 1: 브라우저 스토어에서 설치
+1. 사용하는 브라우저의 스토어 페이지로 이동합니다.
+   [Chrome 웹 스토어](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp) · [Whale 스토어](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc) · [Firefox Add-ons](https://addons.mozilla.org/ko/firefox/addon/linkhu)
+2. "추가" 버튼을 클릭합니다.
 3. 확장 앱을 브라우저에 고정해 두고 사용하면 더욱 편리합니다.
 
 ### 방법 2: 수동 설치
@@ -112,6 +112,7 @@ LinKHU/
 ## 🐛 버그 제보 및 기여
 
 Issue와 Pull Request를 통한 제보와 기여는 언제나 환영입니다.
+가볍게 의견만 남기고 싶다면 확장 프로그램 또는 [홈페이지](https://kangkyunghyun.github.io/LinKHU/)의 문의하기를 이용해주세요.
 
 - 버그 제보: Bug Report 템플릿을 사용해주세요.
 - 지원 웹 서비스 추가 요청: Service Request 템플릿에 서비스 이름, URL, 카테고리, 아이콘 정보를 적어주세요.

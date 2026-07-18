@@ -3,8 +3,7 @@
 # <img align="left" src="src/icons/icon48.png"/>LinKHU
 
 Jump to Kyung Hee University's most-used web services with a single click.
-
-🏠 Homepage: https://kangkyunghyun.github.io/LinKHU/
+Visit the [homepage](https://kangkyunghyun.github.io/LinKHU/) for a quick overview of the main features.
 
 <p>
   <a href="https://github.com/kangkyunghyun/LinKHU/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/kangkyunghyun/LinKHU?style=flat-square&logo=github&label=release"></a>
@@ -51,10 +50,11 @@ Use the **Feedback** form at the bottom of the popup or the options page to send
 
 ## 🚀 Installation
 
-### Option 1: Chrome Web Store
+### Option 1: Install from Your Browser's Store
 
-1. Visit the [Chrome Web Store page](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp).
-2. Click "Add to Chrome".
+1. Open the store page for your browser:
+   [Chrome Web Store](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp) · [Whale Store](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc) · [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/linkhu)
+2. Click the "Add" button.
 3. Pin the extension to your browser toolbar for quick access.
 
 ### Option 2: Manual Installation
@@ -117,6 +117,7 @@ LinKHU/
 ## 🐛 Bug Reports & Contributing
 
 Reports and contributions via Issues and Pull Requests are always welcome.
+For quick suggestions, you can also use the feedback form in the extension or on the [homepage](https://kangkyunghyun.github.io/LinKHU/).
 
 - Bug reports: use the Bug Report template.
 - Service requests: fill in the Service Request template with the service name, URL, category, and icon info.
