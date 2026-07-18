@@ -111,6 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 팝업 안에서 링크를 그대로 열면 팝업 화면이 이동하므로 새 탭으로 연다.
+  const homepageLink = document.getElementById("homepage-link");
+  if (homepageLink) {
+    homepageLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      chrome.tabs.create({ url: homepageLink.href, active: true });
+      window.close();
+    });
+  }
+
   const searchInput = document.getElementById("service-search");
   if (searchInput) {
     searchInput.addEventListener("input", (e) => {

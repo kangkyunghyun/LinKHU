@@ -89,10 +89,40 @@
       </div>
 
       <button id="save-btn" class="save-btn">변경사항 저장하기</button>
+
+      <footer class="options-footer">
+        <a
+          class="footer-link"
+          href="https://kangkyunghyun.github.io/LinKHU/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >LinKHU 홈페이지</a
+        >
+        <span class="footer-divider" aria-hidden="true">·</span>
+        <button id="feedback-toggle" class="footer-link" type="button">
+          문의하기
+        </button>
+      </footer>
+
+      <div id="feedback-panel" class="feedback-panel" hidden>
+        <textarea
+          id="feedback-message"
+          rows="3"
+          placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
+          aria-label="문의 내용"
+        ></textarea>
+        <div class="feedback-actions">
+          <button id="feedback-send" class="feedback-send" type="button">
+            보내기
+          </button>
+        </div>
+        <p id="feedback-status" class="feedback-status" role="status"></p>
+      </div>
     </div>
 
     <script src="data.js"></script>
     <script src="shared.js"></script>
+    <script src="feedback.js"></script>
     <script src="options.js"></script>
   </body>
 </html>
