@@ -2,6 +2,14 @@
   const DEFAULT_SERVICE_IDS = ["info21", "ecampus", "sugang"];
   const RESULT_LIMIT = 5;
 
+  // 확장(src/feedback.js)과 같은 Google Form을 사용한다. 값을 바꿀 때는 함께 갱신한다.
+  const FEEDBACK_CONFIG = {
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSei30Rr122YHmLlixTDEaWtUPY_pM-EQ20kBMLvyu-52Q6IZQ/formResponse",
+    messageEntry: "entry.1096769292",
+    emailEntry: "entry.491031779",
+  };
+
   function normalizeSearchText(value) {
     return String(value || "")
       .trim()
@@ -215,8 +223,70 @@
       });
   }
 
+  function createFeedbackSubmission(message, email, config = FEEDBACK_CONFIG) {
+    const body = new URLSearchParams({ [config.messageEntry]: message });
+    if (email && config.emailEntry) {
+      body.set(config.emailEntry, email);
+    }
+    return { url: config.formUrl, body };
+  }
+
+  function initializeLandingFeedback(documentObject, fetchFunction) {
+    const toggles = documentObject.querySelectorAll("[data-feedback-open]");
+    const panel = documentObject.querySelector("#landing-feedback-panel");
+    const closeBtn = documentObject.querySelector("#landing-feedback-close");
+    const messageInput = documentObject.querySelector("#landing-feedback-message");
+    const emailInput = documentObject.querySelector("#landing-feedback-email");
+    const sendBtn = documentObject.querySelector("#landing-feedback-send");
+    const status = documentObject.querySelector("#landing-feedback-status");
+
+    if (!toggles.length || !panel || !messageInput || !emailInput || !sendBtn || !status) {
+      return;
+    }
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        panel.showModal();
+        messageInput.focus();
+      });
+    });
+
+    closeBtn?.addEventListener("click", () => panel.close());
+
+    sendBtn.addEventListener("click", async () => {
+      const message = messageInput.value.trim();
+      if (!message) {
+        status.textContent = "문의 내용을 입력해주세요.";
+        return;
+      }
+
+      const email = emailInput.value.trim();
+      if (email && !email.includes("@")) {
+        status.textContent = "이메일 주소를 확인해주세요.";
+        return;
+      }
+
+      sendBtn.disabled = true;
+      status.textContent = "전송 중...";
+
+      try {
+        // Google Forms는 CORS 응답 헤더를 주지 않으므로 no-cors로 보내고,
+        // 네트워크 오류가 없으면 전송된 것으로 간주한다.
+        const { url, body } = createFeedbackSubmission(message, email);
+        await fetchFunction(url, { method: "POST", mode: "no-cors", body });
+        messageInput.value = "";
+        status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
+      } catch (error) {
+        status.textContent = "전송에 실패했습니다. GitHub 이슈로 남겨주세요.";
+      } finally {
+        sendBtn.disabled = false;
+      }
+    });
+  }
+
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
+      createFeedbackSubmission,
       getDefaultServices,
       normalizeSearchText,
       scoreService,
@@ -226,5 +296,6 @@
 
   if (globalScope.document && globalScope.fetch) {
     initializeLandingSearch(globalScope.document, globalScope.fetch.bind(globalScope));
+    initializeLandingFeedback(globalScope.document, globalScope.fetch.bind(globalScope));
   }
 })(typeof window !== "undefined" ? window : globalThis);

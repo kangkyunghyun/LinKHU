@@ -137,6 +137,7 @@ a {
 
 .brand-mark {
   flex: 0 0 auto;
+  border-radius: 7px;
 }
 
 .desktop-nav {
@@ -145,7 +146,8 @@ a {
   gap: 8px;
 }
 
-.desktop-nav a {
+.desktop-nav a,
+.desktop-nav .nav-link-button {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -160,7 +162,15 @@ a {
     background var(--transition-fast);
 }
 
-.desktop-nav a:hover {
+.desktop-nav .nav-link-button {
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.desktop-nav a:hover,
+.desktop-nav .nav-link-button:hover {
   background: var(--color-primary-soft);
   color: var(--color-primary);
 }
@@ -825,35 +835,21 @@ kbd {
   background-size: 7px 7px;
 }
 
+/* 서비스 아이콘 원본이 흰 배경 PNG라 칸 배경도 흰색으로 맞춘다. */
 .list-icon {
   width: 38px;
   height: 38px;
   display: grid;
   place-items: center;
   border-radius: 10px;
-  font-size: 13px;
-  font-weight: 850;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
 }
 
 .list-icon img {
   width: 24px;
   height: 24px;
   object-fit: contain;
-}
-
-.list-icon-wine {
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
-}
-
-.list-icon-blue {
-  background: #e1edfa;
-  color: #26649b;
-}
-
-.list-icon-gold {
-  background: #f4ead6;
-  color: #8a641c;
 }
 
 .mini-list strong {
@@ -1279,6 +1275,124 @@ kbd {
 
 .footer-links a:hover {
   color: var(--color-primary);
+}
+
+.footer-link-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.footer-link-button:hover {
+  color: var(--color-primary);
+}
+
+.landing-feedback {
+  width: min(440px, calc(100vw - 40px));
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  box-shadow: 0 18px 44px rgba(26, 18, 20, 0.18);
+}
+
+/* dialog 기본 display:none을 author display:grid가 덮어쓰므로 닫힘 상태를 복원한다. */
+.landing-feedback:not([open]) {
+  display: none;
+}
+
+.landing-feedback::backdrop {
+  background: rgba(26, 18, 20, 0.45);
+}
+
+.landing-feedback-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-feedback-head h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.landing-feedback-close {
+  padding: 2px 6px;
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.landing-feedback-close:hover {
+  color: var(--color-foreground);
+}
+
+#landing-feedback-status {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+#landing-feedback-status:empty {
+  display: none;
+}
+
+.landing-feedback textarea,
+.landing-feedback input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.landing-feedback textarea {
+  resize: vertical;
+}
+
+.landing-feedback textarea:focus,
+.landing-feedback input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+.landing-feedback-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.landing-feedback-alt {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 12.5px;
+}
+
+.landing-feedback-alt a {
+  color: var(--color-primary);
+  text-underline-offset: 4px;
 }
 
 .footer-note {

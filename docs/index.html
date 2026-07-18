@@ -16,6 +16,7 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/store/promotion-tile.png">
     <title>LinKHU — 경희대 웹서비스를 한곳에</title>
+    <link rel="icon" type="image/png" href="assets/linkhu-icon.png">
     <link rel="stylesheet" href="landing.css">
   </head>
   <body>
@@ -24,21 +25,14 @@
     <header class="site-header">
       <div class="nav-shell">
         <a class="brand" href="#top" aria-label="LinKHU 홈">
-          <svg
+          <img
             class="brand-mark"
+            src="assets/linkhu-icon.png"
             width="30"
             height="30"
-            viewBox="-3 -3 54 54"
-            fill="none"
+            alt=""
             aria-hidden="true"
           >
-            <path
-              d="M19.5 28.5 28.5 19.5M16.2 33.8l-3.4 3.4a7 7 0 0 1-9.9-9.9l7-7a7 7 0 0 1 9.9 0M31.8 14.2l3.4-3.4a7 7 0 1 1 9.9 9.9l-7 7a7 7 0 0 1-9.9 0"
-              stroke="currentColor"
-              stroke-width="5.5"
-              stroke-linecap="round"
-            />
-          </svg>
           <span>LinKHU</span>
         </a>
 
@@ -46,6 +40,9 @@
           <a href="#features">기능</a>
           <a href="#how-it-works">사용 방법</a>
           <a href="#services">지원 서비스</a>
+          <button class="nav-link-button" type="button" data-feedback-open>
+            문의
+          </button>
           <a
             href="https://github.com/kangkyunghyun/LinKHU"
             target="_blank"
@@ -308,21 +305,21 @@
               <div class="mini-list" aria-hidden="true">
                 <div>
                   <span class="drag-handle" aria-hidden="true"></span>
-                  <span class="list-icon list-icon-wine"
+                  <span class="list-icon"
                     ><img src="assets/images/common/portal.png" alt=""
                   /></span>
                   <strong>인포21</strong>
                 </div>
                 <div>
                   <span class="drag-handle" aria-hidden="true"></span>
-                  <span class="list-icon list-icon-blue"
+                  <span class="list-icon"
                     ><img src="assets/images/common/ecampus.png" alt=""
                   /></span>
                   <strong>e-Campus</strong>
                 </div>
                 <div>
                   <span class="drag-handle" aria-hidden="true"></span>
-                  <span class="list-icon list-icon-gold"
+                  <span class="list-icon"
                     ><img src="assets/images/common/library.png" alt=""
                   /></span>
                   <strong>중앙도서관</strong>
@@ -645,21 +642,14 @@
       <div class="shell footer-grid">
         <div>
           <a class="brand" href="#top" aria-label="LinKHU 홈">
-            <svg
+            <img
               class="brand-mark"
+              src="assets/linkhu-icon.png"
               width="28"
               height="28"
-              viewBox="-3 -3 54 54"
-              fill="none"
+              alt=""
               aria-hidden="true"
             >
-              <path
-                d="M19.5 28.5 28.5 19.5M16.2 33.8l-3.4 3.4a7 7 0 0 1-9.9-9.9l7-7a7 7 0 0 1 9.9 0M31.8 14.2l3.4-3.4a7 7 0 1 1 9.9 9.9l-7 7a7 7 0 0 1-9.9 0"
-                stroke="currentColor"
-                stroke-width="5.5"
-                stroke-linecap="round"
-              />
-            </svg>
             <span>LinKHU</span>
           </a>
           <p>경희대학교 주요 웹서비스 바로가기</p>
@@ -672,13 +662,13 @@
           >
             지원 서비스<span class="sr-only">(새 창)</span>
           </a>
-          <a
-            href="https://github.com/kangkyunghyun/LinKHU/issues"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            class="footer-link-button"
+            type="button"
+            data-feedback-open
           >
-            문의·제안<span class="sr-only">(새 창)</span>
-          </a>
+            문의·제안
+          </button>
           <a
             href="https://github.com/kangkyunghyun/LinKHU/blob/main/LICENSE"
             target="_blank"
@@ -687,16 +677,65 @@
             MIT License<span class="sr-only">(새 창)</span>
           </a>
         </div>
+        <dialog
+          id="landing-feedback-panel"
+          class="landing-feedback"
+          aria-labelledby="landing-feedback-title"
+        >
+          <div class="landing-feedback-head">
+            <h2 id="landing-feedback-title">문의·제안</h2>
+            <button
+              id="landing-feedback-close"
+              class="landing-feedback-close"
+              type="button"
+              aria-label="닫기"
+            >
+              &times;
+            </button>
+          </div>
+          <label class="sr-only" for="landing-feedback-message">문의 내용</label>
+          <textarea
+            id="landing-feedback-message"
+            rows="4"
+            placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
+          ></textarea>
+          <label class="sr-only" for="landing-feedback-email">
+            답변 받을 이메일 (선택)
+          </label>
+          <input
+            id="landing-feedback-email"
+            type="email"
+            placeholder="답변 받을 이메일 (선택)"
+            autocomplete="email"
+          >
+          <p id="landing-feedback-status" role="status"></p>
+          <div class="landing-feedback-actions">
+            <p class="landing-feedback-alt">
+              버그 제보는
+              <a
+                href="https://github.com/kangkyunghyun/LinKHU/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+              >GitHub 이슈<span class="sr-only">(새 창)</span></a>가 더 빨라요.
+            </p>
+            <button
+              id="landing-feedback-send"
+              class="button button-small button-primary"
+              type="button"
+            >
+              보내기
+            </button>
+          </div>
+        </dialog>
         <p class="footer-note">
-          Designed &amp; built by
+          © 2026
           <a
             href="https://github.com/kangkyunghyun"
             target="_blank"
             rel="noopener noreferrer"
           >
-            kangkyunghyun<span class="sr-only">(새 창)</span>
+            Kyunghyun Kang<span class="sr-only">(새 창)</span>
           </a>
-          for Kyung Hee University students.
         </p>
       </div>
     </footer>
