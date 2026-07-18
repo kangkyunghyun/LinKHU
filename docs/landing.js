@@ -234,6 +234,7 @@
   function initializeLandingFeedback(documentObject, fetchFunction) {
     const toggle = documentObject.querySelector("#landing-feedback-toggle");
     const panel = documentObject.querySelector("#landing-feedback-panel");
+    const closeBtn = documentObject.querySelector("#landing-feedback-close");
     const messageInput = documentObject.querySelector("#landing-feedback-message");
     const emailInput = documentObject.querySelector("#landing-feedback-email");
     const sendBtn = documentObject.querySelector("#landing-feedback-send");
@@ -244,10 +245,11 @@
     }
 
     toggle.addEventListener("click", () => {
-      panel.hidden = !panel.hidden;
-      toggle.setAttribute("aria-expanded", String(!panel.hidden));
-      if (!panel.hidden) messageInput.focus();
+      panel.showModal();
+      messageInput.focus();
     });
+
+    closeBtn?.addEventListener("click", () => panel.close());
 
     sendBtn.addEventListener("click", async () => {
       const message = messageInput.value.trim();

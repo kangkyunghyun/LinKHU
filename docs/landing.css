@@ -1284,16 +1284,64 @@ kbd {
 
 .footer-link-button:hover {
   color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .landing-feedback {
-  grid-column: 1 / -1;
+  width: min(440px, calc(100vw - 40px));
   display: grid;
   gap: 10px;
-  padding: 18px;
+  padding: 20px;
   border: 1px solid var(--color-border);
-  border-radius: 13px;
-  background: var(--color-surface-muted);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  box-shadow: 0 18px 44px rgba(26, 18, 20, 0.18);
+}
+
+/* dialog 기본 display:none을 author display:grid가 덮어쓰므로 닫힘 상태를 복원한다. */
+.landing-feedback:not([open]) {
+  display: none;
+}
+
+.landing-feedback::backdrop {
+  background: rgba(26, 18, 20, 0.45);
+}
+
+.landing-feedback-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-feedback-head h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.landing-feedback-close {
+  padding: 2px 6px;
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.landing-feedback-close:hover {
+  color: var(--color-foreground);
+}
+
+#landing-feedback-status {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+#landing-feedback-status:empty {
+  display: none;
 }
 
 .landing-feedback textarea,
@@ -1325,12 +1373,6 @@ kbd {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.landing-feedback-actions p {
-  margin: 0;
-  color: var(--color-muted);
-  font-size: 13px;
 }
 
 .landing-feedback-alt {

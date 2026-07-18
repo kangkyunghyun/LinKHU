@@ -663,8 +663,6 @@
             id="landing-feedback-toggle"
             class="footer-link-button"
             type="button"
-            aria-expanded="false"
-            aria-controls="landing-feedback-panel"
           >
             문의·제안
           </button>
@@ -676,11 +674,26 @@
             MIT License<span class="sr-only">(새 창)</span>
           </a>
         </div>
-        <div id="landing-feedback-panel" class="landing-feedback" hidden>
+        <dialog
+          id="landing-feedback-panel"
+          class="landing-feedback"
+          aria-labelledby="landing-feedback-title"
+        >
+          <div class="landing-feedback-head">
+            <h2 id="landing-feedback-title">문의·제안</h2>
+            <button
+              id="landing-feedback-close"
+              class="landing-feedback-close"
+              type="button"
+              aria-label="닫기"
+            >
+              &times;
+            </button>
+          </div>
           <label class="sr-only" for="landing-feedback-message">문의 내용</label>
           <textarea
             id="landing-feedback-message"
-            rows="3"
+            rows="4"
             placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
           ></textarea>
           <label class="sr-only" for="landing-feedback-email">
@@ -692,8 +705,16 @@
             placeholder="답변 받을 이메일 (선택)"
             autocomplete="email"
           >
+          <p id="landing-feedback-status" role="status"></p>
           <div class="landing-feedback-actions">
-            <p id="landing-feedback-status" role="status"></p>
+            <p class="landing-feedback-alt">
+              버그 제보는
+              <a
+                href="https://github.com/kangkyunghyun/LinKHU/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+              >GitHub 이슈<span class="sr-only">(새 창)</span></a>가 더 빨라요.
+            </p>
             <button
               id="landing-feedback-send"
               class="button button-small button-primary"
@@ -702,25 +723,16 @@
               보내기
             </button>
           </div>
-          <p class="landing-feedback-alt">
-            버그 제보는
-            <a
-              href="https://github.com/kangkyunghyun/LinKHU/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-            >GitHub 이슈<span class="sr-only">(새 창)</span></a>로 남겨주시면 더 빠르게 확인할 수 있어요.
-          </p>
-        </div>
+        </dialog>
         <p class="footer-note">
-          Designed &amp; built by
+          © 2026
           <a
             href="https://github.com/kangkyunghyun"
             target="_blank"
             rel="noopener noreferrer"
           >
-            kangkyunghyun<span class="sr-only">(새 창)</span>
+            Kyunghyun Kang<span class="sr-only">(새 창)</span>
           </a>
-          for Kyung Hee University students.
         </p>
       </div>
     </footer>
