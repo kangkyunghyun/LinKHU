@@ -1,6 +1,10 @@
+**한국어** | [English](./README.en.md)
+
 # <img align="left" src="src/icons/icon48.png"/>LinKHU
 
-경희대학교 학생들이 자주 사용하는 핵심 웹서비스들을 클릭 한 번으로 즉시 이동하세요.  
+경희대학교 학생들이 자주 사용하는 핵심 웹서비스들을 클릭 한 번으로 즉시 이동하세요.
+
+🏠 홈페이지: https://kangkyunghyun.github.io/LinKHU/
 
 <p>
   <a href="https://github.com/kangkyunghyun/LinKHU/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/kangkyunghyun/LinKHU?style=flat-square&logo=github&label=release"></a>
@@ -33,8 +37,12 @@
 팝업 상단 검색창에서 서비스 이름, ID, 카테고리로 원하는 바로가기를 찾을 수 있습니다.
 
 - `/` 키를 누르면 검색창으로 바로 이동합니다.
-- 검색 결과에서 `Enter`를 누르면 첫 번째 결과를 현재 탭에서 엽니다.
+- 이름이 일치하는 서비스가 먼저 표시되고, `Enter`를 누르면 첫 번째 결과를 현재 탭에서 엽니다.
 - 검색어가 없을 때는 설정 페이지에서 저장한 내 바로가기 목록이 표시됩니다.
+
+### 💬 문의하기
+
+팝업과 설정 페이지 하단의 **문의하기**에서 GitHub 계정 없이 바로 의견을 보낼 수 있습니다. 답변이 필요하면 이메일을 함께 남길 수 있습니다.
 
 ## 👀 미리보기
 
@@ -118,6 +126,7 @@ git push origin "v$VERSION"
 Chrome Web Store 자동 배포는 [Chrome Web Store Automation](./docs/chrome-web-store-automation.md)을 따릅니다.
 Firefox Add-ons 자동 배포는 [Firefox Add-ons Automation](./docs/firefox-addons-automation.md)을 따릅니다.
 Whale Store 배포는 [Whale Store Automation Research](./docs/whale-store-automation.md)에 따라 수동 절차를 유지합니다.
+스토어 설명은 [Store Listing](./docs/store-listing.md)을 원본으로 관리합니다.
 팝업/설정 페이지의 문의 기능 연결은 [문의 채널 설정 가이드](./docs/feedback-setup.md)를 따릅니다.
 
 ## 🐛 버그 제보 및 기여

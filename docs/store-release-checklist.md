@@ -26,6 +26,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - ZIP 파일을 압축 해제해 `manifest.json`이 최상위에 있는지 확인한다.
 - 압축 해제한 `manifest.json`의 `version`이 Release tag와 일치하는지 확인한다.
 - Release notes에서 사용자에게 보여줄 변경 사항을 확인한다.
+- [Store Listing](./store-listing.md)의 업데이트 섹션을 새 버전 기준으로 갱신하고, 각 스토어 설명에 반영한다.
 - 권한 변경이 있는지 `manifest.json`의 `permissions`, `host_permissions`, `browser_specific_settings`를 확인한다.
 - 스토어 설명, 스크린샷, 개인정보 처리 관련 답변을 수정해야 하는지 확인한다.
 
