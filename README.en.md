@@ -94,24 +94,24 @@ Release and store deployment steps are documented in [Release Process](./docs/re
 
 ```text
 LinKHU/
-├── src/                    # Extension source
-│   ├── manifest.json       #   Extension manifest (version)
-│   ├── data.js             #   Supported service list (single source of truth)
-│   ├── shared.js           #   Search/settings utils shared by popup & options
+├── src/                       # Extension source
+│   ├── manifest.json          # Extension manifest (version)
+│   ├── data.js                # Supported service list (single source of truth)
+│   ├── shared.js              # Search/settings utils shared by popup & options
 │   ├── popup.{html,js,css}    # Popup UI
 │   ├── options.{html,js,css}  # Options page
-│   ├── version.js          #   Update check
-│   ├── feedback.js         #   Feedback submission
-│   ├── images/             #   Service icons by category
-│   └── icons/              #   Extension icons
-├── docs/                   # GitHub Pages landing + operation docs
-│   ├── index.html          #   Landing page
-│   ├── landing.{js,css}    #   Landing search/feedback/styles
-│   └── assets/             #   Landing data, service icons, screenshots
-├── scripts/                # Data validation, packaging, store publishing
-├── tests/                  # node --test based tests
-├── release-notes/          # Release notes per version
-└── .github/workflows/      # Validation, release, store publishing automation
+│   ├── version.js             # Update check
+│   ├── feedback.js            # Feedback submission
+│   ├── images/                # Service icons by category
+│   └── icons/                 # Extension icons
+├── docs/                      # GitHub Pages landing + operation docs
+│   ├── index.html             # Landing page
+│   ├── landing.{js,css}       # Landing search/feedback/styles
+│   └── assets/                # Landing data, service icons, screenshots
+├── scripts/                   # Data validation, packaging, store publishing
+├── tests/                     # node --test based tests
+├── release-notes/             # Release notes per version
+└── .github/workflows/         # Validation, release, store publishing automation
 ```
 
 ## 🐛 Bug Reports & Contributing

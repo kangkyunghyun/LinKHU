@@ -89,24 +89,24 @@ npm run build   # 테스트 + 데이터 검증 + 패키징을 한 번에 실행
 
 ```text
 LinKHU/
-├── src/                    # 확장 프로그램 소스
-│   ├── manifest.json       #   확장 매니페스트 (버전 관리)
-│   ├── data.js             #   지원 서비스 목록 (단일 소스)
-│   ├── shared.js           #   팝업·설정 공통 검색/설정 유틸
+├── src/                       # 확장 프로그램 소스
+│   ├── manifest.json          # 확장 매니페스트 (버전 관리)
+│   ├── data.js                # 지원 서비스 목록 (단일 소스)
+│   ├── shared.js              # 팝업·설정 공통 검색/설정 유틸
 │   ├── popup.{html,js,css}    # 팝업 화면
 │   ├── options.{html,js,css}  # 설정 페이지
-│   ├── version.js          #   업데이트 확인
-│   ├── feedback.js         #   문의 전송
-│   ├── images/             #   카테고리별 서비스 아이콘
-│   └── icons/              #   확장 프로그램 아이콘
-├── docs/                   # GitHub Pages 랜딩 + 배포/운영 문서
-│   ├── index.html          #   랜딩 페이지
-│   ├── landing.{js,css}    #   랜딩 검색·문의·스타일
-│   └── assets/             #   랜딩 데이터, 서비스 아이콘, 스크린샷
-├── scripts/                # 데이터 검증·패키징·스토어 배포 스크립트
-├── tests/                  # node --test 기반 테스트
-├── release-notes/          # 버전별 릴리스 노트
-└── .github/workflows/      # 검증·릴리스·스토어 배포 자동화
+│   ├── version.js             # 업데이트 확인
+│   ├── feedback.js            # 문의 전송
+│   ├── images/                # 카테고리별 서비스 아이콘
+│   └── icons/                 # 확장 프로그램 아이콘
+├── docs/                      # GitHub Pages 랜딩 + 배포/운영 문서
+│   ├── index.html             # 랜딩 페이지
+│   ├── landing.{js,css}       # 랜딩 검색·문의·스타일
+│   └── assets/                # 랜딩 데이터, 서비스 아이콘, 스크린샷
+├── scripts/                   # 데이터 검증·패키징·스토어 배포 스크립트
+├── tests/                     # node --test 기반 테스트
+├── release-notes/             # 버전별 릴리스 노트
+└── .github/workflows/         # 검증·릴리스·스토어 배포 자동화
 ```
 
 ## 🐛 버그 제보 및 기여
