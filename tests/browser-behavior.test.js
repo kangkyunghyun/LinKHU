@@ -119,15 +119,11 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
 });
 
 test("version comparison handles different segment lengths", () => {
-  const context = loadScript(
-    "src/popup.js",
-    "this.VersionManagerForTest = VersionManager;",
-    { chrome: {} },
-  );
+  const VersionManager = require("../src/version");
 
-  assert.equal(context.VersionManagerForTest.compareVersions("2.3.2", "2.3.3"), -1);
-  assert.equal(context.VersionManagerForTest.compareVersions("2.3.2", "2.3.2.0"), 0);
-  assert.equal(context.VersionManagerForTest.compareVersions("3.0.0", "2.9.9"), 1);
+  assert.equal(VersionManager.compareVersions("2.3.2", "2.3.3"), -1);
+  assert.equal(VersionManager.compareVersions("2.3.2", "2.3.2.0"), 0);
+  assert.equal(VersionManager.compareVersions("3.0.0", "2.9.9"), 1);
 });
 
 test("settings storage reports success and runtime errors", () => {
