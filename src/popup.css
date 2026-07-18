@@ -206,6 +206,25 @@ header h1 {
   box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
 }
 
+.feedback-email {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 12.5px;
+}
+
+.feedback-email:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+}
+
 .feedback-actions {
   display: flex;
   justify-content: flex-end;
