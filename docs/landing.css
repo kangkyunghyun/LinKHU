@@ -146,7 +146,8 @@ a {
   gap: 8px;
 }
 
-.desktop-nav a {
+.desktop-nav a,
+.desktop-nav .nav-link-button {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -161,7 +162,15 @@ a {
     background var(--transition-fast);
 }
 
-.desktop-nav a:hover {
+.desktop-nav .nav-link-button {
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.desktop-nav a:hover,
+.desktop-nav .nav-link-button:hover {
   background: var(--color-primary-soft);
   color: var(--color-primary);
 }

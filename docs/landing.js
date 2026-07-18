@@ -232,7 +232,7 @@
   }
 
   function initializeLandingFeedback(documentObject, fetchFunction) {
-    const toggle = documentObject.querySelector("#landing-feedback-toggle");
+    const toggles = documentObject.querySelectorAll("[data-feedback-open]");
     const panel = documentObject.querySelector("#landing-feedback-panel");
     const closeBtn = documentObject.querySelector("#landing-feedback-close");
     const messageInput = documentObject.querySelector("#landing-feedback-message");
@@ -240,13 +240,15 @@
     const sendBtn = documentObject.querySelector("#landing-feedback-send");
     const status = documentObject.querySelector("#landing-feedback-status");
 
-    if (!toggle || !panel || !messageInput || !emailInput || !sendBtn || !status) {
+    if (!toggles.length || !panel || !messageInput || !emailInput || !sendBtn || !status) {
       return;
     }
 
-    toggle.addEventListener("click", () => {
-      panel.showModal();
-      messageInput.focus();
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        panel.showModal();
+        messageInput.focus();
+      });
     });
 
     closeBtn?.addEventListener("click", () => panel.close());
