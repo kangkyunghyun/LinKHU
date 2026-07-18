@@ -321,6 +321,25 @@ h1 {
   box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
 }
 
+.feedback-email {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 7px 10px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #333333;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.feedback-email:focus {
+  outline: none;
+  border-color: #9d2235;
+  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+}
+
 .feedback-actions {
   display: flex;
   justify-content: flex-end;
