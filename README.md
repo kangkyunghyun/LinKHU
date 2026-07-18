@@ -118,6 +118,7 @@ git push origin "v$VERSION"
 Chrome Web Store 자동 배포는 [Chrome Web Store Automation](./docs/chrome-web-store-automation.md)을 따릅니다.
 Firefox Add-ons 자동 배포는 [Firefox Add-ons Automation](./docs/firefox-addons-automation.md)을 따릅니다.
 Whale Store 배포는 [Whale Store Automation Research](./docs/whale-store-automation.md)에 따라 수동 절차를 유지합니다.
+팝업/설정 페이지의 문의 기능 연결은 [문의 채널 설정 가이드](./docs/feedback-setup.md)를 따릅니다.
 
 ## 🐛 버그 제보 및 기여
 

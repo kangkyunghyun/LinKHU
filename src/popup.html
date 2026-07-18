@@ -76,11 +76,40 @@
 
       <p id="empty-message" class="empty-message" hidden>검색 결과 없음</p>
       <div id="grid-container" class="grid-container"></div>
+
+      <div id="feedback-panel" class="feedback-panel" hidden>
+        <textarea
+          id="feedback-message"
+          rows="3"
+          placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
+          aria-label="문의 내용"
+        ></textarea>
+        <div class="feedback-actions">
+          <button id="feedback-send" class="feedback-send" type="button">
+            보내기
+          </button>
+        </div>
+        <p id="feedback-status" class="feedback-status" role="status"></p>
+      </div>
+
+      <footer class="popup-footer">
+        <a
+          id="homepage-link"
+          class="footer-link"
+          href="https://kangkyunghyun.github.io/LinKHU/"
+          >홈페이지</a
+        >
+        <span class="footer-divider" aria-hidden="true">·</span>
+        <button id="feedback-toggle" class="footer-link" type="button">
+          문의하기
+        </button>
+      </footer>
     </div>
 
     <script src="data.js"></script>
     <script src="shared.js"></script>
     <script src="version.js"></script>
+    <script src="feedback.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
