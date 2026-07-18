@@ -74,6 +74,13 @@ header h1 {
   box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
 }
 
+.update-link {
+  color: #ff6b6b;
+  text-decoration: none;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
 .empty-message {
   margin: 22px 0;
   color: #777777;
