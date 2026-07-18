@@ -48,14 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
     학과: document.getElementById("zone-학과"),
   };
 
-  function normalize(value) {
-    return String(value || "").toLowerCase().replace(/\s+/g, "");
-  }
-
   const siteSearchTextById = new Map(
     MASTER_SITE_LIST.map((site) => [
       site.id,
-      normalize(`${site.name}${site.id}${site.category}`),
+      LinKHUShared.normalize(`${site.name}${site.id}${site.category}`),
     ]),
   );
   const listItemById = new Map();
@@ -73,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateSearchResults() {
-    const query = normalize(searchInput?.value);
+    const query = LinKHUShared.normalize(searchInput?.value);
     const activeIds = getActiveIds();
     let visibleCount = 0;
 
@@ -111,8 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   chrome.storage.local.get(["userOrder"], (result) => {
     const activeOrder =
-      result.userOrder ||
-      MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
+      result.userOrder || LinKHUShared.getDefaultOrder(MASTER_SITE_LIST);
 
     MASTER_SITE_LIST.filter((site) => activeOrder.includes(site.id)).forEach(
       (site) => {

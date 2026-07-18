@@ -31,8 +31,13 @@ class FakeElement {
   }
 }
 
-function loadScript(relativePath, additions, overrides = {}) {
-  const source = fs.readFileSync(path.join(PROJECT_ROOT, relativePath), "utf8");
+function loadScript(relativePaths, additions, overrides = {}) {
+  const paths = Array.isArray(relativePaths) ? relativePaths : [relativePaths];
+  const source = paths
+    .map((relativePath) =>
+      fs.readFileSync(path.join(PROJECT_ROOT, relativePath), "utf8"),
+    )
+    .join("\n");
   const context = {
     console,
     setInterval,
@@ -50,38 +55,17 @@ function loadScript(relativePath, additions, overrides = {}) {
 
   vm.createContext(context);
   vm.runInContext(`${source}\n${additions}`, context, {
-    filename: relativePath,
+    filename: paths[paths.length - 1],
   });
   return context;
 }
 
-test("popup search normalizes spaces and letter case", () => {
+test("popup removes duplicate site ids while preserving order", () => {
   const context = loadScript(
-    "src/popup.js",
-    "this.AppForTest = App; this.VersionManagerForTest = VersionManager;",
+    ["src/shared.js", "src/popup.js"],
+    "this.AppForTest = App;",
     { chrome: {} },
   );
-
-  assert.equal(
-    context.AppForTest.matchesSearch(
-      { id: "e-campus", name: "e-Campus", category: "공통" },
-      "e-campus",
-    ),
-    true,
-  );
-  assert.equal(
-    context.AppForTest.matchesSearch(
-      { id: "software", name: "소프트웨어 융합대학", category: "단과대" },
-      context.AppForTest.normalize("소프트웨어융합 대학"),
-    ),
-    true,
-  );
-});
-
-test("popup removes duplicate site ids while preserving order", () => {
-  const context = loadScript("src/popup.js", "this.AppForTest = App;", {
-    chrome: {},
-  });
   const sites = [
     { id: "first" },
     { id: "second" },
@@ -97,7 +81,10 @@ test("popup removes duplicate site ids while preserving order", () => {
 test("popup opens normal, modifier, and middle clicks with expected focus", () => {
   const createdTabs = [];
   let closeCount = 0;
-  const context = loadScript("src/popup.js", "this.AppForTest = App;", {
+  const context = loadScript(
+    ["src/shared.js", "src/popup.js"],
+    "this.AppForTest = App;",
+    {
     chrome: {
       tabs: {
         create(options) {

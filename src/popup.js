@@ -3,15 +3,6 @@ const App = {
   currentItems: [],
   renderToken: 0,
 
-  normalize(value) {
-    return String(value || "").toLowerCase().replace(/\s+/g, "");
-  },
-
-  matchesSearch(item, query) {
-    return [item.name, item.id, item.category]
-      .some((value) => this.normalize(value).includes(query));
-  },
-
   getUniqueSites(sites) {
     const seenIds = new Set();
     return sites.filter((site) => {
@@ -80,18 +71,18 @@ const App = {
     chrome.storage.local.get(["userOrder"], (result) => {
       if (renderToken !== this.renderToken) return;
 
-      const order =
-        result.userOrder ||
-        MASTER_SITE_LIST.filter((s) => s.category === "공통").map((s) => s.id);
+      const order = result.userOrder || LinKHUShared.getDefaultOrder(MASTER_SITE_LIST);
 
       const configuredSites = order
         .map((id) => MASTER_SITE_LIST.find((s) => s.id === id))
         .filter(Boolean);
 
-      const query = this.normalize(this.searchQuery);
+      const query = LinKHUShared.normalize(this.searchQuery);
       const sourceSites = query ? MASTER_SITE_LIST : configuredSites;
       const displaySites = this.getUniqueSites(
-        sourceSites.filter((site) => !query || this.matchesSearch(site, query)),
+        sourceSites.filter(
+          (site) => !query || LinKHUShared.matchesSearch(site, query),
+        ),
       );
       this.currentItems = displaySites;
 
