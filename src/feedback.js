@@ -2,13 +2,12 @@
 // 아래 두 값을 채우면 팝업/설정 페이지의 문의 기능이 활성화된다.
 // Google Forms 전송 주소는 공개돼도 안전하므로 확장 소스에 그대로 둔다.
 const FEEDBACK_CONFIG = {
-  // 예: "https://docs.google.com/forms/d/e/1FAIpQL.../formResponse"
-  formUrl: "",
-  // 예: "entry.123456789" (문의 내용 장문형 질문의 entry ID)
-  messageEntry: "",
-  // 예: "entry.987654321" (답변 받을 이메일 단답형 질문의 entry ID, 선택)
-  // 비워두면 이메일 입력란이 표시되지 않는다.
-  emailEntry: "",
+  formUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSei30Rr122YHmLlixTDEaWtUPY_pM-EQ20kBMLvyu-52Q6IZQ/formResponse",
+  // 문의 내용 장문형 질문의 entry ID
+  messageEntry: "entry.1096769292",
+  // 답변 받을 이메일 단답형 질문의 entry ID. 비워두면 이메일 입력란이 표시되지 않는다.
+  emailEntry: "entry.491031779",
 };
 
 const Feedback = {
