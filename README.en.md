@@ -104,15 +104,27 @@ npm run build
 
 ## 📁 Project Structure
 
-- `src/`: extension source
-- `src/data.js`: supported service list
-- `src/images/`: service icons by category
-- `docs/index.html`: static landing page for GitHub Pages
-- `scripts/`: data validation, packaging, and store publishing scripts
-- `.github/workflows/`: validation, release, and store publishing automation
-- `docs/`: deployment/operation docs
-- `docs/assets/`: images for README and stores
-- `release-notes/`: release notes per version
+```text
+LinKHU/
+├── src/                    # Extension source
+│   ├── manifest.json       #   Extension manifest (version)
+│   ├── data.js             #   Supported service list (single source of truth)
+│   ├── shared.js           #   Search/settings utils shared by popup & options
+│   ├── popup.{html,js,css}    # Popup UI
+│   ├── options.{html,js,css}  # Options page
+│   ├── version.js          #   Update check
+│   ├── feedback.js         #   Feedback submission
+│   ├── images/             #   Service icons by category
+│   └── icons/              #   Extension icons
+├── docs/                   # GitHub Pages landing + operation docs
+│   ├── index.html          #   Landing page
+│   ├── landing.{js,css}    #   Landing search/feedback/styles
+│   └── assets/             #   Landing data, service icons, screenshots
+├── scripts/                # Data validation, packaging, store publishing
+├── tests/                  # node --test based tests
+├── release-notes/          # Release notes per version
+└── .github/workflows/      # Validation, release, store publishing automation
+```
 
 ## 🚢 Release
 
