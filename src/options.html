@@ -111,6 +111,15 @@
           placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
           aria-label="문의 내용"
         ></textarea>
+        <input
+          id="feedback-email"
+          class="feedback-email"
+          type="email"
+          placeholder="답변 받을 이메일 (선택)"
+          aria-label="답변 받을 이메일 (선택)"
+          autocomplete="email"
+          hidden
+        />
         <div class="feedback-actions">
           <button id="feedback-send" class="feedback-send" type="button">
             보내기
