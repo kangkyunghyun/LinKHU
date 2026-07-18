@@ -6,6 +6,9 @@ const FEEDBACK_CONFIG = {
   formUrl: "",
   // 예: "entry.123456789" (문의 내용 장문형 질문의 entry ID)
   messageEntry: "",
+  // 예: "entry.987654321" (답변 받을 이메일 단답형 질문의 entry ID, 선택)
+  // 비워두면 이메일 입력란이 표시되지 않는다.
+  emailEntry: "",
 };
 
 const Feedback = {
@@ -13,17 +16,18 @@ const Feedback = {
     return Boolean(config.formUrl && config.messageEntry);
   },
 
-  createSubmission(message, config = FEEDBACK_CONFIG) {
-    return {
-      url: config.formUrl,
-      body: new URLSearchParams({ [config.messageEntry]: message }),
-    };
+  createSubmission(message, email, config = FEEDBACK_CONFIG) {
+    const body = new URLSearchParams({ [config.messageEntry]: message });
+    if (email && config.emailEntry) {
+      body.set(config.emailEntry, email);
+    }
+    return { url: config.formUrl, body };
   },
 
   // Google Forms는 CORS 응답 헤더를 주지 않으므로 no-cors로 보내고,
   // 네트워크 오류가 없으면 전송된 것으로 간주한다.
-  async submit(message) {
-    const { url, body } = this.createSubmission(message);
+  async submit(message, email) {
+    const { url, body } = this.createSubmission(message, email);
     await fetch(url, { method: "POST", mode: "no-cors", body });
   },
 };
@@ -33,10 +37,16 @@ function initFeedbackForm() {
   const toggle = document.getElementById("feedback-toggle");
   const panel = document.getElementById("feedback-panel");
   const messageInput = document.getElementById("feedback-message");
+  const emailInput = document.getElementById("feedback-email");
   const sendBtn = document.getElementById("feedback-send");
   const status = document.getElementById("feedback-status");
 
   if (!toggle || !panel || !messageInput || !sendBtn || !status) return;
+
+  // 이메일 질문(entry)이 연결된 경우에만 입력란을 보여준다.
+  if (emailInput) {
+    emailInput.hidden = !FEEDBACK_CONFIG.emailEntry;
+  }
 
   toggle.addEventListener("click", () => {
     panel.hidden = !panel.hidden;
@@ -50,6 +60,13 @@ function initFeedbackForm() {
       return;
     }
 
+    const email =
+      emailInput && !emailInput.hidden ? emailInput.value.trim() : "";
+    if (email && !email.includes("@")) {
+      status.textContent = "이메일 주소를 확인해주세요.";
+      return;
+    }
+
     if (!Feedback.isConfigured()) {
       status.textContent =
         "문의 채널이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.";
@@ -60,7 +77,7 @@ function initFeedbackForm() {
     status.textContent = "전송 중...";
 
     try {
-      await Feedback.submit(message);
+      await Feedback.submit(message, email);
       messageInput.value = "";
       status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
     } catch (error) {
