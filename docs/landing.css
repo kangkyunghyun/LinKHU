@@ -1268,6 +1268,82 @@ kbd {
   color: var(--color-primary);
 }
 
+.footer-link-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.footer-link-button:hover {
+  color: var(--color-primary);
+}
+
+.landing-feedback {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 13px;
+  background: var(--color-surface-muted);
+}
+
+.landing-feedback textarea,
+.landing-feedback input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.landing-feedback textarea {
+  resize: vertical;
+}
+
+.landing-feedback textarea:focus,
+.landing-feedback input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 14%, transparent);
+}
+
+.landing-feedback-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.landing-feedback-actions p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.landing-feedback-alt {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 12.5px;
+}
+
+.landing-feedback-alt a {
+  color: var(--color-primary);
+  text-underline-offset: 4px;
+}
+
 .footer-note {
   grid-column: 1 / -1;
   margin: 6px 0 0;

@@ -659,13 +659,15 @@
           >
             지원 서비스<span class="sr-only">(새 창)</span>
           </a>
-          <a
-            href="https://github.com/kangkyunghyun/LinKHU/issues"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            id="landing-feedback-toggle"
+            class="footer-link-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="landing-feedback-panel"
           >
-            문의·제안<span class="sr-only">(새 창)</span>
-          </a>
+            문의·제안
+          </button>
           <a
             href="https://github.com/kangkyunghyun/LinKHU/blob/main/LICENSE"
             target="_blank"
@@ -673,6 +675,41 @@
           >
             MIT License<span class="sr-only">(새 창)</span>
           </a>
+        </div>
+        <div id="landing-feedback-panel" class="landing-feedback" hidden>
+          <label class="sr-only" for="landing-feedback-message">문의 내용</label>
+          <textarea
+            id="landing-feedback-message"
+            rows="3"
+            placeholder="불편한 점이나 추가하고 싶은 서비스를 적어주세요."
+          ></textarea>
+          <label class="sr-only" for="landing-feedback-email">
+            답변 받을 이메일 (선택)
+          </label>
+          <input
+            id="landing-feedback-email"
+            type="email"
+            placeholder="답변 받을 이메일 (선택)"
+            autocomplete="email"
+          >
+          <div class="landing-feedback-actions">
+            <p id="landing-feedback-status" role="status"></p>
+            <button
+              id="landing-feedback-send"
+              class="button button-small button-primary"
+              type="button"
+            >
+              보내기
+            </button>
+          </div>
+          <p class="landing-feedback-alt">
+            버그 제보는
+            <a
+              href="https://github.com/kangkyunghyun/LinKHU/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >GitHub 이슈<span class="sr-only">(새 창)</span></a>로 남겨주시면 더 빠르게 확인할 수 있어요.
+          </p>
         </div>
         <p class="footer-note">
           Designed &amp; built by
