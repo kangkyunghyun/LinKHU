@@ -24,12 +24,8 @@
 
 ## 🔗 경희대학교 자주 찾는 웹서비스 바로가기 제공
 ### 🏫 지원 웹서비스
-총 117개 서비스를 지원합니다.
 
-- 공통 서비스 23개
-- 단과대 26개
-- 학과/전공 68개
-
+교내 공통 서비스, 단과대, 학과/전공까지 총 117개 서비스를 지원하며, 설정 페이지에서 원하는 것만 골라 담을 수 있습니다.
 전체 목록은 [Supported Services](./docs/supported-services.md)에서 확인할 수 있습니다.
 
 ### 🔎 팝업 검색
@@ -80,21 +76,14 @@ LinKHU 팝업은 기본 단축키로 빠르게 열 수 있습니다.
 - Whale: `whale://extensions/shortcuts`
 - Firefox: `about:addons` → 톱니바퀴 메뉴 → 확장 기능 단축키 관리
 
-## 🛠 개발 및 패키징
+## 🛠 개발
 
 ```bash
-npm test
-npm run validate:data
-npm run generate:landing-data
-npm run package
-npm run build
+npm run build   # 테스트 + 데이터 검증 + 패키징을 한 번에 실행
 ```
 
-- `npm test`: 팝업/설정의 핵심 동작, 데이터 검증, 재현 가능한 패키징을 테스트합니다.
-- `npm run validate:data`: `src/data.js`의 사이트 데이터를 검증합니다.
-- `npm run generate:landing-data`: `src/data.js`를 기준으로 랜딩 페이지 검색 데이터와 서비스 아이콘을 갱신합니다.
-- `npm run package`: `src/`를 `dist/linkhu-v{manifest.version}.zip`으로 패키징합니다.
-- `npm run build`: 테스트, 사이트 데이터와 랜딩 검색 데이터 동기화 검증 후 패키징까지 한 번에 실행합니다.
+개별 스크립트는 [package.json](./package.json)의 `scripts`를, 작업 규칙은 [AGENTS.md](./AGENTS.md)를 참고하세요.
+릴리스와 스토어 배포 절차는 [Release Process](./docs/release-process.md)를 따릅니다.
 
 ## 📁 프로젝트 구조
 
@@ -119,27 +108,6 @@ LinKHU/
 ├── release-notes/          # 버전별 릴리스 노트
 └── .github/workflows/      # 검증·릴리스·스토어 배포 자동화
 ```
-
-## 🚢 릴리스
-
-릴리스 준비 PR에서 `src/manifest.json`의 `version`을 수정하고 `release-notes/v{version}.md`를 작성한 뒤 `main`에 머지합니다. 이후 같은 버전 태그를 push하면 GitHub Release가 자동 생성됩니다.
-
-```bash
-git switch main
-git pull --ff-only
-VERSION=$(node -p "require('./src/manifest.json').version")
-git tag "v$VERSION"
-git push origin "v$VERSION"
-```
-
-릴리스 워크플로우는 `npm run build`로 패키징한 ZIP 파일을 첨부하고, `release-notes/v{version}.md` 내용을 릴리스 노트로 사용합니다.
-
-스토어 배포는 [스토어 배포 체크리스트](./docs/store-release-checklist.md)를 따릅니다.
-Chrome Web Store 자동 배포는 [Chrome Web Store Automation](./docs/chrome-web-store-automation.md)을 따릅니다.
-Firefox Add-ons 자동 배포는 [Firefox Add-ons Automation](./docs/firefox-addons-automation.md)을 따릅니다.
-Whale Store 배포는 [Whale Store Automation Research](./docs/whale-store-automation.md)에 따라 수동 절차를 유지합니다.
-스토어 설명은 [Store Listing](./docs/store-listing.md)을 원본으로 관리합니다.
-팝업/설정 페이지의 문의 기능 연결은 [문의 채널 설정 가이드](./docs/feedback-setup.md)를 따릅니다.
 
 ## 🐛 버그 제보 및 기여
 

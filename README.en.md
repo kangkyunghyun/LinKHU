@@ -26,12 +26,7 @@ Jump to Kyung Hee University's most-used web services with a single click.
 
 ### 🏫 Supported Services
 
-117 services are supported.
-
-- 23 common services
-- 26 colleges
-- 68 departments/majors
-
+117 services are supported — campus-wide services, colleges, and departments/majors — and you can pick just the ones you need from the options page.
 See the full list in [Supported Services](./docs/supported-services.md).
 
 ### 🔎 Popup Search
@@ -86,21 +81,14 @@ If the default shortcut conflicts with your browser or another extension, reassi
 
 While the popup is open, press number keys `1–9` to open a shortcut instantly.
 
-## 🛠 Development & Packaging
+## 🛠 Development
 
 ```bash
-npm test
-npm run validate:data
-npm run generate:landing-data
-npm run package
-npm run build
+npm run build   # tests + data validation + packaging in one step
 ```
 
-- `npm test`: tests core popup/options behavior, data validation, and reproducible packaging.
-- `npm run validate:data`: validates the site data in `src/data.js`.
-- `npm run generate:landing-data`: regenerates the landing page search data and service icons from `src/data.js`.
-- `npm run package`: packages `src/` into `dist/linkhu-v{manifest.version}.zip`.
-- `npm run build`: runs tests, data/landing sync validation, and packaging in one step.
+See `scripts` in [package.json](./package.json) for individual commands and [AGENTS.md](./AGENTS.md) for working conventions.
+Release and store deployment steps are documented in [Release Process](./docs/release-process.md).
 
 ## 📁 Project Structure
 
@@ -125,27 +113,6 @@ LinKHU/
 ├── release-notes/          # Release notes per version
 └── .github/workflows/      # Validation, release, store publishing automation
 ```
-
-## 🚢 Release
-
-In a release-prep PR, bump `version` in `src/manifest.json`, write `release-notes/v{version}.md`, and merge to `main`. Pushing the matching version tag then creates a GitHub Release automatically.
-
-```bash
-git switch main
-git pull --ff-only
-VERSION=$(node -p "require('./src/manifest.json').version")
-git tag "v$VERSION"
-git push origin "v$VERSION"
-```
-
-The release workflow attaches the ZIP packaged by `npm run build` and uses `release-notes/v{version}.md` as the release notes.
-
-Store deployment follows the [Store Release Checklist](./docs/store-release-checklist.md).
-Chrome Web Store publishing follows [Chrome Web Store Automation](./docs/chrome-web-store-automation.md).
-Firefox Add-ons publishing follows [Firefox Add-ons Automation](./docs/firefox-addons-automation.md).
-Whale Store publishing remains manual per [Whale Store Automation Research](./docs/whale-store-automation.md).
-Store descriptions are maintained in [Store Listing](./docs/store-listing.md).
-The feedback channel setup is documented in the [Feedback Setup Guide](./docs/feedback-setup.md).
 
 ## 🐛 Bug Reports & Contributing
 

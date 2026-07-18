@@ -121,6 +121,8 @@ PR: feat: 공통 서비스 바로가기 추가
 
 ## 릴리스 준비 규칙
 
+전체 절차는 [Release Process](docs/release-process.md)를 따른다.
+
 - 릴리스 준비 PR에서는 `src/manifest.json`의 `version`을 변경한다.
 - 같은 PR에서 `release-notes/v{version}.md` 파일을 기존 릴리스 노트 형식에 맞춰 작성한다.
 - 릴리스 노트는 사용자에게 보이는 변경 사항 중심으로 작성한다.
