@@ -14,6 +14,7 @@
   --color-muted: #675d60;
   --color-border: #e6dedb;
   --color-border-strong: #d5c8c5;
+  --color-control-border: #767676;
   --color-focus: #2563eb;
   --color-focus-ring: rgba(37, 99, 235, 0.22);
   --color-danger: #b42336;
@@ -43,6 +44,7 @@
   --color-muted: #c0b4b7;
   --color-border: #3b3033;
   --color-border-strong: #58474c;
+  --color-control-border: #807075;
   --color-focus: #73a7ff;
   --color-focus-ring: rgba(115, 167, 255, 0.3);
   --color-danger: #ff9caf;

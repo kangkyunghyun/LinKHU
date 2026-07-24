@@ -31,7 +31,7 @@ const App = {
 
     const img = document.createElement("img");
     img.src = item.imgSrc;
-    img.alt = item.name;
+    img.alt = "";
     img.draggable = false;
 
     img.onerror = () => {

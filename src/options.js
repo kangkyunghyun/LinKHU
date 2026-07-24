@@ -5,8 +5,12 @@ const ThemeSettings = {
     dark: "다크 테마를 적용했습니다.",
   },
   inputs: [],
+  setting: null,
   status: null,
   saving: false,
+  pendingPreference: null,
+  lastConfirmedPreference: "system",
+  saveRequestId: 0,
 
   render(preference) {
     this.inputs.forEach((input) => {
@@ -14,10 +18,8 @@ const ThemeSettings = {
     });
   },
 
-  setDisabled(disabled) {
-    this.inputs.forEach((input) => {
-      input.disabled = disabled;
-    });
+  setBusy(busy) {
+    this.setting?.setAttribute("aria-busy", String(busy));
   },
 
   setStatus(message, state = "") {
@@ -30,31 +32,57 @@ const ThemeSettings = {
     this.inputs = Array.from(
       document.querySelectorAll('input[name="theme"]'),
     );
+    this.setting = document.querySelector(".theme-setting");
     this.status = document.getElementById("theme-status");
     if (!this.inputs.length || typeof LinKHUTheme === "undefined") return;
 
     LinKHUTheme.subscribe(({ preference }) => {
-      this.render(preference);
-      if (!this.saving) {
-        this.setStatus(this.descriptions[preference]);
+      if (this.saving && this.pendingPreference) {
+        if (preference !== this.pendingPreference) {
+          LinKHUTheme.applyPreference(this.pendingPreference);
+        }
+        this.render(this.pendingPreference);
+        return;
       }
+
+      this.lastConfirmedPreference = preference;
+      this.render(preference);
+      this.setStatus(this.descriptions[preference]);
     });
 
     this.inputs.forEach((input) => {
       input.addEventListener("change", () => {
-        if (!input.checked || this.saving) return;
+        if (!input.checked) return;
 
-        const previousPreference = LinKHUTheme.currentPreference;
+        const requestedPreference = input.value;
+        const requestId = ++this.saveRequestId;
         this.saving = true;
-        this.setDisabled(true);
+        this.pendingPreference = requestedPreference;
+        this.setBusy(true);
+        this.render(requestedPreference);
+        LinKHUTheme.applyPreference(requestedPreference);
         this.setStatus("테마 설정을 저장하는 중입니다.");
 
-        LinKHUTheme.savePreference(input.value, (error, savedPreference) => {
+        LinKHUTheme.savePreference(requestedPreference, (error, savedPreference) => {
+          if (!error) {
+            this.lastConfirmedPreference = savedPreference;
+          }
+
+          if (requestId !== this.saveRequestId) {
+            if (this.pendingPreference) {
+              LinKHUTheme.applyPreference(this.pendingPreference);
+              this.render(this.pendingPreference);
+            }
+            return;
+          }
+
           this.saving = false;
-          this.setDisabled(false);
+          this.pendingPreference = null;
+          this.setBusy(false);
 
           if (error) {
-            this.render(previousPreference);
+            LinKHUTheme.applyPreference(this.lastConfirmedPreference);
+            this.render(this.lastConfirmedPreference);
             this.setStatus(
               "테마를 저장하지 못했습니다. 잠시 후 다시 시도해주세요.",
               "error",

@@ -89,7 +89,7 @@ body {
   height: 36px;
   padding: 0 12px 0 33px;
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-control-border);
   border-radius: 8px;
   background: var(--color-surface);
   color: var(--color-foreground);
@@ -249,7 +249,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 10px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-control-border);
   border-radius: 8px;
   background: var(--color-surface);
   color: var(--color-foreground);
@@ -269,7 +269,7 @@ body {
   box-sizing: border-box;
   margin-top: 6px;
   padding: 7px 10px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-control-border);
   border-radius: 8px;
   background: var(--color-surface);
   color: var(--color-foreground);
@@ -345,4 +345,11 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-item:hover,
+  .grid-item:active {
+    transform: none;
+  }
 }

@@ -163,3 +163,87 @@ test("settings storage reports success and runtime errors", () => {
   });
   assert.equal(receivedError.message, "quota exceeded");
 });
+
+test("theme settings keeps the latest rapid selection", () => {
+  function createThemeInput(value) {
+    const listeners = new Map();
+    return {
+      value,
+      checked: false,
+      addEventListener(type, listener) {
+        listeners.set(type, listener);
+      },
+      dispatchChange() {
+        listeners.get("change")?.();
+      },
+    };
+  }
+
+  const inputs = ["system", "light", "dark"].map(createThemeInput);
+  const settingAttributes = {};
+  const setting = {
+    setAttribute(name, value) {
+      settingAttributes[name] = value;
+    },
+  };
+  const status = { textContent: "", dataset: {} };
+  const subscribers = [];
+  const pendingSaves = [];
+  const LinKHUTheme = {
+    currentPreference: "system",
+    subscribe(listener) {
+      subscribers.push(listener);
+      listener({ preference: this.currentPreference, theme: this.currentPreference });
+    },
+    applyPreference(preference) {
+      this.currentPreference = preference;
+      subscribers.forEach((listener) =>
+        listener({ preference, theme: preference }),
+      );
+    },
+    savePreference(preference, callback) {
+      pendingSaves.push({ preference, callback });
+    },
+  };
+  const document = {
+    addEventListener() {},
+    querySelectorAll(selector) {
+      return selector === 'input[name="theme"]' ? inputs : [];
+    },
+    querySelector(selector) {
+      return selector === ".theme-setting" ? setting : null;
+    },
+    getElementById(id) {
+      return id === "theme-status" ? status : null;
+    },
+  };
+  const context = loadScript(
+    "src/options.js",
+    "this.ThemeSettingsForTest = ThemeSettings;",
+    { chrome: {}, document, LinKHUTheme },
+  );
+
+  context.ThemeSettingsForTest.init();
+  inputs[0].checked = false;
+  inputs[1].checked = true;
+  inputs[1].dispatchChange();
+  inputs[1].checked = false;
+  inputs[2].checked = true;
+  inputs[2].dispatchChange();
+
+  assert.deepEqual(
+    pendingSaves.map(({ preference }) => preference),
+    ["light", "dark"],
+  );
+  assert.equal(settingAttributes["aria-busy"], "true");
+
+  pendingSaves.forEach(({ preference, callback }) => {
+    LinKHUTheme.applyPreference(preference);
+    callback(null, preference);
+  });
+
+  assert.equal(LinKHUTheme.currentPreference, "dark");
+  assert.equal(inputs[2].checked, true);
+  assert.equal(status.textContent, "다크 테마를 적용했습니다.");
+  assert.equal(settingAttributes["aria-busy"], "false");
+});
