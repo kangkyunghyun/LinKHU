@@ -36,6 +36,10 @@ Search shortcuts by service name, ID, or category from the search bar at the top
 - Services whose names match come first, and pressing `Enter` opens the top result in the current tab.
 - When the search bar is empty, your saved shortcuts from the options page are shown.
 
+### 🎨 Appearance
+
+Choose **System**, **Light**, or **Dark** from the options page. The default System setting follows operating-system theme changes in real time, while an explicit Light or Dark choice takes priority.
+
 ### 💬 Feedback
 
 Use the **Feedback** form at the bottom of the popup or the options page to send suggestions directly — no GitHub account required. Leave your email if you would like a reply.
@@ -98,6 +102,7 @@ LinKHU/
 │   ├── manifest.json          # Extension manifest (version)
 │   ├── data.js                # Supported service list (single source of truth)
 │   ├── shared.js              # Search/settings utils shared by popup & options
+│   ├── theme.{js,css}         # Shared system/light/dark theme
 │   ├── popup.{html,js,css}    # Popup UI
 │   ├── options.{html,js,css}  # Options page
 │   ├── version.js             # Update check

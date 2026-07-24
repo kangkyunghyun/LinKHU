@@ -1,3 +1,75 @@
+const ThemeSettings = {
+  descriptions: {
+    system: "운영체제의 테마 설정을 따릅니다.",
+    light: "라이트 테마를 적용했습니다.",
+    dark: "다크 테마를 적용했습니다.",
+  },
+  inputs: [],
+  status: null,
+  saving: false,
+
+  render(preference) {
+    this.inputs.forEach((input) => {
+      input.checked = input.value === preference;
+    });
+  },
+
+  setDisabled(disabled) {
+    this.inputs.forEach((input) => {
+      input.disabled = disabled;
+    });
+  },
+
+  setStatus(message, state = "") {
+    if (!this.status) return;
+    this.status.textContent = message;
+    this.status.dataset.state = state;
+  },
+
+  init() {
+    this.inputs = Array.from(
+      document.querySelectorAll('input[name="theme"]'),
+    );
+    this.status = document.getElementById("theme-status");
+    if (!this.inputs.length || typeof LinKHUTheme === "undefined") return;
+
+    LinKHUTheme.subscribe(({ preference }) => {
+      this.render(preference);
+      if (!this.saving) {
+        this.setStatus(this.descriptions[preference]);
+      }
+    });
+
+    this.inputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!input.checked || this.saving) return;
+
+        const previousPreference = LinKHUTheme.currentPreference;
+        this.saving = true;
+        this.setDisabled(true);
+        this.setStatus("테마 설정을 저장하는 중입니다.");
+
+        LinKHUTheme.savePreference(input.value, (error, savedPreference) => {
+          this.saving = false;
+          this.setDisabled(false);
+
+          if (error) {
+            this.render(previousPreference);
+            this.setStatus(
+              "테마를 저장하지 못했습니다. 잠시 후 다시 시도해주세요.",
+              "error",
+            );
+            return;
+          }
+
+          this.render(savedPreference);
+          this.setStatus(this.descriptions[savedPreference]);
+        });
+      });
+    });
+  },
+};
+
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -335,6 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  ThemeSettings.init();
   initShortcutGuide();
   SearchPanel.init();
   DragController.init();

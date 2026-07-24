@@ -2,15 +2,45 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <title>LinKHU 설정</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
     <div class="container">
-      <h1>⚙️ LinKHU 설정</h1>
-      <p class="info">
-        원하는 사이트를 드래그하여 오른쪽 '내 바로가기'로 옮겨주세요.
-      </p>
+      <header class="page-header">
+        <div class="page-heading">
+          <p class="eyebrow">LinKHU</p>
+          <h1>설정</h1>
+          <p class="info">
+            원하는 사이트를 드래그하여 오른쪽 '내 바로가기'로 옮겨주세요.
+          </p>
+        </div>
+
+        <fieldset class="theme-setting" aria-describedby="theme-status">
+          <legend>화면 테마</legend>
+          <div class="theme-options">
+            <label>
+              <input type="radio" name="theme" value="system" checked />
+              <span>시스템 설정</span>
+            </label>
+            <label>
+              <input type="radio" name="theme" value="light" />
+              <span>라이트</span>
+            </label>
+            <label>
+              <input type="radio" name="theme" value="dark" />
+              <span>다크</span>
+            </label>
+          </div>
+          <p id="theme-status" class="theme-status" role="status" aria-live="polite">
+            운영체제의 테마 설정을 따릅니다.
+          </p>
+        </fieldset>
+      </header>
 
       <div id="shortcut-guide" class="shortcut-guide" hidden>
         <strong>단축키가 설정되어 있지 않습니다.</strong>
@@ -45,6 +75,20 @@
         <div class="column">
           <h2>사용 가능한 사이트</h2>
           <div class="option-search">
+            <svg
+              class="search-icon"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="m20 20-3.5-3.5"></path>
+            </svg>
             <input
               id="site-search"
               type="search"
@@ -81,8 +125,7 @@
           <div class="scroll-area">
             <div
               id="active-list"
-              class="drop-zone"
-              style="min-height: 100%"
+              class="drop-zone active-list"
             ></div>
           </div>
         </div>

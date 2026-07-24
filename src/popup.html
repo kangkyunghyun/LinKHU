@@ -3,55 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
     <title>LinKHU</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <div class="container">
-      <header
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100%;
-          margin-bottom: 10px;
-        "
-      >
-        <div style="display: flex; align-items: baseline;">
-          <h1
-            style="
-              margin: 0;
-              font-size: 20px;
-              font-weight: 700;
-              color: #9d2235;
-              line-height: 1;
-            "
-          >
-            LinKHU
-          </h1>
-          <span id="current-version" style="font-size: 12px; color: #666; margin-left: 8px;"></span>
+      <header class="popup-header">
+        <div class="brand-row">
+          <h1 class="popup-title">LinKHU</h1>
+          <span id="current-version" class="current-version"></span>
           <span id="update-message"></span>
         </div>
 
         <button
           id="settings-btn"
-          style="
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            margin-top: -6px;
-          "
+          class="settings-button"
+          type="button"
           title="설정"
+          aria-label="LinKHU 설정 열기"
         >
           <svg
             width="20"
             height="20"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#9d2235"
+            stroke="currentColor"
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -65,6 +44,20 @@
       </header>
 
       <div class="search-bar">
+        <svg
+          class="search-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
         <input
           id="service-search"
           type="search"

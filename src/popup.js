@@ -38,10 +38,15 @@ const App = {
       img.src = "icons/icon48.png";
     };
 
+    const iconTile = document.createElement("span");
+    iconTile.className = "grid-item-icon";
+    iconTile.appendChild(img);
+
     const span = document.createElement("span");
+    span.className = "site-name";
     span.textContent = item.name;
 
-    el.appendChild(img);
+    el.appendChild(iconTile);
     el.appendChild(span);
 
     el.addEventListener("click", (e) => {
