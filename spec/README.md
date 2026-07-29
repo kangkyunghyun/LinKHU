@@ -39,10 +39,10 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 2-2   OPERATOR-REQUIREMENTS          메인테이너가 무엇을 유지해야 하는가
 3-1   DESIGN-SOFTWARE-ARCHITECTURE   3개 화면과 데이터 흐름, 저장소 사용
 3-2   DESIGN-UI-RULES                공식 색상표, 디자인 토큰 규칙, 다크 테마 스펙
-3-3   DESIGN-DECISIONS               주요 결정과 그렇게 하지 않은 이유
-4     DATA                           MASTER_SITE_LIST 스키마와 검증 파이프라인
-5     TESTING                        자동 테스트 범위, 수동 검증 매트릭스, 오류 처리
-7     DEPLOYMENT                     릴리스와 스토어 배포 요약
+3-3   DESIGN-DECISIONS               결정 14건 — 무엇을 택했고 무엇을 거부했는가
+4     DATA                           MASTER_SITE_LIST 스키마, 검증 파이프라인, 데이터 함정
+5     TESTING                        자동 테스트, 수동 검증, 검증 환경, 오류 처리
+7     DEPLOYMENT                     릴리스와 스토어 배포, 자격 증명, 배포 후 확인
 ```
 
 6번 관측 레이어는 만들지 않는다. LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않으므로 관측할 수단 자체가 없다. 근거는 [3-3 결정 기록](3-3-DESIGN-DECISIONS.md)을 참고한다.
@@ -51,15 +51,15 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 
 | 문서 | 책임 |
 | --- | --- |
-| [1-BACKGROUND.md](1-BACKGROUND.md) | 제품이 무엇이고 어디까지가 범위인지, 어떤 기술 위에 서 있는지 |
-| [2-1-USER-STORIES.md](2-1-USER-STORIES.md) | 학생 사용자의 핵심 사용 사례와 완료 조건 |
-| [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응의 운영 요구사항 |
+| [1-BACKGROUND.md](1-BACKGROUND.md) | 제품이 무엇이고 어디까지가 범위인지, 어떤 기술 위에 서 있는지, 검토 중인 범위 확장 |
+| [2-1-USER-STORIES.md](2-1-USER-STORIES.md) | 학생 사용자의 핵심 사용 사례와 완료 조건, 접근성 후속 과제 |
+| [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리와 응대 방침 |
 | [3-1-DESIGN-SOFTWARE-ARCHITECTURE.md](3-1-DESIGN-SOFTWARE-ARCHITECTURE.md) | 화면 구성, 스크립트 로드 순서, 공용 유틸, 저장소, 랜딩 데이터 파생 흐름 |
-| [3-2-DESIGN-UI-RULES.md](3-2-DESIGN-UI-RULES.md) | 경희대 공식 색상표, 디자인 토큰 SSOT 규칙, 확장-랜딩 우선순위, 다크 테마 확정 스펙 |
-| [3-3-DESIGN-DECISIONS.md](3-3-DESIGN-DECISIONS.md) | 빌드리스 구성, MV3, 최소 권한, Pages 랜딩, PR #98 반려 등 결정 기록 |
-| [4-DATA.md](4-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
-| [5-TESTING.md](5-TESTING.md) | `npm test` 범위, 화면별 수동 검증 매트릭스, 오류 처리와 폴백 |
-| [7-DEPLOYMENT.md](7-DEPLOYMENT.md) | 검증·릴리스·배포 워크플로 요약과 상세 문서 링크 |
+| [3-2-DESIGN-UI-RULES.md](3-2-DESIGN-UI-RULES.md) | 경희대 공식 색상표와 대비 실측, 디자인 토큰 SSOT 규칙, 확장-랜딩 우선순위, 다크 테마 확정 스펙 |
+| [3-3-DESIGN-DECISIONS.md](3-3-DESIGN-DECISIONS.md) | 구성·기술, 데이터·제품, 릴리스·플랫폼, 랜딩·기여에 걸친 결정 14건의 배경·대안·영향 |
+| [4-DATA.md](4-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약, URL 점검 함정 |
+| [5-TESTING.md](5-TESTING.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경 준비, 특별 검증 절차, 오류 처리 |
+| [7-DEPLOYMENT.md](7-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지, 상세 문서 링크 |
 
 ## 변경 원칙
 
