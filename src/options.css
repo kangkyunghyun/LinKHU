@@ -29,7 +29,7 @@ body {
 }
 
 h1 {
-  color: #9d2235;
+  color: var(--color-primary);
   text-align: center;
   margin: 0 0 4px;
 }
@@ -43,9 +43,9 @@ h1 {
 .shortcut-guide {
   margin-bottom: 18px;
   padding: 14px 16px;
-  border: 1px solid #f1c7cf;
+  border: 1px solid var(--color-primary-border);
   border-radius: 8px;
-  background: #fff7f8;
+  background: var(--color-primary-soft);
   color: #333;
   font-size: 13px;
 }
@@ -53,7 +53,7 @@ h1 {
 .shortcut-guide strong {
   display: block;
   margin-bottom: 6px;
-  color: #9d2235;
+  color: var(--color-primary);
 }
 
 .shortcut-guide p {
@@ -74,7 +74,7 @@ h1 {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #9d2235;
+  color: var(--color-primary);
   cursor: pointer;
   font: inherit;
   font-weight: 600;
@@ -149,8 +149,8 @@ h1 {
 }
 
 .option-search input:focus {
-  border-color: #9d2235;
-  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .search-empty-message {
@@ -190,7 +190,7 @@ h1 {
 .category-title {
   font-size: 13px;
   font-weight: bold;
-  color: #9d2235;
+  color: var(--color-primary);
   margin: 0 0 10px 5px;
 }
 
@@ -225,8 +225,8 @@ h1 {
 
 .list-item.dragging {
   opacity: 0.5;
-  background: #ffe3e3;
-  border-color: #9d2235;
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
 }
 
 .list-item img {
@@ -253,7 +253,7 @@ h1 {
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: #9d2235;
+  background-color: var(--color-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -264,7 +264,7 @@ h1 {
 }
 
 .save-btn:hover {
-  background-color: #7a1a29;
+  background-color: var(--color-primary-strong);
 }
 
 .options-footer {
@@ -288,7 +288,7 @@ h1 {
 }
 
 .footer-link:hover {
-  color: #9d2235;
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
@@ -317,8 +317,8 @@ h1 {
 
 .feedback-panel textarea:focus {
   outline: none;
-  border-color: #9d2235;
-  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .feedback-email {
@@ -336,8 +336,8 @@ h1 {
 
 .feedback-email:focus {
   outline: none;
-  border-color: #9d2235;
-  box-shadow: 0 0 0 3px rgba(157, 34, 53, 0.12);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
 }
 
 .feedback-actions {
@@ -350,7 +350,7 @@ h1 {
   padding: 6px 16px;
   border: none;
   border-radius: 6px;
-  background: #9d2235;
+  background: var(--color-primary);
   color: #ffffff;
   font-family: inherit;
   font-size: 13px;

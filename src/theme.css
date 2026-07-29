@@ -1,0 +1,24 @@
+/*
+ * LinKHU 디자인 토큰
+ *
+ * 브랜드 색상은 경희대학교 공식 Kyung Hee Red를 사용한다.
+ * PANTONE 201C / RGB(164, 15, 22) / #a40f16
+ *
+ * 파생값은 모두 같은 색상(hue 357°) 계열이며, 용도별 시맨틱 이름으로 노출한다.
+ * 새 화면에서 브랜드 레드가 필요하면 hex를 직접 쓰지 말고 이 토큰을 참조한다.
+ */
+:root {
+  /* primary 3종은 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* 로고, 강조 텍스트, 기본 버튼 배경 */
+  --color-primary: #a40f16;
+  /* 기본 버튼 hover 등 눌린 상태 */
+  --color-primary-strong: #790b11;
+  /* 안내 박스, 드래그 중 항목처럼 옅게 깔리는 배경 */
+  --color-primary-soft: #fdeeef;
+  /* 옅은 배경 영역과 카드 hover 테두리 */
+  --color-primary-border: #f4bfc3;
+  /* 입력 요소 focus ring */
+  --color-primary-ring: rgba(164, 15, 22, 0.12);
+  /* 카드 hover 그림자 */
+  --color-primary-shadow: rgba(164, 15, 22, 0.15);
+}
