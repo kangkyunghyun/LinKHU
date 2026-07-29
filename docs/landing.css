@@ -1,8 +1,9 @@
 :root {
   color-scheme: light;
+  /* primary 3종은 src/theme.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
   --color-primary: #a40f16;
   --color-primary-strong: #790b11;
-  --color-primary-soft: #fae8e9;
+  --color-primary-soft: #fdeeef;
   --color-accent: #a87827;
   --color-background: #fbfaf8;
   --color-surface: #ffffff;
@@ -1811,7 +1812,7 @@ kbd {
 
   .feature-card-accent,
   .cta-card {
-    background-color: #8f1d31;
+    background-color: #a40f16;
   }
 
   .mini-list {

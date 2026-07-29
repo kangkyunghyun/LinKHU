@@ -8,6 +8,7 @@
  * 새 화면에서 브랜드 레드가 필요하면 hex를 직접 쓰지 말고 이 토큰을 참조한다.
  */
 :root {
+  /* primary 3종은 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
   /* 로고, 강조 텍스트, 기본 버튼 배경 */
   --color-primary: #a40f16;
   /* 기본 버튼 hover 등 눌린 상태 */
