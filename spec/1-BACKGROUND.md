@@ -105,6 +105,7 @@ src/            확장 프로그램 소스. 이 폴더 전체가 패키징 대�
   popup.html/css/js 팝업 화면
   options.html/css/js 설정 화면
   theme.css         디자인 토큰 (색상 SSOT)
+  theme.js          테마 모드 해석·저장·적용
   data.js           MASTER_SITE_LIST — 지원 서비스 단일 소스
   shared.js         팝업·설정 공용 검색/정렬 유틸
   version.js        현재 버전 표시와 업데이트 안내
