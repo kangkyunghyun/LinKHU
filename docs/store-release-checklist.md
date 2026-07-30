@@ -34,6 +34,8 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 
 기본 배포 경로는 [Chrome Web Store Automation](./chrome-web-store-automation.md)의 `Publish Chrome Web Store` 워크플로우다. 워크플로우 실행 후 대시보드에서 심사 제출 상태를 확인하며, 아래 수동 절차는 자동 배포 실패 또는 긴급 fallback이 필요할 때 사용한다.
 
+- **워크플로우를 돌리기 전에 `CHROME_REFRESH_TOKEN` 만료 여부를 먼저 확인한다.** OAuth 동의 화면이 테스트 게시 상태면 토큰이 7일 만에 만료되어 `Publish to Chrome Web Store` 단계에서 `invalid_grant`로 멈춘다. 증상·근본 해결·재발급 절차는 [토큰 만료 대응](./chrome-web-store-automation.md#토큰-만료-대응)에 있다.
+
 - [Chrome Developer Dashboard](https://chrome.google.com/webstore/devconsole)에 접속한다.
 - LinKHU 아이템을 선택한다.
 - 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
