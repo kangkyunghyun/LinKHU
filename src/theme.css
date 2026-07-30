@@ -5,20 +5,68 @@
  * PANTONE 201C / RGB(164, 15, 22) / #a40f16
  *
  * 파생값은 모두 같은 색상(hue 357°) 계열이며, 용도별 시맨틱 이름으로 노출한다.
- * 새 화면에서 브랜드 레드가 필요하면 hex를 직접 쓰지 말고 이 토큰을 참조한다.
+ * 새 화면에서 색이 필요하면 hex를 직접 쓰지 말고 이 토큰을 참조한다.
+ *
+ * 테마는 theme.js가 문서 루트의 data-theme에 해석된 값(light/dark)을 넣어 결정한다.
+ * 사용자가 고른 모드(system/light/dark)와 구분한다 — system은 여기까지 오지 않는다.
+ *
+ * 토큰 계약과 대비 기준은 spec/3-2-DESIGN-UI-RULES.md의 3-2-5-4, 3-2-5-5가 원본이다.
  */
-:root {
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* 주색 계열 */
   /* primary 3종은 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
-  /* 로고, 강조 텍스트, 기본 버튼 배경 */
   --color-primary: #a40f16;
-  /* 기본 버튼 hover 등 눌린 상태 */
   --color-primary-strong: #790b11;
-  /* 안내 박스, 드래그 중 항목처럼 옅게 깔리는 배경 */
   --color-primary-soft: #fdeeef;
-  /* 옅은 배경 영역과 카드 hover 테두리 */
   --color-primary-border: #f4bfc3;
-  /* 입력 요소 focus ring */
   --color-primary-ring: rgba(164, 15, 22, 0.12);
-  /* 카드 hover 그림자 */
   --color-primary-shadow: rgba(164, 15, 22, 0.15);
+  /* 주색 배경 위에 올라가는 텍스트 */
+  --color-on-primary: #ffffff;
+
+  /* 중성 계열 */
+  --color-surface: #f8f9fa;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #f1f3f5;
+  --color-field: #ffffff;
+  --color-text: #333333;
+  --color-text-muted: #666666;
+  --color-border: #dddddd;
+  --color-border-strong: #8a8a8a;
+  --color-shadow: rgba(0, 0, 0, 0.05);
+
+  /* 기능색 — 새 버전 안내 */
+  --color-notice: #a8321f;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 주색 계열 — 어두운 배경에서 대비를 확보한 밝은 파생값 */
+  --color-primary: #e08589;
+  --color-primary-strong: #e9a5a9;
+  --color-primary-soft: #3a2a2c;
+  --color-primary-border: #5c3f43;
+  --color-primary-ring: rgba(224, 133, 137, 0.28);
+  /* 어두운 배경에서 붉은 그림자는 번짐으로 보여 깊이를 만들지 못한다. */
+  --color-primary-shadow: rgba(0, 0, 0, 0.45);
+  /* 밝은 주색 위에는 흰 텍스트가 2.66:1로 미달이라 어두운 텍스트를 쓴다. */
+  --color-on-primary: #211d1f;
+
+  /* 중성 계열 */
+  --color-surface: #171415;
+  --color-surface-raised: #211d1f;
+  --color-surface-sunken: #1e1a1c;
+  --color-field: #262123;
+  --color-text: #f0e9ea;
+  --color-text-muted: #b9adaf;
+  --color-border: #352e30;
+  --color-border-strong: #8d8285;
+  --color-shadow: rgba(0, 0, 0, 0.45);
+
+  /* 기능색 — 새 버전 안내 */
+  --color-notice: #ffab91;
 }

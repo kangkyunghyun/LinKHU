@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>LinKHU 설정</title>
+    <!-- 첫 페인트 전에 테마 표식을 붙여야 하므로 스타일시트보다 먼저 로드한다. -->
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="options.css" />
   </head>
@@ -90,6 +92,23 @@
       </div>
 
       <button id="save-btn" class="save-btn">변경사항 저장하기</button>
+
+      <fieldset class="theme-control">
+        <legend class="theme-legend">테마</legend>
+        <label class="theme-option">
+          <input type="radio" name="theme-mode" value="system" />
+          시스템 설정
+        </label>
+        <label class="theme-option">
+          <input type="radio" name="theme-mode" value="light" />
+          라이트
+        </label>
+        <label class="theme-option">
+          <input type="radio" name="theme-mode" value="dark" />
+          다크
+        </label>
+        <span id="theme-status" class="theme-status" role="status"></span>
+      </fieldset>
 
       <footer class="options-footer">
         <a

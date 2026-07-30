@@ -30,12 +30,17 @@
 번들러가 없으므로 각 스크립트는 전역 객체를 노출하고, HTML이 순서대로 로드해 결합한다.
 
 ```text
-popup.html    data.js → shared.js → version.js → feedback.js → popup.js
-options.html  data.js → shared.js → feedback.js → options.js
+popup.html    <head> theme.js
+              <body 끝> data.js → shared.js → version.js → feedback.js → popup.js
+options.html  <head> theme.js
+              <body 끝> data.js → shared.js → feedback.js → options.js
 ```
+
+`theme.js`만 `<head>`에서 동기 로드한다 (MUST). 테마 표식을 첫 페인트 전에 붙여야 하기 때문이며, 근거는 [3-2](3-2-DESIGN-UI-RULES.md)에 있다. 나머지는 본문 뒤에서 로드한다.
 
 | 파일 | 노출하는 전역 | 책임 |
 | --- | --- | --- |
+| `theme.js` | `ThemeManager` | 테마 모드 해석·저장·적용 |
 | `data.js` | `MASTER_SITE_LIST` | 지원 서비스 배열 |
 | `shared.js` | `LinKHUShared` | 검색 정규화·점수·정렬, 기본 순서 |
 | `version.js` | `VersionManager` | 현재 버전 표시, 최신 릴리스 비교, 스토어 링크 |
@@ -71,6 +76,7 @@ options.html  data.js → shared.js → feedback.js → options.js
 | 키 | 값 | 쓰는 곳 |
 | --- | --- | --- |
 | `userOrder` | 서비스 id 배열 | 설정에서 저장, 팝업·설정에서 읽음 |
+| `themeMode` | `"system"` \| `"light"` \| `"dark"` | 설정에서 저장, 팝업·설정에서 읽음 |
 | `latestReleaseVersion` | 최신 릴리스 버전 문자열 | `version.js` |
 | `latestReleaseVersionTime` | 위 값의 조회 시각(ms) | `version.js` |
 
@@ -93,7 +99,9 @@ options.html  data.js → shared.js → feedback.js → options.js
 - 지워지거나 손상되어도 기능이 깨지지 않아야 한다 (MUST). 다시 조회하면 복구되는 값이다.
 - 저장 실패를 사용자에게 알리지 않는다 (MUST). 사용자가 한 일이 아니므로 알릴 대상이 아니고, 다음 조회에서 자연히 해소된다.
 
-앞으로 새 키를 추가할 때는 **어느 쪽인지 먼저 정한다** (MUST). 사용자 설정이면 저장 시점을 사용자가 통제해야 하고, 캐시면 조용히 관리한다. 테마 모드는 사용자 설정이지만 즉시 반영형으로 다루며, 근거는 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
+앞으로 새 키를 추가할 때는 **어느 쪽인지 먼저 정한다** (MUST). 사용자 설정이면 저장 시점을 사용자가 통제해야 하고, 캐시면 조용히 관리한다.
+
+`themeMode`는 사용자 설정이지만 **즉시 반영형**이라 저장 버튼을 거치지 않는다. 대신 저장에 실패하면 화면과 컨트롤을 직전 값으로 되돌린다. 규칙과 근거는 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
 
 팝업 렌더링은 `chrome.storage.local.get` 콜백 안에서 이뤄지는 비동기 흐름이다. 검색어를 빠르게 입력하면 이전 요청의 콜백이 나중에 도착할 수 있으므로, 렌더 토큰으로 최신 요청만 반영한다 (MUST).
 

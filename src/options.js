@@ -298,6 +298,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 테마는 즉시 반영형이라 저장 버튼을 거치지 않는다.
+  // 저장에 실패하면 ThemeManager가 화면을 되돌리므로, 여기서는 라디오 선택과
+  // 안내 문구를 되돌린 모드에 맞춰준다.
+  function initThemeControl() {
+    const themeInputs = Array.from(
+      document.querySelectorAll('input[name="theme-mode"]'),
+    );
+    if (themeInputs.length === 0) return;
+
+    const themeStatus = document.getElementById("theme-status");
+
+    function markSelectedMode(mode) {
+      themeInputs.forEach((input) => {
+        input.checked = input.value === mode;
+      });
+    }
+
+    // 저장소는 ThemeManager가 이미 읽고 있다. 여기서 또 읽으면 두 결과가
+    // 서로를 덮어쓸 수 있으므로, 해석이 끝난 모드를 받아 표시만 맞춘다.
+    ThemeManager.whenResolved(markSelectedMode);
+
+    themeInputs.forEach((input) => {
+      input.addEventListener("change", () => {
+        if (!input.checked) return;
+        if (themeStatus) themeStatus.textContent = "";
+
+        ThemeManager.setMode(input.value, (error, effectiveMode) => {
+          markSelectedMode(effectiveMode);
+          if (!error || !themeStatus) return;
+
+          console.error("테마 저장 실패:", error);
+          themeStatus.textContent =
+            "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
+        });
+      });
+    });
+  }
+
   function initSaveButton() {
     saveBtn.addEventListener("click", () => {
       const activeItems = activeList.querySelectorAll(".list-item");
@@ -336,6 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   initShortcutGuide();
+  initThemeControl();
   SearchPanel.init();
   DragController.init();
   initSearchShortcut();
