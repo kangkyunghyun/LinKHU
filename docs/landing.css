@@ -5,6 +5,11 @@
   --color-primary-strong: #790b11;
   --color-primary-soft: #fdeeef;
   --color-on-primary: #ffffff;
+  /* 아래 둘은 배경이 테마와 무관하게 고정된 자리에 쓰이므로 다크 변형이 없다. */
+  /* 짙은 주색 패널(#a40f16) 위 보조 텍스트 */
+  --color-on-primary-muted: #f5d6d8;
+  /* 항상 어두운 flow 섹션(#211b1d) 위 브랜드 강조 */
+  --color-flow-accent: #e08589;
   --color-accent: #a87827;
   --color-background: #fbfaf8;
   --color-surface: #ffffff;
@@ -402,7 +407,7 @@ a {
 }
 
 .browser-dots span:first-child {
-  background: #c36b77;
+  background: #c26b6f;
 }
 
 .browser-address {
@@ -632,7 +637,7 @@ kbd {
 }
 
 .feature-card-accent .feature-number {
-  color: #f5c4cd;
+  color: var(--color-on-primary-muted);
 }
 
 .feature-copy h3 {
@@ -650,7 +655,7 @@ kbd {
 }
 
 .feature-card-accent .feature-copy p {
-  color: #f1dce0;
+  color: var(--color-on-primary-muted);
 }
 
 .search-demo {
@@ -908,7 +913,7 @@ kbd {
 }
 
 .flow-copy .section-kicker {
-  color: #eaa8b4;
+  color: var(--color-flow-accent);
 }
 
 .steps {
@@ -934,7 +939,7 @@ kbd {
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
-  color: #f1b5c0;
+  color: var(--color-flow-accent);
   font-size: 13px;
   font-weight: 800;
 }
@@ -1197,7 +1202,7 @@ kbd {
 
 .cta-card > p {
   margin: 0 0 14px;
-  color: #f0cdd4;
+  color: var(--color-on-primary-muted);
   font-size: 14px;
   font-weight: 700;
 }
@@ -1221,11 +1226,11 @@ kbd {
 .button-light {
   background: #ffffff;
   color: var(--color-primary);
-  box-shadow: 0 12px 26px rgba(61, 5, 19, 0.2);
+  box-shadow: 0 12px 26px rgba(61, 6, 8, 0.2);
 }
 
 .button-light:hover {
-  background: #fff7f8;
+  background: #fff7f7;
 }
 
 .button-ghost-light {

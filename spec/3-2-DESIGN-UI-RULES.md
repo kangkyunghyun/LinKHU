@@ -350,6 +350,15 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 | 작은 컨트롤 (버튼, 결과 마크) | `var(--color-primary)` = `#e08589` | `var(--color-on-primary)` = `#211d1f` |
 | 큰 브랜드 패널 (feature accent, CTA) | `#a40f16` 고정 | `#ffffff` 고정 |
 
+**배경이 테마와 무관하게 고정된 자리는 전용 토큰을 쓴다** (MUST). 랜딩에는 두 곳이 있다. 여기에 `--color-on-primary`나 `--color-primary`를 쓰면 테마에 따라 값이 뒤집혀 대비가 깨진다.
+
+| 토큰 | 값 | 배경 | 쓰이는 곳 |
+| --- | --- | --- | --- |
+| `--color-on-primary-muted` | `#f5d6d8` | 브랜드 패널 `#a40f16` | feature 번호·본문, CTA 본문 |
+| `--color-flow-accent` | `#e08589` | flow 섹션 `#211b1d` | 섹션 kicker, 단계 번호 |
+
+두 토큰 모두 다크 변형이 없다. 배경이 두 테마에서 같기 때문이다. `--color-flow-accent`는 다크 주색과 같은 값을 쓴다 — flow 섹션이 항상 어두우므로 "어두운 배경 위 브랜드 색"이라는 같은 문제를 푼다.
+
 **실측값** (WCAG 2.1 상대 휘도 기준)
 
 ```text
@@ -372,9 +381,11 @@ focus      #73a7ff on background      #181416    7.56 : 1
 on-primary #211d1f on primary  #e08589    6.26 : 1
 on-primary #211d1f on strong   #e9a5a9    8.27 : 1
 패널 텍스트 #ffffff on 패널     #a40f16    7.90 : 1
-패널 보조   #f1dce0 on 패널     #a40f16    6.04 : 1
-패널 번호   #f5c4cd on 패널     #a40f16    5.14 : 1
 스킵 링크   #181416 on foreground #f8f2f3  16.50 : 1
+
+[배경이 고정된 자리 — 4.5:1 기준]
+on-primary-muted #f5d6d8 on 패널      #a40f16   5.83 : 1
+flow-accent      #e08589 on flow 섹션 #211b1d   6.36 : 1
 
 [정보성 비텍스트 — 3:1 기준]
 검색 데모 테두리 #e08589 on surface #211b1d   6.36 : 1
