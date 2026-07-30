@@ -37,9 +37,18 @@ body {
 }
 
 h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   color: var(--color-primary);
   text-align: center;
   margin: 0;
+}
+
+/* 이모지 자리를 대신하므로 텍스트와 같은 색·베이스라인을 따른다. */
+.title-icon {
+  flex-shrink: 0;
 }
 
 .icon-button {
@@ -65,16 +74,14 @@ h1 {
   outline-offset: 1px;
 }
 
-/* 아이콘은 누르면 될 상태를 보여준다. 라이트에서 달, 다크에서 해. */
-.theme-icon-sun {
+/* 아이콘은 고른 모드를 보여준다. 칠해진 테마(data-theme)가 아니라 모드를 본다. */
+.theme-icon {
   display: none;
 }
 
-:root[data-theme="dark"] .theme-icon-moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-icon-sun {
+:root[data-theme-mode="system"] .theme-icon-system,
+:root[data-theme-mode="light"] .theme-icon-light,
+:root[data-theme-mode="dark"] .theme-icon-dark {
   display: block;
 }
 .info {
@@ -165,14 +172,12 @@ h1 {
   margin-bottom: 12px;
 }
 
-.option-search::before {
-  content: "🔍";
+.option-search .search-icon {
   position: absolute;
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 13px;
-  opacity: 0.55;
+  color: var(--color-text-muted);
   pointer-events: none;
 }
 
@@ -232,10 +237,17 @@ h1 {
   margin-bottom: 20px;
 }
 .category-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   font-weight: bold;
   color: var(--color-primary);
   margin: 0 0 10px 5px;
+}
+
+.category-icon {
+  flex-shrink: 0;
 }
 
 .drop-zone {
@@ -312,48 +324,12 @@ h1 {
   background-color: var(--color-primary-fill-strong);
 }
 
-.theme-control {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 14px 0 0;
-  padding: 10px 14px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-.theme-legend {
-  padding: 0 6px;
-  color: var(--color-text-muted);
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.theme-option {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--color-text);
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.theme-option input {
-  accent-color: var(--color-primary);
-  cursor: pointer;
-}
-
-.theme-option input:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
 .theme-status {
-  margin-left: auto;
+  margin: 10px 0 0;
+  min-height: 15px;
   color: var(--color-text-muted);
   font-size: 12px;
-  text-align: right;
+  text-align: center;
 }
 
 .options-footer {

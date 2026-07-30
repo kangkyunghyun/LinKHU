@@ -16,6 +16,11 @@ const DEFAULT_THEME_MODE = "system";
 const DARK_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 const THEME_SAVE_FAILED_MESSAGE =
   "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
+const MODE_NAMES = {
+  system: "시스템 설정",
+  light: "라이트",
+  dark: "다크",
+};
 
 const ThemeManager = {
   STORAGE_KEY: THEME_STORAGE_KEY,
@@ -23,6 +28,7 @@ const ThemeManager = {
   DEFAULT_MODE: DEFAULT_THEME_MODE,
 
   SAVE_FAILED_MESSAGE: THEME_SAVE_FAILED_MESSAGE,
+  MODE_NAMES,
 
   // 낙관적으로 화면에 적용된 모드.
   currentMode: DEFAULT_THEME_MODE,
@@ -91,18 +97,29 @@ const ThemeManager = {
     return this.resolveTheme(this.currentMode, this.prefersDark());
   },
 
-  // 토글이 저장할 모드. 칠해진 테마의 반대이며 항상 명시적 선택이다.
+  // 순환 토글이 다음에 저장할 모드. system도 저장 가능한 선택이다.
+  // 세 모드를 모두 거치므로 별도의 3단계 선택 없이 system에 도달할 수 있다.
   nextToggleMode() {
-    return this.resolvedTheme() === "dark" ? "light" : "dark";
+    const order = THEME_MODES;
+    const index = order.indexOf(this.normalizeMode(this.currentMode));
+    return order[(index + 1) % order.length];
   },
 
-  // 아이콘만 있는 버튼이라 스크린 리더가 읽을 텍스트가 반드시 필요하다.
-  // 현재 상태가 아니라 "누르면 될 동작"을 알린다.
-  toggleLabel(resolvedTheme) {
-    return resolvedTheme === "dark" ? "라이트 테마로 전환" : "다크 테마로 전환";
+  // 순환은 다음에 무엇이 될지가 버튼에 드러나지 않는다.
+  // 그래서 현재 모드와 다음 모드를 함께 알린다.
+  toggleLabel(mode = this.currentMode) {
+    const current = this.normalizeMode(mode);
+    const index = THEME_MODES.indexOf(current);
+    const next = THEME_MODES[(index + 1) % THEME_MODES.length];
+    return `테마: ${MODE_NAMES[current]}. 누르면 ${MODE_NAMES[next]}`;
   },
 
-  // 토글도 라디오와 같은 저장 경로(setMode)를 지난다. 경쟁 상태 가드도 그대로 적용된다.
+  // 모드 변경을 라이브 영역으로 알릴 때 쓰는 문구.
+  modeAnnouncement(mode = this.currentMode) {
+    return `테마: ${MODE_NAMES[this.normalizeMode(mode)]}`;
+  },
+
+  // 토글도 같은 저장 경로(setMode)를 지난다. 경쟁 상태 가드와 롤백도 그대로 적용된다.
   toggleTheme(callback) {
     this.setMode(this.nextToggleMode(), callback);
   },
@@ -120,6 +137,8 @@ const ThemeManager = {
   applyTheme(theme, root = this.deps.root()) {
     if (!root) return;
     root.setAttribute("data-theme", theme);
+    // 아이콘은 칠해진 테마가 아니라 고른 모드를 보여주므로 따로 노출한다.
+    root.setAttribute("data-theme-mode", this.normalizeMode(this.currentMode));
   },
 
   // 현재 모드를 화면에 다시 칠한다. 모드가 바뀌었을 때와 시스템 테마가 바뀌었을 때 모두 쓴다.
@@ -128,13 +147,15 @@ const ThemeManager = {
     this.renderToggle();
   },
 
-  // 아이콘 교체는 CSS가 data-theme으로 처리한다. 여기서는 레이블만 맞춘다.
+  // 아이콘 교체는 CSS가 data-theme-mode로 처리한다. 여기서는 레이블만 맞춘다.
   renderToggle() {
     const doc = this.deps.document();
     if (!doc) return;
 
+    const label = this.toggleLabel();
     doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
-      button.setAttribute("aria-label", this.toggleLabel(this.resolvedTheme()));
+      button.setAttribute("aria-label", label);
+      button.setAttribute("title", label);
     });
   },
 
@@ -154,9 +175,10 @@ const ThemeManager = {
 
     doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
       button.addEventListener("click", () => {
-        this.reportStatus("");
         this.toggleTheme((error) => {
-          if (error) this.reportStatus(THEME_SAVE_FAILED_MESSAGE);
+          this.reportStatus(
+            error ? THEME_SAVE_FAILED_MESSAGE : this.modeAnnouncement(),
+          );
         });
       });
     });

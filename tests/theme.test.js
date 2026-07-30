@@ -409,7 +409,7 @@ test("theme handling survives a missing storage API", () => {
   assert.equal(context.theme(), "dark");
 });
 
-test("the theme toggle stores the opposite of what is painted", () => {
+test("the theme toggle cycles system -> light -> dark -> system", () => {
   let saved;
   const context = useThemeManager({
     storage: {
@@ -425,19 +425,23 @@ test("the theme toggle stores the opposite of what is painted", () => {
   });
 
   ThemeManager.init();
+  ThemeManager.initToggle();
+  assert.equal(ThemeManager.currentMode, "system");
+
+  context.toggle.click();
+  assert.deepEqual(saved, { themeMode: "light" });
+  assert.equal(ThemeManager.currentMode, "light");
   assert.equal(context.theme(), "light");
 
-  // system 상태에서 눌러도 명시적 선택으로 저장된다.
-  ThemeManager.initToggle();
   context.toggle.click();
-
   assert.deepEqual(saved, { themeMode: "dark" });
   assert.equal(ThemeManager.currentMode, "dark");
   assert.equal(context.theme(), "dark");
 
+  // system도 저장 가능한 선택이다. 저장소를 비우지 않는다.
   context.toggle.click();
-  assert.deepEqual(saved, { themeMode: "light" });
-  assert.equal(context.theme(), "light");
+  assert.deepEqual(saved, { themeMode: "system" });
+  assert.equal(ThemeManager.currentMode, "system");
 });
 
 test("the toggle goes through the same save path and its race guard", () => {
@@ -468,7 +472,7 @@ test("the toggle goes through the same save path and its race guard", () => {
   assert.equal(storage.saved.themeMode, "light");
 });
 
-test("the toggle label always describes what pressing it will do", () => {
+test("the toggle label names the current mode and the next one", () => {
   const context = useThemeManager({
     storage: {
       get(keys, callback) {
@@ -483,16 +487,21 @@ test("the toggle label always describes what pressing it will do", () => {
 
   ThemeManager.init();
   ThemeManager.initToggle();
-  assert.equal(context.toggle.label(), "다크 테마로 전환");
+  assert.equal(context.toggle.label(), "테마: 시스템 설정. 누르면 라이트");
+  // 발견성 보완을 위해 title도 같은 문구를 갖는다.
+  assert.equal(context.toggle.attributes.title, "테마: 시스템 설정. 누르면 라이트");
 
   context.toggle.click();
-  assert.equal(context.toggle.label(), "라이트 테마로 전환");
+  assert.equal(context.toggle.label(), "테마: 라이트. 누르면 다크");
 
   context.toggle.click();
-  assert.equal(context.toggle.label(), "다크 테마로 전환");
+  assert.equal(context.toggle.label(), "테마: 다크. 누르면 시스템 설정");
+
+  context.toggle.click();
+  assert.equal(context.toggle.label(), "테마: 시스템 설정. 누르면 라이트");
 });
 
-test("changing the mode notifies subscribers so the radios can follow", () => {
+test("changing the mode notifies subscribers so other surfaces can follow", () => {
   const seen = [];
   const context = useThemeManager({
     storage: {
@@ -512,12 +521,12 @@ test("changing the mode notifies subscribers so the radios can follow", () => {
   context.toggle.click();
   ThemeManager.setMode("system", () => {});
 
-  assert.deepEqual(seen, ["dark", "system"]);
+  assert.deepEqual(seen, ["light", "system"]);
 
   // 해지하면 더 이상 받지 않는다.
   unsubscribe();
   ThemeManager.setMode("light", () => {});
-  assert.deepEqual(seen, ["dark", "system"]);
+  assert.deepEqual(seen, ["light", "system"]);
 });
 
 test("multiple subscribers all receive mode changes", () => {
@@ -646,7 +655,7 @@ test("a theme change in another document updates this one", () => {
   assert.equal(ThemeManager.currentMode, "dark");
   assert.equal(ThemeManager.committedMode, "dark");
   assert.equal(context.theme(), "dark");
-  assert.equal(context.toggle.label(), "라이트 테마로 전환");
+  assert.equal(context.toggle.label(), "테마: 다크. 누르면 시스템 설정");
   assert.deepEqual(seen, ["dark"]);
 
   // 손상된 값이 와도 system으로 정규화한다.
@@ -693,5 +702,58 @@ test("a failed toggle save tells the user instead of failing silently", () => {
   assert.equal(context.status.textContent, ThemeManager.SAVE_FAILED_MESSAGE);
   // 되돌렸으므로 화면과 레이블도 원래대로다.
   assert.equal(ThemeManager.currentMode, "system");
-  assert.equal(context.toggle.label(), "다크 테마로 전환");
+  assert.equal(context.toggle.label(), "테마: 시스템 설정. 누르면 라이트");
+});
+
+test("a successful toggle announces the resulting mode", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+
+  context.toggle.click();
+  assert.equal(context.status.textContent, "테마: 라이트");
+
+  context.toggle.click();
+  assert.equal(context.status.textContent, "테마: 다크");
+
+  context.toggle.click();
+  assert.equal(context.status.textContent, "테마: 시스템 설정");
+});
+
+test("the mode is exposed on the root so icons can show it", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    prefersDark: true,
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+
+  // system은 다크로 칠해지지만 아이콘은 모니터여야 하므로 둘을 따로 노출한다.
+  assert.equal(context.theme(), "dark");
+  assert.equal(context.root.attributes["data-theme-mode"], "system");
+
+  context.toggle.click();
+  assert.equal(context.theme(), "light");
+  assert.equal(context.root.attributes["data-theme-mode"], "light");
+
+  context.toggle.click();
+  assert.equal(context.root.attributes["data-theme-mode"], "dark");
 });
