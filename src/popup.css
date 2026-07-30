@@ -38,14 +38,12 @@ header h1 {
   position: relative;
 }
 
-.search-bar::before {
-  content: "🔍";
+.search-bar .search-icon {
   position: absolute;
   left: 15px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 13px;
-  opacity: 0.55;
+  color: var(--color-text-muted);
   pointer-events: none;
 }
 
@@ -303,23 +301,21 @@ header h1 {
   outline-offset: 1px;
 }
 
-/* 아이콘은 누르면 될 상태를 보여준다. 라이트에서 달, 다크에서 해. */
-.theme-icon-sun {
+/* 아이콘은 고른 모드를 보여준다. 칠해진 테마(data-theme)가 아니라 모드를 본다. */
+.theme-icon {
   display: none;
 }
 
-:root[data-theme="dark"] .theme-icon-moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-icon-sun {
+:root[data-theme-mode="system"] .theme-icon-system,
+:root[data-theme-mode="light"] .theme-icon-light,
+:root[data-theme-mode="dark"] .theme-icon-dark {
   display: block;
 }
 
-/* 평소에는 비어 있고 저장 실패 때만 한 줄 나타난다. 빈 상태에서 자리를 차지하지 않는다. */
+/* 평소에는 비어 있고 모드 변경·저장 실패 때만 한 줄 나타난다. */
 .theme-status {
   margin: 0;
-  color: var(--color-notice);
+  color: var(--color-text-muted);
   font-size: 11.5px;
   text-align: center;
 }
