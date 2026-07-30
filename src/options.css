@@ -253,7 +253,7 @@ h1 {
   width: 100%;
   padding: 15px;
   margin-top: 20px;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary-fill);
   color: var(--color-on-primary);
   border: none;
   border-radius: 8px;
@@ -264,7 +264,7 @@ h1 {
 }
 
 .save-btn:hover {
-  background-color: var(--color-primary-strong);
+  background-color: var(--color-primary-fill-strong);
 }
 
 .theme-control {
@@ -394,7 +394,7 @@ h1 {
   padding: 6px 16px;
   border: none;
   border-radius: 6px;
-  background: var(--color-primary);
+  background: var(--color-primary-fill);
   color: var(--color-on-primary);
   font-family: inherit;
   font-size: 13px;
