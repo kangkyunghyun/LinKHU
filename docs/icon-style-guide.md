@@ -14,6 +14,7 @@ LinKHU 서비스 아이콘은 팝업과 설정 화면에서 작은 크기로 표
 - **회색을 쓰지 않는다.** 면을 회색으로 채우는 대신 비우고 선화로 표현한다.
 - 파일명은 가능하면 `src/data.js`의 `id`와 맞춘다.
 - 서비스 아이콘은 카테고리에 따라 `src/images/common/`, `src/images/colleges/`, `src/images/departments/` 폴더에 관리한다.
+- 새로 그리는 아이콘은 SVG 원본을 `design/icons/<카테고리>/<id>.svg`에 남긴다. `src/` 안에 두면 확장 패키지에 함께 배포된다.
 - 새 아이콘을 추가하면 `src/data.js`의 `imgSrc` 필드에 `src/` 폴더를 기준으로 한 상대 경로(예: `images/common/icon.png`)를 지정한다.
 
 ## 두 벌 체계
