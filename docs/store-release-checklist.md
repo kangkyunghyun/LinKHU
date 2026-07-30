@@ -28,7 +28,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - Release notes에서 사용자에게 보여줄 변경 사항을 확인한다.
 - [Store Listing](./store-listing.md)의 업데이트 섹션을 새 버전 기준으로 갱신하고, 각 스토어 설명에 반영한다.
 - 권한 변경이 있는지 `manifest.json`의 `permissions`, `host_permissions`, `browser_specific_settings`를 확인한다.
-- 스토어 설명, 스크린샷, 개인정보 처리 관련 답변을 수정해야 하는지 확인한다.
+- 스토어 설명, 스크린샷, 개인정보 처리 관련 답변을 수정해야 하는지 확인한다. 스크린샷을 다시 찍을 때는 [Screenshot Guide](./screenshot-guide.md)를 따른다.
 
 ## Chrome Web Store
 
@@ -66,7 +66,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - My extensions 또는 개발자 관리 화면에서 LinKHU 항목으로 이동한다.
 - 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
 - 필수 정보, 권한, 심사용 설명 및 버전 설명(`release-notes/v{version}.md` 내용 활용)을 확인한다.
-- 스토어 설명, 스크린샷, 카테고리 변경 필요 여부를 확인한다.
+- 스토어 설명, 스크린샷, 카테고리 변경 필요 여부를 확인한다. 스크린샷 촬영 기준은 [Screenshot Guide](./screenshot-guide.md)에 있다.
 - 제출 전 경고 메시지를 확인한다.
 - 심사를 제출한다.
 - 제출 후 심사 상태와 게시 상태를 기록한다.
