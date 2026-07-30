@@ -102,14 +102,14 @@
     "name": "AiKHU",
     "url": "https://dx.khu.ac.kr/aimentoring.html",
     "category": "공통",
-    "imgSrc": "images/common/khu.png"
+    "imgSrc": "images/common/aikhu.png"
   },
   {
     "id": "ai-hub",
     "name": "AI Hub",
     "url": "https://dx.khu.ac.kr/aihub.html",
     "category": "공통",
-    "imgSrc": "images/common/khu.png"
+    "imgSrc": "images/common/ai-hub.png"
   },
   {
     "id": "ois",

@@ -102,14 +102,14 @@ const MASTER_SITE_LIST = [
     id: "aikhu",
     name: "AiKHU",
     url: "https://dx.khu.ac.kr/aimentoring.html",
-    imgSrc: "images/common/khu.png",
+    imgSrc: "images/common/aikhu.png",
     category: "공통",
   },
   {
     id: "ai-hub",
     name: "AI Hub",
     url: "https://dx.khu.ac.kr/aihub.html",
-    imgSrc: "images/common/khu.png",
+    imgSrc: "images/common/ai-hub.png",
     category: "공통",
   },
   {
