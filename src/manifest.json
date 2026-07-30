@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "LinKHU",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
   "action": {
     "default_popup": "popup.html",
