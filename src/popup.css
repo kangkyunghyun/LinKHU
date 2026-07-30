@@ -315,3 +315,15 @@ header h1 {
 :root[data-theme="dark"] .theme-icon-sun {
   display: block;
 }
+
+/* 평소에는 비어 있고 저장 실패 때만 한 줄 나타난다. 빈 상태에서 자리를 차지하지 않는다. */
+.theme-status {
+  margin: 0;
+  color: var(--color-notice);
+  font-size: 11.5px;
+  text-align: center;
+}
+
+.theme-status:empty {
+  display: none;
+}

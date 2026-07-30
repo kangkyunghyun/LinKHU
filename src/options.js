@@ -308,6 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 테마는 즉시 반영형이라 저장 버튼을 거치지 않는다.
   // 저장에 실패하면 ThemeManager가 화면을 되돌리므로, 여기서는 라디오 선택과
   // 안내 문구를 되돌린 모드에 맞춰준다.
+  // 테마는 즉시 반영형이라 저장 버튼을 거치지 않는다.
+  // 토글과 라디오는 같은 상태를 보며, 저장 실패 시 ThemeManager가 되돌린 값에 맞춘다.
   function initThemeControl() {
     const themeInputs = Array.from(
       document.querySelectorAll('input[name="theme-mode"]'),
@@ -315,6 +317,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (themeInputs.length === 0) return;
 
     const themeStatus = document.getElementById("theme-status");
+    const MODE_LABELS = {
+      system: "시스템 설정을 따릅니다.",
+      light: "라이트 테마를 사용합니다.",
+      dark: "다크 테마를 사용합니다.",
+    };
 
     function markSelectedMode(mode) {
       themeInputs.forEach((input) => {
@@ -322,24 +329,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    // 낙관적 적용 시점에도 불리므로 라디오가 저장을 기다리지 않고 따라온다.
+    ThemeManager.subscribeModeChange((mode) => {
+      markSelectedMode(mode);
+      if (themeStatus) themeStatus.textContent = MODE_LABELS[mode] || "";
+    });
+
     // 저장소는 ThemeManager가 이미 읽고 있다. 여기서 또 읽으면 두 결과가
     // 서로를 덮어쓸 수 있으므로, 해석이 끝난 모드를 받아 표시만 맞춘다.
     ThemeManager.whenResolved(markSelectedMode);
-    // 토글로 바꿔도 라디오 표시가 따라오게 한다. 두 컨트롤이 같은 상태를 본다.
-    ThemeManager.onModeChange = markSelectedMode;
 
     themeInputs.forEach((input) => {
       input.addEventListener("change", () => {
         if (!input.checked) return;
-        if (themeStatus) themeStatus.textContent = "";
 
         ThemeManager.setMode(input.value, (error, effectiveMode) => {
           markSelectedMode(effectiveMode);
-          if (!error || !themeStatus) return;
+          if (!error) return;
 
           console.error("테마 저장 실패:", error);
-          themeStatus.textContent =
-            "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
+          if (themeStatus) themeStatus.textContent = ThemeManager.SAVE_FAILED_MESSAGE;
         });
       });
     });
