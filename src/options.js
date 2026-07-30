@@ -315,11 +315,9 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    ThemeManager.readMode((mode) => {
-      ThemeManager.currentMode = mode;
-      ThemeManager.refresh();
-      markSelectedMode(mode);
-    });
+    // 저장소는 ThemeManager가 이미 읽고 있다. 여기서 또 읽으면 두 결과가
+    // 서로를 덮어쓸 수 있으므로, 해석이 끝난 모드를 받아 표시만 맞춘다.
+    ThemeManager.whenResolved(markSelectedMode);
 
     themeInputs.forEach((input) => {
       input.addEventListener("change", () => {

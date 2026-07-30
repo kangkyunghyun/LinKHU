@@ -22,6 +22,16 @@ const ThemeManager = {
 
   currentMode: DEFAULT_THEME_MODE,
 
+  // 저장소 콜백은 요청한 순서대로 도착하지 않는다. 늦게 도착한 낡은 결과가
+  // 최신 상태를 덮어쓰지 않도록 요청마다 번호를 붙이고, 콜백에서 자기가
+  // 아직 최신인지 확인한다. 낡았으면 조용히 버린다.
+  requestId: 0,
+
+  // 저장된 모드 해석이 끝났는지와, 끝났을 때 알려줄 대상.
+  // 소비자는 설정 페이지의 테마 컨트롤 하나뿐이라 슬롯 하나로 충분하다.
+  resolved: false,
+  onResolved: null,
+
   // 외부 의존을 한곳에서 읽어 테스트에서 교체할 수 있게 한다.
   deps: {
     storage() {
@@ -95,11 +105,16 @@ const ThemeManager = {
   setMode(mode, callback) {
     const previousMode = this.currentMode;
     const nextMode = this.normalizeMode(mode);
+    const requestId = ++this.requestId;
 
     this.currentMode = nextMode;
     this.refresh();
 
     this.writeMode(nextMode, (error) => {
+      // 이 요청 뒤에 다른 선택이 있었으면 이 결과는 낡았다.
+      // 롤백하면 이미 성공한 최신 선택을 되돌리게 되므로 그냥 버린다.
+      if (requestId !== this.requestId) return;
+
       if (error) {
         this.currentMode = previousMode;
         this.refresh();
@@ -118,12 +133,32 @@ const ThemeManager = {
     });
   },
 
+  // 저장된 모드 해석이 끝났을 때 알려준다. 이미 끝났으면 즉시 부른다.
+  // 저장소를 읽는 경로를 여기 하나로 두어, 화면마다 따로 읽다가 서로를
+  // 덮어쓰는 일이 없게 한다.
+  whenResolved(callback) {
+    if (this.resolved) {
+      callback(this.currentMode);
+      return;
+    }
+    this.onResolved = callback;
+  },
+
   init() {
+    const requestId = this.requestId;
+
     this.refresh();
     this.watchSystemTheme();
     this.readMode((mode) => {
-      this.currentMode = mode;
-      this.refresh();
+      // 저장값이 도착하기 전에 사용자가 직접 고른 게 있으면 그 선택이 우선한다.
+      if (requestId === this.requestId) {
+        this.currentMode = mode;
+        this.refresh();
+      }
+
+      this.resolved = true;
+      this.onResolved?.(this.currentMode);
+      this.onResolved = null;
     });
   },
 };
