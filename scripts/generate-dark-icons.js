@@ -262,6 +262,49 @@ function toDark({ width, height, pixels }) {
 // 그래서 자산을 그대로 두고 검사에 허용치를 둔다.
 const CORNER_ALPHA_TOLERANCE = 10;
 
+// 검사는 압축 바이트가 아니라 디코드한 픽셀로 한다.
+//
+// 처음에는 fs.readFileSync(path).equals(생성결과)로 파일 바이트를 통째로
+// 비교했다. 로컬(Node 26)에서는 통과했지만 CI(Node 22)에서 115개 전부가
+// 실패했다. zlib.deflateSync의 출력이 Node에 번들된 zlib 버전에 따라 달라
+// 같은 픽셀이어도 압축 바이트가 달라지기 때문이다(PR #117).
+//
+// 우리가 보장하려는 것은 "픽셀이 규칙대로인가"이지 "압축 결과가 같은가"가
+// 아니다. 바이트로 비교하면 검사가 Node 버전에 묶여, 생성기를 다른 버전에서
+// 돌리는 것만으로 230개 파일에 유령 diff가 생긴다. 쓰기 경로에서도 같은
+// 이유로 픽셀을 비교해 실제로 달라졌을 때만 파일을 쓴다.
+function samePixels(a, b) {
+  if (a.width !== b.width || a.height !== b.height) return false;
+
+  for (let i = 0; i < a.pixels.length; i += 4) {
+    if (a.pixels[i + 3] !== b.pixels[i + 3]) return false;
+    // 완전 투명 픽셀의 RGB는 보이지 않으므로 인코더에 따라 달라질 수 있다.
+    if (a.pixels[i + 3] === 0) continue;
+    for (let c = 0; c < 3; c += 1) {
+      if (a.pixels[i + c] !== b.pixels[i + c]) return false;
+    }
+  }
+  return true;
+}
+
+// 라이트 아이콘은 원본 자산이라 색을 강제하지 않는다. 유일한 불변식은
+// "흰 배경이 걷혔는가"이므로 그 성질을 직접 판정한다.
+//
+// toTransparent는 알파를 1 - min(r,g,b)/255로 역산한다. 따라서 배경이
+// 걷힌 파일에서 완전 불투명(알파 255) 픽셀은 반드시 min(r,g,b) === 0이다.
+// 불투명한데 흰 기가 남아 있으면 배경이 안 걷힌 것이다.
+function findUnremovedBackground({ width, pixels }) {
+  for (let i = 0; i < pixels.length; i += 4) {
+    if (pixels[i + 3] !== 255) continue;
+    const min = Math.min(pixels[i], pixels[i + 1], pixels[i + 2]);
+    if (min > 0) {
+      const index = i / 4;
+      return { x: index % width, y: Math.floor(index / width), min };
+    }
+  }
+  return null;
+}
+
 function findOpaqueCorner({ width, height, pixels }) {
   const corners = [
     [0, 0],
@@ -317,47 +360,49 @@ function generate({ check }) {
 
     // 라이트: 색 유지 + 배경 제거. 두 벌의 구조를 같게 맞춘다.
     const lightImage = toTransparent(source);
-    const light = encodePng(lightImage);
+
     if (check) {
-      const opaqueCorner = findOpaqueCorner(lightImage);
+      const opaqueCorner = findOpaqueCorner(source);
       if (opaqueCorner !== null) {
         errors.push(`라이트 아이콘 모서리가 불투명합니다(alpha ${opaqueCorner}): ${relativeLight}`);
       }
-    }
-    if (check) {
-      if (!fs.readFileSync(lightPath).equals(light)) {
-        errors.push(`라이트 아이콘 배경이 투명하지 않습니다: ${relativeLight}`);
+
+      const leftover = findUnremovedBackground(source);
+      if (leftover !== null) {
+        errors.push(
+          `라이트 아이콘 배경이 투명하지 않습니다(${leftover.x},${leftover.y} 불투명 픽셀에 흰 기 ${leftover.min}): ${relativeLight}`,
+        );
       }
-    } else if (!fs.readFileSync(lightPath).equals(light)) {
-      fs.writeFileSync(lightPath, light);
+    } else if (!samePixels(source, lightImage)) {
+      fs.writeFileSync(lightPath, encodePng(lightImage));
       written += 1;
     }
 
-    // 다크: 라이트를 입력으로 색까지 치환.
+    // 다크: 라이트를 입력으로 색까지 치환. 라이트와 달리 파생 자산이므로
+    // 기대 결과와 픽셀이 정확히 같아야 한다.
     const darkPath = darkPathFor(lightPath);
     const relativeDark = path.relative(PROJECT_ROOT, darkPath);
-    const darkImage = toDark(decodePng(lightPath));
-    const dark = encodePng(darkImage);
+    const darkImage = toDark(lightImage);
 
     if (check) {
       const opaqueCorner = findOpaqueCorner(darkImage);
       if (opaqueCorner !== null) {
         errors.push(`다크 아이콘 모서리가 불투명합니다(alpha ${opaqueCorner}): ${relativeDark}`);
       }
-    }
 
-    if (check) {
       if (!fs.existsSync(darkPath)) {
         errors.push(`다크 아이콘이 없습니다: ${relativeDark}`);
-      } else if (!fs.readFileSync(darkPath).equals(dark)) {
+      } else if (!samePixels(decodePng(darkPath), darkImage)) {
         errors.push(`다크 아이콘이 최신이 아닙니다: ${relativeDark}`);
       }
       return;
     }
 
     fs.mkdirSync(path.dirname(darkPath), { recursive: true });
-    fs.writeFileSync(darkPath, dark);
-    written += 1;
+    if (!fs.existsSync(darkPath) || !samePixels(decodePng(darkPath), darkImage)) {
+      fs.writeFileSync(darkPath, encodePng(darkImage));
+      written += 1;
+    }
   });
 
   // 라이트에 짝이 없는 다크 아이콘이 남아 있으면 지운다(또는 오류로 알린다).
