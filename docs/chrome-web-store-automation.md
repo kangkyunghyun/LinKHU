@@ -47,7 +47,7 @@ Chrome Web Store extension ID는 워크플로우에 `ihidkmjkpfphgljieecfcikljao
 
 ### 증상
 
-`Publish to Chrome Web Store` 단계에서 다음 오류가 나면 refresh token이 만료된 것이다.
+`Publish to Chrome Web Store` 단계에서 다음 오류가 나면 refresh token이 만료되었거나 폐기된 것이다.
 
 ```text
 Chrome access token request failed (400): {"error":"invalid_grant","error_description":"Token has been expired or revoked."}
@@ -60,14 +60,25 @@ Chrome access token request failed (400): {"error":"invalid_grant","error_descri
 
 Google Cloud OAuth 동의 화면의 게시 상태가 **테스트(Testing)**이면 발급된 refresh token이 **7일 후 만료**된다. 프로덕션 상태면 만료되지 않는다.
 
-### 근본 해결 (권장)
+### 현재 상태 — 프로덕션으로 전환 완료 (2026-07-30)
 
-Google Cloud Console에서 **OAuth 동의 화면을 '프로덕션'으로 전환한다.**
+**OAuth 동의 화면은 프로덕션 상태다.** 따라서 refresh token은 더 이상 7일마다 만료되지 않는다.
 
 - 본인 계정만 사용하는 앱이므로 Google 심사 대상이 아니다.
-- 전환하면 refresh token이 만료되지 않으므로 **아래 재발급 절차 자체가 필요 없어진다.**
+- 만료 때문에 토큰을 주기적으로 재발급할 필요는 없어졌다. 아래 절차는 예외 상황용이다.
 
-### 재발급 절차 (프로덕션 전환 전까지의 임시 대응)
+### ⚠️ 게시 상태는 경고 표시로 판별할 수 없다
+
+동의 화면에서 **"확인되지 않은 앱"(unverified app) 경고가 뜬다고 테스트 상태인 것이 아니다.**
+
+`https://www.googleapis.com/auth/chromewebstore`는 Google이 **민감한 스코프**로 분류한다. 프로덕션으로 전환했더라도 Google 검증(verification)을 받지 않았으면 이 경고가 계속 나온다.
+
+- **게시 상태 판별은 Google Cloud Console의 OAuth 동의 화면 → 게시 상태 항목으로만 한다** (MUST).
+- 개인용 앱은 검증을 받지 않아도 된다. 경고 화면에서 **고급 → 안전하지 않은 페이지로 이동**으로 진행하면 되고, 이 경고는 무해하다.
+
+### 토큰을 다시 발급해야 할 때
+
+프로덕션 전환으로 만료는 해소되었지만, **토큰이 폐기되었거나 OAuth 클라이언트를 교체하는 경우**에는 여전히 재발급이 필요하다.
 
 1. OAuth 클라이언트가 **웹 애플리케이션** 유형인지 확인한다. 승인된 리디렉션 URI에 `https://developers.google.com/oauthplayground`가 있어야 한다.
 2. 동의 URL을 만든다. `https://accounts.google.com/o/oauth2/auth`에 다음 쿼리를 붙인다.
@@ -109,6 +120,26 @@ Google Cloud Console에서 **OAuth 동의 화면을 '프로덕션'으로 전환�
    ```
 
 **자리표시자(`{...}`)에 실제 값을 적어 커밋하지 않는다** (MUST). 이 저장소는 공개다.
+
+### 스코프는 `chromewebstore` 하나만 발급한다
+
+발급된 토큰의 스코프는 `https://www.googleapis.com/auth/chromewebstore` 하나여야 한다. 배포에 필요한 권한이 그것뿐이다.
+
+**`gcloud auth application-default login`을 이 용도로 쓰지 않는다** (MUST). 이 명령은 `cloud-platform` 스코프를 강제하므로 토큰 권한이 필요 이상으로 넓어진다. 위 동의 URL 방식으로 `scope`를 직접 지정해 발급한다.
+
+### 실행 기록
+
+**v2.5.0 (2026-07-30)** — 두 단계에서 연속으로 막혔다.
+
+| 순서 | 단계 | 결과 |
+| --- | --- | --- |
+| 1 | `Verify release input` | 실패 — 입력값 오타 |
+| 2 | `Publish to Chrome Web Store` | 실패 — refresh token 만료 (`invalid_grant`) |
+| 3 | 토큰 재발급 후 재실행 | **성공 — `PENDING_REVIEW`** |
+
+같은 배포에서 서로 다른 두 오류를 순서대로 겪었다. 위 [증상](#증상) 절의 단계 구분이 여기서 나왔다.
+
+재발급한 토큰의 스코프는 `chromewebstore` 하나뿐이었다. 같은 날 OAuth 동의 화면을 프로덕션으로 전환해 만료 문제를 없앴다.
 
 ## 참고 문서
 
