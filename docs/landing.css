@@ -1,25 +1,27 @@
 :root {
   color-scheme: light;
-  /* 아래 4종은 라이트·다크 모두 src/theme.css의 값과 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* 아래 6종은 라이트·다크 모두 src/theme.css의 값과 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* 텍스트·강조 전용. 배경을 칠할 때는 --color-primary-fill을 쓴다. */
   --color-primary: #a40f16;
+  --color-primary-fill: #a40f16;
+  --color-primary-fill-strong: #790b11;
   --color-primary-strong: #790b11;
   --color-primary-soft: #fdeeef;
   --color-on-primary: #ffffff;
   /* 아래 둘은 배경이 테마와 무관하게 고정된 자리에 쓰이므로 다크 변형이 없다. */
-  /* 짙은 주색 패널(#a40f16) 위 보조 텍스트 */
-  --color-on-primary-muted: #f5d6d8;
-  /* 항상 어두운 flow 섹션(#211b1d) 위 브랜드 강조 */
-  --color-flow-accent: #e08589;
-  --color-accent: #a87827;
-  --color-background: #fbfaf8;
+  /* 주색 채움 패널(--color-primary-fill) 위 보조 텍스트 */
+  --color-on-primary-muted: #f7dee0;
+  /* 항상 어두운 flow 섹션(#1d1d1d) 위 브랜드 강조 */
+  --color-flow-accent: #ff4d52;
+  --color-background: #fafafa;
   --color-surface: #ffffff;
-  --color-surface-muted: #f3efeb;
-  --color-foreground: #211b1d;
-  --color-muted: #675d60;
-  --color-border: #e6dedb;
+  --color-surface-muted: #f4f4f5;
+  --color-foreground: #1d1d1d;
+  --color-muted: #5f5f5f;
+  --color-border: #e4e4e7;
   --color-focus: #2563eb;
-  --shadow-sm: 0 10px 30px rgba(61, 37, 43, 0.08);
-  --shadow-md: 0 24px 70px rgba(83, 39, 50, 0.13);
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 24px 70px rgba(0, 0, 0, 0.13);
   --radius-sm: 12px;
   --radius-md: 20px;
   --radius-lg: 32px;
@@ -226,13 +228,13 @@ a {
 }
 
 .button-primary {
-  background: var(--color-primary);
+  background: var(--color-primary-fill);
   color: var(--color-on-primary);
   box-shadow: 0 10px 28px rgba(164, 15, 22, 0.2);
 }
 
 .button-primary:hover {
-  background: var(--color-primary-strong);
+  background: var(--color-primary-fill-strong);
   box-shadow: 0 14px 32px rgba(164, 15, 22, 0.27);
 }
 
@@ -243,8 +245,8 @@ a {
 }
 
 .button-secondary:hover {
-  border-color: #cdbdc1;
-  background: #fffdfc;
+  border-color: #c1c1c1;
+  background: #fdfdfd;
   box-shadow: var(--shadow-sm);
 }
 
@@ -375,7 +377,7 @@ a {
 
 .browser-frame {
   overflow: hidden;
-  border: 1px solid rgba(124, 91, 99, 0.22);
+  border: 1px solid rgba(0, 0, 0, 0.22);
   border-radius: 20px;
   background: var(--color-surface);
   box-shadow: var(--shadow-md);
@@ -391,7 +393,7 @@ a {
   gap: 12px;
   padding: 0 14px;
   border-bottom: 1px solid var(--color-border);
-  background: #f7f3f1;
+  background: #f4f4f4;
 }
 
 .browser-dots {
@@ -403,7 +405,7 @@ a {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #d9ceca;
+  background: #d0d0d0;
 }
 
 .browser-dots span:first-child {
@@ -415,10 +417,10 @@ a {
   display: flex;
   align-items: center;
   padding: 0 12px;
-  border: 1px solid #e9e0dd;
+  border: 1px solid #e2e2e2;
   border-radius: 7px;
   background: #ffffff;
-  color: #85777b;
+  color: #7a7a7a;
   font-size: 10px;
 }
 
@@ -428,9 +430,9 @@ a {
   height: 18px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 25%, #a89da0 1.4px, transparent 1.6px),
-    radial-gradient(circle at 50% 50%, #a89da0 1.4px, transparent 1.6px),
-    radial-gradient(circle at 50% 75%, #a89da0 1.4px, transparent 1.6px);
+    radial-gradient(circle at 50% 25%, #a0a0a0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 50% 50%, #a0a0a0 1.4px, transparent 1.6px),
+    radial-gradient(circle at 50% 75%, #a0a0a0 1.4px, transparent 1.6px);
 }
 
 .browser-screen {
@@ -453,10 +455,10 @@ a {
   align-items: center;
   gap: 9px;
   padding: 10px 14px;
-  border: 1px solid rgba(124, 91, 99, 0.17);
+  border: 1px solid rgba(0, 0, 0, 0.17);
   border-radius: 14px;
   background: color-mix(in srgb, var(--color-surface) 94%, transparent);
-  box-shadow: 0 16px 36px rgba(66, 38, 45, 0.14);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
   color: var(--color-muted);
   font-size: 12px;
   backdrop-filter: blur(12px);
@@ -619,8 +621,8 @@ kbd {
 }
 
 .feature-card-accent {
-  background: var(--color-primary);
-  color: #ffffff;
+  background: var(--color-primary-fill);
+  color: var(--color-on-primary);
 }
 
 .feature-copy {
@@ -752,7 +754,7 @@ kbd {
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: var(--color-primary);
+  background: var(--color-primary-fill);
   color: var(--color-on-primary);
   font-weight: 800;
 }
@@ -807,7 +809,7 @@ kbd {
   margin-top: 48px;
   padding: 18px;
   border-radius: 18px;
-  background: #ece8e4;
+  background: #e9e9e9;
 }
 
 .mini-list::before {
@@ -828,16 +830,16 @@ kbd {
   align-items: center;
   gap: 11px;
   padding: 10px 14px;
-  border: 1px solid #e3d9d6;
+  border: 1px solid #dbdbdb;
   border-radius: 13px;
   background: var(--color-surface);
-  box-shadow: 0 6px 14px rgba(48, 31, 35, 0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
 }
 
 .drag-handle {
   width: 14px;
   height: 20px;
-  background-image: radial-gradient(circle, #9b8f92 1.5px, transparent 1.7px);
+  background-image: radial-gradient(circle, #929292 1.5px, transparent 1.7px);
   background-position: 0 0;
   background-size: 7px 7px;
 }
@@ -901,7 +903,7 @@ kbd {
 }
 
 .section-flow {
-  background: #211b1d;
+  background: #1d1d1d;
   color: #ffffff;
 }
 
@@ -951,7 +953,7 @@ kbd {
 
 .steps p {
   margin: 4px 0 0;
-  color: #bfb5b8;
+  color: #b7b7b7;
   font-size: 14px;
 }
 
@@ -1089,7 +1091,7 @@ kbd {
 }
 
 .browser-links > a:hover {
-  border-color: #cdbdc1;
+  border-color: #c1c1c1;
   box-shadow: var(--shadow-sm);
   transform: translateY(-3px);
 }
@@ -1102,7 +1104,7 @@ kbd {
   padding: 8px;
   border-radius: 14px;
   background: var(--color-surface);
-  box-shadow: inset 0 0 0 1px rgba(60, 41, 46, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .browser-logo img {
@@ -1152,8 +1154,8 @@ kbd {
   background:
     radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.14), transparent 26%),
     radial-gradient(circle at 85% 90%, rgba(255, 215, 170, 0.12), transparent 30%),
-    var(--color-primary);
-  color: #ffffff;
+    var(--color-primary-fill);
+  color: var(--color-on-primary);
   text-align: center;
 }
 
@@ -1313,7 +1315,7 @@ kbd {
   border-radius: 16px;
   background: var(--color-surface);
   color: var(--color-foreground);
-  box-shadow: 0 18px 44px rgba(26, 18, 20, 0.18);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.18);
 }
 
 /* dialog 기본 display:none을 author display:grid가 덮어쓰므로 닫힘 상태를 복원한다. */
@@ -1322,7 +1324,7 @@ kbd {
 }
 
 .landing-feedback::backdrop {
-  background: rgba(26, 18, 20, 0.45);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 .landing-feedback-head {
@@ -1405,7 +1407,7 @@ kbd {
 .footer-note {
   grid-column: 1 / -1;
   margin: 6px 0 0;
-  color: #978b8e;
+  color: #8e8e8e;
   font-size: 12px;
 }
 
@@ -1763,17 +1765,18 @@ kbd {
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --color-primary: #e08589;
-    --color-primary-strong: #e9a5a9;
-    --color-primary-soft: #3a2a2c;
-    --color-on-primary: #211d1f;
-    --color-accent: #d4ad68;
-    --color-background: #181416;
-    --color-surface: #211b1d;
-    --color-surface-muted: #2b2326;
-    --color-foreground: #f8f2f3;
-    --color-muted: #c0b4b7;
-    --color-border: #3b3033;
+    --color-primary: #ff4d52;
+    --color-primary-fill: #c4121b;
+    --color-primary-fill-strong: #d7141e;
+    --color-primary-strong: #ff7175;
+    --color-primary-soft: #2a1214;
+    --color-on-primary: #ffffff;
+    --color-background: #0a0a0a;
+    --color-surface: #161616;
+    --color-surface-muted: #1c1c1c;
+    --color-foreground: #f4f4f5;
+    --color-muted: #a1a1aa;
+    --color-border: #27272a;
     --color-focus: #73a7ff;
     --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.22);
     --shadow-md: 0 24px 70px rgba(0, 0, 0, 0.35);
@@ -1794,23 +1797,23 @@ kbd {
   }
 
   .button-secondary:hover {
-    background: #2a2225;
+    background: #242424;
   }
 
   .hero {
     background:
-      linear-gradient(180deg, rgba(58, 42, 44, 0.45), transparent 70%),
+      linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 70%),
       var(--color-background);
   }
 
   .browser-bar {
-    background: #2b2426;
+    background: #262626;
   }
 
   .browser-address,
   .key,
   kbd {
-    background: #342a2d;
+    background: #2d2d2d;
     color: var(--color-foreground);
   }
 
@@ -1818,19 +1821,12 @@ kbd {
     opacity: 0.88;
   }
 
-  /* 화면 폭을 채우는 큰 면적이라 밝은 주색 파생값으로 칠하면 눈부시다.
-     다크에서도 짙은 주색과 흰 텍스트를 유지한다(스펙 3-2-5-6). */
-  .feature-card-accent,
-  .cta-card {
-    background-color: #a40f16;
-  }
-
   .mini-list {
-    background: #30282a;
+    background: #2a2a2a;
   }
 
   .mini-list > div {
-    border-color: #44373a;
+    border-color: #3a3a3a;
   }
 }
 

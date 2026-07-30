@@ -37,7 +37,8 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 ### 적용 규칙
 
 - 브랜드 레드가 필요한 모든 자리는 `#a40f16` 계열을 쓴다 (MUST). 과거 값이던 `#9d2235`(확장)와 `#8f1d31`(랜딩)은 공식 색상이 아니며 코드에서 제거되었다. 다시 도입하지 않는다.
-- 보조색(Blue, Gold)은 현재 UI에서 쓰지 않는다. 도입하려면 용도를 먼저 정하고 토큰으로 추가한다 (MUST). 일회성 하드코딩으로 넣지 않는다.
+- **보조색(Blue, Gold)은 현재 UI에서 쓰지 않는다.** 확장과 랜딩 어디에도 사용처가 없다. 랜딩에 금색 토큰(`--color-accent`)이 정의만 되어 있었으나 참조하는 규칙이 하나도 없어 삭제했다. 정의만 있고 쓰이지 않는 토큰은 두지 않는다 (MUST) — 팔레트를 읽는 사람이 실제 사용 색을 오해한다.
+- 보조색을 도입하려면 용도를 먼저 정하고 토큰으로 추가한다 (MUST). 일회성 하드코딩으로 넣지 않는다.
 - 중성 회색은 공식 색상표 값에 얽매이지 않는다 (MAY). 텍스트·테두리 회색은 가독성 기준으로 정한다.
 - LinKHU는 경희대학교 공식 산출물이 아니다. 공식 색상을 쓰되 대학 로고나 휘장을 사용하지 않는다 (MUST).
 
@@ -94,15 +95,17 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 | 토큰 | 라이트 | 다크 | 동기 |
 | --- | --- | --- | --- |
-| `--color-primary` | `#a40f16` | `#e08589` | **필수** |
-| `--color-primary-strong` | `#790b11` | `#e9a5a9` | **필수** |
-| `--color-primary-soft` | `#fdeeef` | `#3a2a2c` | **필수** |
-| `--color-on-primary` | `#ffffff` | `#211d1f` | **필수** |
+| `--color-primary` | `#a40f16` | `#ff4d52` | **필수** |
+| `--color-primary-fill` | `#a40f16` | `#c4121b` | **필수** |
+| `--color-primary-fill-strong` | `#790b11` | `#d7141e` | **필수** |
+| `--color-primary-strong` | `#790b11` | `#ff7175` | **필수** |
+| `--color-primary-soft` | `#fdeeef` | `#2a1214` | **필수** |
+| `--color-on-primary` | `#ffffff` | `#ffffff` | **필수** |
 | 표면·중성 계열 | — | — | 하지 않음 |
 | 확장 전용 (`-border`, `-ring`, `-shadow`, `--color-notice`) | — | — | 대상 아님 |
-| 랜딩 전용 (`--color-accent`, `--color-focus`) | — | — | 대상 아님 |
+| 랜딩 전용 (`--color-focus`) | — | — | 대상 아님 |
 
-- 위 네 토큰은 **라이트와 다크 양쪽에서** 두 파일의 값이 같아야 한다 (MUST). 한쪽을 바꾸면 같은 PR에서 다른 쪽도 바꾼다 (MUST).
+- 위 여섯 토큰은 **라이트와 다크 양쪽에서** 두 파일의 값이 같아야 한다 (MUST). 한쪽을 바꾸면 같은 PR에서 다른 쪽도 바꾼다 (MUST).
 - **표면·중성 계열은 동기 대상이 아니다** (MUST 아님). 확장은 도구, 랜딩은 홍보 표면이라 배경과 여백의 성격이 다르다(§3-2-3). 값이 달라도 규칙 위반이 아니다.
 - 두 파일의 `:root`에는 서로를 가리키는 동기 유지 주석이 있다. 토큰을 추가·변경할 때 이 주석을 지우지 않는다 (MUST).
 
@@ -224,32 +227,42 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 *주색 계열*
 
+**주색은 역할에 따라 두 토큰으로 나뉜다** (MUST). `--color-primary`는 **텍스트·강조 전용**, `--color-primary-fill`은 **채움 배경 전용**이다. 하나로 겸용하면 다크에서 채도를 잃는다 — 근거는 [3-3](3-3-DESIGN-DECISIONS.md)에 있다.
+
 | 토큰 | 라이트 | 다크 | 쓰이는 곳 |
 | --- | --- | --- | --- |
-| `--color-primary` | `#a40f16` | `#e08589` | 로고, 강조 텍스트, 기본 버튼 배경, 입력 포커스 테두리, 드래그 중 항목 테두리 |
-| `--color-primary-strong` | `#790b11` | `#e9a5a9` | 기본 버튼 hover |
-| `--color-primary-soft` | `#fdeeef` | `#3a2a2c` | 단축키 안내 박스 배경, 드래그 중 항목 배경 |
-| `--color-primary-border` | `#f4bfc3` | `#5c3f43` | 안내 박스 테두리, 카드 hover 테두리 |
-| `--color-primary-ring` | `rgba(164, 15, 22, 0.12)` | `rgba(224, 133, 137, 0.28)` | 입력 요소 focus ring |
+| `--color-primary` | `#a40f16` | `#ff4d52` | **텍스트·강조 전용.** 로고, 강조 텍스트, 입력 포커스 테두리, 드래그 중 항목 테두리 |
+| `--color-primary-fill` | `#a40f16` | `#c4121b` | **채움 배경 전용.** 기본 버튼, 배지, 브랜드 패널 배경 |
+| `--color-primary-fill-strong` | `#790b11` | `#d7141e` | 채움의 hover 상태 |
+| `--color-primary-strong` | `#790b11` | `#ff7175` | 강조 **텍스트·테두리**의 눌린·hover 상태 |
+| `--color-primary-soft` | `#fdeeef` | `#2a1214` | 단축키 안내 박스 배경, 드래그 중 항목 배경 |
+| `--color-primary-border` | `#f4bfc3` | `#5c1d20` | 안내 박스 테두리, 카드 hover 테두리 (장식) |
+| `--color-primary-ring` | `rgba(164, 15, 22, 0.12)` | `rgba(255, 77, 82, 0.28)` | 입력 요소 focus ring |
 | `--color-primary-shadow` | `rgba(164, 15, 22, 0.15)` | `rgba(0, 0, 0, 0.45)` | 카드 hover 그림자 |
-| `--color-on-primary` | `#ffffff` | `#211d1f` | 주색 배경 위의 텍스트 (저장 버튼, 보내기 버튼) |
+| `--color-on-primary` | `#ffffff` | `#ffffff` | `--color-primary-fill` 위의 텍스트 |
+
+hover 상태도 같은 이유로 갈린다. 다크에서 `--color-primary-strong`(`#ff7175`)을 채움에 쓰면 흰 글자가 2.67:1로 미달한다. **채움의 hover에는 `--color-primary-fill-strong`을 쓴다** (MUST).
+
+라이트에서는 두 주색이 같은 값이다. 밝은 배경에서는 텍스트로도 채움으로도 `#a40f16`이 그대로 통하기 때문이다. 갈라지는 것은 다크에서다.
 
 다크의 `--color-primary-shadow`가 색 계열을 벗어나는 것은 의도다. 어두운 배경에서는 붉은 그림자가 번짐으로 보이고 깊이를 만들지 못한다.
 
-`--color-on-primary`는 채워진 버튼의 글자색이다. 라이트에서는 흰색이지만 **다크에서는 어두운 색이어야 한다** — 다크 주색이 밝은 파생값이라 흰 글자를 올리면 2.66:1로 기준에 크게 미달한다. 주색을 배경으로 쓰는 자리에는 반드시 이 토큰을 쓴다 (MUST).
+**`--color-on-primary`는 두 테마 모두 흰색이다** (MUST). `--color-primary-fill`이 양쪽 테마에서 모두 짙은 빨강이므로 글자색을 뒤집을 이유가 없다. 채움 위의 텍스트에는 반드시 이 토큰을 쓴다 (MUST).
+
+> 이전 스펙은 "다크에서는 어두운 글자를 쓴다"고 규정했다. 그때는 주색 하나가 채움까지 겸해서 다크 채움이 밝은 분홍(`#e08589`)이었고, 흰 글자가 2.66:1로 미달했기 때문이다. 채움 토큰이 분리되면서 그 전제가 사라졌으므로 **이 규칙은 폐기한다.** 다크에서 어두운 글자를 쓰지 않는다.
 
 *중성 계열*
 
 | 토큰 | 라이트 | 다크 | 쓰이는 곳 |
 | --- | --- | --- | --- |
-| `--color-surface` | `#f8f9fa` | `#171415` | 화면 바탕 |
-| `--color-surface-raised` | `#ffffff` | `#211d1f` | 카드, 설정 컨테이너, 목록 항목 |
-| `--color-surface-sunken` | `#f1f3f5` | `#1e1a1c` | 설정 페이지 열 배경, 빈 드롭 영역 |
-| `--color-field` | `#ffffff` | `#262123` | 검색·문의 입력 요소 배경 |
-| `--color-text` | `#333333` | `#f0e9ea` | 본문, 항목 이름 |
-| `--color-text-muted` | `#666666` | `#b9adaf` | 보조 설명, 빈 상태 문구, 푸터 링크, 드래그 손잡이 |
-| `--color-border` | `#dddddd` | `#352e30` | 장식용 구분선, 카드 기본 테두리, 푸터 구분자 |
-| `--color-border-strong` | `#8a8a8a` | `#8d8285` | 정보를 전달하는 테두리 (빈 드롭 영역 점선, 스크롤바 손잡이) |
+| `--color-surface` | `#f8f9fa` | `#0a0a0a` | 화면 바탕 |
+| `--color-surface-raised` | `#ffffff` | `#161616` | 카드, 설정 컨테이너, 목록 항목 |
+| `--color-surface-sunken` | `#f1f3f5` | `#101010` | 설정 페이지 열 배경, 빈 드롭 영역 |
+| `--color-field` | `#ffffff` | `#1c1c1c` | 검색·문의 입력 요소 배경 |
+| `--color-text` | `#333333` | `#f4f4f5` | 본문, 항목 이름 |
+| `--color-text-muted` | `#666666` | `#a1a1aa` | 보조 설명, 빈 상태 문구, 푸터 링크, 드래그 손잡이 |
+| `--color-border` | `#dddddd` | `#27272a` | 장식용 구분선, 카드 기본 테두리, 푸터 구분자 |
+| `--color-border-strong` | `#8a8a8a` | `#71717a` | 정보를 전달하는 테두리 (빈 드롭 영역 점선, 스크롤바 손잡이) |
 | `--color-shadow` | `rgba(0, 0, 0, 0.05)` | `rgba(0, 0, 0, 0.45)` | 카드·컨테이너 기본 그림자 |
 
 *기능색*
@@ -285,45 +298,48 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 라이트  muted  #666666  on raised  #ffffff    5.74 : 1
 라이트  muted  #666666  on surface #f8f9fa    5.45 : 1
 라이트  muted  #666666  on sunken  #f1f3f5    5.16 : 1
-라이트  주색   #a40f16  on raised  #ffffff    7.90 : 1
-라이트  주색   #a40f16  on soft    #fdeeef    7.02 : 1
-라이트  흰텍스트 #ffffff on 주색    #a40f16    7.90 : 1
-라이트  흰텍스트 #ffffff on strong  #790b11   11.24 : 1
+라이트  강조   #a40f16  on raised  #ffffff    7.90 : 1
+라이트  강조   #a40f16  on soft    #fdeeef    7.02 : 1
 
-다크    본문   #f0e9ea  on raised  #211d1f   13.93 : 1
-다크    본문   #f0e9ea  on surface #171415   15.30 : 1
-다크    본문   #f0e9ea  on sunken  #1e1a1c   14.39 : 1
-다크    본문   #f0e9ea  on field   #262123   13.25 : 1
-다크    muted  #b9adaf  on raised  #211d1f    7.66 : 1
-다크    muted  #b9adaf  on field   #262123    7.29 : 1
-다크    주색   #e08589  on raised  #211d1f    6.26 : 1
-다크    주색   #e08589  on surface #171415    6.87 : 1
-다크    주색   #e08589  on soft    #3a2a2c    5.10 : 1
-다크    strong #e9a5a9  on raised  #211d1f    8.27 : 1
+다크    본문   #f4f4f5  on surface #0a0a0a   18.01 : 1
+다크    본문   #f4f4f5  on sunken  #101010   17.31 : 1
+다크    본문   #f4f4f5  on raised  #161616   16.46 : 1
+다크    본문   #f4f4f5  on field   #1c1c1c   15.50 : 1
+다크    본문   #f4f4f5  on soft    #2a1214   15.99 : 1
+다크    muted  #a1a1aa  on surface #0a0a0a    7.72 : 1
+다크    muted  #a1a1aa  on raised  #161616    7.06 : 1
+다크    강조   #ff4d52  on surface #0a0a0a    6.07 : 1
+다크    강조   #ff4d52  on raised  #161616    5.55 : 1
+다크    강조   #ff4d52  on soft    #2a1214    5.38 : 1
+다크    strong #ff7175  on raised  #161616    6.78 : 1
 
-[주색 배경 위 텍스트 — 4.5:1 기준]
-라이트  on-primary #ffffff on 주색   #a40f16    7.90 : 1
+[채움 배경 위 텍스트 — 4.5:1 기준]
+라이트  on-primary #ffffff on fill   #a40f16    7.90 : 1
 라이트  on-primary #ffffff on strong #790b11   11.24 : 1
-다크    on-primary #211d1f on 주색   #e08589    6.26 : 1
-다크    on-primary #211d1f on strong #e9a5a9    8.27 : 1
-
-[기능색 — 4.5:1 기준]
-라이트  notice #a8321f  on surface #f8f9fa    6.34 : 1
-다크    notice #ffab91  on surface #171415   10.01 : 1
+다크    on-primary #ffffff on fill   #c4121b    6.09 : 1
+다크    on-primary #ffffff on fill-hover #d7141e  5.24 : 1
 
 [비텍스트 정보 요소 — 3:1 기준]
-라이트  포커스 테두리 #a40f16 on field #ffffff   7.90 : 1
-라이트  드래그 테두리 #a40f16 on sunken #f1f3f5   7.10 : 1
+라이트  포커스 테두리   #a40f16 on field  #ffffff   7.90 : 1
 라이트  border-strong #8a8a8a on raised #ffffff   3.45 : 1
 라이트  border-strong #8a8a8a on sunken #f1f3f5   3.10 : 1
-다크    포커스 테두리 #e08589 on field #262123    5.95 : 1
-다크    드래그 테두리 #e08589 on raised #211d1f    6.26 : 1
-다크    border-strong #8d8285 on raised #211d1f    4.49 : 1
-다크    border-strong #8d8285 on sunken #1e1a1c    4.64 : 1
+다크    포커스 테두리   #ff4d52 on field  #1c1c1c   5.22 : 1
+다크    border-strong #71717a on raised #161616   3.74 : 1
+다크    border-strong #71717a on sunken #101010   3.94 : 1
+다크    채움 경계      #c4121b on surface #0a0a0a   3.25 : 1
 ```
 
-- 가장 여유가 적은 조합은 라이트의 `border-strong` on `sunken`(3.10:1)과 주색 on `soft`(7.02:1)다. **이 두 토큰을 조정할 때는 반드시 재측정한다** (MUST).
-- 팔레트를 조정하면 위 조합을 다시 측정하고 결과를 PR 본문에 남긴다 (MUST). 기준 미달 조합이 하나라도 있으면 병합하지 않는다.
+**장식으로 분류해 기준을 적용하지 않는 것**
+
+- `--color-border` — 카드 윤곽과 구분선. 정보를 전달하지 않는다.
+- `--color-primary-border` — 안내 박스 테두리와 카드 hover 테두리. **상태를 전달하는 것은 함께 바뀌는 배경(`--color-primary-soft`)과 텍스트이지 이 테두리가 아니므로 순수 장식으로 분류한다** (다크 기준 1.42:1).
+- `--color-primary-shadow`, `--color-shadow` — 그림자.
+
+**여유가 가장 적은 조합**
+
+라이트의 `border-strong` on `sunken`(3.10:1)과 다크의 채움 경계 on `surface`(3.25:1)다. 이 둘은 기준선에 가까우므로 **관련 토큰을 조정할 때 반드시 재측정한다** (MUST).
+
+- 팔레트를 조정하면 위 조합을 다시 측정하고 결과를 PR 본문과 이 표에 남긴다 (MUST). 기준 미달 조합이 하나라도 있으면 병합하지 않는다.
 
 ### 3-2-5-6 랜딩 다크 팔레트
 
@@ -337,60 +353,52 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 | 유지하는 것 | 이유 |
 | --- | --- |
-| `--color-background`, `--color-surface`, `--color-surface-muted`, `--color-foreground`, `--color-muted`, `--color-border` | 홍보 표면의 배경 성격이 도구 화면과 다르다 |
-| `--color-accent` (금색), `--color-focus` (파랑) | 랜딩에만 있는 역할이다 |
+| `--color-background`, `--color-surface`, `--color-surface-muted`, `--color-foreground`, `--color-muted`, `--color-border` | 홍보 표면의 배경 성격이 도구 화면과 다르다. **단 값은 중성이어야 한다** (MUST) |
+| `--color-focus` (파랑) | 랜딩에만 있는 역할이다 |
 | 그라디언트, 글로우, 히어로 연출 | §3-2-3에 따라 랜딩 고유 표현이다 |
 
-**브랜드 패널은 다크에서도 짙은 주색을 유지한다** (MUST). `.feature-card-accent`와 `.cta-card`는 화면 폭을 채우는 큰 면적이라, 다크에서 밝은 주색 파생값으로 칠하면 어두운 페이지에서 눈부시다. 이 둘은 다크에서도 `#a40f16` 배경에 흰 텍스트를 쓴다.
+**채움은 모두 `--color-primary-fill`을 쓴다** (MUST). 버튼·결과 마크 같은 작은 컨트롤과 `.feature-card-accent`·`.cta-card` 같은 큰 브랜드 패널이 같은 토큰을 공유한다.
 
-즉 주색이 배경으로 쓰이는 자리는 두 갈래다. 혼동하면 대비가 무너진다.
-
-| 역할 | 다크 배경 | 다크 텍스트 |
-| --- | --- | --- |
-| 작은 컨트롤 (버튼, 결과 마크) | `var(--color-primary)` = `#e08589` | `var(--color-on-primary)` = `#211d1f` |
-| 큰 브랜드 패널 (feature accent, CTA) | `#a40f16` 고정 | `#ffffff` 고정 |
+이전에는 이 둘을 갈라 두어야 했다. 다크 주색이 밝은 분홍이라 큰 면적에 쓰면 눈부셔서, 패널만 `#a40f16`으로 하드코딩하고 예외를 문서에 남겼다. **채움 토큰이 분리되면서 그 예외가 사라졌다** — `--color-primary-fill`은 두 테마 모두 짙은 빨강이므로 크기와 무관하게 그대로 쓸 수 있다. 다크 전용 패널 오버라이드도 함께 제거했다.
 
 **배경이 테마와 무관하게 고정된 자리는 전용 토큰을 쓴다** (MUST). 랜딩에는 두 곳이 있다. 여기에 `--color-on-primary`나 `--color-primary`를 쓰면 테마에 따라 값이 뒤집혀 대비가 깨진다.
 
 | 토큰 | 값 | 배경 | 쓰이는 곳 |
 | --- | --- | --- | --- |
-| `--color-on-primary-muted` | `#f5d6d8` | 브랜드 패널 `#a40f16` | feature 번호·본문, CTA 본문 |
-| `--color-flow-accent` | `#e08589` | flow 섹션 `#211b1d` | 섹션 kicker, 단계 번호 |
+| `--color-on-primary-muted` | `#f7dee0` | 브랜드 패널 `--color-primary-fill` | feature 번호·본문, CTA 본문 |
+| `--color-flow-accent` | `#ff4d52` | flow 섹션 `#1d1d1d` | 섹션 kicker, 단계 번호 |
 
-두 토큰 모두 다크 변형이 없다. 배경이 두 테마에서 같기 때문이다. `--color-flow-accent`는 다크 주색과 같은 값을 쓴다 — flow 섹션이 항상 어두우므로 "어두운 배경 위 브랜드 색"이라는 같은 문제를 푼다.
+`--color-flow-accent`는 다크 주색과 같은 값을 쓴다 — flow 섹션이 항상 어두우므로 "어두운 배경 위 브랜드 색"이라는 같은 문제를 푼다. 이 토큰은 다크 변형이 없다.
+
+`--color-on-primary-muted`는 채움 배경 위에 올라가므로 **두 테마의 채움 값 모두에 대해 4.5:1을 만족해야 한다** (MUST).
 
 **실측값** (WCAG 2.1 상대 휘도 기준)
 
 ```text
-[텍스트 — 4.5:1 기준]
-foreground #f8f2f3 on background      #181416   16.50 : 1
-foreground #f8f2f3 on surface         #211b1d   15.32 : 1
-foreground #f8f2f3 on surface-muted   #2b2326   13.85 : 1
-foreground #f8f2f3 on soft            #3a2a2c   12.27 : 1
-muted      #c0b4b7 on background      #181416    9.09 : 1
-muted      #c0b4b7 on surface         #211b1d    8.44 : 1
-muted      #c0b4b7 on soft            #3a2a2c    6.76 : 1
-primary    #e08589 on background      #181416    6.85 : 1
-primary    #e08589 on surface         #211b1d    6.36 : 1
-primary    #e08589 on soft            #3a2a2c    5.10 : 1
-strong     #e9a5a9 on surface         #211b1d    8.41 : 1
-accent     #d4ad68 on background      #181416    8.67 : 1
-focus      #73a7ff on background      #181416    7.56 : 1
+[다크 텍스트 — 4.5:1 기준]
+foreground #f4f4f5 on background   #0a0a0a   18.01 : 1
+foreground #f4f4f5 on surface      #161616   16.46 : 1
+foreground #f4f4f5 on surface-muted #1c1c1c  15.50 : 1
+muted      #a1a1aa on background   #0a0a0a    7.72 : 1
+muted      #a1a1aa on surface      #161616    7.06 : 1
+primary    #ff4d52 on background   #0a0a0a    6.07 : 1
+primary    #ff4d52 on surface      #161616    5.55 : 1
+primary    #ff4d52 on soft         #2a1214    5.38 : 1
+strong     #ff7175 on surface      #161616    6.78 : 1
+focus      #73a7ff on background   #0a0a0a    8.20 : 1
 
-[주색 배경 위 텍스트 — 4.5:1 기준]
-on-primary #211d1f on primary  #e08589    6.26 : 1
-on-primary #211d1f on strong   #e9a5a9    8.27 : 1
-패널 텍스트 #ffffff on 패널     #a40f16    7.90 : 1
-스킵 링크   #181416 on foreground #f8f2f3  16.50 : 1
-
-[배경이 고정된 자리 — 4.5:1 기준]
-on-primary-muted #f5d6d8 on 패널      #a40f16   5.83 : 1
-flow-accent      #e08589 on flow 섹션 #211b1d   6.36 : 1
+[채움 배경 위 텍스트 — 4.5:1 기준]
+on-primary       #ffffff on fill(라이트) #a40f16   7.90 : 1
+on-primary       #ffffff on fill(다크)   #c4121b   6.09 : 1
+on-primary-muted #f7dee0 on fill(라이트) #a40f16   6.20 : 1
+on-primary-muted #f7dee0 on fill(다크)   #c4121b   4.78 : 1
+flow-accent      #ff4d52 on flow 섹션    #1d1d1d   5.17 : 1
+스킵 링크         #0a0a0a on foreground  #f4f4f5  18.01 : 1
 
 [정보성 비텍스트 — 3:1 기준]
-검색 데모 테두리 #e08589 on surface #211b1d   6.36 : 1
+검색 데모 테두리 #ff4d52 on surface #161616   5.55 : 1
 ```
 
-`--color-border`(`#3b3033`)는 카드 윤곽을 잡는 장식이라 대비 기준의 대상이 아니다(§3-2-5-5).
+`--color-border`(`#27272a`)는 카드 윤곽을 잡는 장식이라 대비 기준의 대상이 아니다(§3-2-5-5).
 
-정렬 과정에서 **다크에서 키보드 스킵 링크가 보이지 않는 결함**이 드러났다. 배경이 `--color-foreground`인데 글자가 흰색으로 고정되어 있어, 다크에서 흰 배경에 흰 글자(1.11:1)가 되었다. 글자색을 `--color-background`로 바꿔 두 테마 모두에서 반전되도록 했다. **테마에 따라 뒤집히는 색 위에 고정 색 텍스트를 올리지 않는다** (MUST).
+정렬 과정에서 **다크에서 키보드 스킵 링크가 보이지 않는 결함**이 드러났다. 배경이 `--color-foreground`인데 글자가 흰색으로 고정되어 있어, 다크에서 밝은 배경에 흰 글자(1.11:1)가 되었다. 글자색을 `--color-background`로 바꿔 두 테마 모두에서 반전되도록 했다. **테마에 따라 뒤집히는 색 위에 고정 색 텍스트를 올리지 않는다** (MUST).

@@ -17,14 +17,18 @@
   color-scheme: light;
 
   /* 주색 계열 */
-  /* primary 3종은 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* primary 계열과 on-primary는 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* 텍스트·강조 전용. 배경을 칠할 때는 --color-primary-fill을 쓴다. */
   --color-primary: #a40f16;
+  /* 채움 배경 전용(버튼, 배지, 브랜드 패널) */
+  --color-primary-fill: #a40f16;
+  --color-primary-fill-strong: #790b11;
   --color-primary-strong: #790b11;
   --color-primary-soft: #fdeeef;
   --color-primary-border: #f4bfc3;
   --color-primary-ring: rgba(164, 15, 22, 0.12);
   --color-primary-shadow: rgba(164, 15, 22, 0.15);
-  /* 주색 배경 위에 올라가는 텍스트 */
+  /* --color-primary-fill 위에 올라가는 텍스트 */
   --color-on-primary: #ffffff;
 
   /* 중성 계열 */
@@ -45,26 +49,30 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  /* 주색 계열 — 어두운 배경에서 대비를 확보한 밝은 파생값 */
-  --color-primary: #e08589;
-  --color-primary-strong: #e9a5a9;
-  --color-primary-soft: #3a2a2c;
-  --color-primary-border: #5c3f43;
-  --color-primary-ring: rgba(224, 133, 137, 0.28);
+  /* 주색 계열 — 텍스트용은 채도를 지킨 채 밝게, 채움용은 짙게 유지한다.
+     하나로 겸용하면 대비를 맞추다 채도를 잃어 분홍으로 보인다(스펙 3-3-15). */
+  --color-primary: #ff4d52;
+  --color-primary-fill: #c4121b;
+  /* 채움 hover. --color-primary-strong을 채움에 쓰면 흰 글자가 2.67:1로 미달한다. */
+  --color-primary-fill-strong: #d7141e;
+  --color-primary-strong: #ff7175;
+  --color-primary-soft: #2a1214;
+  --color-primary-border: #5c1d20;
+  --color-primary-ring: rgba(255, 77, 82, 0.28);
   /* 어두운 배경에서 붉은 그림자는 번짐으로 보여 깊이를 만들지 못한다. */
   --color-primary-shadow: rgba(0, 0, 0, 0.45);
-  /* 밝은 주색 위에는 흰 텍스트가 2.66:1로 미달이라 어두운 텍스트를 쓴다. */
-  --color-on-primary: #211d1f;
+  /* 채움이 두 테마 모두 짙은 빨강이라 글자색을 뒤집지 않는다. */
+  --color-on-primary: #ffffff;
 
-  /* 중성 계열 */
-  --color-surface: #171415;
-  --color-surface-raised: #211d1f;
-  --color-surface-sunken: #1e1a1c;
-  --color-field: #262123;
-  --color-text: #f0e9ea;
-  --color-text-muted: #b9adaf;
-  --color-border: #352e30;
-  --color-border-strong: #8d8285;
+  /* 중성 계열 — 표면에 색조를 넣지 않는다. 색은 주색 계열만 담당한다. */
+  --color-surface: #0a0a0a;
+  --color-surface-raised: #161616;
+  --color-surface-sunken: #101010;
+  --color-field: #1c1c1c;
+  --color-text: #f4f4f5;
+  --color-text-muted: #a1a1aa;
+  --color-border: #27272a;
+  --color-border-strong: #71717a;
   --color-shadow: rgba(0, 0, 0, 0.45);
 
   /* 기능색 — 새 버전 안내 */
