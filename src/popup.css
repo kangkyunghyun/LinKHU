@@ -312,14 +312,33 @@ header h1 {
   display: block;
 }
 
-/* 평소에는 비어 있고 모드 변경·저장 실패 때만 한 줄 나타난다. */
+/* 평소에는 스크린 리더에만 읽힌다. 레이아웃 공간을 차지하지 않으므로
+   테마를 바꿔도 아래 요소가 밀리지 않는다. */
 .theme-status {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 11.5px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 저장 실패는 드물고 반드시 보여야 한다(스펙 3-2-5-2). 그때만 드러낸다. */
+.theme-status-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  color: var(--color-notice);
   text-align: center;
 }
 
-.theme-status:empty {
-  display: none;
+.theme-status-visible {
+  margin: 0 0 8px;
+  font-size: 11.5px;
 }

@@ -23,7 +23,21 @@ function createToggleButton() {
 }
 
 function createStatusElement() {
-  return { textContent: "" };
+  const classes = new Set();
+  return {
+    textContent: "",
+    classList: {
+      toggle(name, force) {
+        if (force) classes.add(name);
+        else classes.delete(name);
+      },
+      contains: (name) => classes.has(name),
+    },
+    // 평소에는 sr-only라 시각적으로 숨는다. 수정자 클래스가 붙을 때만 보인다.
+    isVisible() {
+      return classes.has("theme-status-visible");
+    },
+  };
 }
 
 function createDocument(toggles, statuses = []) {
@@ -756,4 +770,54 @@ test("the mode is exposed on the root so icons can show it", () => {
 
   context.toggle.click();
   assert.equal(context.root.attributes["data-theme-mode"], "dark");
+});
+
+test("the status line stays visually hidden while saves succeed", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  assert.equal(context.status.isVisible(), false);
+
+  context.toggle.click();
+
+  // 스크린 리더용 문구는 들어가되 화면에는 드러나지 않는다.
+  assert.equal(context.status.textContent, "테마: 라이트");
+  assert.equal(context.status.isVisible(), false);
+});
+
+test("a failed save reveals the status line, and the next success hides it again", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    lastError: { message: "quota exceeded" },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+
+  context.toggle.click();
+  assert.equal(context.status.textContent, ThemeManager.SAVE_FAILED_MESSAGE);
+  assert.equal(context.status.isVisible(), true);
+
+  // 오류가 해소되면 다시 숨는다.
+  context.state.lastError = null;
+  context.toggle.click();
+  assert.equal(context.status.textContent, "테마: 라이트");
+  assert.equal(context.status.isVisible(), false);
 });

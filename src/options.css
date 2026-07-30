@@ -46,8 +46,8 @@ h1 {
   margin: 0;
 }
 
-/* 이모지 자리를 대신하므로 텍스트와 같은 색·베이스라인을 따른다. */
-.title-icon {
+/* 서비스 로고. 옆 제목 텍스트가 이름을 읽어주므로 alt는 비워 둔다. */
+.title-logo {
   flex-shrink: 0;
 }
 
@@ -324,12 +324,35 @@ h1 {
   background-color: var(--color-primary-fill-strong);
 }
 
+/* 평소에는 스크린 리더에만 읽힌다. 레이아웃 공간을 차지하지 않으므로
+   테마를 바꿔도 아래 요소가 밀리지 않는다. */
 .theme-status {
-  margin: 10px 0 0;
-  min-height: 15px;
-  color: var(--color-text-muted);
-  font-size: 12px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 저장 실패는 드물고 반드시 보여야 한다(스펙 3-2-5-2). 그때만 드러낸다. */
+.theme-status-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  color: var(--color-notice);
   text-align: center;
+}
+
+.theme-status-visible {
+  margin: 10px 0 0;
+  font-size: 12px;
 }
 
 .options-footer {

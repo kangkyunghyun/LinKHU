@@ -178,6 +178,13 @@ Chrome·Firefox·Whale 로고는 **각 사의 브랜드 자산이므로 Reicon�
 - 보조 선·세부 요소 색은 가이드를 그대로 따른다 (MUST). 바뀐 것은 브랜드 레드뿐이다.
 - 기존 아이콘을 색만 맞추려고 개별적으로 고치지 않는다 (MUST). 도안이 섞이면 팝업 격자에서 색이 들쭉날쭉해 보인다. **전체를 한 번에 정합하거나, 하지 않거나 둘 중 하나다.**
 
+**확장 자체 로고는 해소되었다.** `src/icons/icon16.png`·`icon48.png`·`icon128.png`와 랜딩 사본(`docs/assets/linkhu-icon.png`), 스토어 홍보 타일(`docs/assets/store/promotion-tile.png`)의 색이 `#9d1c20`이었으나 이슈 [#113](https://github.com/kangkyunghyun/LinKHU/issues/113)에서 `#a40f16`으로 정합했다. 알파 채널을 건드리지 않아 모양과 경계는 그대로다.
+
+**남은 간극은 두 가지뿐이다** (이슈 [#106](https://github.com/kangkyunghyun/LinKHU/issues/106)).
+
+1. **서비스 아이콘 자산** — `src/images/**`의 115개 고유 파일이 구 브랜드색(`#9d2235`)으로 그려져 있다.
+2. **아이콘 스타일 가이드 문서** — 주요 색상 지정이 여전히 `#9d2235`다.
+
 가이드 갱신과 기존 아이콘 재작업은 함께 다뤄야 하는 별도 작업이며, 이슈 [#106](https://github.com/kangkyunghyun/LinKHU/issues/106)에서 다룬다. **이 간극은 서비스 아이콘에만 해당한다** — UI 아이콘은 Reicon을 쓰고 색을 토큰으로 받으므로 영향이 없다.
 
 ## 3-2-5 다크 테마 스펙
