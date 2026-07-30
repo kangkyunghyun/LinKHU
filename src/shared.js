@@ -44,6 +44,13 @@ const LinKHUShared = {
       .map(({ site }) => site);
   },
 
+  // data.js의 imgSrc는 라이트 경로 하나만 갖는다. 다크 경로는 규칙으로 만든다.
+  // 두 벌을 데이터에 중복해 적으면 추가할 때마다 어긋날 자리가 하나 늘어난다.
+  iconSrc(imgSrc, theme) {
+    if (theme !== "dark") return imgSrc;
+    return String(imgSrc).replace(/^images\//, "images/dark/");
+  },
+
   getDefaultOrder(siteList) {
     return siteList
       .filter((site) => site.category === "공통")

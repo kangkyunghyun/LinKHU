@@ -75,13 +75,23 @@
     }
 
     if (service.imgSrc) {
+      // 랜딩은 확장과 달리 저장된 테마 모드가 없고 prefers-color-scheme만 따른다.
+      // picture/source에 맡기면 브라우저가 그리기 전에 고르므로 깜빡임이 없고
+      // OS 설정이 바뀌어도 별도 구독 없이 따라간다.
+      const picture = documentObject.createElement("picture");
+      const darkSource = documentObject.createElement("source");
       const icon = documentObject.createElement("img");
+
+      darkSource.media = "(prefers-color-scheme: dark)";
+      darkSource.srcset = `assets/${service.imgSrc.replace(/^images\//, "images/dark/")}`;
       icon.src = `assets/${service.imgSrc}`;
       icon.alt = "";
       icon.loading = "lazy";
       icon.addEventListener("error", showFallbackMark);
+
+      picture.append(darkSource, icon);
       mark.classList.add("has-icon");
-      mark.append(icon);
+      mark.append(picture);
     } else {
       showFallbackMark();
     }

@@ -80,7 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
       "</svg>";
 
     const icon = document.createElement("img");
-    icon.src = site.imgSrc;
+    // 첫 렌더부터 올바른 경로를 쓴다(팝업과 같은 이유).
+    icon.dataset.iconSrc = site.imgSrc;
+    icon.src = LinKHUShared.iconSrc(site.imgSrc, ThemeManager.resolvedTheme());
     icon.alt = "";
     icon.draggable = false;
 
@@ -341,6 +343,13 @@ document.addEventListener("DOMContentLoaded", () => {
       SearchPanel.update();
     });
   }
+
+  // 테마가 바뀌면 이미 만들어진 항목의 아이콘 경로만 바꾼다.
+  ThemeManager.subscribeThemeChange((theme) => {
+    document.querySelectorAll("img[data-icon-src]").forEach((icon) => {
+      icon.src = LinKHUShared.iconSrc(icon.dataset.iconSrc, theme);
+    });
+  });
 
   initShortcutGuide();
   SearchPanel.init();

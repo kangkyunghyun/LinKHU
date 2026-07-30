@@ -55,6 +55,11 @@ const ThemeManager = {
   // 동시에 듣는다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
   modeSubscribers: new Set(),
 
+  // 화면에 칠해진 테마(light/dark)가 바뀔 때 알린다. 모드 변경뿐 아니라
+  // system 상태에서 OS 설정이 바뀐 경우도 잡아야 해서 모드 통지와 따로 둔다.
+  themeSubscribers: new Set(),
+  lastAppliedTheme: null,
+
   // 외부 의존을 한곳에서 읽어 테스트에서 교체할 수 있게 한다.
   deps: {
     storage() {
@@ -87,6 +92,11 @@ const ThemeManager = {
 
   notifyModeChange() {
     this.modeSubscribers.forEach((callback) => callback(this.currentMode));
+  },
+
+  subscribeThemeChange(callback) {
+    this.themeSubscribers.add(callback);
+    return () => this.themeSubscribers.delete(callback);
   },
 
   // 저장된 값이 없거나 손상됐어도 화면은 떠야 하므로 항상 유효한 모드를 돌려준다.
@@ -145,8 +155,14 @@ const ThemeManager = {
 
   // 현재 모드를 화면에 다시 칠한다. 모드가 바뀌었을 때와 시스템 테마가 바뀌었을 때 모두 쓴다.
   refresh() {
-    this.applyTheme(this.resolvedTheme());
+    const theme = this.resolvedTheme();
+    this.applyTheme(theme);
     this.renderToggle();
+
+    if (theme !== this.lastAppliedTheme) {
+      this.lastAppliedTheme = theme;
+      this.themeSubscribers.forEach((callback) => callback(theme));
+    }
   },
 
   // 아이콘 교체는 CSS가 data-theme-mode로 처리한다. 여기서는 레이블만 맞춘다.

@@ -23,8 +23,11 @@ function serializeLandingServices(siteList) {
 
 // 랜딩 페이지가 확장과 같은 아이콘을 쓰도록 사용 중인 이미지 목록을 만든다.
 // imgSrc는 "images/common/portal.png" 형태의 src/ 기준 상대 경로다.
+// 아이콘은 라이트·다크 두 벌이므로 다크 경로도 함께 복사한다.
 function collectUsedIconPaths(siteList) {
-  return [...new Set(siteList.map((site) => site.imgSrc))].sort();
+  const light = [...new Set(siteList.map((site) => site.imgSrc))];
+  const dark = light.map((iconPath) => iconPath.replace(/^images\//, "images/dark/"));
+  return [...light, ...dark].sort();
 }
 
 function collectCopiedIconPaths(directory = ICON_OUTPUT_ROOT) {
