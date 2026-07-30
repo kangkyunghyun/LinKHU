@@ -12,6 +12,7 @@ class FakeElement {
     this.children = [];
     this.listeners = new Map();
     this.className = "";
+    this.dataset = {};
   }
 
   appendChild(child) {
@@ -62,7 +63,7 @@ function loadScript(relativePaths, additions, overrides = {}) {
 
 test("popup removes duplicate site ids while preserving order", () => {
   const context = loadScript(
-    ["src/shared.js", "src/popup.js"],
+    ["src/theme.js", "src/shared.js", "src/popup.js"],
     "this.AppForTest = App;",
     { chrome: {} },
   );
@@ -82,7 +83,7 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
   const createdTabs = [];
   let closeCount = 0;
   const context = loadScript(
-    ["src/shared.js", "src/popup.js"],
+    ["src/theme.js", "src/shared.js", "src/popup.js"],
     "this.AppForTest = App;",
     {
     chrome: {

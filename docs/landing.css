@@ -844,14 +844,15 @@ kbd {
   background-size: 7px 7px;
 }
 
-/* 서비스 아이콘 원본이 흰 배경 PNG라 칸 배경도 흰색으로 맞춘다. */
+/* 아이콘이 두 벌 모두 투명 배경이라 칸을 흰색으로 고정할 이유가 사라졌다.
+   표면 토큰을 따라가므로 다크에서 흰 사각형이 드러나지 않는다. */
 .list-icon {
   width: 38px;
   height: 38px;
   display: grid;
   place-items: center;
   border-radius: 10px;
-  background: #ffffff;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
 }
 

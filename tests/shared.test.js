@@ -74,3 +74,14 @@ test("shared getDefaultOrder keeps 공통 sites in list order", () => {
 
   assert.deepEqual(LinKHUShared.getDefaultOrder(sites), ["a", "c"]);
 });
+
+test("iconSrc는 다크에서만 dark 경로로 바꾼다", () => {
+  assert.equal(
+    LinKHUShared.iconSrc("images/common/portal.png", "light"),
+    "images/common/portal.png",
+  );
+  assert.equal(
+    LinKHUShared.iconSrc("images/common/portal.png", "dark"),
+    "images/dark/common/portal.png",
+  );
+});

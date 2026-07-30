@@ -30,7 +30,9 @@ const App = {
     el.href = item.url;
 
     const img = document.createElement("img");
-    img.src = item.imgSrc;
+    // 첫 렌더부터 올바른 경로를 쓴다. 그린 뒤 바꾸면 한 번 깜빡인다.
+    img.dataset.iconSrc = item.imgSrc;
+    img.src = LinKHUShared.iconSrc(item.imgSrc, ThemeManager.resolvedTheme());
     img.alt = item.name;
     img.draggable = false;
 
@@ -99,8 +101,17 @@ const App = {
   },
 };
 
+// 테마가 바뀌면 이미 그려진 아이콘의 경로만 바꾼다. 다시 렌더하면
+// 격자를 통째로 새로 만들게 되어 무겁고 스크롤 위치도 흔들린다.
+function applyIconTheme(theme) {
+  document.querySelectorAll("#grid-container img[data-icon-src]").forEach((img) => {
+    img.src = LinKHUShared.iconSrc(img.dataset.iconSrc, theme);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   App.render();
+  ThemeManager.subscribeThemeChange(applyIconTheme);
 
   VersionManager.displayVersionInfo("current-version", "update-message");
 
