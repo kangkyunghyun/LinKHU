@@ -16,6 +16,7 @@ const DEFAULT_THEME_MODE = "system";
 const DARK_MEDIA_QUERY = "(prefers-color-scheme: dark)";
 const THEME_SAVE_FAILED_MESSAGE =
   "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
+const STATUS_VISIBLE_CLASS = "theme-status-visible";
 const MODE_NAMES = {
   system: "시스템 설정",
   light: "라이트",
@@ -28,6 +29,7 @@ const ThemeManager = {
   DEFAULT_MODE: DEFAULT_THEME_MODE,
 
   SAVE_FAILED_MESSAGE: THEME_SAVE_FAILED_MESSAGE,
+  STATUS_VISIBLE_CLASS,
   MODE_NAMES,
 
   // 낙관적으로 화면에 적용된 모드.
@@ -160,12 +162,17 @@ const ThemeManager = {
   },
 
   // 저장 실패는 화면마다 알려야 한다. 토글만 있는 팝업에도 안내 자리가 있다.
-  reportStatus(message) {
+  //
+  // 평소에는 시각적으로 숨긴다. 모드 변경은 아이콘과 화면 전체 색이 바뀌는
+  // 강한 피드백이 이미 있어 텍스트가 중복이고, 좁은 팝업에서 격자를 밀어낸다.
+  // 스크린 리더에는 계속 읽혀야 하므로 요소를 없애지 않고 sr-only로 둔다.
+  reportStatus(message, isError = false) {
     const doc = this.deps.document();
     if (!doc) return;
 
     doc.querySelectorAll("[data-theme-status]").forEach((element) => {
       element.textContent = message;
+      element.classList?.toggle(STATUS_VISIBLE_CLASS, Boolean(isError));
     });
   },
 
@@ -176,8 +183,10 @@ const ThemeManager = {
     doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
       button.addEventListener("click", () => {
         this.toggleTheme((error) => {
+          // 성공하면 오류 표시를 걷어내고 다시 숨긴다.
           this.reportStatus(
             error ? THEME_SAVE_FAILED_MESSAGE : this.modeAnnouncement(),
+            Boolean(error),
           );
         });
       });
