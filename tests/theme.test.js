@@ -3,6 +3,33 @@ const assert = require("node:assert/strict");
 
 const ThemeManager = require("../src/theme");
 
+function createToggleButton() {
+  return {
+    attributes: {},
+    listeners: {},
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    addEventListener(type, listener) {
+      this.listeners[type] = listener;
+    },
+    click() {
+      this.listeners.click?.();
+    },
+    label() {
+      return this.attributes["aria-label"];
+    },
+  };
+}
+
+function createDocument(toggles) {
+  return {
+    querySelectorAll(selector) {
+      return selector === "[data-theme-toggle]" ? toggles : [];
+    },
+  };
+}
+
 function createRoot() {
   return {
     attributes: {},
@@ -42,15 +69,19 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
   const root = createRoot();
   const listeners = [];
   const state = { lastError };
+  const toggle = createToggleButton();
+  const doc = createDocument([toggle]);
 
   ThemeManager.currentMode = ThemeManager.DEFAULT_MODE;
   ThemeManager.requestId = 0;
   ThemeManager.resolved = false;
   ThemeManager.onResolved = null;
+  ThemeManager.onModeChange = null;
   ThemeManager.deps = {
     storage: () => storage,
     lastError: () => state.lastError,
     root: () => root,
+    document: () => doc,
     matchMedia: () => ({
       matches: prefersDark,
       addEventListener(type, listener) {
@@ -59,7 +90,7 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
     }),
   };
 
-  return { root, listeners, state, theme: () => root.attributes["data-theme"] };
+  return { root, listeners, state, toggle, theme: () => root.attributes["data-theme"] };
 }
 
 test("theme mode normalizes unknown, missing, and non-string values to system", () => {
@@ -146,10 +177,15 @@ test("system theme changes repaint only while the mode is system", () => {
   const listeners = [];
 
   ThemeManager.currentMode = "system";
+  ThemeManager.requestId = 0;
+  ThemeManager.resolved = false;
+  ThemeManager.onResolved = null;
+  ThemeManager.onModeChange = null;
   ThemeManager.deps = {
     storage: () => null,
     lastError: () => null,
     root: () => root,
+    document: () => createDocument([]),
     matchMedia: () => ({
       get matches() {
         return prefersDark;
@@ -334,4 +370,110 @@ test("theme handling survives a missing storage API", () => {
   assert.equal(received.mode, "system");
   // 저장은 못 했어도 화면은 시스템 설정 기준으로 정상 동작해야 한다.
   assert.equal(context.theme(), "dark");
+});
+
+test("the theme toggle stores the opposite of what is painted", () => {
+  let saved;
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        saved = value;
+        callback();
+      },
+    },
+    prefersDark: false,
+  });
+
+  ThemeManager.init();
+  assert.equal(context.theme(), "light");
+
+  // system 상태에서 눌러도 명시적 선택으로 저장된다.
+  ThemeManager.initToggle();
+  context.toggle.click();
+
+  assert.deepEqual(saved, { themeMode: "dark" });
+  assert.equal(ThemeManager.currentMode, "dark");
+  assert.equal(context.theme(), "dark");
+
+  context.toggle.click();
+  assert.deepEqual(saved, { themeMode: "light" });
+  assert.equal(context.theme(), "light");
+});
+
+test("the toggle goes through the same save path and its race guard", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+  ThemeManager.initToggle();
+
+  // 토글(A) 직후 라디오 경로(B)로 다른 값을 고르면, 늦게 실패한 A는 무시되어야 한다.
+  const calls = [];
+  context.toggle.click();
+  ThemeManager.setMode("light", (error, mode) => calls.push(["B", error, mode]));
+
+  const writeA = storage.writes.shift();
+  const writeB = storage.writes.shift();
+
+  context.state.lastError = null;
+  writeB(null);
+  context.state.lastError = { message: "quota exceeded" };
+  writeA({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  assert.deepEqual(calls.map(([label]) => label), ["B"]);
+  assert.equal(ThemeManager.currentMode, "light");
+  assert.equal(context.theme(), "light");
+  assert.equal(storage.saved.themeMode, "light");
+});
+
+test("the toggle label always describes what pressing it will do", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    prefersDark: false,
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  assert.equal(context.toggle.label(), "다크 테마로 전환");
+
+  context.toggle.click();
+  assert.equal(context.toggle.label(), "라이트 테마로 전환");
+
+  context.toggle.click();
+  assert.equal(context.toggle.label(), "다크 테마로 전환");
+});
+
+test("changing the mode notifies subscribers so the radios can follow", () => {
+  const seen = [];
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  ThemeManager.onModeChange = (mode) => seen.push(mode);
+
+  context.toggle.click();
+  ThemeManager.setMode("system", () => {});
+
+  assert.deepEqual(seen, ["dark", "system"]);
 });

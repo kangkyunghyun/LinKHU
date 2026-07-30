@@ -32,6 +32,9 @@ const ThemeManager = {
   resolved: false,
   onResolved: null,
 
+  // 모드가 바뀔 때마다 알린다. 토글로 바꿔도 설정 페이지 라디오가 따라오게 하는 통로다.
+  onModeChange: null,
+
   // 외부 의존을 한곳에서 읽어 테스트에서 교체할 수 있게 한다.
   deps: {
     storage() {
@@ -43,6 +46,9 @@ const ThemeManager = {
     root() {
       return typeof document !== "undefined" ? document.documentElement : null;
     },
+    document() {
+      return typeof document !== "undefined" ? document : null;
+    },
     matchMedia(query) {
       return typeof window !== "undefined" && window.matchMedia
         ? window.matchMedia(query)
@@ -53,6 +59,27 @@ const ThemeManager = {
   // 저장된 값이 없거나 손상됐어도 화면은 떠야 하므로 항상 유효한 모드를 돌려준다.
   normalizeMode(value) {
     return THEME_MODES.includes(value) ? value : DEFAULT_THEME_MODE;
+  },
+
+  // 지금 화면에 실제로 칠해진 테마.
+  resolvedTheme() {
+    return this.resolveTheme(this.currentMode, this.prefersDark());
+  },
+
+  // 토글이 저장할 모드. 칠해진 테마의 반대이며 항상 명시적 선택이다.
+  nextToggleMode() {
+    return this.resolvedTheme() === "dark" ? "light" : "dark";
+  },
+
+  // 아이콘만 있는 버튼이라 스크린 리더가 읽을 텍스트가 반드시 필요하다.
+  // 현재 상태가 아니라 "누르면 될 동작"을 알린다.
+  toggleLabel(resolvedTheme) {
+    return resolvedTheme === "dark" ? "라이트 테마로 전환" : "다크 테마로 전환";
+  },
+
+  // 토글도 라디오와 같은 저장 경로(setMode)를 지난다. 경쟁 상태 가드도 그대로 적용된다.
+  toggleTheme(callback) {
+    this.setMode(this.nextToggleMode(), callback);
   },
 
   resolveTheme(mode, prefersDark) {
@@ -72,7 +99,28 @@ const ThemeManager = {
 
   // 현재 모드를 화면에 다시 칠한다. 모드가 바뀌었을 때와 시스템 테마가 바뀌었을 때 모두 쓴다.
   refresh() {
-    this.applyTheme(this.resolveTheme(this.currentMode, this.prefersDark()));
+    this.applyTheme(this.resolvedTheme());
+    this.renderToggle();
+  },
+
+  // 아이콘 교체는 CSS가 data-theme으로 처리한다. 여기서는 레이블만 맞춘다.
+  renderToggle() {
+    const doc = this.deps.document();
+    if (!doc) return;
+
+    doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", this.toggleLabel(this.resolvedTheme()));
+    });
+  },
+
+  initToggle() {
+    const doc = this.deps.document();
+    if (!doc) return;
+
+    doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.addEventListener("click", () => this.toggleTheme());
+    });
+    this.renderToggle();
   },
 
   readMode(callback) {
@@ -119,6 +167,7 @@ const ThemeManager = {
         this.currentMode = previousMode;
         this.refresh();
       }
+      this.onModeChange?.(this.currentMode);
       callback?.(error, this.currentMode);
     });
   },
@@ -165,6 +214,8 @@ const ThemeManager = {
 
 if (typeof document !== "undefined" && document.documentElement) {
   ThemeManager.init();
+  // 토글 버튼은 <body>가 파싱된 뒤에야 존재한다.
+  document.addEventListener("DOMContentLoaded", () => ThemeManager.initToggle());
 }
 
 if (typeof module !== "undefined" && module.exports) {

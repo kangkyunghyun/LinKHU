@@ -119,5 +119,8 @@ Issue와 Pull Request를 통한 제보와 기여는 언제나 환영입니다.
 - 기능 제안: Feature Request 템플릿에 제안 배경과 기대 동작을 적어주세요.
 - 직접 수정 PR: 관련 이슈를 먼저 만들고, 변경 후 검증 결과를 PR 본문에 남겨주세요.
 
+## 🙏 Credits
+UI 아이콘은 [Reicon](https://github.com/huntiezz/reicon)(MIT License)을 사용합니다.
+
 ## 📜 License
 This project is licensed under the [MIT License](./LICENSE)  

@@ -274,3 +274,44 @@ header h1 {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: -6px;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--color-primary-soft);
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+/* 아이콘은 누르면 될 상태를 보여준다. 라이트에서 달, 다크에서 해. */
+.theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}

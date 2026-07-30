@@ -1,3 +1,7 @@
+// 드래그 손잡이 아이콘(Reicon reorder, MIT). 목록 항목마다 새로 만들므로 상수로 둔다.
+const REORDER_ICON_PATHS =
+  '<path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 10C19.75 10.4142 19.4142 10.75 19 10.75L5 10.75C4.58579 10.75 4.25 10.4142 4.25 10C4.25 9.58579 4.58579 9.25 5 9.25L19 9.25C19.4142 9.25 19.75 9.58579 19.75 10Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 14C19.75 14.4142 19.4142 14.75 19 14.75L5 14.75C4.58579 14.75 4.25 14.4142 4.25 14C4.25 13.5858 4.58579 13.25 5 13.25L19 13.25C19.4142 13.25 19.75 13.5858 19.75 14Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 6C19.75 6.41421 19.4142 6.75 19 6.75L5 6.75C4.58579 6.75 4.25 6.41421 4.25 6C4.25 5.58579 4.58579 5.25 5 5.25L19 5.25C19.4142 5.25 19.75 5.58579 19.75 6Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 18C19.75 18.4142 19.4142 18.75 19 18.75L5 18.75C4.58579 18.75 4.25 18.4142 4.25 18C4.25 17.5858 4.58579 17.25 5 17.25L19 17.25C19.4142 17.25 19.75 17.5858 19.75 18Z" fill="currentColor"/>';
+
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -70,7 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const dragHandle = document.createElement("div");
     dragHandle.className = "drag-handle";
-    dragHandle.textContent = "≡";
+    dragHandle.innerHTML =
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      REORDER_ICON_PATHS +
+      "</svg>";
 
     const icon = document.createElement("img");
     icon.src = site.imgSrc;
@@ -318,6 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // 저장소는 ThemeManager가 이미 읽고 있다. 여기서 또 읽으면 두 결과가
     // 서로를 덮어쓸 수 있으므로, 해석이 끝난 모드를 받아 표시만 맞춘다.
     ThemeManager.whenResolved(markSelectedMode);
+    // 토글로 바꿔도 라디오 표시가 따라오게 한다. 두 컨트롤이 같은 상태를 본다.
+    ThemeManager.onModeChange = markSelectedMode;
 
     themeInputs.forEach((input) => {
       input.addEventListener("change", () => {
