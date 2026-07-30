@@ -1,3 +1,7 @@
+// 드래그 손잡이 아이콘(Reicon reorder, MIT). 목록 항목마다 새로 만들므로 상수로 둔다.
+const REORDER_ICON_PATHS =
+  '<path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 10C19.75 10.4142 19.4142 10.75 19 10.75L5 10.75C4.58579 10.75 4.25 10.4142 4.25 10C4.25 9.58579 4.58579 9.25 5 9.25L19 9.25C19.4142 9.25 19.75 9.58579 19.75 10Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 14C19.75 14.4142 19.4142 14.75 19 14.75L5 14.75C4.58579 14.75 4.25 14.4142 4.25 14C4.25 13.5858 4.58579 13.25 5 13.25L19 13.25C19.4142 13.25 19.75 13.5858 19.75 14Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 6C19.75 6.41421 19.4142 6.75 19 6.75L5 6.75C4.58579 6.75 4.25 6.41421 4.25 6C4.25 5.58579 4.58579 5.25 5 5.25L19 5.25C19.4142 5.25 19.75 5.58579 19.75 6Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 18C19.75 18.4142 19.4142 18.75 19 18.75L5 18.75C4.58579 18.75 4.25 18.4142 4.25 18C4.25 17.5858 4.58579 17.25 5 17.25L19 17.25C19.4142 17.25 19.75 17.5858 19.75 18Z" fill="currentColor"/>';
+
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -70,7 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const dragHandle = document.createElement("div");
     dragHandle.className = "drag-handle";
-    dragHandle.textContent = "≡";
+    dragHandle.innerHTML =
+      '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      REORDER_ICON_PATHS +
+      "</svg>";
 
     const icon = document.createElement("img");
     icon.src = site.imgSrc;
@@ -301,6 +308,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // 테마는 즉시 반영형이라 저장 버튼을 거치지 않는다.
   // 저장에 실패하면 ThemeManager가 화면을 되돌리므로, 여기서는 라디오 선택과
   // 안내 문구를 되돌린 모드에 맞춰준다.
+  // 테마는 즉시 반영형이라 저장 버튼을 거치지 않는다.
+  // 토글과 라디오는 같은 상태를 보며, 저장 실패 시 ThemeManager가 되돌린 값에 맞춘다.
   function initThemeControl() {
     const themeInputs = Array.from(
       document.querySelectorAll('input[name="theme-mode"]'),
@@ -308,12 +317,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (themeInputs.length === 0) return;
 
     const themeStatus = document.getElementById("theme-status");
+    const MODE_LABELS = {
+      system: "시스템 설정을 따릅니다.",
+      light: "라이트 테마를 사용합니다.",
+      dark: "다크 테마를 사용합니다.",
+    };
 
     function markSelectedMode(mode) {
       themeInputs.forEach((input) => {
         input.checked = input.value === mode;
       });
     }
+
+    // 낙관적 적용 시점에도 불리므로 라디오가 저장을 기다리지 않고 따라온다.
+    ThemeManager.subscribeModeChange((mode) => {
+      markSelectedMode(mode);
+      if (themeStatus) themeStatus.textContent = MODE_LABELS[mode] || "";
+    });
 
     // 저장소는 ThemeManager가 이미 읽고 있다. 여기서 또 읽으면 두 결과가
     // 서로를 덮어쓸 수 있으므로, 해석이 끝난 모드를 받아 표시만 맞춘다.
@@ -322,15 +342,13 @@ document.addEventListener("DOMContentLoaded", () => {
     themeInputs.forEach((input) => {
       input.addEventListener("change", () => {
         if (!input.checked) return;
-        if (themeStatus) themeStatus.textContent = "";
 
         ThemeManager.setMode(input.value, (error, effectiveMode) => {
           markSelectedMode(effectiveMode);
-          if (!error || !themeStatus) return;
+          if (!error) return;
 
           console.error("테마 저장 실패:", error);
-          themeStatus.textContent =
-            "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
+          if (themeStatus) themeStatus.textContent = ThemeManager.SAVE_FAILED_MESSAGE;
         });
       });
     });

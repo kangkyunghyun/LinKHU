@@ -3,6 +3,53 @@ const assert = require("node:assert/strict");
 
 const ThemeManager = require("../src/theme");
 
+function createToggleButton() {
+  return {
+    attributes: {},
+    listeners: {},
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    addEventListener(type, listener) {
+      this.listeners[type] = listener;
+    },
+    click() {
+      this.listeners.click?.();
+    },
+    label() {
+      return this.attributes["aria-label"];
+    },
+  };
+}
+
+function createStatusElement() {
+  return { textContent: "" };
+}
+
+function createDocument(toggles, statuses = []) {
+  return {
+    querySelectorAll(selector) {
+      if (selector === "[data-theme-toggle]") return toggles;
+      if (selector === "[data-theme-status]") return statuses;
+      return [];
+    },
+  };
+}
+
+// chrome.storage.onChanged 스텁. 등록된 리스너를 직접 발화시킨다.
+function createStorageChanged() {
+  const listeners = [];
+  return {
+    listeners,
+    addListener(listener) {
+      listeners.push(listener);
+    },
+    emit(newValue, areaName = "local") {
+      listeners.forEach((l) => l({ themeMode: { newValue } }, areaName));
+    },
+  };
+}
+
 function createRoot() {
   return {
     attributes: {},
@@ -42,8 +89,15 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
   const root = createRoot();
   const listeners = [];
   const state = { lastError };
+  const toggle = createToggleButton();
+  const status = createStatusElement();
+  const doc = createDocument([toggle], [status]);
+  const storageChanged = createStorageChanged();
 
   ThemeManager.currentMode = ThemeManager.DEFAULT_MODE;
+  ThemeManager.committedMode = ThemeManager.DEFAULT_MODE;
+  ThemeManager.pendingWrites = 0;
+  ThemeManager.modeSubscribers = new Set();
   ThemeManager.requestId = 0;
   ThemeManager.resolved = false;
   ThemeManager.onResolved = null;
@@ -51,6 +105,8 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
     storage: () => storage,
     lastError: () => state.lastError,
     root: () => root,
+    document: () => doc,
+    storageChanged: () => storageChanged,
     matchMedia: () => ({
       matches: prefersDark,
       addEventListener(type, listener) {
@@ -59,7 +115,15 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
     }),
   };
 
-  return { root, listeners, state, theme: () => root.attributes["data-theme"] };
+  return {
+    root,
+    listeners,
+    state,
+    toggle,
+    status,
+    storageChanged,
+    theme: () => root.attributes["data-theme"],
+  };
 }
 
 test("theme mode normalizes unknown, missing, and non-string values to system", () => {
@@ -146,10 +210,18 @@ test("system theme changes repaint only while the mode is system", () => {
   const listeners = [];
 
   ThemeManager.currentMode = "system";
+  ThemeManager.requestId = 0;
+  ThemeManager.resolved = false;
+  ThemeManager.onResolved = null;
+  ThemeManager.committedMode = "system";
+  ThemeManager.pendingWrites = 0;
+  ThemeManager.modeSubscribers = new Set();
   ThemeManager.deps = {
     storage: () => null,
     lastError: () => null,
     root: () => root,
+    document: () => createDocument([]),
+    storageChanged: () => null,
     matchMedia: () => ({
       get matches() {
         return prefersDark;
@@ -213,8 +285,9 @@ test("a failed save rolls the theme and the reported mode back", () => {
     lastError: { message: "quota exceeded" },
   });
 
-  ThemeManager.currentMode = "light";
-  ThemeManager.refresh();
+  // 저장소에 light가 들어 있으므로 init()이 이를 확정 모드로 잡는다.
+  ThemeManager.init();
+  assert.equal(ThemeManager.committedMode, "light");
   assert.equal(context.theme(), "light");
 
   let received = "not called";
@@ -334,4 +407,291 @@ test("theme handling survives a missing storage API", () => {
   assert.equal(received.mode, "system");
   // 저장은 못 했어도 화면은 시스템 설정 기준으로 정상 동작해야 한다.
   assert.equal(context.theme(), "dark");
+});
+
+test("the theme toggle stores the opposite of what is painted", () => {
+  let saved;
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        saved = value;
+        callback();
+      },
+    },
+    prefersDark: false,
+  });
+
+  ThemeManager.init();
+  assert.equal(context.theme(), "light");
+
+  // system 상태에서 눌러도 명시적 선택으로 저장된다.
+  ThemeManager.initToggle();
+  context.toggle.click();
+
+  assert.deepEqual(saved, { themeMode: "dark" });
+  assert.equal(ThemeManager.currentMode, "dark");
+  assert.equal(context.theme(), "dark");
+
+  context.toggle.click();
+  assert.deepEqual(saved, { themeMode: "light" });
+  assert.equal(context.theme(), "light");
+});
+
+test("the toggle goes through the same save path and its race guard", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+  ThemeManager.initToggle();
+
+  // 토글(A) 직후 라디오 경로(B)로 다른 값을 고르면, 늦게 실패한 A는 무시되어야 한다.
+  const calls = [];
+  context.toggle.click();
+  ThemeManager.setMode("light", (error, mode) => calls.push(["B", error, mode]));
+
+  const writeA = storage.writes.shift();
+  const writeB = storage.writes.shift();
+
+  context.state.lastError = null;
+  writeB(null);
+  context.state.lastError = { message: "quota exceeded" };
+  writeA({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  assert.deepEqual(calls.map(([label]) => label), ["B"]);
+  assert.equal(ThemeManager.currentMode, "light");
+  assert.equal(context.theme(), "light");
+  assert.equal(storage.saved.themeMode, "light");
+});
+
+test("the toggle label always describes what pressing it will do", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    prefersDark: false,
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  assert.equal(context.toggle.label(), "다크 테마로 전환");
+
+  context.toggle.click();
+  assert.equal(context.toggle.label(), "라이트 테마로 전환");
+
+  context.toggle.click();
+  assert.equal(context.toggle.label(), "다크 테마로 전환");
+});
+
+test("changing the mode notifies subscribers so the radios can follow", () => {
+  const seen = [];
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  const unsubscribe = ThemeManager.subscribeModeChange((mode) => seen.push(mode));
+
+  context.toggle.click();
+  ThemeManager.setMode("system", () => {});
+
+  assert.deepEqual(seen, ["dark", "system"]);
+
+  // 해지하면 더 이상 받지 않는다.
+  unsubscribe();
+  ThemeManager.setMode("light", () => {});
+  assert.deepEqual(seen, ["dark", "system"]);
+});
+
+test("multiple subscribers all receive mode changes", () => {
+  const a = [];
+  const b = [];
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+  });
+
+  ThemeManager.init();
+  ThemeManager.subscribeModeChange((mode) => a.push(mode));
+  ThemeManager.subscribeModeChange((mode) => b.push(mode));
+
+  ThemeManager.setMode("dark", () => {});
+
+  // 단일 슬롯이면 뒤에 등록한 쪽이 앞을 덮어 a가 비게 된다.
+  assert.deepEqual(a, ["dark"]);
+  assert.deepEqual(b, ["dark"]);
+  assert.equal(context.theme(), "dark");
+});
+
+test("rollback returns to the last committed mode, not an unsaved one", () => {
+  const storage = createDeferredStorage({ themeMode: "system" });
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+  assert.equal(ThemeManager.committedMode, "system");
+
+  // dark 요청(A) 직후 light 요청(B). 둘 다 실패한다.
+  ThemeManager.setMode("dark", () => {});
+  ThemeManager.setMode("light", () => {});
+
+  const writeA = storage.writes.shift();
+  const writeB = storage.writes.shift();
+
+  context.state.lastError = { message: "quota exceeded" };
+  writeA({ message: "quota exceeded" });
+  writeB({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  // B의 '적용 직전 모드'는 저장된 적 없는 dark였다. 저장소는 여전히 system이므로
+  // 모드는 system으로 돌아가야 한다. system은 시스템 설정이 라이트라 light로 칠해진다.
+  assert.equal(ThemeManager.currentMode, "system");
+  assert.equal(ThemeManager.committedMode, "system");
+  assert.equal(context.theme(), "light");
+  assert.equal(storage.saved.themeMode, "system");
+});
+
+test("rollback is correct whichever order the two failures arrive", () => {
+  for (const reversed of [false, true]) {
+    const storage = createDeferredStorage({ themeMode: "system" });
+    const context = useThemeManager({ storage, prefersDark: false });
+
+    ThemeManager.init();
+    storage.reads.shift()();
+
+    ThemeManager.setMode("dark", () => {});
+    ThemeManager.setMode("light", () => {});
+
+    const writes = storage.writes.splice(0, 2);
+    const order = reversed ? [writes[1], writes[0]] : writes;
+
+    context.state.lastError = { message: "quota exceeded" };
+    order.forEach((write) => write({ message: "quota exceeded" }));
+    context.state.lastError = null;
+
+    assert.equal(ThemeManager.currentMode, "system", `reversed=${reversed}`);
+    assert.equal(context.theme(), "light", `reversed=${reversed}`);
+    assert.equal(storage.saved.themeMode, "system", `reversed=${reversed}`);
+  }
+});
+
+test("subscribers are notified optimistically, before the save settles", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+
+  const seen = [];
+  ThemeManager.subscribeModeChange((mode) => seen.push(mode));
+  ThemeManager.setMode("dark", () => {});
+
+  // 저장 콜백이 아직 오지 않았는데도 이미 통지됐어야 한다.
+  assert.deepEqual(seen, ["dark"]);
+  assert.equal(context.theme(), "dark");
+
+  context.state.lastError = { message: "quota exceeded" };
+  storage.writes.shift()({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  // 되돌렸으니 다시 통지된다.
+  assert.deepEqual(seen, ["dark", "system"]);
+});
+
+test("a theme change in another document updates this one", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    prefersDark: false,
+  });
+
+  const seen = [];
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  ThemeManager.subscribeModeChange((mode) => seen.push(mode));
+  assert.equal(context.theme(), "light");
+
+  // 다른 문서(팝업)가 dark로 바꿨다.
+  context.storageChanged.emit("dark");
+
+  assert.equal(ThemeManager.currentMode, "dark");
+  assert.equal(ThemeManager.committedMode, "dark");
+  assert.equal(context.theme(), "dark");
+  assert.equal(context.toggle.label(), "라이트 테마로 전환");
+  assert.deepEqual(seen, ["dark"]);
+
+  // 손상된 값이 와도 system으로 정규화한다.
+  context.storageChanged.emit("sepia");
+  assert.equal(ThemeManager.currentMode, "system");
+});
+
+test("an external change does not override a save that is still in flight", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+
+  ThemeManager.setMode("dark", () => {});
+  // 쓰기가 떠 있는 동안 도착한 옛 값은 무시되어야 한다.
+  context.storageChanged.emit("light");
+  assert.equal(ThemeManager.currentMode, "dark");
+  assert.equal(context.theme(), "dark");
+
+  storage.writes.shift()(null);
+  assert.equal(ThemeManager.committedMode, "dark");
+});
+
+test("a failed toggle save tells the user instead of failing silently", () => {
+  const context = useThemeManager({
+    storage: {
+      get(keys, callback) {
+        callback({});
+      },
+      set(value, callback) {
+        callback();
+      },
+    },
+    lastError: { message: "quota exceeded" },
+  });
+
+  ThemeManager.init();
+  ThemeManager.initToggle();
+  assert.equal(context.status.textContent, "");
+
+  context.toggle.click();
+
+  assert.equal(context.status.textContent, ThemeManager.SAVE_FAILED_MESSAGE);
+  // 되돌렸으므로 화면과 레이블도 원래대로다.
+  assert.equal(ThemeManager.currentMode, "system");
+  assert.equal(context.toggle.label(), "다크 테마로 전환");
 });

@@ -123,3 +123,11 @@ For quick suggestions, you can also use the feedback form in the extension or on
 - Service requests: fill in the Service Request template with the service name, URL, category, and icon info.
 - Feature suggestions: use the Feature Request template with the background and expected behavior.
 - Direct PRs: open a related issue first, and include verification results in the PR body.
+
+## 🙏 Credits
+
+UI icons are from [Reicon](https://github.com/huntiezz/reicon) (MIT License).
+
+## 📜 License
+
+This project is licensed under the [MIT License](./LICENSE).

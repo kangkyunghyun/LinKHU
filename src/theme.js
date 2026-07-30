@@ -14,13 +14,25 @@ const THEME_STORAGE_KEY = "themeMode";
 const THEME_MODES = ["system", "light", "dark"];
 const DEFAULT_THEME_MODE = "system";
 const DARK_MEDIA_QUERY = "(prefers-color-scheme: dark)";
+const THEME_SAVE_FAILED_MESSAGE =
+  "테마를 저장하지 못했습니다. 이전 설정으로 되돌렸습니다.";
 
 const ThemeManager = {
   STORAGE_KEY: THEME_STORAGE_KEY,
   MODES: THEME_MODES,
   DEFAULT_MODE: DEFAULT_THEME_MODE,
 
+  SAVE_FAILED_MESSAGE: THEME_SAVE_FAILED_MESSAGE,
+
+  // 낙관적으로 화면에 적용된 모드.
   currentMode: DEFAULT_THEME_MODE,
+
+  // 저장이 확인된 모드. 롤백은 항상 이 값으로 돌아간다.
+  // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 3-2-5-2).
+  committedMode: DEFAULT_THEME_MODE,
+
+  // 진행 중인 쓰기 수. 내 요청이 떠 있는 동안에는 외부 변경으로 덮지 않는다.
+  pendingWrites: 0,
 
   // 저장소 콜백은 요청한 순서대로 도착하지 않는다. 늦게 도착한 낡은 결과가
   // 최신 상태를 덮어쓰지 않도록 요청마다 번호를 붙이고, 콜백에서 자기가
@@ -28,9 +40,12 @@ const ThemeManager = {
   requestId: 0,
 
   // 저장된 모드 해석이 끝났는지와, 끝났을 때 알려줄 대상.
-  // 소비자는 설정 페이지의 테마 컨트롤 하나뿐이라 슬롯 하나로 충분하다.
   resolved: false,
   onResolved: null,
+
+  // 모드가 바뀔 때 알릴 구독자들. 팝업의 상태 안내와 설정의 라디오·안내가
+  // 동시에 듣는다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
+  modeSubscribers: new Set(),
 
   // 외부 의존을 한곳에서 읽어 테스트에서 교체할 수 있게 한다.
   deps: {
@@ -43,6 +58,12 @@ const ThemeManager = {
     root() {
       return typeof document !== "undefined" ? document.documentElement : null;
     },
+    document() {
+      return typeof document !== "undefined" ? document : null;
+    },
+    storageChanged() {
+      return typeof chrome !== "undefined" ? chrome.storage?.onChanged : null;
+    },
     matchMedia(query) {
       return typeof window !== "undefined" && window.matchMedia
         ? window.matchMedia(query)
@@ -50,9 +71,40 @@ const ThemeManager = {
     },
   },
 
+  // 해지 함수를 돌려준다. 구독자가 여럿이므로 서로를 덮지 않는다.
+  subscribeModeChange(callback) {
+    this.modeSubscribers.add(callback);
+    return () => this.modeSubscribers.delete(callback);
+  },
+
+  notifyModeChange() {
+    this.modeSubscribers.forEach((callback) => callback(this.currentMode));
+  },
+
   // 저장된 값이 없거나 손상됐어도 화면은 떠야 하므로 항상 유효한 모드를 돌려준다.
   normalizeMode(value) {
     return THEME_MODES.includes(value) ? value : DEFAULT_THEME_MODE;
+  },
+
+  // 지금 화면에 실제로 칠해진 테마.
+  resolvedTheme() {
+    return this.resolveTheme(this.currentMode, this.prefersDark());
+  },
+
+  // 토글이 저장할 모드. 칠해진 테마의 반대이며 항상 명시적 선택이다.
+  nextToggleMode() {
+    return this.resolvedTheme() === "dark" ? "light" : "dark";
+  },
+
+  // 아이콘만 있는 버튼이라 스크린 리더가 읽을 텍스트가 반드시 필요하다.
+  // 현재 상태가 아니라 "누르면 될 동작"을 알린다.
+  toggleLabel(resolvedTheme) {
+    return resolvedTheme === "dark" ? "라이트 테마로 전환" : "다크 테마로 전환";
+  },
+
+  // 토글도 라디오와 같은 저장 경로(setMode)를 지난다. 경쟁 상태 가드도 그대로 적용된다.
+  toggleTheme(callback) {
+    this.setMode(this.nextToggleMode(), callback);
   },
 
   resolveTheme(mode, prefersDark) {
@@ -72,7 +124,43 @@ const ThemeManager = {
 
   // 현재 모드를 화면에 다시 칠한다. 모드가 바뀌었을 때와 시스템 테마가 바뀌었을 때 모두 쓴다.
   refresh() {
-    this.applyTheme(this.resolveTheme(this.currentMode, this.prefersDark()));
+    this.applyTheme(this.resolvedTheme());
+    this.renderToggle();
+  },
+
+  // 아이콘 교체는 CSS가 data-theme으로 처리한다. 여기서는 레이블만 맞춘다.
+  renderToggle() {
+    const doc = this.deps.document();
+    if (!doc) return;
+
+    doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.setAttribute("aria-label", this.toggleLabel(this.resolvedTheme()));
+    });
+  },
+
+  // 저장 실패는 화면마다 알려야 한다. 토글만 있는 팝업에도 안내 자리가 있다.
+  reportStatus(message) {
+    const doc = this.deps.document();
+    if (!doc) return;
+
+    doc.querySelectorAll("[data-theme-status]").forEach((element) => {
+      element.textContent = message;
+    });
+  },
+
+  initToggle() {
+    const doc = this.deps.document();
+    if (!doc) return;
+
+    doc.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        this.reportStatus("");
+        this.toggleTheme((error) => {
+          if (error) this.reportStatus(THEME_SAVE_FAILED_MESSAGE);
+        });
+      });
+    });
+    this.renderToggle();
   },
 
   readMode(callback) {
@@ -101,25 +189,60 @@ const ThemeManager = {
 
   // 즉시 반영형이라 저장 버튼이 없다. 대신 저장에 실패하면 화면을 되돌려야
   // 다음 실행에서 조용히 이전 테마로 돌아가는 일이 생기지 않는다.
-  // 되돌릴 기준값은 적용 직전의 모드이므로 저장을 시도하기 전에 기억해 둔다.
   setMode(mode, callback) {
-    const previousMode = this.currentMode;
     const nextMode = this.normalizeMode(mode);
     const requestId = ++this.requestId;
 
+    this.pendingWrites += 1;
     this.currentMode = nextMode;
     this.refresh();
+    // 저장을 기다리지 않고 먼저 알린다. 기다리면 그사이 토글과 라디오가 어긋난다.
+    this.notifyModeChange();
 
     this.writeMode(nextMode, (error) => {
+      this.pendingWrites -= 1;
+
       // 이 요청 뒤에 다른 선택이 있었으면 이 결과는 낡았다.
       // 롤백하면 이미 성공한 최신 선택을 되돌리게 되므로 그냥 버린다.
       if (requestId !== this.requestId) return;
 
       if (error) {
-        this.currentMode = previousMode;
+        // 저장이 확인된 값으로 되돌린다. currentMode는 저장된 적 없을 수 있다.
+        this.currentMode = this.committedMode;
         this.refresh();
+        this.notifyModeChange();
+      } else {
+        this.committedMode = nextMode;
       }
+
       callback?.(error, this.currentMode);
+    });
+  },
+
+  // 다른 문서가 테마를 바꾸면 열려 있는 이 화면도 따라간다.
+  // 설정 탭을 열어둔 채 팝업에서 바꾸는 경우가 실제로 생긴다.
+  handleExternalChange(rawValue) {
+    // 내 요청이 떠 있으면 그 결과가 최종이다. 외부 값으로 덮으면 방금 고른 값이 되돌아간다.
+    if (this.pendingWrites > 0) return;
+
+    const mode = this.normalizeMode(rawValue);
+    if (mode === this.currentMode && mode === this.committedMode) return;
+
+    this.committedMode = mode;
+    this.currentMode = mode;
+    this.refresh();
+    this.notifyModeChange();
+  },
+
+  watchStorage() {
+    const onChanged = this.deps.storageChanged();
+    if (!onChanged?.addListener) return;
+
+    onChanged.addListener((changes, areaName) => {
+      if (areaName && areaName !== "local") return;
+      const change = changes?.[THEME_STORAGE_KEY];
+      if (!change) return;
+      this.handleExternalChange(change.newValue);
     });
   },
 
@@ -149,11 +272,16 @@ const ThemeManager = {
 
     this.refresh();
     this.watchSystemTheme();
+    this.watchStorage();
     this.readMode((mode) => {
+      // 읽기로 확인된 값은 저장소의 실제 내용이므로 롤백 기준이 된다.
+      this.committedMode = mode;
+
       // 저장값이 도착하기 전에 사용자가 직접 고른 게 있으면 그 선택이 우선한다.
       if (requestId === this.requestId) {
         this.currentMode = mode;
         this.refresh();
+        this.notifyModeChange();
       }
 
       this.resolved = true;
@@ -165,6 +293,8 @@ const ThemeManager = {
 
 if (typeof document !== "undefined" && document.documentElement) {
   ThemeManager.init();
+  // 토글 버튼은 <body>가 파싱된 뒤에야 존재한다.
+  document.addEventListener("DOMContentLoaded", () => ThemeManager.initToggle());
 }
 
 if (typeof module !== "undefined" && module.exports) {
