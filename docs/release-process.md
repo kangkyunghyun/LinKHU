@@ -25,6 +25,8 @@ git push origin "v$VERSION"
 
 - 공통 절차: [Store Release Checklist](./store-release-checklist.md)
 - 스토어 설명 원본: [Store Listing](./store-listing.md) — 버전마다 업데이트 섹션을 교체한다.
+- 커뮤니티 홍보 글 원본: [Community Post](./community-post.md) — 커뮤니티에 올릴 때 사용한다.
+- 두 문구 작성 기준: `.claude/skills/release-copy/SKILL.md`
 - Chrome Web Store: [자동 배포 워크플로우](./chrome-web-store-automation.md)
 - Firefox Add-ons: [자동 배포 워크플로우](./firefox-addons-automation.md)
 - Whale Store: [수동 절차](./whale-store-automation.md)
