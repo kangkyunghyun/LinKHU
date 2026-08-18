@@ -8,12 +8,6 @@ const LinKHUShared = {
       .replace(/\s+/g, "");
   },
 
-  matchesSearch(site, normalizedQuery) {
-    return [site.name, site.id, site.category].some((value) =>
-      this.normalize(value).includes(normalizedQuery),
-    );
-  },
-
   // 점수가 낮을수록 상위 노출. 랜딩 페이지(docs/landing.js)의 scoreService와
   // 같은 규칙을 유지해야 팝업과 랜딩의 검색 결과 순서가 일치한다.
   scoreSite(site, normalizedQuery) {

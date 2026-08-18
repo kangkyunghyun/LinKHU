@@ -2,7 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const zlib = require("zlib");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
+const { PROJECT_ROOT, getCrc32 } = require("./lib");
+
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const IMAGES_ROOT = path.join(SRC_ROOT, "images");
 const DARK_ROOT = path.join(IMAGES_ROOT, "dark");
@@ -12,23 +13,6 @@ const DARK_ROOT = path.join(IMAGES_ROOT, "dark");
 const GRAY_TARGET = [0xa1, 0xa1, 0xaa];
 const RED_TARGET = [0xd9, 0x4a, 0x52];
 const DARK_CARD = [0x16, 0x16, 0x16];
-
-// package-extension.js와 같은 방식. zlib.crc32는 Node 22.2+에만 있어 쓰지 않는다.
-const CRC_TABLE = Array.from({ length: 256 }, (_, index) => {
-  let value = index;
-  for (let bit = 0; bit < 8; bit += 1) {
-    value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
-  }
-  return value >>> 0;
-});
-
-function getCrc32(buffer) {
-  let crc = 0xffffffff;
-  for (const byte of buffer) {
-    crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
 
 function toLinear(value) {
   const v = value / 255;

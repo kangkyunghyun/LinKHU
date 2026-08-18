@@ -60,7 +60,6 @@ options.html  <head> theme.js
 | 함수 | 보장하는 것 |
 | --- | --- |
 | `normalize(value)` | `ko-KR` 기준 소문자화 + 모든 공백 제거 |
-| `matchesSearch(site, q)` | 이름·id·카테고리 중 하나라도 포함하면 참 |
 | `scoreSite(site, q)` | 0~4 점수. 낮을수록 상위. 해당 없으면 `Infinity` |
 | `rankSites(sites, q)` | 점수 오름차순, 동점이면 원본 배열 순서 유지 |
 | `getDefaultOrder(list)` | `공통` 카테고리 서비스의 id 배열 |
