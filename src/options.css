@@ -367,13 +367,10 @@ h1 {
   overflow: visible;
   clip: auto;
   white-space: normal;
-  color: var(--color-notice);
-  text-align: center;
-}
-
-.theme-status-visible {
   margin: 10px 0 0;
+  color: var(--color-notice);
   font-size: 12px;
+  text-align: center;
 }
 
 .options-footer {
@@ -477,16 +474,4 @@ h1 {
   color: var(--color-text-muted);
   font-size: 12px;
   text-align: right;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }

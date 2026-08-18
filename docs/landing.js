@@ -10,9 +10,9 @@
     emailEntry: "entry.491031779",
   };
 
+  // src/shared.js의 normalize와 같은 규칙을 유지한다.
   function normalizeSearchText(value) {
     return String(value || "")
-      .trim()
       .toLocaleLowerCase("ko-KR")
       .replace(/\s+/g, "");
   }

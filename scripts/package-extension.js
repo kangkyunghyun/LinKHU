@@ -1,26 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
+const { PROJECT_ROOT, getCrc32, readManifest } = require("./lib");
+
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DIST_ROOT = path.join(PROJECT_ROOT, "dist");
-const MANIFEST_FILE = path.join(SRC_ROOT, "manifest.json");
-
-const CRC_TABLE = Array.from({ length: 256 }, (_, index) => {
-  let value = index;
-  for (let bit = 0; bit < 8; bit += 1) {
-    value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
-  }
-  return value >>> 0;
-});
-
-function getCrc32(buffer) {
-  let crc = 0xffffffff;
-  for (const byte of buffer) {
-    crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
 
 // ZIP의 최소 표현 시각(1980-01-01 00:00:00)을 사용해 체크아웃 시각과 무관한
 // 재현 가능한 패키지를 생성한다.
@@ -37,14 +21,6 @@ function createUInt32(value) {
   const buffer = Buffer.alloc(4);
   buffer.writeUInt32LE(value >>> 0);
   return buffer;
-}
-
-function readManifest() {
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, "utf8"));
-  if (!manifest.version) {
-    throw new Error("src/manifest.json must include a version.");
-  }
-  return manifest;
 }
 
 function collectFiles(directory, baseDirectory = directory) {

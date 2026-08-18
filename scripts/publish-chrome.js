@@ -1,35 +1,12 @@
 const fs = require("fs");
 const path = require("path");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
-const MANIFEST_FILE = path.join(PROJECT_ROOT, "src", "manifest.json");
-
-function getRequiredEnv(name) {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} environment variable is required.`);
-  }
-  return value;
-}
-
-function readManifestVersion() {
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, "utf8"));
-  if (!manifest.version) {
-    throw new Error("src/manifest.json must include a version.");
-  }
-  return manifest.version;
-}
-
-async function readResponseBody(response) {
-  const text = await response.text();
-  if (!text) return {};
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    return text;
-  }
-}
+const {
+  PROJECT_ROOT,
+  getPackageFile,
+  getRequiredEnv,
+  readResponseBody,
+} = require("./lib");
 
 async function requestJson(label, url, options) {
   const response = await fetch(url, options);
@@ -41,19 +18,6 @@ async function requestJson(label, url, options) {
   }
 
   return body;
-}
-
-function getPackageFile() {
-  const manifestVersion = readManifestVersion();
-  const packageFile =
-    process.env.CHROME_PACKAGE_FILE ||
-    path.join(PROJECT_ROOT, "dist", `linkhu-v${manifestVersion}.zip`);
-
-  if (!fs.existsSync(packageFile)) {
-    throw new Error(`Chrome package file does not exist: ${packageFile}`);
-  }
-
-  return packageFile;
 }
 
 async function getAccessToken(clientId, clientSecret, refreshToken) {
@@ -125,7 +89,7 @@ async function fetchStatus(accessToken, publisherId, extensionId) {
 
 async function main() {
   try {
-    const packageFile = getPackageFile();
+    const packageFile = getPackageFile("Chrome", "CHROME_PACKAGE_FILE");
     const publisherId = getRequiredEnv("CHROME_PUBLISHER_ID");
     const extensionId = getRequiredEnv("CHROME_EXTENSION_ID");
     const relativePackageFile = path.relative(PROJECT_ROOT, packageFile);

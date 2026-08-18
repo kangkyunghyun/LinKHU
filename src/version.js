@@ -1,9 +1,4 @@
 const VersionManager = {
-  async getCurrentVersion() {
-    const manifest = chrome.runtime.getManifest();
-    return manifest.version;
-  },
-
   // GitHub API rate limit 때문에 최신 릴리스 버전은 12시간 캐싱한다.
   async getLatestGithubReleaseVersion() {
     const CACHE_KEY = "latestReleaseVersion";
@@ -31,12 +26,12 @@ const VersionManager = {
         return cachedVersion || null;
       }
       const data = await response.json();
-      const version = data.tag_name ? data.tag_name.replace(/^v/, '') : null;
+      const version = data.tag_name ? data.tag_name.replace(/^v/, "") : null;
 
       if (version) {
         await chrome.storage.local.set({
           [CACHE_KEY]: version,
-          [CACHE_TIME_KEY]: now
+          [CACHE_TIME_KEY]: now,
         });
       }
       return version;
@@ -47,8 +42,8 @@ const VersionManager = {
   },
 
   compareVersions(v1, v2) {
-    const parts1 = (v1 || '0.0.0').split('.').map(Number);
-    const parts2 = (v2 || '0.0.0').split('.').map(Number);
+    const parts1 = (v1 || "0.0.0").split(".").map(Number);
+    const parts2 = (v2 || "0.0.0").split(".").map(Number);
     for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
       const p1 = parts1[i] || 0;
       const p2 = parts2[i] || 0;
@@ -58,7 +53,7 @@ const VersionManager = {
     return 0;
   },
 
-  async getUpdateLink() {
+  getUpdateLink() {
     let link = "https://github.com/kangkyunghyun/LinKHU/releases/latest";
     try {
       // 스토어 update_url이 없으면 unpacked 개발 모드로 보고 GitHub 릴리스로 안내한다.
@@ -81,10 +76,8 @@ const VersionManager = {
   },
 
   async displayVersionInfo(currentVersionElId, updateMessageElId) {
-    const [currentVersion, latestVersion] = await Promise.all([
-      this.getCurrentVersion(),
-      this.getLatestGithubReleaseVersion()
-    ]);
+    const currentVersion = chrome.runtime.getManifest().version;
+    const latestVersion = await this.getLatestGithubReleaseVersion();
 
     const currentVersionEl = document.getElementById(currentVersionElId);
     const updateMessageEl = document.getElementById(updateMessageElId);
@@ -95,19 +88,17 @@ const VersionManager = {
 
     if (updateMessageEl && latestVersion) {
       if (this.compareVersions(currentVersion, latestVersion) < 0) {
-        const storeLink = await this.getUpdateLink();
-
-        const updateLink = document.createElement('a');
-        updateLink.href = storeLink;
-        updateLink.target = '_blank';
-        updateLink.className = 'update-link';
+        const updateLink = document.createElement("a");
+        updateLink.href = this.getUpdateLink();
+        updateLink.target = "_blank";
+        updateLink.className = "update-link";
         updateLink.textContent = `(업데이트 가능: v${latestVersion})`;
         updateMessageEl.replaceChildren(updateLink);
       } else {
-        updateMessageEl.textContent = '';
+        updateMessageEl.textContent = "";
       }
     }
-  }
+  },
 };
 
 if (typeof module !== "undefined" && module.exports) {

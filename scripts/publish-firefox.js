@@ -2,8 +2,14 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
-const MANIFEST_FILE = path.join(PROJECT_ROOT, "src", "manifest.json");
+const {
+  PROJECT_ROOT,
+  getPackageFile,
+  getRequiredEnv,
+  readManifest,
+  readResponseBody,
+} = require("./lib");
+
 const DEFAULT_API_BASE_URL = "https://addons.mozilla.org/api/v5";
 const DEFAULT_LICENSE = "MIT";
 const DEFAULT_POLL_INTERVAL_MS = 10000;
@@ -11,37 +17,8 @@ const DEFAULT_POLL_TIMEOUT_MS = 10 * 60 * 1000;
 const DEFAULT_RELEASE_NOTES_LOCALE = "ko";
 const JWT_EXPIRATION_SECONDS = 5 * 60;
 
-function getRequiredEnv(name) {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`${name} environment variable is required.`);
-  }
-  return value;
-}
-
-function readManifestVersion() {
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, "utf8"));
-  if (!manifest.version) {
-    throw new Error("src/manifest.json must include a version.");
-  }
-  return manifest.version;
-}
-
-function getPackageFile() {
-  const manifestVersion = readManifestVersion();
-  const packageFile =
-    process.env.FIREFOX_PACKAGE_FILE ||
-    path.join(PROJECT_ROOT, "dist", `linkhu-v${manifestVersion}.zip`);
-
-  if (!fs.existsSync(packageFile)) {
-    throw new Error(`Firefox package file does not exist: ${packageFile}`);
-  }
-
-  return packageFile;
-}
-
 function getReleaseNotesFile() {
-  const manifestVersion = readManifestVersion();
+  const manifestVersion = readManifest().version;
   const releaseNotesFile =
     process.env.FIREFOX_RELEASE_NOTES_FILE ||
     path.join(PROJECT_ROOT, "release-notes", `v${manifestVersion}.md`);
@@ -85,17 +62,6 @@ function createJwt(issuer, secret) {
     .replace(/\//g, "_");
 
   return `${unsignedToken}.${signature}`;
-}
-
-async function readResponseBody(response) {
-  const text = await response.text();
-  if (!text) return {};
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    return text;
-  }
 }
 
 async function requestJson(label, url, options, credentials) {
@@ -217,7 +183,7 @@ async function main() {
   try {
     const apiBaseUrl = process.env.FIREFOX_API_BASE_URL || DEFAULT_API_BASE_URL;
     const addonId = getRequiredEnv("FIREFOX_ADDON_ID");
-    const packageFile = getPackageFile();
+    const packageFile = getPackageFile("Firefox", "FIREFOX_PACKAGE_FILE");
     const releaseNotesFile = getReleaseNotesFile();
     const releaseNotesLocale =
       process.env.FIREFOX_RELEASE_NOTES_LOCALE || DEFAULT_RELEASE_NOTES_LOCALE;
