@@ -299,8 +299,12 @@
   }
 
   // 확장을 설치할 수 없는 환경만 걸러낸다. 태블릿(iPad)도 확장 설치가 안 되므로 포함한다.
-  function isMobileUserAgent(userAgent) {
-    return /Android|iPhone|iPad|iPod|Windows Phone/i.test(String(userAgent || ""));
+  function isMobileUserAgent(userAgent, maxTouchPoints = 0) {
+    const value = String(userAgent || "");
+    if (/Android|iPhone|iPad|iPod|Windows Phone/i.test(value)) return true;
+    // iPadOS 13+ 사파리는 데스크톱과 같은 Macintosh UA를 보낸다.
+    // 화면 크기로는 갈리지 않고 터치 지원 여부로만 구분된다.
+    return /Macintosh/i.test(value) && Number(maxTouchPoints) > 1;
   }
 
   // index.html의 gtag는 async 로드라 아직 없을 수 있고, 로컬에서 열면 아예 없다.
@@ -316,9 +320,8 @@
     const status = documentObject.querySelector("#mobile-install-status");
 
     if (!guide || !copyButton || !qrToggle || !qr || !status) return;
-    if (!isMobileUserAgent(globalObject.navigator && globalObject.navigator.userAgent)) {
-      return;
-    }
+    const navigator = globalObject.navigator || {};
+    if (!isMobileUserAgent(navigator.userAgent, navigator.maxTouchPoints)) return;
 
     guide.hidden = false;
 
@@ -328,7 +331,7 @@
 
       try {
         // 인앱 브라우저에는 Clipboard API가 없을 수 있다. 그때는 화면의 주소를 직접 복사하게 안내한다.
-        await globalObject.navigator.clipboard.writeText(PC_INSTALL_URL);
+        await navigator.clipboard.writeText(PC_INSTALL_URL);
         status.textContent = "링크를 복사했습니다. PC 브라우저에 붙여넣으세요.";
       } catch (error) {
         status.textContent = "복사하지 못했습니다. 위 주소를 길게 눌러 복사해주세요.";

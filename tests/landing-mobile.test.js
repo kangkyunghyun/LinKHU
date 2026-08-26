@@ -24,6 +24,21 @@ test("mobile detection covers extension-less browsers only", () => {
   ].forEach((userAgent) => assert.equal(isMobileUserAgent(userAgent), false, String(userAgent)));
 });
 
+test("iPadOS is detected by touch points because its UA says Macintosh", () => {
+  // iPadOS 13+ 사파리가 보내는 UA. 데스크톱 사파리와 문자열이 같다.
+  const IPADOS_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15";
+
+  assert.equal(isMobileUserAgent(IPADOS_UA, 5), true);
+  // 같은 UA라도 터치가 없으면 확장을 설치할 수 있는 맥이다.
+  assert.equal(isMobileUserAgent(IPADOS_UA, 0), false);
+  assert.equal(isMobileUserAgent(IPADOS_UA), false);
+  // 터치스크린 달린 윈도우 노트북은 확장을 설치할 수 있으므로 걸리면 안 된다.
+  assert.equal(
+    isMobileUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120", 10),
+    false,
+  );
+});
+
 test("mobile install guide markup and QR asset stay in sync", () => {
   const markup = fs.readFileSync(path.join(DOCS_ROOT, "index.html"), "utf8");
 
@@ -60,7 +75,7 @@ class StubElement {
   }
 }
 
-function runLandingScript({ userAgent, gtag, clipboard }) {
+function runLandingScript({ userAgent, maxTouchPoints, gtag, clipboard }) {
   const elements = {
     "#mobile-install-guide": new StubElement(),
     "#mobile-install-copy": new StubElement(),
@@ -77,7 +92,7 @@ function runLandingScript({ userAgent, gtag, clipboard }) {
         addEventListener() {},
       },
       fetch: () => new Promise(() => {}),
-      navigator: { userAgent, clipboard },
+      navigator: { userAgent, maxTouchPoints, clipboard },
       gtag,
     },
   };
@@ -97,6 +112,17 @@ const DESKTOP_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/
 test("the guide stays hidden on desktop and appears on mobile", () => {
   assert.equal(runLandingScript({ userAgent: DESKTOP_UA })["#mobile-install-guide"].hidden, true);
   assert.equal(runLandingScript({ userAgent: MOBILE_UA })["#mobile-install-guide"].hidden, false);
+
+  // 초기화가 navigator.maxTouchPoints를 실제로 넘기는지 확인한다. UA만으로는 둘이 같다.
+  const IPADOS_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 Version/17.0 Safari/605.1.15";
+  assert.equal(
+    runLandingScript({ userAgent: IPADOS_UA, maxTouchPoints: 5 })["#mobile-install-guide"].hidden,
+    false,
+  );
+  assert.equal(
+    runLandingScript({ userAgent: IPADOS_UA, maxTouchPoints: 0 })["#mobile-install-guide"].hidden,
+    true,
+  );
 });
 
 test("copying the link writes the PC address and reports the result", async () => {
