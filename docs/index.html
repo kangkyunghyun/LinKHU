@@ -18,6 +18,30 @@
     <title>LinKHU — 경희대 웹서비스를 한곳에</title>
     <link rel="icon" type="image/png" href="assets/linkhu-icon.png">
     <link rel="stylesheet" href="landing.css">
+
+    <!-- Google tag (gtag.js) — 랜딩 페이지 방문·스토어 클릭 측정 전용 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NHV31WF5ZM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NHV31WF5ZM');
+
+      // 스토어 설치 링크 클릭을 전환 이벤트로 보낸다. 링크가 여러 곳에 있어 위임 방식 하나로 처리한다.
+      (function () {
+        var STORE_EVENTS = {
+          "chromewebstore.google.com": "click_chrome_store",
+          "addons.mozilla.org": "click_firefox_store",
+          "store.whale.naver.com": "click_whale_store",
+        };
+        document.addEventListener("click", function (event) {
+          var link = event.target.closest ? event.target.closest("a[href]") : null;
+          if (!link) return;
+          var eventName = STORE_EVENTS[link.hostname];
+          if (eventName) gtag("event", eventName);
+        });
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">본문으로 바로가기</a>
