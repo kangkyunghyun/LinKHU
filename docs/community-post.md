@@ -36,13 +36,11 @@
 
 버그 제보나 추가되었으면 하는 사이트가 있다면 확장 프로그램의 [문의하기]로 바로 보내주세요. 댓글로 남겨주셔도 빠르게 반영해서 업데이트하겠습니다.
 
-크롬 웹 스토어, 웨일 스토어, 파이어폭스 애드온에서 "LinKHU" 검색 또는 아래 링크로 설치 가능합니다.
+아래 홈페이지에서 크롬, 웨일, 파이어폭스 설치 링크를 한 번에 볼 수 있습니다.
+휴대폰으로 보고 계시다면 홈페이지에서 PC로 링크를 옮기는 방법을 안내해드립니다.
 편하게 써보시고 피드백 부탁드립니다!
 
-홈페이지(설치 링크 모음): https://kangkyunghyun.github.io/LinKHU/
-크롬: https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp
-웨일: https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc
-파이어폭스: https://addons.mozilla.org/ko/firefox/addon/linkhu
+홈페이지(설치 링크 모음): https://kangkyunghyun.github.io/LinKHU/?utm_source=everytime
 깃허브: https://github.com/kangkyunghyun/LinKHU
 
 스토어 리뷰와 깃허브 스타는 큰 힘이 됩니다.
@@ -55,3 +53,4 @@
 1. 릴리스 노트에서 사용자 노출 변경 3~5개를 골라 `(vX.Y.Z 업데이트)` 목록을 교체한다.
 2. 지난 버전 업데이트 항목 중 계속 알릴 기능은 `[주요 기능]` 또는 `[편의 기능]`으로 옮긴다.
 3. 설치 링크와 맺음말은 그대로 두고 게시한다.
+   (모바일 유입이 많아 착지점은 스토어 직링크가 아닌 홈페이지로 유지한다)

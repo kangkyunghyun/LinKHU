@@ -2,6 +2,10 @@
   const DEFAULT_SERVICE_IDS = ["info21", "ecampus", "sugang"];
   const RESULT_LIMIT = 5;
 
+  // 모바일에서 PC로 옮길 주소. QR 이미지(assets/pc-install-qr.png)는
+  // utm_source=qr을 붙인 같은 주소를 가리킨다.
+  const PC_INSTALL_URL = "https://kangkyunghyun.github.io/LinKHU/";
+
   // 확장(src/feedback.js)과 같은 Google Form을 사용한다. 값을 바꿀 때는 함께 갱신한다.
   const FEEDBACK_CONFIG = {
     formUrl:
@@ -294,10 +298,58 @@
     });
   }
 
+  // 확장을 설치할 수 없는 환경만 걸러낸다. 태블릿(iPad)도 확장 설치가 안 되므로 포함한다.
+  function isMobileUserAgent(userAgent) {
+    return /Android|iPhone|iPad|iPod|Windows Phone/i.test(String(userAgent || ""));
+  }
+
+  // index.html의 gtag는 async 로드라 아직 없을 수 있고, 로컬에서 열면 아예 없다.
+  function sendLandingEvent(globalObject, eventName) {
+    if (typeof globalObject.gtag === "function") globalObject.gtag("event", eventName);
+  }
+
+  function initializeMobileInstallGuide(documentObject, globalObject) {
+    const guide = documentObject.querySelector("#mobile-install-guide");
+    const copyButton = documentObject.querySelector("#mobile-install-copy");
+    const qrToggle = documentObject.querySelector("#mobile-install-qr-toggle");
+    const qr = documentObject.querySelector("#mobile-install-qr");
+    const status = documentObject.querySelector("#mobile-install-status");
+
+    if (!guide || !copyButton || !qrToggle || !qr || !status) return;
+    if (!isMobileUserAgent(globalObject.navigator && globalObject.navigator.userAgent)) {
+      return;
+    }
+
+    guide.hidden = false;
+
+    copyButton.addEventListener("click", async () => {
+      // 클릭 자체가 PC 설치 의사이므로 복사 성공 여부와 무관하게 보낸다.
+      sendLandingEvent(globalObject, "copy_pc_install_link");
+
+      try {
+        // 인앱 브라우저에는 Clipboard API가 없을 수 있다. 그때는 화면의 주소를 직접 복사하게 안내한다.
+        await globalObject.navigator.clipboard.writeText(PC_INSTALL_URL);
+        status.textContent = "링크를 복사했습니다. PC 브라우저에 붙여넣으세요.";
+      } catch (error) {
+        status.textContent = "복사하지 못했습니다. 위 주소를 길게 눌러 복사해주세요.";
+      }
+    });
+
+    qrToggle.addEventListener("click", () => {
+      const willShow = qr.hidden;
+      qr.hidden = !willShow;
+      qrToggle.setAttribute("aria-expanded", String(willShow));
+      qrToggle.textContent = willShow ? "QR 코드 숨기기" : "QR 코드 보기";
+      if (willShow) sendLandingEvent(globalObject, "view_qr_code");
+    });
+  }
+
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
+      PC_INSTALL_URL,
       createFeedbackSubmission,
       getDefaultServices,
+      isMobileUserAgent,
       normalizeSearchText,
       scoreService,
       searchServices,
@@ -307,5 +359,6 @@
   if (globalScope.document && globalScope.fetch) {
     initializeLandingSearch(globalScope.document, globalScope.fetch.bind(globalScope));
     initializeLandingFeedback(globalScope.document, globalScope.fetch.bind(globalScope));
+    initializeMobileInstallGuide(globalScope.document, globalScope);
   }
 })(typeof window !== "undefined" ? window : globalThis);

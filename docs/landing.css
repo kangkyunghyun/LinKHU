@@ -347,6 +347,88 @@ a {
   margin-top: 34px;
 }
 
+/* 모바일 방문자 전용 PC 설치 안내. 기본은 hidden이고 docs/landing.js가 노출한다. */
+.mobile-guide {
+  display: block;
+  margin-top: 28px;
+  padding: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.mobile-guide[hidden] {
+  display: none;
+}
+
+.mobile-guide h2 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.mobile-guide-description {
+  margin: 8px 0 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.mobile-guide-url {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-foreground);
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-all;
+  user-select: all;
+}
+
+.mobile-guide-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.mobile-guide-actions .button {
+  width: 100%;
+}
+
+.mobile-guide-status {
+  margin: 10px 0 0;
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.mobile-guide-status:empty {
+  display: none;
+}
+
+.mobile-guide-qr {
+  margin: 14px 0 0;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  /* QR은 밝은 바탕에서만 안정적으로 인식되므로 다크 테마에서도 흰 판을 유지한다. */
+  background: #ffffff;
+  text-align: center;
+}
+
+.mobile-guide-qr[hidden] {
+  display: none;
+}
+
+.mobile-guide-qr img {
+  margin: 0 auto;
+}
+
+.mobile-guide-qr figcaption {
+  margin-top: 10px;
+  color: #5f5f5f;
+  font-size: 12px;
+}
+
 .trust-list {
   display: flex;
   flex-wrap: wrap;

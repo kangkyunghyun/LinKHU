@@ -126,6 +126,56 @@
               </a>
             </div>
 
+            <!-- 모바일 방문자에게만 보인다. docs/landing.js가 UA를 보고 hidden을 푼다. -->
+            <aside
+              class="mobile-guide"
+              id="mobile-install-guide"
+              aria-labelledby="mobile-install-title"
+              hidden
+            >
+              <h2 id="mobile-install-title">
+                LinKHU는 PC 브라우저에서 설치할 수 있습니다
+              </h2>
+              <p class="mobile-guide-description">
+                지금 보는 주소를 PC로 옮기면 바로 설치할 수 있습니다.
+              </p>
+              <p class="mobile-guide-url" id="mobile-install-url">
+                https://kangkyunghyun.github.io/LinKHU/
+              </p>
+
+              <div class="mobile-guide-actions">
+                <button
+                  class="button button-primary button-large"
+                  type="button"
+                  id="mobile-install-copy"
+                >
+                  링크 복사
+                </button>
+                <button
+                  class="button button-secondary button-large"
+                  type="button"
+                  id="mobile-install-qr-toggle"
+                  aria-expanded="false"
+                  aria-controls="mobile-install-qr"
+                >
+                  QR 코드 보기
+                </button>
+              </div>
+
+              <p class="mobile-guide-status" id="mobile-install-status" role="status"></p>
+
+              <figure class="mobile-guide-qr" id="mobile-install-qr" hidden>
+                <img
+                  src="assets/pc-install-qr.png"
+                  width="200"
+                  height="200"
+                  alt="LinKHU 홈페이지 주소 QR 코드"
+                  loading="lazy"
+                >
+                <figcaption>PC나 다른 기기의 카메라로 스캔하세요.</figcaption>
+              </figure>
+            </aside>
+
             <ul class="trust-list">
               <li>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.0303 10.0303C16.3232 9.73744 16.3232 9.26256 16.0303 8.96967C15.7374 8.67678 15.2626 8.67678 14.9697 8.96967L10.5 13.4393L9.03033 11.9697C8.73744 11.6768 8.26256 11.6768 7.96967 11.9697C7.67678 12.2626 7.67678 12.7374 7.96967 13.0303L9.96967 15.0303C10.2626 15.3232 10.7374 15.3232 11.0303 15.0303L16.0303 10.0303Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z" fill="currentColor"/></svg>
