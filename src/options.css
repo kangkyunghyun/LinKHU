@@ -13,13 +13,14 @@ body {
 
 .container {
   width: 100%;
-  max-width: 900px;
+  /* 탭 전체를 쓰되 초광폭 모니터에서 두 열이 지나치게 벌어지지 않게 상한을 둔다. */
+  max-width: min(96vw, 1440px);
 
   height: 90vh;
   min-height: 500px;
 
   background: var(--color-surface-raised);
-  padding: 30px;
+  padding: 20px 24px;
   border-radius: 12px;
   box-shadow: 0 4px 12px var(--color-shadow);
 
@@ -29,21 +30,21 @@ body {
 }
 
 .options-header {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 4px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 
 h1 {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   color: var(--color-primary);
-  text-align: center;
   margin: 0;
+  /* 세로를 줄이려고 줄 높이만 조인다. 아래 .title-logo 보정값은 line-height와 무관하다. */
+  line-height: 1.1;
+  flex-shrink: 0;
 }
 
 /* 서비스 로고. 옆 제목 텍스트가 이름을 읽어주므로 alt는 비워 둔다. */
@@ -73,8 +74,7 @@ h1 {
 }
 
 .icon-button {
-  position: absolute;
-  right: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,15 +106,16 @@ h1 {
   display: block;
 }
 .info {
-  text-align: center;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
   color: var(--color-text-muted);
-  margin: 0 0 24px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .shortcut-guide {
-  margin-bottom: 18px;
-  padding: 14px 16px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
   border: 1px solid var(--color-primary-border);
   border-radius: 8px;
   background: var(--color-primary-soft);
@@ -122,14 +123,19 @@ h1 {
   font-size: 13px;
 }
 
-.shortcut-guide strong {
-  display: block;
-  margin-bottom: 6px;
+.shortcut-guide summary {
   color: var(--color-primary);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.shortcut-guide summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .shortcut-guide p {
-  margin: 0 0 8px;
+  margin: 8px 0;
   color: var(--color-text-muted);
 }
 
@@ -167,9 +173,10 @@ h1 {
 
 .column {
   flex: 1;
+  min-width: 0;
   background: var(--color-surface-sunken);
   border-radius: 10px;
-  padding: 20px;
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
@@ -178,19 +185,69 @@ h1 {
 
 .column h2 {
   font-size: 16px;
-  margin-top: 0;
+  margin: 0 0 12px;
   color: var(--color-text);
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 2px solid var(--color-border);
 
   flex-shrink: 0;
 }
 
+.option-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
 .option-search {
   position: relative;
-  flex-shrink: 0;
-  margin-bottom: 12px;
+  /* 창이 좁아지면 필터 줄이 아래로 접히고 검색창이 한 줄을 다 쓴다. */
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.option-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* 눌린 칩만 색이 찬다. 아무것도 안 눌린 상태가 "전체 표시"다. */
+.filter-chip {
+  padding: 0 12px;
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-field);
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.filter-chip[aria-pressed="true"] {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
 
 .option-search .search-icon {
@@ -255,7 +312,7 @@ h1 {
 }
 
 .category-group {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .category-title {
   display: flex;
@@ -329,8 +386,8 @@ h1 {
 .save-btn {
   display: block;
   width: 100%;
-  padding: 15px;
-  margin-top: 20px;
+  padding: 12px;
+  margin-top: 14px;
   background-color: var(--color-primary-fill);
   color: var(--color-on-primary);
   border: none;

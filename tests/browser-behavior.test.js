@@ -119,6 +119,55 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
   assert.equal(closeCount, 1);
 });
 
+test("options list narrows by category and search together", () => {
+  const { SiteFilterForTest } = loadScript(
+    "src/options.js",
+    "this.SiteFilterForTest = SiteFilter;",
+    { chrome: {} },
+  );
+  const sites = [
+    { id: "info21", name: "인포21", category: "공통" },
+    { id: "sugang", name: "수강신청", category: "공통" },
+    { id: "software", name: "소프트웨어융합대학", category: "단과대" },
+    { id: "swcon", name: "소프트웨어융합학과", category: "학과" },
+  ];
+  const searchTextById = new Map(
+    sites.map((site) => [site.id, `${site.name}${site.id}${site.category}`]),
+  );
+  const visible = (selected, query, activeIds = []) =>
+    SiteFilterForTest.visibleSites(sites, {
+      activeIds: new Set(activeIds),
+      selectedCategories: new Set(selected),
+      query,
+      searchTextById,
+    }).map((site) => site.id);
+
+  // 고른 카테고리가 없으면 전체가 보인다.
+  assert.deepEqual(visible([], ""), ["info21", "sugang", "software", "swcon"]);
+  assert.deepEqual(visible(["학과"], ""), ["swcon"]);
+  assert.deepEqual(visible(["공통", "학과"], ""), ["info21", "sugang", "swcon"]);
+
+  // 검색과 AND로 걸린다. 필터로 뺀 카테고리는 검색어가 맞아도 나오지 않는다.
+  assert.deepEqual(visible([], "소프트웨어"), ["software", "swcon"]);
+  assert.deepEqual(visible(["학과"], "소프트웨어"), ["swcon"]);
+  assert.deepEqual(visible(["공통"], "소프트웨어"), []);
+
+  // 이미 오른쪽에 담긴 항목은 어느 조합에서도 왼쪽에 다시 나오지 않는다.
+  assert.deepEqual(visible(["공통"], "", ["info21"]), ["sugang"]);
+});
+
+test("options treats a filter-only view as narrowed so the empty message can show", () => {
+  const { SiteFilterForTest } = loadScript(
+    "src/options.js",
+    "this.SiteFilterForTest = SiteFilter;",
+    { chrome: {} },
+  );
+
+  assert.equal(SiteFilterForTest.isNarrowed("", new Set()), false);
+  assert.equal(SiteFilterForTest.isNarrowed("", new Set(["학과"])), true);
+  assert.equal(SiteFilterForTest.isNarrowed("검색어", new Set()), true);
+});
+
 test("version comparison handles different segment lengths", () => {
   const VersionManager = require("../src/version");
 

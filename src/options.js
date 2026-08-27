@@ -2,6 +2,31 @@
 const REORDER_ICON_PATHS =
   '<path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 10C19.75 10.4142 19.4142 10.75 19 10.75L5 10.75C4.58579 10.75 4.25 10.4142 4.25 10C4.25 9.58579 4.58579 9.25 5 9.25L19 9.25C19.4142 9.25 19.75 9.58579 19.75 10Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 14C19.75 14.4142 19.4142 14.75 19 14.75L5 14.75C4.58579 14.75 4.25 14.4142 4.25 14C4.25 13.5858 4.58579 13.25 5 13.25L19 13.25C19.4142 13.25 19.75 13.5858 19.75 14Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 6C19.75 6.41421 19.4142 6.75 19 6.75L5 6.75C4.58579 6.75 4.25 6.41421 4.25 6C4.25 5.58579 4.58579 5.25 5 5.25L19 5.25C19.4142 5.25 19.75 5.58579 19.75 6Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 18C19.75 18.4142 19.4142 18.75 19 18.75L5 18.75C4.58579 18.75 4.25 18.4142 4.25 18C4.25 17.5858 4.58579 17.25 5 17.25L19 17.25C19.4142 17.25 19.75 17.5858 19.75 18Z" fill="currentColor"/>';
 
+// 왼쪽 "사용 가능한 사이트" 목록에 무엇을 보일지만 정한다.
+// 오른쪽 '내 바로가기'(#active-list)는 여기를 거치지 않는다. 저장 순서는 그 DOM에서 읽으므로,
+// 필터로 왼쪽에서 감춘 항목이 저장 데이터에서 사라지는 일은 구조상 생기지 않는다.
+const SiteFilter = {
+  // 고른 카테고리가 하나도 없으면 필터를 걸지 않은 것으로 본다(= 전체 표시).
+  matchesCategory(site, selectedCategories) {
+    return selectedCategories.size === 0 || selectedCategories.has(site.category);
+  },
+
+  // 카테고리 필터와 검색어는 AND로 걸린다. 필터로 뺀 카테고리는 검색 결과에도 나오지 않는다.
+  visibleSites(sites, { activeIds, selectedCategories, query, searchTextById }) {
+    return sites.filter((site) => {
+      if (activeIds.has(site.id)) return false;
+      if (!this.matchesCategory(site, selectedCategories)) return false;
+      return !query || searchTextById.get(site.id).includes(query);
+    });
+  },
+
+  // 검색어나 카테고리 중 하나라도 걸려 있으면 "좁혀 보는 중"이다.
+  // 이때만 결과 0건인 카테고리 그룹을 숨기고 빈 상태 문구를 띄운다.
+  isNarrowed(query, selectedCategories) {
+    return Boolean(query) || selectedCategories.size > 0;
+  },
+};
+
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -16,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const leftColumn = document.querySelector(".column:first-child");
   const searchInput = document.getElementById("site-search");
   const searchEmptyMessage = document.getElementById("search-empty-message");
+  const filterButtons = document.querySelectorAll("[data-category-filter]");
 
   const categoryZones = {
     공통: document.getElementById("zone-공통"),
@@ -97,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return el;
   }
 
-  // 검색 입력과 왼쪽 카테고리 목록 렌더링을 담당한다.
+  // 검색 입력, 카테고리 필터, 왼쪽 카테고리 목록 렌더링을 담당한다.
   const SearchPanel = {
     siteSearchTextById: new Map(
       MASTER_SITE_LIST.map((site) => [
@@ -106,9 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
       ]),
     ),
 
-    matchesSearch(site, query) {
-      return this.siteSearchTextById.get(site.id).includes(query);
-    },
+    // 세션 안에서만 쓰는 UI 상태다. 저장하지 않는다.
+    selectedCategories: new Set(),
 
     getActiveIds() {
       return new Set(
@@ -120,12 +145,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     update() {
       const query = LinKHUShared.normalize(searchInput?.value);
-      const activeIds = this.getActiveIds();
+      const isNarrowed = SiteFilter.isNarrowed(query, this.selectedCategories);
       let visibleCount = 0;
 
-      const filteredSites = MASTER_SITE_LIST.filter((site) => {
-        if (activeIds.has(site.id)) return false;
-        return !query || this.matchesSearch(site, query);
+      const filteredSites = SiteFilter.visibleSites(MASTER_SITE_LIST, {
+        activeIds: this.getActiveIds(),
+        selectedCategories: this.selectedCategories,
+        query,
+        searchTextById: this.siteSearchTextById,
       }).sort((a, b) => compareSiteNames(a.name, b.name));
 
       Object.entries(categoryZones).forEach(([category, zone]) => {
@@ -137,11 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
         zone.replaceChildren(...matchingSites.map((site) => createListItem(site)));
 
         visibleCount += matchingSites.length;
-        if (group) group.hidden = Boolean(query && matchingSites.length === 0);
+        if (group) group.hidden = isNarrowed && matchingSites.length === 0;
       });
 
       if (searchEmptyMessage) {
-        searchEmptyMessage.hidden = !query || visibleCount > 0;
+        searchEmptyMessage.hidden = !isNarrowed || visibleCount > 0;
       }
     },
 
@@ -156,10 +183,29 @@ document.addEventListener("DOMContentLoaded", () => {
       items.forEach((item) => zone.appendChild(item));
     },
 
+    toggleCategory(button) {
+      const category = button.dataset.categoryFilter;
+      if (this.selectedCategories.has(category)) {
+        this.selectedCategories.delete(category);
+      } else {
+        this.selectedCategories.add(category);
+      }
+
+      button.setAttribute(
+        "aria-pressed",
+        String(this.selectedCategories.has(category)),
+      );
+      this.update();
+    },
+
     init() {
       if (searchInput) {
         searchInput.addEventListener("input", () => this.update());
       }
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => this.toggleCategory(button));
+      });
     },
   };
 
