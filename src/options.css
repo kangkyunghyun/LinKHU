@@ -381,10 +381,12 @@ h1 {
   min-width: 0;
 }
 
-/* 섹션 제목은 한 줄을 통째로 쓴다. 그리드 칸에 끼면 항목 카드처럼 보인다. */
+/* 섹션 제목은 한 줄을 통째로 쓴다. 그리드 칸에 끼면 항목 카드처럼 보인다.
+   왼쪽 시작선은 대분류 제목(.category-title)의 글자 시작점에 맞춘다.
+   26px = 제목 좌측 여백 5 + 아이콘 16 + 아이콘·글자 간격 5. 셋 중 하나를 바꾸면 여기도 바꾼다. */
 .group-heading {
   grid-column: 1 / -1;
-  margin: 6px 0 0;
+  margin: 6px 0 0 26px;
   color: var(--color-text-muted);
   font-size: 12px;
   font-weight: bold;
