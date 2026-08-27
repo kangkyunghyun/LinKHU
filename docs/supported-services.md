@@ -17,7 +17,7 @@ LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 117개 서비�
 - 도서관
 - 수강신청
 - ChatKHU
-- SW중심대학
+- SW중심대학사업단
 - AiKHU
 - AI Hub
 - 정보처

@@ -156,6 +156,62 @@ test("options list narrows by category and search together", () => {
   assert.deepEqual(visible(["공통"], "", ["info21"]), ["sugang"]);
 });
 
+test("options splits the common category into display sections", () => {
+  const { SiteGroupingForTest } = loadScript(
+    ["src/data.js", "src/options.js"],
+    "this.SiteGroupingForTest = SiteGrouping;",
+    { chrome: {} },
+  );
+  const site = (id) => ({ id, name: id, category: "공통" });
+
+  const sections = SiteGroupingForTest.split(
+    // 학사·포털 2건, 교육·역량 1건, 그리고 어느 그룹에도 없는 id 1건
+    [site("info21"), site("sugang"), site("oia"), site("아직-없는-서비스")],
+    "공통",
+  );
+
+  assert.deepEqual(
+    // Array.from은 vm 컨텍스트가 만든 배열을 이쪽 realm 배열로 옮긴다(deepEqual이 realm을 본다).
+    Array.from(sections, (section) => [
+      section.label,
+      Array.from(section.sites, (item) => item.id),
+    ]),
+    [
+      ["학사·포털", ["info21", "sugang"]],
+      ["교육·역량", ["oia"]],
+      // 매핑에 없는 id는 사라지지 않고 기타로 모인다. 서비스를 추가하며 매핑을 잊어도 안전하다.
+      ["기타", ["아직-없는-서비스"]],
+    ],
+  );
+});
+
+test("options leaves colleges and departments as a single section", () => {
+  const { SiteGroupingForTest } = loadScript(
+    ["src/data.js", "src/options.js"],
+    "this.SiteGroupingForTest = SiteGrouping;",
+    { chrome: {} },
+  );
+  const sites = [{ id: "hc", name: "후마니타스 칼리지", category: "단과대" }];
+
+  const sections = SiteGroupingForTest.split(sites, "단과대");
+
+  assert.equal(sections.length, 1);
+  assert.equal(sections[0].label, null);
+  assert.deepEqual(Array.from(sections[0].sites, (item) => item.id), ["hc"]);
+});
+
+test("every common service belongs to exactly one display group", () => {
+  const context = loadScript("src/data.js", "this.sites = MASTER_SITE_LIST; this.groups = COMMON_SITE_GROUPS;", {});
+  const mapped = context.groups.flatMap((group) => Array.from(group.ids));
+
+  assert.equal(mapped.length, new Set(mapped).size, "그룹 매핑에 중복 id가 있다");
+  const unmapped = Array.from(context.sites)
+    .filter((site) => site.category === "공통" && !mapped.includes(site.id))
+    .map((site) => site.id);
+  // 매핑을 빠뜨려도 화면은 "기타"로 버티지만, 배포 전에 알아차리는 편이 낫다.
+  assert.deepEqual(unmapped, []);
+});
+
 test("options treats a filter-only view as narrowed so the empty message can show", () => {
   const { SiteFilterForTest } = loadScript(
     "src/options.js",

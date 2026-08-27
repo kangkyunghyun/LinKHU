@@ -1,3 +1,37 @@
+// 설정 페이지 왼쪽 "사용 가능한 사이트" 목록의 섹션 구분이다. 공통 카테고리 하나에 서비스가
+// 몰려 있어 한 덩어리로 두면 훑기 어렵다. 표시 전용이며 저장 데이터(userOrder)와 무관하다.
+//
+// 항목마다 그룹 필드를 붙이지 않고 여기 따로 두는 이유는 스키마를 5필드로 고정하기 위해서다(스펙 §4-1).
+// 배열 순서가 곧 섹션 표시 순서이고, 여기 없는 id는 자동으로 "기타"로 모인다.
+// 서비스를 추가하면서 매핑을 잊어도 목록에서 항목이 사라지지 않는다.
+const COMMON_SITE_GROUPS = [
+  {
+    label: "학사·포털",
+    ids: ["info21", "khu", "ecampus", "sugang", "notice", "mail", "ois", "chatkhu", "self-design", "rule", "iphak"],
+  },
+  {
+    label: "생활·복지",
+    ids: ["seoul-meal", "global-meal", "wjwdorm", "dorm2", "sewha", "happy", "everytime", "mall", "healthsc", "health", "counsell", "counsel"],
+  },
+  {
+    label: "장학·진로·창업",
+    ids: ["scholarship", "intern", "goodjob", "startup", "lincplus"],
+  },
+  {
+    // 국제 관련 서비스도 여기 둔다. 따로 떼면 3건짜리 섹션이 하나 더 생길 뿐이다.
+    label: "교육·역량",
+    ids: ["swedu", "aikhu", "ai-hub", "aibootcamp", "khwriting", "khctl", "iie", "ile", "abeek", "ice", "cce", "igkh", "eip", "oia", "isss", "oiak"],
+  },
+  {
+    label: "캠퍼스·문화",
+    ids: ["library", "museum", "nhm", "oldmaps", "archives", "khugpp", "khao", "studio", "news", "khunews", "khusc"],
+  },
+  {
+    label: "대학·행정",
+    ids: ["hrc", "safety", "crf", "clia", "research", "impact", "facultycouncil", "union", "give", "khugive", "iga", "gafc", "crhs", "vision2020", "rotc"],
+  },
+];
+
 const MASTER_SITE_LIST = [
   // --- 공통 사이트 ---
   {
@@ -93,7 +127,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "swedu",
-    name: "SW중심대학",
+    name: "SW중심대학사업단",
     url: "https://swedu.khu.ac.kr",
     imgSrc: "images/common/swedu.png",
     category: "공통",

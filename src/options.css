@@ -381,6 +381,19 @@ h1 {
   min-width: 0;
 }
 
+/* 섹션 제목은 한 줄을 통째로 쓴다. 그리드 칸에 끼면 항목 카드처럼 보인다. */
+.group-heading {
+  grid-column: 1 / -1;
+  margin: 6px 0 0;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.group-heading:first-child {
+  margin-top: 0;
+}
+
 .drop-zone:empty {
   border: 2px dashed var(--color-border-strong);
   background: var(--color-surface-sunken);

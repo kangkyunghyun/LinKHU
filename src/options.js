@@ -27,6 +27,35 @@ const SiteFilter = {
   },
 };
 
+// 왼쪽 목록을 섹션으로 쪼갠다. COMMON_SITE_GROUPS(src/data.js)의 배열 순서가 표시 순서다.
+// 매핑에 없는 id는 "기타"로 모으므로, 서비스를 추가하면서 매핑을 잊어도 항목이 사라지지 않는다.
+const SiteGrouping = {
+  FALLBACK_LABEL: "기타",
+
+  // 공통만 세분한다. 단과대·학과는 카테고리 제목 하나로 충분하다.
+  groupsFor(category) {
+    return category === "공통" ? COMMON_SITE_GROUPS : [];
+  },
+
+  // [{ label, sites }]로 돌려준다. label이 null이면 섹션 제목을 붙이지 않는다.
+  split(sites, category) {
+    const groups = this.groupsFor(category);
+    if (groups.length === 0) return [{ label: null, sites }];
+
+    const remaining = new Map(sites.map((site) => [site.id, site]));
+    const sections = groups.map(({ label, ids }) => {
+      const picked = ids.map((id) => remaining.get(id)).filter(Boolean);
+      picked.forEach((site) => remaining.delete(site.id));
+      return { label, sites: picked };
+    });
+
+    if (remaining.size > 0) {
+      sections.push({ label: this.FALLBACK_LABEL, sites: [...remaining.values()] });
+    }
+    return sections.filter((section) => section.sites.length > 0);
+  },
+};
+
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -84,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const siteById = new Map(MASTER_SITE_LIST.map((site) => [site.id, site]));
   const listItemById = new Map();
 
   function createListItem(site) {
@@ -143,6 +173,26 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     },
 
+    // 섹션 제목은 그리드 한 줄을 통째로 쓴다(options.css의 grid-column).
+    createGroupHeading(label) {
+      const heading = document.createElement("h3");
+      heading.className = "group-heading";
+      heading.textContent = label;
+      return heading;
+    },
+
+    renderZone(zone, category, sites) {
+      const sorted = [...sites].sort((a, b) => compareSiteNames(a.name, b.name));
+      const children = [];
+
+      SiteGrouping.split(sorted, category).forEach(({ label, sites: groupSites }) => {
+        if (label) children.push(this.createGroupHeading(label));
+        children.push(...groupSites.map((site) => createListItem(site)));
+      });
+
+      zone.replaceChildren(...children);
+    },
+
     update() {
       const query = LinKHUShared.normalize(searchInput?.value);
       const isNarrowed = SiteFilter.isNarrowed(query, this.selectedCategories);
@@ -153,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedCategories: this.selectedCategories,
         query,
         searchTextById: this.siteSearchTextById,
-      }).sort((a, b) => compareSiteNames(a.name, b.name));
+      });
 
       Object.entries(categoryZones).forEach(([category, zone]) => {
         const group = zone.closest(".category-group");
@@ -161,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (site) => site.category === category,
         );
 
-        zone.replaceChildren(...matchingSites.map((site) => createListItem(site)));
+        this.renderZone(zone, category, matchingSites);
 
         visibleCount += matchingSites.length;
         if (group) group.hidden = isNarrowed && matchingSites.length === 0;
@@ -172,15 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     },
 
-    sortZone(zone) {
-      const items = Array.from(zone.querySelectorAll(".list-item"));
-      items.sort((a, b) =>
-        compareSiteNames(
-          a.querySelector(".site-name").textContent,
-          b.querySelector(".site-name").textContent,
-        ),
-      );
-      items.forEach((item) => zone.appendChild(item));
+    // 드래그로 되돌아온 항목을 제자리에 꽂는다. update()를 부르지 않는 이유는
+    // 드래그 도중 항목이 DOM에서 빠지면 dragend가 뜨지 않아 자동 스크롤이 멈추지 않기 때문이다.
+    // 여기서는 존에 이미 들어 있는 항목만 다시 배치하므로 끌고 있는 항목이 사라지지 않는다.
+    sortZone(zone, category) {
+      const sites = Array.from(zone.querySelectorAll(".list-item"))
+        .map((item) => siteById.get(item.dataset.id))
+        .filter(Boolean);
+      this.renderZone(zone, category, sites);
     },
 
     toggleCategory(button) {
@@ -325,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentDrag.parentNode !== targetZone) {
           targetZone.appendChild(currentDrag);
-          SearchPanel.sortZone(targetZone);
+          SearchPanel.sortZone(targetZone, currentDrag.dataset.category);
         }
       });
     },
