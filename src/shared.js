@@ -45,9 +45,30 @@ const LinKHUShared = {
     return String(imgSrc).replace(/^images\//, "images/dark/");
   },
 
+  // 설정을 저장한 적 없는 사용자에게 처음 보여줄 목록이다.
+  // 예전에는 `공통` 카테고리 전체가 곧 기본 목록이었지만, 공통이 커지면서
+  // 처음 설치한 사용자가 대부분을 직접 빼야 하는 상태가 됐다. 그래서 기본 목록을
+  // 카테고리와 분리해 여기서 명시한다. 데이터(src/data.js)는 5필드 스키마를
+  // 유지해야 하므로(스펙 §4-1) 항목별 표시가 아니라 코드 상수로 둔다.
+  DEFAULT_SITE_IDS: [
+    "info21",
+    "ecampus",
+    "everytime",
+    "notice",
+    "library",
+    "scholarship",
+    "intern",
+    "sugang",
+    "chatkhu",
+    "ois",
+  ],
+
+  // 설정 페이지 왼쪽 목록과 같은 기준으로 정렬해 두 화면의 순서 감각을 맞춘다.
+  // siteList에 없는 id는 조용히 빠진다. 서비스가 삭제돼도 깨진 항목을 만들지 않는다.
   getDefaultOrder(siteList) {
     return siteList
-      .filter((site) => site.category === "공통")
+      .filter((site) => this.DEFAULT_SITE_IDS.includes(site.id))
+      .sort((left, right) => left.name.localeCompare(right.name, "ko-KR"))
       .map((site) => site.id);
   },
 };

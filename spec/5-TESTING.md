@@ -198,7 +198,8 @@ PR 본문에는 **무엇을 어떤 기준으로 확인했는지 재현 가능하
 
 | 상황 | 동작 |
 | --- | --- |
-| `userOrder`가 없음 | `공통` 카테고리 기본 순서로 폴백 (MUST) |
+| `userOrder`가 없음 | 기본 목록 10개(가나다순)로 폴백 (MUST) |
+| `userOrder`가 있음 | 기본 목록이 바뀌어도 저장된 순서를 그대로 쓴다 (MUST) |
 | `userOrder`에 없는 id 포함 | 렌더링에서 제외, 화면은 정상 (MUST) |
 | `userOrder`에 중복 id | 한 번만 렌더링 (MUST) |
 | 저장 실패 | `chrome.runtime.lastError` 확인 후 사용자에게 실패 알림 (MUST) |

@@ -135,7 +135,7 @@ spec/           이 스펙 문서
 | **`MASTER_SITE_LIST`** | `src/data.js`에 정의된 지원 서비스 전체 배열. 서비스 정보의 단일 소스다. |
 | **카테고리(Category)** | 서비스 분류. `공통`, `단과대`, `학과` 세 가지만 허용한다. |
 | **내 바로가기(userOrder)** | 사용자가 팝업에 표시하려고 고른 서비스 id 배열. `chrome.storage.local`의 `userOrder` 키에 저장한다. |
-| **기본 순서(default order)** | `userOrder`가 없을 때 쓰는 목록. `공통` 카테고리 서비스를 `MASTER_SITE_LIST` 정의 순서대로 사용한다. |
+| **기본 목록(default list)** | `userOrder`가 없을 때 쓰는 서비스 목록. `LinKHUShared.DEFAULT_SITE_IDS`에 적힌 10개를 이름 가나다순으로 사용한다. 카테고리와 별개의 개념이다. |
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
 | **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
 | **랜딩(Landing)** | GitHub Pages로 서빙되는 `docs/index.html` 소개 페이지. |
