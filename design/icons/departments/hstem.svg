@@ -1,7 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
-    <g fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M35 6l25 14v30L35 64 10 50V20z"/>
-      <path d="M35 29V6 M40 38l20 12 M30 38L10 50"/>
-    </g>
-    <circle cx="35" cy="35" r="7" fill="none" stroke="#a40f16" stroke-width="5"/>
+  <path d="M17 64V53c0-8 4-13 11-17-6-4-10-10-10-18 0-9 8-15 18-15 12 0 20 8 20 19 0 5-2 10-6 14l7 9H47v11c0 4-3 7-7 7h-5v1" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M8 64c6-8 15-12 27-12" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M27 17h8v8h9"/>
+    <path d="M27 31h8v-6"/>
+    <path d="M35 11v6"/>
+  </g>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M42 18h4 M41 33c3 2 6 2 9 0"/>
+    <path d="M20 51c5-3 10-3 15 1v8c-5-4-10-5-15-3z"/>
+    <path d="M35 52c5-4 10-4 14-2v8c-5-2-9-1-14 2z"/>
+  </g>
+  <path d="M35 52v8" fill="none" stroke="#a40f16" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="47" cy="22" r="2.5" fill="#a40f16"/>
+  <circle cx="35" cy="25" r="5" fill="#a40f16"/>
+  <circle cx="27" cy="17" r="3" fill="#a40f16"/>
+  <circle cx="44" cy="25" r="3" fill="#a40f16"/>
+  <circle cx="27" cy="31" r="3" fill="#a40f16"/>
 </svg>

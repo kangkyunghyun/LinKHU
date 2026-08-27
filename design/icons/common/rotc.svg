@@ -1,7 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
-    <g fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M13 26L35 12l22 14"/>
-      <path d="M13 56l22-14 22 14"/>
-    </g>
-    <path d="M13 41l22-14 22 14" fill="none" stroke="#a40f16" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 35H3v14l9-4 M60 35h7v14l-9-4"/>
+  </g>
+  <path d="M3 39h10v8H3l5-4z M57 39h10l-5 4 5 4H57z" fill="#a40f16"/>
+  <path d="M35 4l27 11v19c0 15-10 25-27 32C18 59 8 49 8 34V15z" fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 16l3.5 7 8 1-6 5.5 1.5 8-7-4-7 4 1.5-8-6-5.5 8-1z" fill="#a40f16"/>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 43l12 7 12-7"/>
+    <path d="M23 52l12 7 12-7"/>
+  </g>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round">
+    <path d="M17 27v9 M53 27v9 M14 30h6 M50 30h6"/>
+  </g>
 </svg>
