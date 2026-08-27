@@ -371,17 +371,9 @@ h1 {
   min-width: 0;
 }
 
-/* 빈 영역은 테두리로 그리지 않는다. 점선 상자가 목록보다 눈에 띄어 화면을 어지럽힌다.
-   대신 흐린 안내 문구 하나만 두고, 실제로 놓을 수 있는 곳은 드래그 중에만 강조한다. */
-.drop-zone:empty::after {
-  content: "여기로 드래그";
-  grid-column: 1 / -1;
-  display: block;
-  padding: 16px 0;
-  color: var(--color-text-muted);
-  font-size: 12px;
-  text-align: center;
-}
+/* 빈 영역은 평상시 아무것도 그리지 않는다. 점선 상자든 안내 문구든, 아직 아무것도 없는
+   자리가 목록보다 눈에 띄면 화면이 어지럽다. 어느 영역인지는 카테고리 제목이 이미 말한다.
+   놓을 수 있는 자리는 아래 .drop-target으로 드래그하는 동안에만 보여준다. */
 
 /* 끌고 있는 항목이 갈 수 있는 영역만 켜진다(options.js가 붙인다). */
 .drop-target {
