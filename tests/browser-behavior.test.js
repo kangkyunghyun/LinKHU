@@ -104,7 +104,7 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
     name: "인포21",
     url: "https://portal.khu.ac.kr",
     imgSrc: "images/common/portal.png",
-    category: "공통",
+    category: "학사·포털",
   });
 
   card.dispatch("click");
@@ -126,8 +126,8 @@ test("options list narrows by category and search together", () => {
     { chrome: {} },
   );
   const sites = [
-    { id: "info21", name: "인포21", category: "공통" },
-    { id: "sugang", name: "수강신청", category: "공통" },
+    { id: "info21", name: "인포21", category: "학사·포털" },
+    { id: "sugang", name: "수강신청", category: "학사·포털" },
     { id: "software", name: "소프트웨어융합대학", category: "단과대" },
     { id: "swcon", name: "소프트웨어융합학과", category: "학과" },
   ];
@@ -145,71 +145,39 @@ test("options list narrows by category and search together", () => {
   // 고른 카테고리가 없으면 전체가 보인다.
   assert.deepEqual(visible([], ""), ["info21", "sugang", "software", "swcon"]);
   assert.deepEqual(visible(["학과"], ""), ["swcon"]);
-  assert.deepEqual(visible(["공통", "학과"], ""), ["info21", "sugang", "swcon"]);
+  assert.deepEqual(visible(["학사·포털", "학과"], ""), ["info21", "sugang", "swcon"]);
 
   // 검색과 AND로 걸린다. 필터로 뺀 카테고리는 검색어가 맞아도 나오지 않는다.
   assert.deepEqual(visible([], "소프트웨어"), ["software", "swcon"]);
   assert.deepEqual(visible(["학과"], "소프트웨어"), ["swcon"]);
-  assert.deepEqual(visible(["공통"], "소프트웨어"), []);
+  assert.deepEqual(visible(["학사·포털"], "소프트웨어"), []);
 
   // 이미 오른쪽에 담긴 항목은 어느 조합에서도 왼쪽에 다시 나오지 않는다.
-  assert.deepEqual(visible(["공통"], "", ["info21"]), ["sugang"]);
+  assert.deepEqual(visible(["학사·포털"], "", ["info21"]), ["sugang"]);
 });
 
-test("options splits the common category into display sections", () => {
-  const { SiteGroupingForTest } = loadScript(
-    ["src/data.js", "src/options.js"],
-    "this.SiteGroupingForTest = SiteGrouping;",
-    { chrome: {} },
-  );
-  const site = (id) => ({ id, name: id, category: "공통" });
+test("the category list and the validator agree on allowed values", () => {
+  const { ALLOWED_CATEGORIES } = require("../scripts/validate-data");
+  const context = loadScript("src/data.js", "this.categories = SITE_CATEGORIES;", {});
 
-  const sections = SiteGroupingForTest.split(
-    // 학사·포털 2건, 교육·역량 1건, 그리고 어느 그룹에도 없는 id 1건
-    [site("info21"), site("sugang"), site("oia"), site("아직-없는-서비스")],
-    "공통",
-  );
-
-  assert.deepEqual(
-    // Array.from은 vm 컨텍스트가 만든 배열을 이쪽 realm 배열로 옮긴다(deepEqual이 realm을 본다).
-    Array.from(sections, (section) => [
-      section.label,
-      Array.from(section.sites, (item) => item.id),
-    ]),
-    [
-      ["학사·포털", ["info21", "sugang"]],
-      ["교육·역량", ["oia"]],
-      // 매핑에 없는 id는 사라지지 않고 기타로 모인다. 서비스를 추가하며 매핑을 잊어도 안전하다.
-      ["기타", ["아직-없는-서비스"]],
-    ],
-  );
+  // data.js는 브라우저 전역 스크립트라 검증기가 require할 수 없어 목록이 두 벌이다.
+  // 한쪽만 고치면 데이터는 통과하는데 화면에 영역이 안 생기거나 그 반대가 된다.
+  assert.deepEqual(Array.from(context.categories).sort(), [...ALLOWED_CATEGORIES].sort());
 });
 
-test("options leaves colleges and departments as a single section", () => {
-  const { SiteGroupingForTest } = loadScript(
-    ["src/data.js", "src/options.js"],
-    "this.SiteGroupingForTest = SiteGrouping;",
-    { chrome: {} },
+test("every service uses one of the declared categories", () => {
+  const context = loadScript(
+    "src/data.js",
+    "this.sites = MASTER_SITE_LIST; this.categories = SITE_CATEGORIES;",
+    {},
   );
-  const sites = [{ id: "hc", name: "후마니타스 칼리지", category: "단과대" }];
+  const declared = new Set(Array.from(context.categories));
 
-  const sections = SiteGroupingForTest.split(sites, "단과대");
+  const unknown = Array.from(context.sites)
+    .filter((site) => !declared.has(site.category))
+    .map((site) => `${site.id}=${site.category}`);
 
-  assert.equal(sections.length, 1);
-  assert.equal(sections[0].label, null);
-  assert.deepEqual(Array.from(sections[0].sites, (item) => item.id), ["hc"]);
-});
-
-test("every common service belongs to exactly one display group", () => {
-  const context = loadScript("src/data.js", "this.sites = MASTER_SITE_LIST; this.groups = COMMON_SITE_GROUPS;", {});
-  const mapped = context.groups.flatMap((group) => Array.from(group.ids));
-
-  assert.equal(mapped.length, new Set(mapped).size, "그룹 매핑에 중복 id가 있다");
-  const unmapped = Array.from(context.sites)
-    .filter((site) => site.category === "공통" && !mapped.includes(site.id))
-    .map((site) => site.id);
-  // 매핑을 빠뜨려도 화면은 "기타"로 버티지만, 배포 전에 알아차리는 편이 낫다.
-  assert.deepEqual(unmapped, []);
+  assert.deepEqual(unknown, []);
 });
 
 test("options treats a filter-only view as narrowed so the empty message can show", () => {

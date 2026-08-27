@@ -3,161 +3,161 @@
     "id": "info21",
     "name": "인포21",
     "url": "https://portal.khu.ac.kr",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/portal.png"
   },
   {
     "id": "khu",
     "name": "경희대학교",
     "url": "https://www.khu.ac.kr/kor/user/main/view.do",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/khu.png"
   },
   {
     "id": "ecampus",
     "name": "e-Campus",
     "url": "https://e-campus.khu.ac.kr",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/ecampus.png"
   },
   {
     "id": "everytime",
     "name": "에브리타임",
     "url": "https://everytime.kr",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/everytime.png"
   },
   {
     "id": "notice",
     "name": "공지사항",
     "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200316",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/notice.png"
   },
   {
     "id": "seoul-meal",
     "name": "서울캠퍼스 식단",
     "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=136",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/seoul-meal.png"
   },
   {
     "id": "global-meal",
     "name": "국제캠퍼스 식단",
     "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=137",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/global-meal.png"
   },
   {
     "id": "scholarship",
     "name": "장학처",
     "url": "https://janghak.khu.ac.kr/janghak/user/main/view.do",
-    "category": "공통",
+    "category": "장학·진로·창업",
     "imgSrc": "images/common/scholarship.png"
   },
   {
     "id": "mail",
     "name": "웹메일",
     "url": "https://mail.khu.ac.kr",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/mail.png"
   },
   {
     "id": "intern",
     "name": "현장실습",
     "url": "https://intern.khu.ac.kr",
-    "category": "공통",
+    "category": "장학·진로·창업",
     "imgSrc": "images/common/intern.png"
   },
   {
     "id": "library",
     "name": "도서관",
     "url": "https://lib.khu.ac.kr",
-    "category": "공통",
+    "category": "캠퍼스·문화",
     "imgSrc": "images/common/library.png"
   },
   {
     "id": "sugang",
     "name": "수강신청",
     "url": "https://sugang.khu.ac.kr",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/sugang.png"
   },
   {
     "id": "chatkhu",
     "name": "ChatKHU",
     "url": "https://chat.khu.ac.kr",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/chatkhu.png"
   },
   {
     "id": "swedu",
     "name": "SW중심대학사업단",
     "url": "https://swedu.khu.ac.kr",
-    "category": "공통",
+    "category": "교육·역량",
     "imgSrc": "images/common/swedu.png"
   },
   {
     "id": "aikhu",
     "name": "AiKHU",
     "url": "https://dx.khu.ac.kr/aimentoring.html",
-    "category": "공통",
+    "category": "교육·역량",
     "imgSrc": "images/common/aikhu.png"
   },
   {
     "id": "ai-hub",
     "name": "AI Hub",
     "url": "https://dx.khu.ac.kr/aihub.html",
-    "category": "공통",
+    "category": "교육·역량",
     "imgSrc": "images/common/ai-hub.png"
   },
   {
     "id": "ois",
     "name": "정보처",
     "url": "https://ois.khu.ac.kr/ois/user/main/view.do",
-    "category": "공통",
+    "category": "학사·포털",
     "imgSrc": "images/common/ois.png"
   },
   {
     "id": "wjwdorm",
     "name": "우정원",
     "url": "https://wjwdorm.khu.ac.kr/",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/wjwdorm.png"
   },
   {
     "id": "dorm2",
     "name": "제2기숙사",
     "url": "https://dorm2.khu.ac.kr/",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/dorm2.png"
   },
   {
     "id": "sewha",
     "name": "세화원",
     "url": "https://sewhahall.khu.ac.kr/",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/sewha.png"
   },
   {
     "id": "happy",
     "name": "행복기숙사",
     "url": "https://happydorm.khu.ac.kr/00/0000.do",
-    "category": "공통",
+    "category": "생활·복지",
     "imgSrc": "images/common/happy.png"
   },
   {
     "id": "oia",
     "name": "국제교류팀",
     "url": "https://oia.khu.ac.kr/oiak_kor/user/main/view.do",
-    "category": "공통",
+    "category": "교육·역량",
     "imgSrc": "images/common/oia.png"
   },
   {
     "id": "isss",
     "name": "글로벌교육지원팀",
     "url": "https://isss.khu.ac.kr/globalcenter/user/main/view.do",
-    "category": "공통",
+    "category": "교육·역량",
     "imgSrc": "images/common/isss.png"
   },
   {

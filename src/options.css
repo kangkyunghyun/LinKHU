@@ -225,20 +225,17 @@ h1 {
   flex-shrink: 0;
 }
 
+/* 카테고리가 8개라 칩을 검색창 옆에 나란히 둘 수 없다. 검색창 아래 줄로 내린다. */
 .option-controls {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
-  flex-wrap: wrap;
   margin-bottom: 12px;
 }
 
 .option-search {
   position: relative;
-  /* 창이 좁아지면 필터 줄이 아래로 접히고 검색창이 한 줄을 다 쓴다. */
-  flex: 1 1 180px;
-  min-width: 0;
 }
 
 .option-filters {
@@ -250,7 +247,7 @@ h1 {
 /* 눌린 칩만 색이 찬다. 아무것도 안 눌린 상태가 "전체 표시"다. */
 .filter-chip {
   padding: 0 12px;
-  height: 36px;
+  height: 32px;
   border: 1px solid var(--color-border);
   border-radius: 18px;
   background: var(--color-field);
@@ -346,17 +343,10 @@ h1 {
   margin-bottom: 14px;
 }
 .category-title {
-  display: flex;
-  align-items: center;
-  gap: 5px;
   font-size: 13px;
   font-weight: bold;
   color: var(--color-primary);
   margin: 0 0 10px 5px;
-}
-
-.category-icon {
-  flex-shrink: 0;
 }
 
 .drop-zone {
@@ -381,24 +371,22 @@ h1 {
   min-width: 0;
 }
 
-/* 섹션 제목은 한 줄을 통째로 쓴다. 그리드 칸에 끼면 항목 카드처럼 보인다.
-   왼쪽 시작선은 대분류 제목(.category-title)의 글자 시작점에 맞춘다.
-   26px = 제목 좌측 여백 5 + 아이콘 16 + 아이콘·글자 간격 5. 셋 중 하나를 바꾸면 여기도 바꾼다. */
-.group-heading {
+/* 빈 영역은 테두리로 그리지 않는다. 점선 상자가 목록보다 눈에 띄어 화면을 어지럽힌다.
+   대신 흐린 안내 문구 하나만 두고, 실제로 놓을 수 있는 곳은 드래그 중에만 강조한다. */
+.drop-zone:empty::after {
+  content: "여기로 드래그";
   grid-column: 1 / -1;
-  margin: 6px 0 0 26px;
+  display: block;
+  padding: 16px 0;
   color: var(--color-text-muted);
   font-size: 12px;
-  font-weight: bold;
+  text-align: center;
 }
 
-.group-heading:first-child {
-  margin-top: 0;
-}
-
-.drop-zone:empty {
-  border: 2px dashed var(--color-border-strong);
-  background: var(--color-surface-sunken);
+/* 끌고 있는 항목이 갈 수 있는 영역만 켜진다(options.js가 붙인다). */
+.drop-target {
+  background: var(--color-primary-soft);
+  box-shadow: inset 0 0 0 1px var(--color-primary-border);
 }
 
 .list-item {

@@ -1,199 +1,177 @@
-// 설정 페이지 왼쪽 "사용 가능한 사이트" 목록의 섹션 구분이다. 공통 카테고리 하나에 서비스가
-// 몰려 있어 한 덩어리로 두면 훑기 어렵다. 표시 전용이며 저장 데이터(userOrder)와 무관하다.
-//
-// 항목마다 그룹 필드를 붙이지 않고 여기 따로 두는 이유는 스키마를 5필드로 고정하기 위해서다(스펙 §4-1).
-// 배열 순서가 곧 섹션 표시 순서이고, 여기 없는 id는 자동으로 "기타"로 모인다.
-// 서비스를 추가하면서 매핑을 잊어도 목록에서 항목이 사라지지 않는다.
-const COMMON_SITE_GROUPS = [
-  {
-    label: "학사·포털",
-    ids: ["info21", "khu", "ecampus", "sugang", "notice", "mail", "ois", "chatkhu", "self-design", "rule", "iphak"],
-  },
-  {
-    label: "생활·복지",
-    ids: ["seoul-meal", "global-meal", "wjwdorm", "dorm2", "sewha", "happy", "everytime", "mall", "healthsc", "health", "counsell", "counsel"],
-  },
-  {
-    label: "장학·진로·창업",
-    ids: ["scholarship", "intern", "goodjob", "startup", "lincplus"],
-  },
-  {
-    // 국제 관련 서비스도 여기 둔다. 따로 떼면 3건짜리 섹션이 하나 더 생길 뿐이다.
-    label: "교육·역량",
-    ids: ["swedu", "aikhu", "ai-hub", "aibootcamp", "khwriting", "khctl", "iie", "ile", "abeek", "ice", "cce", "igkh", "eip", "oia", "isss", "oiak"],
-  },
-  {
-    label: "캠퍼스·문화",
-    ids: ["library", "museum", "nhm", "oldmaps", "archives", "khugpp", "khao", "studio", "news", "khunews", "khusc"],
-  },
-  {
-    label: "대학·행정",
-    ids: ["hrc", "safety", "crf", "clia", "research", "impact", "facultycouncil", "union", "give", "khugive", "iga", "gafc", "crhs", "vision2020", "rotc"],
-  },
+// 카테고리 목록의 단일 소스다(스펙 §4-2). 설정 페이지의 드롭존과 필터 칩을 이 순서로 렌더한다.
+// 값을 바꾸는 것은 계약 변경이라 scripts/validate-data.js의 ALLOWED_CATEGORIES와 함께 고쳐야 한다.
+const SITE_CATEGORIES = [
+  "학사·포털",
+  "생활·복지",
+  "장학·진로·창업",
+  "교육·역량",
+  "캠퍼스·문화",
+  "대학·행정",
+  "단과대",
+  "학과",
 ];
 
 const MASTER_SITE_LIST = [
-  // --- 공통 사이트 ---
   {
     id: "info21",
     name: "인포21",
     url: "https://portal.khu.ac.kr",
     imgSrc: "images/common/portal.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "khu",
     name: "경희대학교",
     url: "https://www.khu.ac.kr/kor/user/main/view.do",
     imgSrc: "images/common/khu.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "ecampus",
     name: "e-Campus",
     url: "https://e-campus.khu.ac.kr",
     imgSrc: "images/common/ecampus.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "everytime",
     name: "에브리타임",
     url: "https://everytime.kr",
     imgSrc: "images/common/everytime.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "notice",
     name: "공지사항",
     url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200316",
     imgSrc: "images/common/notice.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "seoul-meal",
     name: "서울캠퍼스 식단",
     url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=136",
     imgSrc: "images/common/seoul-meal.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "global-meal",
     name: "국제캠퍼스 식단",
     url: "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200283&catId=137",
     imgSrc: "images/common/global-meal.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "scholarship",
     name: "장학처",
     url: "https://janghak.khu.ac.kr/janghak/user/main/view.do",
     imgSrc: "images/common/scholarship.png",
-    category: "공통",
+    category: "장학·진로·창업",
   },
   {
     id: "mail",
     name: "웹메일",
     url: "https://mail.khu.ac.kr",
     imgSrc: "images/common/mail.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "intern",
     name: "현장실습",
     url: "https://intern.khu.ac.kr",
     imgSrc: "images/common/intern.png",
-    category: "공통",
+    category: "장학·진로·창업",
   },
   {
     id: "library",
     name: "도서관",
     url: "https://lib.khu.ac.kr",
     imgSrc: "images/common/library.png",
-    category: "공통",
+    category: "캠퍼스·문화",
   },
   {
     id: "sugang",
     name: "수강신청",
     url: "https://sugang.khu.ac.kr",
     imgSrc: "images/common/sugang.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "chatkhu",
     name: "ChatKHU",
     url: "https://chat.khu.ac.kr",
     imgSrc: "images/common/chatkhu.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "swedu",
     name: "SW중심대학사업단",
     url: "https://swedu.khu.ac.kr",
     imgSrc: "images/common/swedu.png",
-    category: "공통",
+    category: "교육·역량",
   },
   {
     id: "aikhu",
     name: "AiKHU",
     url: "https://dx.khu.ac.kr/aimentoring.html",
     imgSrc: "images/common/aikhu.png",
-    category: "공통",
+    category: "교육·역량",
   },
   {
     id: "ai-hub",
     name: "AI Hub",
     url: "https://dx.khu.ac.kr/aihub.html",
     imgSrc: "images/common/ai-hub.png",
-    category: "공통",
+    category: "교육·역량",
   },
   {
     id: "ois",
     name: "정보처",
     url: "https://ois.khu.ac.kr/ois/user/main/view.do",
     imgSrc: "images/common/ois.png",
-    category: "공통",
+    category: "학사·포털",
   },
   {
     id: "wjwdorm",
     name: "우정원",
     url: "https://wjwdorm.khu.ac.kr/",
     imgSrc: "images/common/wjwdorm.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "dorm2",
     name: "제2기숙사",
     url: "https://dorm2.khu.ac.kr/",
     imgSrc: "images/common/dorm2.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "sewha",
     name: "세화원",
     url: "https://sewhahall.khu.ac.kr/",
     imgSrc: "images/common/sewha.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "happy",
     name: "행복기숙사",
     url: "https://happydorm.khu.ac.kr/00/0000.do",
     imgSrc: "images/common/happy.png",
-    category: "공통",
+    category: "생활·복지",
   },
   {
     id: "oia",
     name: "국제교류팀",
     url: "https://oia.khu.ac.kr/oiak_kor/user/main/view.do",
     imgSrc: "images/common/oia.png",
-    category: "공통",
+    category: "교육·역량",
   },
   {
     id: "isss",
     name: "글로벌교육지원팀",
     url: "https://isss.khu.ac.kr/globalcenter/user/main/view.do",
     imgSrc: "images/common/isss.png",
-    category: "공통",
+    category: "교육·역량",
   },
 
   // 단과대

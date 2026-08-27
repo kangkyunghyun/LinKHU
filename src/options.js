@@ -27,35 +27,6 @@ const SiteFilter = {
   },
 };
 
-// 왼쪽 목록을 섹션으로 쪼갠다. COMMON_SITE_GROUPS(src/data.js)의 배열 순서가 표시 순서다.
-// 매핑에 없는 id는 "기타"로 모으므로, 서비스를 추가하면서 매핑을 잊어도 항목이 사라지지 않는다.
-const SiteGrouping = {
-  FALLBACK_LABEL: "기타",
-
-  // 공통만 세분한다. 단과대·학과는 카테고리 제목 하나로 충분하다.
-  groupsFor(category) {
-    return category === "공통" ? COMMON_SITE_GROUPS : [];
-  },
-
-  // [{ label, sites }]로 돌려준다. label이 null이면 섹션 제목을 붙이지 않는다.
-  split(sites, category) {
-    const groups = this.groupsFor(category);
-    if (groups.length === 0) return [{ label: null, sites }];
-
-    const remaining = new Map(sites.map((site) => [site.id, site]));
-    const sections = groups.map(({ label, ids }) => {
-      const picked = ids.map((id) => remaining.get(id)).filter(Boolean);
-      picked.forEach((site) => remaining.delete(site.id));
-      return { label, sites: picked };
-    });
-
-    if (remaining.size > 0) {
-      sections.push({ label: this.FALLBACK_LABEL, sites: [...remaining.values()] });
-    }
-    return sections.filter((section) => section.sites.length > 0);
-  },
-};
-
 const OptionsStorage = {
   saveUserOrder(userOrder, callback) {
     chrome.storage.local.set({ userOrder }, () => {
@@ -70,13 +41,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const leftColumn = document.querySelector(".column:first-child");
   const searchInput = document.getElementById("site-search");
   const searchEmptyMessage = document.getElementById("search-empty-message");
-  const filterButtons = document.querySelectorAll("[data-category-filter]");
 
-  const categoryZones = {
-    공통: document.getElementById("zone-공통"),
-    단과대: document.getElementById("zone-단과대"),
-    학과: document.getElementById("zone-학과"),
-  };
+  // 카테고리가 8개로 늘면서 존과 칩을 마크업에 박아두면 목록과 화면이 갈라진다.
+  // SITE_CATEGORIES(src/data.js) 하나만 보고 둘 다 만든다.
+  function buildCategoryZones(container) {
+    const zones = {};
+    if (!container) return zones;
+
+    SITE_CATEGORIES.forEach((category) => {
+      const group = document.createElement("div");
+      group.className = "category-group";
+
+      const title = document.createElement("div");
+      title.className = "category-title";
+      title.textContent = category;
+
+      const zone = document.createElement("div");
+      zone.className = "drop-zone";
+      zone.id = `zone-${category}`;
+      zone.dataset.category = category;
+
+      group.append(title, zone);
+      container.append(group);
+      zones[category] = zone;
+    });
+
+    return zones;
+  }
+
+  function buildFilterChips(container) {
+    if (!container) return [];
+
+    return SITE_CATEGORIES.map((category) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "filter-chip";
+      chip.dataset.categoryFilter = category;
+      chip.setAttribute("aria-pressed", "false");
+      chip.textContent = category;
+      container.append(chip);
+      return chip;
+    });
+  }
+
+  const categoryZones = buildCategoryZones(
+    document.getElementById("category-zones"),
+  );
+  const filterButtons = buildFilterChips(
+    document.getElementById("category-filters"),
+  );
 
   function compareSiteNames(nameA, nameB) {
     return nameA.localeCompare(nameB, "ko-KR");
@@ -173,24 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     },
 
-    // 섹션 제목은 그리드 한 줄을 통째로 쓴다(options.css의 grid-column).
-    createGroupHeading(label) {
-      const heading = document.createElement("h3");
-      heading.className = "group-heading";
-      heading.textContent = label;
-      return heading;
-    },
-
-    renderZone(zone, category, sites) {
+    renderZone(zone, sites) {
       const sorted = [...sites].sort((a, b) => compareSiteNames(a.name, b.name));
-      const children = [];
-
-      SiteGrouping.split(sorted, category).forEach(({ label, sites: groupSites }) => {
-        if (label) children.push(this.createGroupHeading(label));
-        children.push(...groupSites.map((site) => createListItem(site)));
-      });
-
-      zone.replaceChildren(...children);
+      zone.replaceChildren(...sorted.map((site) => createListItem(site)));
     },
 
     update() {
@@ -211,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
           (site) => site.category === category,
         );
 
-        this.renderZone(zone, category, matchingSites);
+        this.renderZone(zone, matchingSites);
 
         visibleCount += matchingSites.length;
         if (group) group.hidden = isNarrowed && matchingSites.length === 0;
@@ -225,11 +223,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // 드래그로 되돌아온 항목을 제자리에 꽂는다. update()를 부르지 않는 이유는
     // 드래그 도중 항목이 DOM에서 빠지면 dragend가 뜨지 않아 자동 스크롤이 멈추지 않기 때문이다.
     // 여기서는 존에 이미 들어 있는 항목만 다시 배치하므로 끌고 있는 항목이 사라지지 않는다.
-    sortZone(zone, category) {
+    sortZone(zone) {
       const sites = Array.from(zone.querySelectorAll(".list-item"))
         .map((item) => siteById.get(item.dataset.id))
         .filter(Boolean);
-      this.renderZone(zone, category, sites);
+      this.renderZone(zone, sites);
     },
 
     toggleCategory(button) {
@@ -274,11 +272,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       item.addEventListener("dragstart", function () {
         controller.draggedItem = this;
+        // 이 항목을 실제로 받는 곳만 강조한다. 왼쪽은 제 카테고리 영역만 받는다.
+        [activeList, categoryZones[this.dataset.category]].forEach((zone) => {
+          zone?.classList.add("drop-target");
+        });
         setTimeout(() => this.classList.add("dragging"), 0);
       });
 
       item.addEventListener("dragend", function () {
         this.classList.remove("dragging");
+        document.querySelectorAll(".drop-target").forEach((zone) => {
+          zone.classList.remove("drop-target");
+        });
         controller.draggedItem = null;
         controller.stopAutoScroll();
         controller.currentScrollArea = null;
@@ -374,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentDrag.parentNode !== targetZone) {
           targetZone.appendChild(currentDrag);
-          SearchPanel.sortZone(targetZone, currentDrag.dataset.category);
+          SearchPanel.sortZone(targetZone);
         }
       });
     },

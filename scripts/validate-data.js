@@ -5,7 +5,18 @@ const vm = require("vm");
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
-const ALLOWED_CATEGORIES = new Set(["공통", "단과대", "학과"]);
+// 스펙 §4-2의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
+// (data.js는 브라우저 전역 스크립트라 여기서 require할 수 없어 두 벌로 둔다.)
+const ALLOWED_CATEGORIES = new Set([
+  "학사·포털",
+  "생활·복지",
+  "장학·진로·창업",
+  "교육·역량",
+  "캠퍼스·문화",
+  "대학·행정",
+  "단과대",
+  "학과",
+]);
 const REQUIRED_FIELDS = ["id", "name", "url", "imgSrc", "category"];
 const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
 const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
@@ -208,6 +219,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  ALLOWED_CATEGORIES,
   findDuplicateFieldErrors,
   findDuplicateValues,
   findUnusedImages,

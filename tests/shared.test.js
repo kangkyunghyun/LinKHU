@@ -37,15 +37,15 @@ test("shared rankSites orders by name prefix, name, id, then category", () => {
 test("shared rankSites matches landing search order", () => {
   const { searchServices } = require("../docs/landing");
   const services = [
-    { id: "info21", name: "인포21", category: "공통" },
-    { id: "ecampus", name: "e-Campus", category: "공통" },
-    { id: "sugang", name: "수강신청", category: "공통" },
+    { id: "info21", name: "인포21", category: "학사·포털" },
+    { id: "ecampus", name: "e-Campus", category: "학사·포털" },
+    { id: "sugang", name: "수강신청", category: "학사·포털" },
     { id: "software", name: "소프트웨어융합대학", category: "단과대" },
     { id: "swcon", name: "소프트웨어융합학과", category: "학과" },
     { id: "cs", name: "컴퓨터공학부", category: "학과" },
   ];
 
-  ["소프트웨어", "E campus", "cs", "학과", "공통"].forEach((query) => {
+  ["소프트웨어", "E campus", "cs", "학과", "학사"].forEach((query) => {
     assert.deepEqual(
       LinKHUShared.rankSites(services, query)
         .slice(0, 5)
@@ -58,10 +58,10 @@ test("shared rankSites matches landing search order", () => {
 
 test("shared getDefaultOrder picks the fixed default list, not a whole category", () => {
   const sites = [
-    { id: "info21", name: "인포21", category: "공통" },
-    { id: "notice", name: "공지사항", category: "공통" },
-    // 공통이지만 기본 목록에는 없다. 카테고리가 곧 기본 목록이던 규칙은 없어졌다.
-    { id: "mail", name: "웹메일", category: "공통" },
+    { id: "info21", name: "인포21", category: "학사·포털" },
+    { id: "notice", name: "공지사항", category: "학사·포털" },
+    // 같은 카테고리인데 기본 목록에는 없다. 카테고리가 곧 기본 목록이던 규칙은 없어졌다.
+    { id: "mail", name: "웹메일", category: "학사·포털" },
     { id: "swcon", name: "소프트웨어융합학과", category: "학과" },
   ];
 
@@ -70,10 +70,10 @@ test("shared getDefaultOrder picks the fixed default list, not a whole category"
 
 test("shared getDefaultOrder sorts by name with ko-KR rules", () => {
   const sites = [
-    { id: "ecampus", name: "e-Campus", category: "공통" },
-    { id: "info21", name: "인포21", category: "공통" },
-    { id: "chatkhu", name: "ChatKHU", category: "공통" },
-    { id: "notice", name: "공지사항", category: "공통" },
+    { id: "ecampus", name: "e-Campus", category: "학사·포털" },
+    { id: "info21", name: "인포21", category: "학사·포털" },
+    { id: "chatkhu", name: "ChatKHU", category: "학사·포털" },
+    { id: "notice", name: "공지사항", category: "학사·포털" },
   ];
 
   // 설정 페이지 왼쪽 목록과 같은 기준이다. 영문 이름 위치도 localeCompare가 정한다.
@@ -86,7 +86,7 @@ test("shared getDefaultOrder sorts by name with ko-KR rules", () => {
 });
 
 test("shared getDefaultOrder drops ids that no longer exist in the data", () => {
-  const sites = [{ id: "info21", name: "인포21", category: "공통" }];
+  const sites = [{ id: "info21", name: "인포21", category: "학사·포털" }];
 
   assert.deepEqual(LinKHUShared.getDefaultOrder(sites), ["info21"]);
 });
