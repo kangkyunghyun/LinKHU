@@ -1,11 +1,14 @@
 body {
   font-family: "Noto Sans KR", sans-serif;
-  background-color: var(--color-surface);
+  /* 컨테이너와 같은 면이다. 폭 상한(max-width) 때문에 생기는 좌우 거터가
+     다른 색 띠로 보이지 않아야 일반 웹사이트처럼 한 면으로 이어진다. */
+  background-color: var(--color-surface-raised);
   margin: 0;
   height: 100vh;
 
   display: flex;
-  align-items: center;
+  /* 세로는 늘려 채우고 가로만 가운데로 모은다. center로 두면 위아래에 빈 띠가 남는다. */
+  align-items: stretch;
   justify-content: center;
 
   box-sizing: border-box;
@@ -16,13 +19,11 @@ body {
   /* 탭 전체를 쓰되 초광폭 모니터에서 두 열이 지나치게 벌어지지 않게 상한을 둔다. */
   max-width: min(96vw, 1440px);
 
-  height: 90vh;
+  height: 100%;
   min-height: 500px;
 
-  background: var(--color-surface-raised);
-  padding: 20px 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px var(--color-shadow);
+  /* 배경은 body가 깐다. 여기서 다시 칠하면 거터와 색이 갈릴 여지가 생긴다. */
+  padding: 16px 24px;
 
   display: flex;
   flex-direction: column;
@@ -175,7 +176,8 @@ h1 {
   flex: 1;
   min-width: 0;
   background: var(--color-surface-sunken);
-  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   padding: 16px;
 
   display: flex;
@@ -335,6 +337,21 @@ h1 {
   transition: background 0.2s;
 }
 
+/* 왼쪽 "사용 가능한 사이트"만 2열로 깐다. 카테고리 제목은 그리드 밖(형제 요소)이라 폭을 다 쓴다.
+   오른쪽 #active-list는 1열을 유지한다. 드롭 위치 계산(getDragAfterElement)이
+   항목이 세로로 쌓여 있다고 가정하고 clientY만 보기 때문이다. */
+.category-group .drop-zone {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  align-content: start;
+}
+
+.category-group .drop-zone .list-item {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
 .drop-zone:empty {
   border: 2px dashed var(--color-border-strong);
   background: var(--color-surface-sunken);
@@ -350,7 +367,6 @@ h1 {
   border-radius: 8px;
 
   cursor: grab;
-  box-shadow: 0 2px 4px var(--color-shadow);
 }
 
 .list-item:active {
@@ -378,9 +394,13 @@ h1 {
 
 .site-name {
   flex-grow: 1;
+  min-width: 0;
   font-weight: bold;
   color: var(--color-text);
   font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .save-btn {
@@ -531,4 +551,11 @@ h1 {
   color: var(--color-text-muted);
   font-size: 12px;
   text-align: right;
+}
+
+/* 창이 좁으면 두 열이 이미 얇아져 있다. 왼쪽 목록을 1열로 되돌린다. */
+@media (max-width: 1000px) {
+  .category-group .drop-zone {
+    grid-template-columns: 1fr;
+  }
 }
