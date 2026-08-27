@@ -31,10 +31,34 @@ body {
 }
 
 .options-header {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 12px;
+}
+
+.header-link {
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.header-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 h1 {
@@ -173,7 +197,8 @@ h1 {
 }
 
 .column {
-  flex: 1;
+  /* 왼쪽은 3열, 오른쪽은 1열이므로 폭도 3:1로 준다. 그래야 양쪽 카드 크기가 비슷해진다. */
+  flex: 3;
   min-width: 0;
   background: var(--color-surface-sunken);
   border: 1px solid var(--color-border);
@@ -183,6 +208,10 @@ h1 {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.column + .column {
+  flex: 1;
 }
 
 .column h2 {
@@ -342,7 +371,7 @@ h1 {
    항목이 세로로 쌓여 있다고 가정하고 clientY만 보기 때문이다. */
 .category-group .drop-zone {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   align-content: start;
 }
@@ -360,7 +389,10 @@ h1 {
 .list-item {
   display: flex;
   align-items: center;
-  padding: 10px;
+  /* 이름 길이와 무관하게 같은 크기로 보이게 높이를 고정한다. 폭은 그리드가 1fr로 맞춘다. */
+  height: 46px;
+  box-sizing: border-box;
+  padding: 0 10px;
   margin-bottom: 8px;
   background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
@@ -450,39 +482,22 @@ h1 {
   text-align: center;
 }
 
-.options-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  flex-shrink: 0;
-}
-
-.footer-link {
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
-.footer-divider {
-  color: var(--color-border);
-  font-size: 12px;
-}
-
+/* 문의하기 버튼 아래에 뜬다. 떠 있는 요소라 테두리와 그림자로 바닥과 분리한다. */
 .feedback-panel {
-  margin-top: 12px;
-  flex-shrink: 0;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  width: min(320px, 90vw);
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-raised);
+  box-shadow: 0 8px 24px var(--color-shadow);
+}
+
+.feedback-panel[hidden] {
+  display: none;
 }
 
 .feedback-panel textarea {
@@ -553,9 +568,26 @@ h1 {
   text-align: right;
 }
 
-/* 창이 좁으면 두 열이 이미 얇아져 있다. 왼쪽 목록을 1열로 되돌린다. */
-@media (max-width: 1000px) {
+/* 칸이 아이콘+이름을 담을 만큼 남아 있을 때까지만 열을 유지한다. */
+@media (max-width: 1280px) {
+  .category-group .drop-zone {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 열 수가 줄면 폭 비율도 함께 줄여야 양쪽 카드 크기가 계속 비슷하다. */
+  .column {
+    flex: 2;
+  }
+}
+
+@media (max-width: 900px) {
   .category-group .drop-zone {
     grid-template-columns: 1fr;
+  }
+
+  /* 왼쪽이 1열이 되면 3:1로 벌려 둘 이유가 없다. */
+  .column,
+  .column + .column {
+    flex: 1;
   }
 }
