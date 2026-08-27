@@ -1115,6 +1115,12 @@ kbd {
   letter-spacing: -0.035em;
 }
 
+/* 카테고리 이름 안에 가운뎃점이 있어 그 자리에서 줄이 갈린다.
+   항목마다 span으로 묶어 줄바꿈은 항목 사이에서만 일어나게 한다. */
+.service-groups p span {
+  white-space: nowrap;
+}
+
 .service-groups p {
   margin: 0;
   color: var(--color-muted);
