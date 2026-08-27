@@ -245,6 +245,111 @@
     "imgSrc": "images/common/startup.png"
   },
   {
+    "id": "news",
+    "name": "경희소식",
+    "url": "https://news.khu.ac.kr/news_kor/user/main/view.do",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/news.png"
+  },
+  {
+    "id": "khunews",
+    "name": "대학주보",
+    "url": "http://media.khu.ac.kr/khunews/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/khunews.png"
+  },
+  {
+    "id": "iphak",
+    "name": "입학처",
+    "url": "https://iphak.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/iphak.png"
+  },
+  {
+    "id": "khctl",
+    "name": "교수학습개발원",
+    "url": "https://khctl.khu.ac.kr/khctl/user/main/view.do",
+    "category": "교육·역량",
+    "imgSrc": "images/common/khctl.png"
+  },
+  {
+    "id": "iie",
+    "name": "국제교육원",
+    "url": "https://iie.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/iie.png"
+  },
+  {
+    "id": "ile",
+    "name": "언어교육원",
+    "url": "https://ile.khu.ac.kr/ile_kor/user/main/view.do",
+    "category": "교육·역량",
+    "imgSrc": "images/common/ile.png"
+  },
+  {
+    "id": "abeek",
+    "name": "공학교육혁신센터",
+    "url": "https://abeek.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/abeek.png"
+  },
+  {
+    "id": "lincplus",
+    "name": "LINC 3.0 사업단",
+    "url": "http://lincplus.khu.ac.kr/",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/lincplus.png"
+  },
+  {
+    "id": "rotc",
+    "name": "학군단",
+    "url": "http://rotc.khu.ac.kr/html/main.php",
+    "category": "대학·행정",
+    "imgSrc": "images/common/rotc.png"
+  },
+  {
+    "id": "igkh",
+    "name": "BK21 대학원혁신",
+    "url": "https://igkh.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/igkh.png"
+  },
+  {
+    "id": "eip",
+    "name": "대학혁신지원사업",
+    "url": "https://eip.khu.ac.kr/non/index.do",
+    "category": "교육·역량",
+    "imgSrc": "images/common/eip.png"
+  },
+  {
+    "id": "ice",
+    "name": "평생교육원",
+    "url": "https://ice.khu.ac.kr/ice/user/main/view.do",
+    "category": "교육·역량",
+    "imgSrc": "images/common/ice.png"
+  },
+  {
+    "id": "cce",
+    "name": "글로벌미래교육원",
+    "url": "https://cce.khu.ac.kr/html/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/cce.png"
+  },
+  {
+    "id": "oiak",
+    "name": "국제교류처",
+    "url": "https://com.khu.ac.kr/oiak_hub/user/main/view.do",
+    "category": "교육·역량",
+    "imgSrc": "images/common/oiak.png"
+  },
+  {
+    "id": "give",
+    "name": "대외협력처",
+    "url": "https://give.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/give.png"
+  },
+  {
     "id": "hc",
     "name": "후마니타스 칼리지",
     "url": "https://hc.khu.ac.kr/hc_kor/user/main/view.do",
