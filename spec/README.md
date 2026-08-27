@@ -9,10 +9,10 @@ LinKHU는 경희대학교 주요 웹서비스 바로가기를 제공하는 브�
 | 항목 | 값 |
 | --- | --- |
 | 상태 | Baseline v1 |
-| 기준일 | 2026-07-30 |
+| 기준일 | 2026-08-27 |
 | 제품명 | LinKHU |
 | 저장소 | https://github.com/kangkyunghyun/LinKHU |
-| 기준 버전 | `src/manifest.json` v2.5.0 |
+| 기준 버전 | `src/manifest.json` v2.6.0 |
 
 이 기준선은 위 시점의 코드를 읽고 대조해 작성했다.
 
