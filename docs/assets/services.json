@@ -161,6 +161,90 @@
     "imgSrc": "images/common/isss.png"
   },
   {
+    "id": "aibootcamp",
+    "name": "첨단산업 부트캠프 사업단",
+    "url": "https://aibootcamp.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/aibootcamp.png"
+  },
+  {
+    "id": "goodjob",
+    "name": "미래인재센터",
+    "url": "https://goodjob.khu.ac.kr/",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/goodjob.png"
+  },
+  {
+    "id": "khusc",
+    "name": "지구사회봉사단",
+    "url": "https://khusc.khu.ac.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/khusc.png"
+  },
+  {
+    "id": "khwriting",
+    "name": "글쓰기센터",
+    "url": "https://khwriting.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/khwriting.png"
+  },
+  {
+    "id": "self-design",
+    "name": "자기주도적 학사제도",
+    "url": "https://sdl.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/self-design.png"
+  },
+  {
+    "id": "healthsc",
+    "name": "건강센터(서울)",
+    "url": "https://healthsc.khu.ac.kr/healthsc/user/main/view.do",
+    "category": "생활·복지",
+    "imgSrc": "images/common/healthsc.png"
+  },
+  {
+    "id": "health",
+    "name": "건강센터(국제)",
+    "url": "http://health.khu.ac.kr/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/health.png"
+  },
+  {
+    "id": "counsell",
+    "name": "심리상담센터(서울)",
+    "url": "http://counsell.khu.ac.kr/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/counsell.png"
+  },
+  {
+    "id": "counsel",
+    "name": "심리상담센터(국제)",
+    "url": "https://counsel.khu.ac.kr/counsel/user/main/view.do",
+    "category": "생활·복지",
+    "imgSrc": "images/common/counsel.png"
+  },
+  {
+    "id": "mall",
+    "name": "복지몰",
+    "url": "https://mall.khu.ac.kr/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/mall.png"
+  },
+  {
+    "id": "hrc",
+    "name": "인권센터",
+    "url": "https://hrc.khu.ac.kr/hrc/user/main/view.do",
+    "category": "대학·행정",
+    "imgSrc": "images/common/hrc.png"
+  },
+  {
+    "id": "startup",
+    "name": "창업지원단",
+    "url": "https://startup.khu.ac.kr/startup_kor/user/main/view.do",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/startup.png"
+  },
+  {
     "id": "hc",
     "name": "후마니타스 칼리지",
     "url": "https://hc.khu.ac.kr/hc_kor/user/main/view.do",
