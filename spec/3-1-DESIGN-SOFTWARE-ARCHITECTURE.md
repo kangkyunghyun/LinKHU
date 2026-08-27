@@ -62,7 +62,7 @@ options.html  <head> theme.js
 | `normalize(value)` | `ko-KR` 기준 소문자화 + 모든 공백 제거 |
 | `scoreSite(site, q)` | 0~4 점수. 낮을수록 상위. 해당 없으면 `Infinity` |
 | `rankSites(sites, q)` | 점수 오름차순, 동점이면 원본 배열 순서 유지 |
-| `getDefaultOrder(list)` | `공통` 카테고리 서비스의 id 배열 |
+| `getDefaultOrder(list)` | 기본 목록(`DEFAULT_SITE_IDS`) 중 `list`에 있는 서비스의 id 배열. 이름 `ko-KR` 가나다순 |
 
 `rankSites`는 동점 처리에 원본 인덱스를 쓴다 (MUST). 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
 
@@ -88,6 +88,7 @@ options.html  <head> theme.js
 - 저장은 **설정 페이지의 저장 버튼**에서만 일어난다 (MUST). 드래그 도중에 저장하지 않는다. 되돌릴 수 있는 조작과 확정을 분리하기 위해서다.
 - 저장 실패는 `chrome.runtime.lastError`로 확인하고 사용자에게 알린다 (MUST).
 - 읽을 때 값이 없으면 `getDefaultOrder(MASTER_SITE_LIST)`로 폴백한다 (MUST). 저장소가 비어 있다고 빈 화면을 보여주지 않는다.
+- 폴백은 **저장된 값이 없을 때만** 동작한다 (MUST). 이미 저장한 사용자의 `userOrder`는 기본 목록이 바뀌어도 영향을 받지 않는다.
 - `userOrder`에 들어 있지만 `MASTER_SITE_LIST`에 없는 id는 렌더링 단계에서 걸러낸다 (MUST). 서비스가 삭제된 뒤에도 기존 사용자 설정이 깨지지 않아야 한다.
 
 **내부 캐시 (`latestReleaseVersion`, `latestReleaseVersionTime`)**

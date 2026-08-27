@@ -108,7 +108,7 @@ npm run generate:dark-icons
 
 **다크 아이콘을 손으로 그리거나 고치지 않는다.** 다음 실행에 덮인다.
 
-`<카테고리>`는 `common` / `colleges` / `departments` 중 하나이고, `src/data.js`의 `category`(`공통`/`단과대`/`학과`)와 대응한다.
+`<카테고리>`는 `common` / `colleges` / `departments` 중 하나다. **이 폴더 이름은 파일을 나눠 담는 관례일 뿐 데이터의 `category` 값과 대응하지 않는다** (스펙 §4-2). 단과대는 `colleges`, 학과는 `departments`, 나머지 주제 카테고리는 전부 `common`에 둔다.
 
 ### 4. 데이터에 등록한다
 
@@ -116,7 +116,7 @@ npm run generate:dark-icons
 
 ```js
 { id: "aikhu", name: "AiKHU", url: "https://dx.khu.ac.kr/aimentoring.html",
-  imgSrc: "images/common/aikhu.png", category: "공통" }
+  imgSrc: "images/common/aikhu.png", category: "교육·역량" }
 ```
 
 규칙은 [`spec/4-DATA.md`](../../../spec/4-DATA.md)를 따른다.
@@ -138,7 +138,7 @@ npm run build                   # 테스트 + 데이터·두 벌 짝·랜딩 검
 
 - **단순한 상징 하나.** 24 px에서 읽혀야 한다. 글자·세부 장식·여러 요소 조합은 뭉개진다.
 - **강조는 한 곳에.** 붉은색을 도안 전체에 쓰지 않는다. 실측 중앙값은 내용의 15%다.
-- **같은 계열 서비스는 같은 상징 계열로.** 단과대는 건물·학문 상징, 공통 서비스는 기능 상징을 쓴다.
+- **같은 계열 서비스는 같은 상징 계열로.** 단과대는 건물·학문 상징, 교내 주제별 서비스는 기능 상징을 쓴다.
 - **대학 로고·휘장을 쓰지 않는다.** LinKHU는 경희대학교 공식 산출물이 아니다 (스펙 §3-2-1).
 - **서비스가 다르면 아이콘도 다르게 만든다.** 여러 서비스가 한 아이콘을 공유하면 팝업 격자에서 구분이 안 된다. 현재 117개 서비스가 117개 고유 아이콘을 쓴다.
 

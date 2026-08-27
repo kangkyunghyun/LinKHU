@@ -8,9 +8,9 @@ const {
 } = require("../docs/landing");
 
 const SERVICES = [
-  { id: "info21", name: "인포21", category: "공통", url: "https://portal.khu.ac.kr" },
-  { id: "ecampus", name: "e-Campus", category: "공통", url: "https://e-campus.khu.ac.kr" },
-  { id: "sugang", name: "수강신청", category: "공통", url: "https://sugang.khu.ac.kr" },
+  { id: "info21", name: "인포21", category: "학사·포털", url: "https://portal.khu.ac.kr" },
+  { id: "ecampus", name: "e-Campus", category: "학사·포털", url: "https://e-campus.khu.ac.kr" },
+  { id: "sugang", name: "수강신청", category: "학사·포털", url: "https://sugang.khu.ac.kr" },
   { id: "software", name: "소프트웨어융합대학", category: "단과대", url: "https://software.khu.ac.kr" },
   { id: "swcon", name: "소프트웨어융합학과", category: "학과", url: "https://com.khu.ac.kr/swcon" },
   { id: "cs", name: "컴퓨터공학부", category: "학과", url: "https://ce.khu.ac.kr" },

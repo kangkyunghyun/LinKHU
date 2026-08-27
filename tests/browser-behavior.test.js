@@ -104,7 +104,7 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
     name: "인포21",
     url: "https://portal.khu.ac.kr",
     imgSrc: "images/common/portal.png",
-    category: "공통",
+    category: "학사·포털",
   });
 
   card.dispatch("click");
@@ -117,6 +117,79 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
     { url: "https://portal.khu.ac.kr", active: false },
   ]);
   assert.equal(closeCount, 1);
+});
+
+test("options list narrows by category and search together", () => {
+  const { SiteFilterForTest } = loadScript(
+    "src/options.js",
+    "this.SiteFilterForTest = SiteFilter;",
+    { chrome: {} },
+  );
+  const sites = [
+    { id: "info21", name: "인포21", category: "학사·포털" },
+    { id: "sugang", name: "수강신청", category: "학사·포털" },
+    { id: "software", name: "소프트웨어융합대학", category: "단과대" },
+    { id: "swcon", name: "소프트웨어융합학과", category: "학과" },
+  ];
+  const searchTextById = new Map(
+    sites.map((site) => [site.id, `${site.name}${site.id}${site.category}`]),
+  );
+  const visible = (selected, query, activeIds = []) =>
+    SiteFilterForTest.visibleSites(sites, {
+      activeIds: new Set(activeIds),
+      selectedCategories: new Set(selected),
+      query,
+      searchTextById,
+    }).map((site) => site.id);
+
+  // 고른 카테고리가 없으면 전체가 보인다.
+  assert.deepEqual(visible([], ""), ["info21", "sugang", "software", "swcon"]);
+  assert.deepEqual(visible(["학과"], ""), ["swcon"]);
+  assert.deepEqual(visible(["학사·포털", "학과"], ""), ["info21", "sugang", "swcon"]);
+
+  // 검색과 AND로 걸린다. 필터로 뺀 카테고리는 검색어가 맞아도 나오지 않는다.
+  assert.deepEqual(visible([], "소프트웨어"), ["software", "swcon"]);
+  assert.deepEqual(visible(["학과"], "소프트웨어"), ["swcon"]);
+  assert.deepEqual(visible(["학사·포털"], "소프트웨어"), []);
+
+  // 이미 오른쪽에 담긴 항목은 어느 조합에서도 왼쪽에 다시 나오지 않는다.
+  assert.deepEqual(visible(["학사·포털"], "", ["info21"]), ["sugang"]);
+});
+
+test("the category list and the validator agree on allowed values", () => {
+  const { ALLOWED_CATEGORIES } = require("../scripts/validate-data");
+  const context = loadScript("src/data.js", "this.categories = SITE_CATEGORIES;", {});
+
+  // data.js는 브라우저 전역 스크립트라 검증기가 require할 수 없어 목록이 두 벌이다.
+  // 한쪽만 고치면 데이터는 통과하는데 화면에 영역이 안 생기거나 그 반대가 된다.
+  assert.deepEqual(Array.from(context.categories).sort(), [...ALLOWED_CATEGORIES].sort());
+});
+
+test("every service uses one of the declared categories", () => {
+  const context = loadScript(
+    "src/data.js",
+    "this.sites = MASTER_SITE_LIST; this.categories = SITE_CATEGORIES;",
+    {},
+  );
+  const declared = new Set(Array.from(context.categories));
+
+  const unknown = Array.from(context.sites)
+    .filter((site) => !declared.has(site.category))
+    .map((site) => `${site.id}=${site.category}`);
+
+  assert.deepEqual(unknown, []);
+});
+
+test("options treats a filter-only view as narrowed so the empty message can show", () => {
+  const { SiteFilterForTest } = loadScript(
+    "src/options.js",
+    "this.SiteFilterForTest = SiteFilter;",
+    { chrome: {} },
+  );
+
+  assert.equal(SiteFilterForTest.isNarrowed("", new Set()), false);
+  assert.equal(SiteFilterForTest.isNarrowed("", new Set(["학과"])), true);
+  assert.equal(SiteFilterForTest.isNarrowed("검색어", new Set()), true);
 });
 
 test("version comparison handles different segment lengths", () => {

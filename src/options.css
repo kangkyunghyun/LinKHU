@@ -1,11 +1,14 @@
 body {
   font-family: "Noto Sans KR", sans-serif;
-  background-color: var(--color-surface);
+  /* 컨테이너와 같은 면이다. 폭 상한(max-width) 때문에 생기는 좌우 거터가
+     다른 색 띠로 보이지 않아야 일반 웹사이트처럼 한 면으로 이어진다. */
+  background-color: var(--color-surface-raised);
   margin: 0;
   height: 100vh;
 
   display: flex;
-  align-items: center;
+  /* 세로는 늘려 채우고 가로만 가운데로 모은다. center로 두면 위아래에 빈 띠가 남는다. */
+  align-items: stretch;
   justify-content: center;
 
   box-sizing: border-box;
@@ -13,15 +16,14 @@ body {
 
 .container {
   width: 100%;
-  max-width: 900px;
+  /* 탭 전체를 쓰되 초광폭 모니터에서 두 열이 지나치게 벌어지지 않게 상한을 둔다. */
+  max-width: min(96vw, 1440px);
 
-  height: 90vh;
+  height: 100%;
   min-height: 500px;
 
-  background: var(--color-surface-raised);
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px var(--color-shadow);
+  /* 배경은 body가 깐다. 여기서 다시 칠하면 거터와 색이 갈릴 여지가 생긴다. */
+  padding: 16px 24px;
 
   display: flex;
   flex-direction: column;
@@ -32,18 +34,42 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 4px;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.header-link {
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.header-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 h1 {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
   color: var(--color-primary);
-  text-align: center;
   margin: 0;
+  /* 세로를 줄이려고 줄 높이만 조인다. 아래 .title-logo 보정값은 line-height와 무관하다. */
+  line-height: 1.1;
+  flex-shrink: 0;
 }
 
 /* 서비스 로고. 옆 제목 텍스트가 이름을 읽어주므로 alt는 비워 둔다. */
@@ -73,8 +99,7 @@ h1 {
 }
 
 .icon-button {
-  position: absolute;
-  right: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,15 +131,16 @@ h1 {
   display: block;
 }
 .info {
-  text-align: center;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
   color: var(--color-text-muted);
-  margin: 0 0 24px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .shortcut-guide {
-  margin-bottom: 18px;
-  padding: 14px 16px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
   border: 1px solid var(--color-primary-border);
   border-radius: 8px;
   background: var(--color-primary-soft);
@@ -122,14 +148,19 @@ h1 {
   font-size: 13px;
 }
 
-.shortcut-guide strong {
-  display: block;
-  margin-bottom: 6px;
+.shortcut-guide summary {
   color: var(--color-primary);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.shortcut-guide summary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .shortcut-guide p {
-  margin: 0 0 8px;
+  margin: 8px 0;
   color: var(--color-text-muted);
 }
 
@@ -166,31 +197,85 @@ h1 {
 }
 
 .column {
-  flex: 1;
+  /* 왼쪽은 3열, 오른쪽은 1열이므로 폭도 3:1로 준다. 그래야 양쪽 카드 크기가 비슷해진다. */
+  flex: 3;
+  min-width: 0;
   background: var(--color-surface-sunken);
-  border-radius: 10px;
-  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
   overflow: hidden;
 }
 
+.column + .column {
+  flex: 1;
+}
+
 .column h2 {
   font-size: 16px;
-  margin-top: 0;
+  margin: 0 0 12px;
   color: var(--color-text);
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
   border-bottom: 2px solid var(--color-border);
 
   flex-shrink: 0;
 }
 
-.option-search {
-  position: relative;
+/* 카테고리가 8개라 칩을 검색창 옆에 나란히 둘 수 없다. 검색창 아래 줄로 내린다. */
+.option-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   flex-shrink: 0;
   margin-bottom: 12px;
+}
+
+.option-search {
+  position: relative;
+}
+
+.option-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* 눌린 칩만 색이 찬다. 아무것도 안 눌린 상태가 "전체 표시"다. */
+.filter-chip {
+  padding: 0 12px;
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--color-field);
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.filter-chip[aria-pressed="true"] {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
 }
 
 .option-search .search-icon {
@@ -255,20 +340,13 @@ h1 {
 }
 
 .category-group {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .category-title {
-  display: flex;
-  align-items: center;
-  gap: 5px;
   font-size: 13px;
   font-weight: bold;
   color: var(--color-primary);
   margin: 0 0 10px 5px;
-}
-
-.category-icon {
-  flex-shrink: 0;
 }
 
 .drop-zone {
@@ -278,22 +356,44 @@ h1 {
   transition: background 0.2s;
 }
 
-.drop-zone:empty {
-  border: 2px dashed var(--color-border-strong);
-  background: var(--color-surface-sunken);
+/* 왼쪽 "사용 가능한 사이트"만 2열로 깐다. 카테고리 제목은 그리드 밖(형제 요소)이라 폭을 다 쓴다.
+   오른쪽 #active-list는 1열을 유지한다. 드롭 위치 계산(getDragAfterElement)이
+   항목이 세로로 쌓여 있다고 가정하고 clientY만 보기 때문이다. */
+.category-group .drop-zone {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  align-content: start;
+}
+
+.category-group .drop-zone .list-item {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/* 빈 영역은 평상시 아무것도 그리지 않는다. 점선 상자든 안내 문구든, 아직 아무것도 없는
+   자리가 목록보다 눈에 띄면 화면이 어지럽다. 어느 영역인지는 카테고리 제목이 이미 말한다.
+   놓을 수 있는 자리는 아래 .drop-target으로 드래그하는 동안에만 보여준다. */
+
+/* 끌고 있는 항목이 갈 수 있는 영역만 켜진다(options.js가 붙인다). */
+.drop-target {
+  background: var(--color-primary-soft);
+  box-shadow: inset 0 0 0 1px var(--color-primary-border);
 }
 
 .list-item {
   display: flex;
   align-items: center;
-  padding: 10px;
+  /* 이름 길이와 무관하게 같은 크기로 보이게 높이를 고정한다. 폭은 그리드가 1fr로 맞춘다. */
+  height: 46px;
+  box-sizing: border-box;
+  padding: 0 10px;
   margin-bottom: 8px;
   background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-radius: 8px;
 
   cursor: grab;
-  box-shadow: 0 2px 4px var(--color-shadow);
 }
 
 .list-item:active {
@@ -321,16 +421,20 @@ h1 {
 
 .site-name {
   flex-grow: 1;
+  min-width: 0;
   font-weight: bold;
   color: var(--color-text);
   font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .save-btn {
   display: block;
   width: 100%;
-  padding: 15px;
-  margin-top: 20px;
+  padding: 12px;
+  margin-top: 14px;
   background-color: var(--color-primary-fill);
   color: var(--color-on-primary);
   border: none;
@@ -373,39 +477,22 @@ h1 {
   text-align: center;
 }
 
-.options-footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-top: 14px;
-  flex-shrink: 0;
-}
-
-.footer-link {
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
-.footer-divider {
-  color: var(--color-border);
-  font-size: 12px;
-}
-
+/* 문의하기 버튼 아래에 뜬다. 떠 있는 요소라 테두리와 그림자로 바닥과 분리한다. */
 .feedback-panel {
-  margin-top: 12px;
-  flex-shrink: 0;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10;
+  width: min(320px, 90vw);
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-raised);
+  box-shadow: 0 8px 24px var(--color-shadow);
+}
+
+.feedback-panel[hidden] {
+  display: none;
 }
 
 .feedback-panel textarea {
@@ -474,4 +561,28 @@ h1 {
   color: var(--color-text-muted);
   font-size: 12px;
   text-align: right;
+}
+
+/* 칸이 아이콘+이름을 담을 만큼 남아 있을 때까지만 열을 유지한다. */
+@media (max-width: 1280px) {
+  .category-group .drop-zone {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 열 수가 줄면 폭 비율도 함께 줄여야 양쪽 카드 크기가 계속 비슷하다. */
+  .column {
+    flex: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .category-group .drop-zone {
+    grid-template-columns: 1fr;
+  }
+
+  /* 왼쪽이 1열이 되면 3:1로 벌려 둘 이유가 없다. */
+  .column,
+  .column + .column {
+    flex: 1;
+  }
 }
