@@ -12,6 +12,13 @@ const App = {
     });
   },
 
+  getCardDisplayName(item) {
+    if (item.id !== "swedu") return item.name;
+
+    // 좁은 카드에서 "사업단"이 둘째 줄에 온전히 내려가도록 우선 줄바꿈 지점을 둔다.
+    return item.name.replace(/(?=사업단$)/, "\u200B");
+  },
+
   openInCurrentTab(item) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentTab = tabs[0];
@@ -41,7 +48,7 @@ const App = {
     };
 
     const span = document.createElement("span");
-    span.textContent = item.name;
+    span.textContent = this.getCardDisplayName(item);
 
     el.appendChild(img);
     el.appendChild(span);
