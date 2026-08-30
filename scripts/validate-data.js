@@ -5,6 +5,7 @@ const vm = require("vm");
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
+const SHARED_FILE = path.join(SRC_ROOT, "shared.js");
 // 스펙 §4-2의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
 // (data.js는 브라우저 전역 스크립트라 여기서 require할 수 없어 두 벌로 둔다.)
 const ALLOWED_CATEGORIES = new Set([
@@ -22,6 +23,15 @@ const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
 const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
 const IMAGE_DIRECTORIES = ["images/common", "images/colleges", "images/departments"];
 
+// 팝업 카드 한 줄에 들어가는 폭이다. 팝업 320px에서 컨테이너·그리드·카드·span 패딩과
+// 3열 gap을 빼면 68.7px이고, 스크롤바가 뜨면 66.7px이다. 좁은 쪽을 기준으로 잡는다.
+// 카드 폭(src/popup.css의 .grid-item span)이 바뀌면 이 값도 같이 바뀌어야 한다.
+const CARD_LINE_WIDTH_PX = 66.7;
+// 글자 폭 근사다. Noto Sans KR 11.5px 기준 한글 11.5 / 라틴·숫자 6.9 / 그 외 5.0에서
+// letter-spacing: -0.5px를 각각 뺀다. 실제 글자마다 폭이 다르므로 정확한 측정이 아니라,
+// "표에 넣어야 할 만큼 긴 이름"을 걸러내기 위한 어림값이다.
+const CHAR_WIDTH_PX = { hangul: 11.0, latin: 6.4, other: 4.5 };
+
 function loadSiteList() {
   const source = fs.readFileSync(DATA_FILE, "utf8");
   const context = {};
@@ -36,6 +46,62 @@ function loadSiteList() {
   }
 
   return context.MASTER_SITE_LIST;
+}
+
+// data.js와 같은 방식으로 읽는다. shared.js는 DOM에 의존하지 않아 vm에서 그대로 돌아간다.
+function loadShared() {
+  const source = fs.readFileSync(SHARED_FILE, "utf8");
+  const context = { module: undefined };
+
+  vm.createContext(context);
+  vm.runInContext(`${source}\nthis.LinKHUShared = LinKHUShared;`, context, {
+    filename: SHARED_FILE,
+  });
+
+  if (!context.LinKHUShared) {
+    throw new Error("LinKHUShared must be defined in src/shared.js.");
+  }
+
+  return context.LinKHUShared;
+}
+
+function estimateCardTextWidth(text) {
+  return [...text].reduce((total, character) => {
+    if (/[가-힣]/.test(character)) return total + CHAR_WIDTH_PX.hangul;
+    if (/[A-Za-z0-9]/.test(character)) return total + CHAR_WIDTH_PX.latin;
+    return total + CHAR_WIDTH_PX.other;
+  }, 0);
+}
+
+// 공백이 있는 이름은 word-break: keep-all이 어절 단위로 꺾으므로 표가 필요 없다.
+// 공백이 없는데 한 줄을 넘는 이름은 꺾을 자리가 없어 글자 사이 아무 데서나 꺾이므로,
+// 줄바꿈 표나 예외 목록 둘 중 하나에 반드시 있어야 한다.
+function findCardLineBreakErrors(siteList, shared) {
+  const lineBreaks = shared.CARD_LINE_BREAKS || {};
+  const wideNames = new Set(shared.WIDE_CARD_NAMES || []);
+  const errors = [];
+
+  siteList.forEach((site) => {
+    if (!site || !isNonEmptyString(site.id) || !isNonEmptyString(site.name)) return;
+
+    const firstLine = lineBreaks[site.id];
+    if (firstLine !== undefined && !site.name.startsWith(firstLine)) {
+      errors.push(
+        `${site.id}: CARD_LINE_BREAKS first line "${firstLine}" is not a prefix of "${site.name}".`,
+      );
+    }
+
+    if (/\s/.test(site.name)) return;
+    if (estimateCardTextWidth(site.name) <= CARD_LINE_WIDTH_PX) return;
+    if (firstLine !== undefined || wideNames.has(site.id)) return;
+
+    errors.push(
+      `${site.id}: "${site.name}" does not fit one card line and has no line break. ` +
+        `Add it to CARD_LINE_BREAKS or WIDE_CARD_NAMES in src/shared.js.`,
+    );
+  });
+
+  return errors;
 }
 
 function isNonEmptyString(value) {
@@ -98,7 +164,7 @@ function findUnusedImages(siteList) {
     .sort();
 }
 
-function validateSiteList(siteList) {
+function validateSiteList(siteList, shared = loadShared()) {
   const errors = [];
   const warnings = [];
   const seenIds = new Map();
@@ -174,6 +240,7 @@ function validateSiteList(siteList) {
   });
 
   errors.push(...findDuplicateFieldErrors(siteList));
+  errors.push(...findCardLineBreakErrors(siteList, shared));
 
   findUnusedImages(siteList).forEach((imagePath) => {
     errors.push(`unused service image: ${imagePath}`);
@@ -220,9 +287,12 @@ if (require.main === module) {
 
 module.exports = {
   ALLOWED_CATEGORIES,
+  estimateCardTextWidth,
+  findCardLineBreakErrors,
   findDuplicateFieldErrors,
   findDuplicateValues,
   findUnusedImages,
+  loadShared,
   loadSiteList,
   normalizeImagePath,
   validateSiteList,
