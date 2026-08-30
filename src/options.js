@@ -2,6 +2,10 @@
 const REORDER_ICON_PATHS =
   '<path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 10C19.75 10.4142 19.4142 10.75 19 10.75L5 10.75C4.58579 10.75 4.25 10.4142 4.25 10C4.25 9.58579 4.58579 9.25 5 9.25L19 9.25C19.4142 9.25 19.75 9.58579 19.75 10Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 14C19.75 14.4142 19.4142 14.75 19 14.75L5 14.75C4.58579 14.75 4.25 14.4142 4.25 14C4.25 13.5858 4.58579 13.25 5 13.25L19 13.25C19.4142 13.25 19.75 13.5858 19.75 14Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 6C19.75 6.41421 19.4142 6.75 19 6.75L5 6.75C4.58579 6.75 4.25 6.41421 4.25 6C4.25 5.58579 4.58579 5.25 5 5.25L19 5.25C19.4142 5.25 19.75 5.58579 19.75 6Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.75 18C19.75 18.4142 19.4142 18.75 19 18.75L5 18.75C4.58579 18.75 4.25 18.4142 4.25 18C4.25 17.5858 4.58579 17.25 5 17.25L19 17.25C19.4142 17.25 19.75 17.5858 19.75 18Z" fill="currentColor"/>';
 
+// 새 탭 열기 아이콘(Reicon square-share, MIT). 목록 항목마다 새로 만들므로 상수로 둔다.
+const EXTERNAL_LINK_ICON_PATHS =
+  '<path fill-rule="evenodd" clip-rule="evenodd" d="M10.7521 1.99364C10.7556 2.40784 10.4226 2.74646 10.0084 2.74997C8.29884 2.76447 7.03889 2.82006 6.06281 3.01125C5.10767 3.19835 4.47982 3.50532 3.99518 3.98996C3.42533 4.55981 3.09834 5.33078 2.92642 6.60954C2.75159 7.90987 2.75 9.61855 2.75 11.9974C2.75 14.3762 2.75159 16.0849 2.92642 17.3852C3.09834 18.664 3.42533 19.435 3.99518 20.0048C4.56503 20.5747 5.336 20.9017 6.61476 21.0736C7.91509 21.2484 9.62377 21.25 12.0026 21.25C14.3814 21.25 16.0901 21.2484 17.3905 21.0736C18.6692 20.9017 19.4402 20.5747 20.01 20.0048C20.4947 19.5202 20.8017 18.8923 20.9887 17.9372C21.1799 16.9611 21.2355 15.7012 21.25 13.9916C21.2535 13.5774 21.5922 13.2444 22.0064 13.2479C22.4206 13.2515 22.7535 13.5901 22.75 14.0043C22.7355 15.7087 22.6819 17.0968 22.4608 18.2255C22.2356 19.3752 21.8272 20.309 21.0707 21.0655C20.1757 21.9605 19.0354 22.3659 17.5903 22.5602C16.1785 22.75 14.369 22.75 12.06 22.75H11.9452C9.63623 22.75 7.82673 22.75 6.41488 22.5602C4.96979 22.3659 3.82952 21.9605 2.93452 21.0655C2.03952 20.1705 1.63408 19.0302 1.43979 17.5851C1.24998 16.1733 1.24999 14.3638 1.25 12.0548V11.94C1.24999 9.63101 1.24998 7.82151 1.43979 6.40967C1.63408 4.96458 2.03952 3.8243 2.93452 2.9293C3.69102 2.1728 4.62478 1.76443 5.77447 1.53923C6.90322 1.31813 8.29131 1.26448 9.99573 1.25003C10.4099 1.24652 10.7485 1.57944 10.7521 1.99364ZM16.4697 1.46967C16.7626 1.17678 17.2374 1.17678 17.5303 1.46967L22.5303 6.46967C22.8232 6.76256 22.8232 7.23744 22.5303 7.53033L17.5303 12.5303C17.2374 12.8232 16.7626 12.8232 16.4697 12.5303C16.1768 12.2374 16.1768 11.7626 16.4697 11.4697L20.1893 7.75H14C12.4485 7.75 11.5328 8.50701 11.212 8.82933L11.0199 9.02244L10.8293 9.21204C10.507 9.53279 9.75 10.4485 9.75 12V15C9.75 15.4142 9.41421 15.75 9 15.75C8.58579 15.75 8.25 15.4142 8.25 15V12C8.25 9.91622 9.27703 8.64063 9.77125 8.14881C9.77125 8.14881 9.77125 8.14881 9.77125 8.14881L9.96178 7.9592L10.1488 7.77125C10.6406 7.27703 11.9162 6.25 14 6.25H20.1893L16.4697 2.53033C16.1768 2.23744 16.1768 1.76256 16.4697 1.46967Z" fill="currentColor"/>';
+
 // 왼쪽 "사용 가능한 사이트" 목록에 무엇을 보일지만 정한다.
 // 오른쪽 '내 바로가기'(#active-list)는 여기를 거치지 않는다. 저장 순서는 그 DOM에서 읽으므로,
 // 필터로 왼쪽에서 감춘 항목이 저장 데이터에서 사라지는 일은 구조상 생기지 않는다.
@@ -159,7 +163,18 @@ document.addEventListener("DOMContentLoaded", () => {
     siteName.className = "site-name";
     siteName.textContent = site.name.replace(/\s+/g, "");
 
-    el.append(dragHandle, icon, siteName);
+    const openLink = document.createElement("a");
+    openLink.className = "open-link";
+    openLink.href = site.url;
+    openLink.target = "_blank";
+    openLink.rel = "noopener noreferrer";
+    openLink.setAttribute("aria-label", `${site.name} 새 탭에서 열기`);
+    openLink.draggable = false;
+    openLink.innerHTML =
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+      EXTERNAL_LINK_ICON_PATHS +
+      "</svg>";
+    el.append(dragHandle, icon, siteName, openLink);
 
     DragController.addDragEvents(el);
     listItemById.set(site.id, el);
@@ -266,11 +281,25 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollDirection: 0,
     currentScrollArea: null,
     scrollAreaRect: null,
+    // 누른 지점이 새 탭 링크 안이었는지. mousedown마다 새로 계산하므로 고착될 상태가 없다.
+    startedOnLink: false,
 
     addDragEvents(item) {
       const controller = this;
 
-      item.addEventListener("dragstart", function () {
+      // mousedown은 링크에서 항목으로 버블링하므로 항목 하나에만 걸면 된다.
+      item.addEventListener("mousedown", function (event) {
+        controller.startedOnLink = Boolean(event.target.closest(".open-link"));
+      });
+
+      // 자식에 draggable = false를 줘도 부모 항목의 드래그는 그대로 시작된다(icon과 같은 한계).
+      // 링크에서 시작한 드래그는 여기서 취소해, 링크를 끌어도 항목이 딸려오지 않게 한다.
+      item.addEventListener("dragstart", function (event) {
+        if (controller.startedOnLink) {
+          event.preventDefault();
+          return;
+        }
+
         controller.draggedItem = this;
         // 이 항목을 실제로 받는 곳만 강조한다. 왼쪽은 제 카테고리 영역만 받는다.
         [activeList, categoryZones[this.dataset.category]].forEach((zone) => {

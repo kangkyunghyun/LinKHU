@@ -430,6 +430,31 @@ h1 {
   white-space: nowrap;
 }
 
+/* 항목이 어떤 사이트인지 확인할 수 있게 새 탭으로 여는 링크.
+   평소에는 중성 회색으로 물러나 있고 hover/focus에서 주색으로 올라온다. 반투명하게 흐리면
+   컨트롤 대비 3:1(스펙 3-2-5-5)을 넘기지 못하므로 진하기가 아니라 색만 바꾼다.
+   display를 토글하면 hover마다 .site-name 폭이 흔들리므로 자리는 항상 차지한다. */
+.open-link {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  margin-left: 6px;
+  border-radius: 6px;
+  color: var(--color-text-muted);
+}
+
+.open-link:hover,
+.open-link:focus-visible {
+  color: var(--color-primary);
+}
+
+.open-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 .save-btn {
   display: block;
   width: 100%;
