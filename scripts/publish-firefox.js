@@ -30,6 +30,24 @@ function getReleaseNotesFile() {
   return releaseNotesFile;
 }
 
+// AMO 릴리스 노트에는 내부 변경을 싣지 않는다. 사람이 붙여넣는 스토어 문구에만 걸려 있던
+// 규칙이라 자동 배포 경로로 그대로 새어 나갔다(v2.7.0). release-notes/*.md 원본은 저장소
+// 기록이므로 그대로 두고, 보내기 직전에만 거른다.
+function stripInternalSection(releaseNotes) {
+  const kept = [];
+  let skipping = false;
+
+  String(releaseNotes)
+    .split("\n")
+    .forEach((line) => {
+      // 다음 헤딩을 만나면 다시 살린다. Internal이 마지막 섹션이 아닐 수도 있다.
+      if (line.startsWith("### ")) skipping = line.trim() === "### Internal";
+      if (!skipping) kept.push(line);
+    });
+
+  return `${kept.join("\n").trimEnd()}\n`;
+}
+
 function base64UrlEncode(value) {
   return Buffer.from(value)
     .toString("base64")
@@ -204,7 +222,9 @@ async function main() {
       issuer: getRequiredEnv("FIREFOX_JWT_ISSUER"),
       secret: getRequiredEnv("FIREFOX_JWT_SECRET"),
     };
-    const releaseNotes = await fs.promises.readFile(releaseNotesFile, "utf8");
+    const releaseNotes = stripInternalSection(
+      await fs.promises.readFile(releaseNotesFile, "utf8"),
+    );
     const uploadResponse = await uploadPackage(apiBaseUrl, credentials, packageFile);
     console.log(`Firefox upload response: ${JSON.stringify(uploadResponse, null, 2)}`);
 
@@ -230,4 +250,10 @@ async function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  stripInternalSection,
+};

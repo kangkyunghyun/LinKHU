@@ -15,7 +15,7 @@ LinKHU는 확장 프로그램 UI가 제품의 대부분이라, 자동 테스트�
 
 ## 5-1 자동 테스트
 
-`npm test`는 Node 내장 테스트 러너(`node --test`)로 `tests/`를 실행한다. 2026-08-31 기준 9개 파일 68개 테스트다. 테스트 프레임워크를 따로 두지 않는다 — 의존성 없는 구성([3-3](3-3-DESIGN-DECISIONS.md))을 유지하기 위해서다.
+`npm test`는 Node 내장 테스트 러너(`node --test`)로 `tests/`를 실행한다. 2026-08-31 기준 10개 파일 71개 테스트다. 테스트 프레임워크를 따로 두지 않는다 — 의존성 없는 구성([3-3](3-3-DESIGN-DECISIONS.md))을 유지하기 위해서다.
 
 | 파일 | 고정하는 것 |
 | --- | --- |
@@ -28,6 +28,7 @@ LinKHU는 확장 프로그램 UI가 제품의 대부분이라, 자동 테스트�
 | `feedback.test.js` | 문의 설정 여부 판정, 전송 대상 필드, 이메일 선택 포함 |
 | `landing-feedback.test.js` | 랜딩과 확장의 문의 전송 일치 |
 | `package-extension.test.js` | 패키징 산출물의 재현 가능성 |
+| `publish-firefox.test.js` | 스토어로 보낼 릴리스 노트에서 `### Internal` 제거 |
 
 특히 중요한 두 테스트가 있다.
 
