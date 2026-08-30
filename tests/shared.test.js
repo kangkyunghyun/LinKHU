@@ -125,3 +125,51 @@ test("iconSrc는 다크에서만 dark 경로로 바꾼다", () => {
     "images/dark/common/portal.png",
   );
 });
+
+test("cardDisplayName은 표에 적힌 지점에만 줄바꿈을 넣는다", () => {
+  assert.equal(
+    LinKHUShared.cardDisplayName({ id: "swedu", name: "SW중심대학사업단" }),
+    "SW중심대학​사업단",
+  );
+  assert.equal(
+    LinKHUShared.cardDisplayName({ id: "cominv", name: "국제통상금융투자학부" }),
+    "국제통상​금융투자학부",
+  );
+
+  // 표에 없는 이름은 그대로다. 짧은 이름도, 폭 초과로 일부러 뺀 이름도 마찬가지다.
+  assert.equal(LinKHUShared.cardDisplayName({ id: "info21", name: "인포21" }), "인포21");
+  LinKHUShared.WIDE_CARD_NAMES.forEach((id) => {
+    assert.equal(LinKHUShared.CARD_LINE_BREAKS[id], undefined);
+  });
+  assert.equal(
+    LinKHUShared.cardDisplayName({ id: "display", name: "미래정보디스플레이학부" }),
+    "미래정보디스플레이학부",
+  );
+});
+
+test("cardDisplayName은 표의 첫 줄이 이름의 접두사가 아니면 원본을 돌려준다", () => {
+  // 표가 이름 변경을 따라가지 못한 경우다. 조용히 깨진 이름을 만들지 않는다.
+  // 이 어긋남 자체는 scripts/validate-data.js가 실패시킨다.
+  assert.equal(
+    LinKHUShared.cardDisplayName({ id: "swedu", name: "SW 중심대학 사업단" }),
+    "SW 중심대학 사업단",
+  );
+});
+
+test("줄바꿈 표의 첫 줄은 모두 실제 이름의 접두사다", () => {
+  const source = fs.readFileSync(path.join(__dirname, "..", "src", "data.js"), "utf8");
+  const context = {};
+  vm.createContext(context);
+  vm.runInContext(`${source}\nthis.sites = MASTER_SITE_LIST;`, context);
+
+  const nameById = new Map(Array.from(context.sites, (site) => [site.id, site.name]));
+
+  Object.entries(LinKHUShared.CARD_LINE_BREAKS).forEach(([id, firstLine]) => {
+    const name = nameById.get(id);
+    assert.ok(name, `${id}: 줄바꿈 표에 있지만 data.js에 없는 id다`);
+    assert.ok(
+      name.startsWith(firstLine),
+      `${id}: 첫 줄 "${firstLine}"이 "${name}"의 접두사가 아니다`,
+    );
+  });
+});

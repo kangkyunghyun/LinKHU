@@ -45,6 +45,46 @@ const LinKHUShared = {
     return String(imgSrc).replace(/^images\//, "images/dark/");
   },
 
+  // 팝업 카드 이름의 줄바꿈 지점. id → 첫 줄 문자열이다.
+  // 카드 한 줄에 들어가는 것은 한글 6자다(폭 근거는 스펙 §3-2-7). 공백이 없는 긴 이름은
+  // word-break: keep-all이 꺾을 자리를 못 찾아 overflow-wrap: anywhere로 넘어가고,
+  // 그러면 글자 사이 아무 데서나 꺾인다("글로벌교육지 / 원팀"). 어디서 꺾을지를 여기 적는다.
+  // 데이터가 아니라 카드 폭에 딸린 표현 문제라 src/data.js가 아니라 여기에 둔다.
+  CARD_LINE_BREAKS: {
+    swedu: "SW중심대학",
+    isss: "글로벌교육",
+    healthsc: "건강센터",
+    health: "건강센터",
+    counsell: "심리상담",
+    counsel: "심리상담",
+    abeek: "공학교육",
+    eip: "대학혁신",
+    cce: "글로벌미래",
+    crhs: "인류사회",
+    cominv: "국제통상",
+    swcon: "소프트웨어",
+    dc: "디지털",
+    khusc: "지구사회",
+    khctl: "교수학습",
+    khao: "우주과학",
+    rule: "규정관리",
+    iga: "국제지역",
+  },
+
+  // 두 줄(6자 × 2)에 아예 들어가지 않는 이름이다. 의미 단위로 꺾으면 둘째 줄이
+  // 말줄임돼 오히려 글자가 사라지므로 꺾지 않고 현재 동작(글자는 모두 보임)을 유지한다.
+  // 모르고 빠진 것이 아님을 남기려고 명시한다. scripts/validate-data.js가 이 목록을 읽는다.
+  WIDE_CARD_NAMES: ["display", "deptofenglish", "globaleng"],
+
+  // 표에 있으면 첫 줄 뒤에 ZWSP를 넣어 그 지점에서 꺾이게 한다.
+  // 표의 첫 줄이 실제 이름의 접두사가 아니면 표가 잘못된 것이므로 원본을 그대로 돌려
+  // 조용히 깨진 이름을 만들지 않는다. 그 어긋남은 scripts/validate-data.js가 실패시킨다.
+  cardDisplayName(site) {
+    const firstLine = this.CARD_LINE_BREAKS[site.id];
+    if (!firstLine || !String(site.name).startsWith(firstLine)) return site.name;
+    return `${firstLine}\u200B${String(site.name).slice(firstLine.length)}`;
+  },
+
   // 설정을 저장한 적 없는 사용자에게 처음 보여줄 목록이다.
   // 예전에는 카테고리 하나(`공통`)가 곧 기본 목록이었지만, 그 카테고리가 커지면서
   // 처음 설치한 사용자가 대부분을 직접 빼야 하는 상태가 됐다. 그래서 기본 목록을

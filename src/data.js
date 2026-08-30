@@ -893,7 +893,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "env",
-    name: "환경학및환경공학과",
+    name: "환경학 및 환경공학과",
     url: "https://env.khu.ac.kr/env/user/main/view.do",
     imgSrc: "images/departments/env.png",
     category: "학과",
