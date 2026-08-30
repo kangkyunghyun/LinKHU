@@ -119,6 +119,26 @@ test("popup opens normal, modifier, and middle clicks with expected focus", () =
   assert.equal(closeCount, 1);
 });
 
+test("popup keeps 사업단 together on the SW중심대학 card", () => {
+  const context = loadScript(
+    ["src/theme.js", "src/shared.js", "src/popup.js"],
+    "this.AppForTest = App;",
+    { chrome: {} },
+  );
+
+  assert.equal(
+    context.AppForTest.getCardDisplayName({
+      id: "swedu",
+      name: "SW중심대학사업단",
+    }),
+    "SW중심대학\u200B사업단",
+  );
+  assert.equal(
+    context.AppForTest.getCardDisplayName({ id: "info21", name: "인포21" }),
+    "인포21",
+  );
+});
+
 test("options list narrows by category and search together", () => {
   const { SiteFilterForTest } = loadScript(
     "src/options.js",
