@@ -85,6 +85,8 @@ header h1 {
   text-decoration: none;
   font-size: 12px;
   margin-left: 8px;
+  /* 헤더가 두 줄로 밀리지 않게 문구 자체는 쪼개지지 않는다. */
+  white-space: nowrap;
 }
 
 .empty-message {

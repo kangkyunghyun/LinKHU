@@ -92,7 +92,10 @@ const VersionManager = {
         updateLink.href = this.getUpdateLink();
         updateLink.target = "_blank";
         updateLink.className = "update-link";
-        updateLink.textContent = `(업데이트 가능: v${latestVersion})`;
+        // 팝업 헤더는 320px 안에서 제목·현재 버전·이 안내를 한 줄에 담아야 한다.
+        // 목표 버전은 링크가 도착하는 스토어 페이지가 이미 보여주므로 title로만 남긴다.
+        updateLink.textContent = "새 업데이트";
+        updateLink.title = `최신 버전 v${latestVersion}`;
         updateMessageEl.replaceChildren(updateLink);
       } else {
         updateMessageEl.textContent = "";
