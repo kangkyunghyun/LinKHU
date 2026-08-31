@@ -447,6 +447,22 @@ const MASTER_SITE_LIST = [
     category: "학사·포털",
   },
   {
+    // 경희사이버대는 별개 법인이지만 학점교류 수강생이 학기 내내 쓴다.
+    // 외부 도메인을 허용하는 기준은 스펙 §4-1의 url 절에 있다.
+    id: "khcu-portal",
+    name: "경희사이버대 포털",
+    url: "https://portal.khcu.ac.kr",
+    imgSrc: "images/common/khcu-portal.png",
+    category: "학사·포털",
+  },
+  {
+    id: "khcu-lms",
+    name: "경희사이버대 LMS",
+    url: "https://lms.khcu.ac.kr",
+    imgSrc: "images/common/khcu-lms.png",
+    category: "학사·포털",
+  },
+  {
     id: "research",
     name: "연구처",
     url: "https://research.khu.ac.kr/research/user/main/view.do",
