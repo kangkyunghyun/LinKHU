@@ -54,7 +54,8 @@ Chrome access token request failed (400): {"error":"invalid_grant","error_descri
 ```
 
 - 입력값 오류는 증상이 다르다. `confirm_publish`가 `publish-chrome`이 아니면 그 앞 `Verify release input` 단계에서 `confirm_publish must be publish-chrome.`로 걸린다.
-- 즉 **어느 단계에서 멈췄는지를 먼저 본다.** `Verify release input`이면 입력값 문제이고, `Publish to Chrome Web Store`면 토큰 문제다.
+- 즉 **어느 단계에서 멈췄는지를 먼저 본다.** `Verify release input`이면 입력값 문제다.
+- `Publish to Chrome Web Store`에서 멈췄다면 **응답 본문으로 갈린다.** `invalid_grant`면 토큰 문제이고, `NOT_UPDATEABLE`이면 아래 [심사 중 업로드 실패 대응](#심사-중-업로드-실패-대응)이다.
 
 ### 원인
 
@@ -140,6 +141,38 @@ Google Cloud OAuth 동의 화면의 게시 상태가 **테스트(Testing)**이�
 같은 배포에서 서로 다른 두 오류를 순서대로 겪었다. 위 [증상](#증상) 절의 단계 구분이 여기서 나왔다.
 
 재발급한 토큰의 스코프는 `chromewebstore` 하나뿐이었다. 같은 날 OAuth 동의 화면을 프로덕션으로 전환해 만료 문제를 없앴다.
+
+## 심사 중 업로드 실패 대응
+
+### 증상
+
+`Publish to Chrome Web Store` 단계에서 다음 오류가 나면 아이템이 이미 심사 중인 것이다.
+
+```text
+400: {"error":{"code":400,"message":"You may not edit or publish an item that is in review.","status":"FAILED_PRECONDITION","details":[{"reason":"NOT_UPDATEABLE"}]}}
+```
+
+- 같은 단계에서 나는 `invalid_grant`와 구분한다. 그쪽은 토큰 문제이고 [토큰 만료 대응](#토큰-만료-대응)을 따른다.
+- 판별 기준은 응답 본문이다. `NOT_UPDATEABLE`이 보이면 아래로 온다.
+
+### 원인
+
+Chrome Web Store는 **심사 중인 아이템에 새 패키지를 올리거나 publish 요청을 보내는 것을 막는다.** 이전 버전을 제출한 뒤 심사가 끝나기 전에 워크플로우를 다시 실행하면 이 응답이 온다.
+
+### 대응
+
+**우리 쪽에서 고칠 것이 없다** (MUST). 토큰, secret, 워크플로우 입력값은 모두 정상이다.
+
+- **토큰을 재발급하지 않는다.** 이 오류는 인증 문제가 아니므로 재발급해도 같은 응답이 온다.
+- Chrome Web Store Developer Dashboard에서 이전 제출의 심사 상태를 확인한다.
+- 심사가 끝난 뒤 같은 입력으로 워크플로우를 재실행한다.
+
+```bash
+gh workflow run publish-chrome.yml --ref main \
+  -f version={version} -f confirm_publish=publish-chrome
+```
+
+심사 소요 시간은 Google이 정하며 우리가 앞당길 수 없다. 기다리는 것이 유일한 대응이다.
 
 ## 참고 문서
 
