@@ -11,7 +11,7 @@
  * 사용자가 고른 모드(system/light/dark)와 구분한다 — system은 여기까지 오지 않는다.
  *
  * 토큰 계약과 대비 기준은 spec/3-2-DESIGN-UI-RULES.md의 3-2-5-4, 3-2-5-5가 원본이다.
- * 간격 스케일 규칙은 같은 문서의 3-2-2가 원본이다.
+ * 간격 스케일과 반경·그림자 규칙은 같은 문서의 3-2-2가 원본이다.
  */
 :root,
 :root[data-theme="light"] {
@@ -97,4 +97,33 @@
   --space-20: 20px;
   --space-24: 24px;
   --space-32: 32px;
+}
+
+/* 모서리 반경 — 여백과 같은 이유로 값 이름을 쓴다. 크기로 고르는 값이라
+   --radius-8은 8px이다. 확장이 쓰는 값은 이 넷뿐이다.
+
+   docs/landing.css는 --radius-sm/md/lg를 자기 :root에 따로 갖는다. 이름 체계를
+   일부러 다르게 둬서 두 파일의 토큰이 같은 이름 다른 값으로 겹치지 않게 한다. */
+:root {
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  /* 알약. 높이의 절반 이상이면 무엇이든 같은 모양이라 값이 아니라 의도를 적는다.
+     브라우저가 상자 크기에 맞춰 잘라내므로 큰 수를 그대로 둔다. */
+  --radius-pill: 999px;
+}
+
+/* 그림자 — 반경과 달리 역할 이름을 쓴다. 크기가 아니라 "무엇을 띄우는가"로 고른다.
+   색 토큰이 역할 이름인 것과 같은 이유다. */
+:root {
+  /* 팝업 카드의 평상시 들림 */
+  --shadow-card: 0 4px 6px var(--color-shadow);
+  /* 카드 hover. 색이 주색 계열로 바뀐다 */
+  --shadow-card-hover: 0 6px 12px var(--color-primary-shadow);
+  /* 입력 요소 포커스 링. 두 화면에서 여섯 번 쓴다 */
+  --shadow-focus-ring: 0 0 0 3px var(--color-primary-ring);
+  /* 떠 있는 문의 패널 */
+  --shadow-panel: 0 8px 24px var(--color-shadow);
+  /* 드래그 중 놓을 수 있는 영역의 안쪽 윤곽. 테두리를 대신하므로 레이아웃을 밀지 않는다 */
+  --shadow-drop-target: inset 0 0 0 1px var(--color-primary-border);
 }
