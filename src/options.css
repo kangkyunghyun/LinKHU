@@ -23,7 +23,7 @@ body {
   min-height: 500px;
 
   /* 배경은 body가 깐다. 여기서 다시 칠하면 거터와 색이 갈릴 여지가 생긴다. */
-  padding: 16px 24px;
+  padding: var(--space-16) var(--space-24);
 
   display: flex;
   flex-direction: column;
@@ -34,8 +34,8 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 12px;
+  gap: var(--space-12);
+  margin-bottom: var(--space-12);
 }
 
 .header-link {
@@ -64,7 +64,7 @@ body {
 h1 {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-8);
   color: var(--color-primary);
   margin: 0;
   /* 세로를 줄이려고 줄 높이만 조인다. 아래 .title-logo 보정값은 line-height와 무관하다. */
@@ -103,7 +103,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: var(--space-8);
   border: none;
   border-radius: 8px;
   background: none;
@@ -139,8 +139,8 @@ h1 {
 }
 
 .shortcut-guide {
-  margin-bottom: 12px;
-  padding: 8px 12px;
+  margin-bottom: var(--space-12);
+  padding: var(--space-8) var(--space-12);
   border: 1px solid var(--color-primary-border);
   border-radius: 8px;
   background: var(--color-primary-soft);
@@ -160,17 +160,17 @@ h1 {
 }
 
 .shortcut-guide p {
-  margin: 8px 0;
+  margin: var(--space-8) 0;
   color: var(--color-text-muted);
 }
 
 .shortcut-guide ul {
   margin: 0;
-  padding-left: 18px;
+  padding-left: var(--space-16);
 }
 
 .shortcut-guide li + li {
-  margin-top: 4px;
+  margin-top: var(--space-4);
 }
 
 .shortcut-link {
@@ -190,7 +190,7 @@ h1 {
 
 .board {
   display: flex;
-  gap: 20px;
+  gap: var(--space-20);
   flex-grow: 1;
   /* Flex 자식인 스크롤 영역이 자기 높이를 넘을 때 내부 스크롤을 만들 수 있게 한다. */
   min-height: 0;
@@ -203,7 +203,7 @@ h1 {
   background: var(--color-surface-sunken);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 16px;
+  padding: var(--space-16);
 
   display: flex;
   flex-direction: column;
@@ -216,10 +216,10 @@ h1 {
 
 .column h2 {
   font-size: 16px;
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-12);
   color: var(--color-text);
   text-align: center;
-  padding-bottom: 8px;
+  padding-bottom: var(--space-8);
   border-bottom: 2px solid var(--color-border);
 
   flex-shrink: 0;
@@ -229,9 +229,9 @@ h1 {
 .option-controls {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-8);
   flex-shrink: 0;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-12);
 }
 
 .option-search {
@@ -240,13 +240,13 @@ h1 {
 
 .option-filters {
   display: flex;
-  gap: 6px;
+  gap: var(--space-8);
   flex-wrap: wrap;
 }
 
 /* 눌린 칩만 색이 찬다. 아무것도 안 눌린 상태가 "전체 표시"다. */
 .filter-chip {
-  padding: 0 12px;
+  padding: 0 var(--space-12);
   height: 32px;
   border: 1px solid var(--color-border);
   border-radius: 18px;
@@ -290,7 +290,7 @@ h1 {
 .option-search input {
   width: 100%;
   height: 36px;
-  padding: 0 12px 0 32px;
+  padding: 0 var(--space-12) 0 var(--space-32);
   box-sizing: border-box;
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -310,7 +310,7 @@ h1 {
 
 .search-empty-message {
   flex-shrink: 0;
-  margin: 0 0 12px;
+  margin: 0 0 var(--space-12);
   color: var(--color-text-muted);
   font-size: 13px;
   text-align: center;
@@ -321,7 +321,7 @@ h1 {
   overflow-y: auto;
   scrollbar-gutter: stable;
 
-  padding-right: 5px;
+  padding-right: var(--space-8);
   min-height: 0;
 }
 
@@ -340,18 +340,26 @@ h1 {
 }
 
 .category-group {
-  margin-bottom: 14px;
+  /* 아래 .drop-zone의 패딩 8px과 더해 마지막 카드와 다음 제목 사이를 24px로 둔다.
+     패딩이 아래에만 10px 있던 때와 같은 간격이다. */
+  margin-bottom: var(--space-16);
 }
 .category-title {
   font-size: 13px;
   font-weight: bold;
   color: var(--color-primary);
-  margin: 0 0 10px 5px;
+  /* 왼쪽 여백은 .drop-zone의 패딩과 같은 값이어야 제목과 카드의 왼쪽 선이 맞는다. */
+  margin: 0 0 var(--space-8) var(--space-8);
 }
 
+/* 패딩은 사방이 같아야 한다. 아래에만 있으면 .drop-target이 이 상자에 칠하는 하이라이트가
+   위·좌·우는 카드에 딱 붙고 아래만 떠 보인다.
+   box-sizing은 #active-list가 인라인 min-height: 100%를 쓰기 때문에 필요하다. content-box로
+   두면 그 높이에 패딩이 더해져 오른쪽 '내 바로가기'에 쓸데없는 스크롤이 생긴다. */
 .drop-zone {
   min-height: 50px;
-  padding-bottom: 10px;
+  padding: var(--space-8);
+  box-sizing: border-box;
   border-radius: 8px;
   transition: background 0.2s;
 }
@@ -362,7 +370,7 @@ h1 {
 .category-group .drop-zone {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: var(--space-8);
   align-content: start;
 }
 
@@ -387,8 +395,8 @@ h1 {
   /* 이름 길이와 무관하게 같은 크기로 보이게 높이를 고정한다. 폭은 그리드가 1fr로 맞춘다. */
   height: 46px;
   box-sizing: border-box;
-  padding: 0 10px;
-  margin-bottom: 8px;
+  padding: 0 var(--space-8);
+  margin-bottom: var(--space-8);
   background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -409,14 +417,14 @@ h1 {
 .list-item img {
   width: 24px;
   height: 24px;
-  margin: 0 10px;
+  margin: 0 var(--space-8);
 }
 
 .drag-handle {
   display: flex;
   align-items: center;
   color: var(--color-text-muted);
-  padding-left: 5px;
+  padding-left: var(--space-8);
 }
 
 .site-name {
@@ -439,8 +447,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
-  margin-left: 6px;
+  padding: var(--space-4);
+  margin-left: var(--space-8);
   border-radius: 6px;
   color: var(--color-text-muted);
 }
@@ -458,8 +466,8 @@ h1 {
 .save-btn {
   display: block;
   width: 100%;
-  padding: 12px;
-  margin-top: 14px;
+  padding: var(--space-12);
+  margin-top: var(--space-16);
   background-color: var(--color-primary-fill);
   color: var(--color-on-primary);
   border: none;
@@ -496,7 +504,7 @@ h1 {
   overflow: visible;
   clip: auto;
   white-space: normal;
-  margin: 10px 0 0;
+  margin: var(--space-8) 0 0;
   color: var(--color-notice);
   font-size: 12px;
   text-align: center;
@@ -509,7 +517,7 @@ h1 {
   right: 0;
   z-index: 10;
   width: min(320px, 90vw);
-  padding: 12px;
+  padding: var(--space-12);
   border: 1px solid var(--color-border);
   border-radius: 10px;
   background: var(--color-surface-raised);
@@ -523,7 +531,7 @@ h1 {
 .feedback-panel textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 10px;
+  padding: var(--space-8) var(--space-12);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-field);
@@ -542,8 +550,8 @@ h1 {
 .feedback-email {
   width: 100%;
   box-sizing: border-box;
-  margin-top: 6px;
-  padding: 7px 10px;
+  margin-top: var(--space-8);
+  padding: var(--space-8) var(--space-12);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-field);
@@ -561,11 +569,11 @@ h1 {
 .feedback-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 6px;
+  margin-top: var(--space-8);
 }
 
 .feedback-send {
-  padding: 6px 16px;
+  padding: var(--space-8) var(--space-16);
   border: none;
   border-radius: 6px;
   background: var(--color-primary-fill);
@@ -581,7 +589,7 @@ h1 {
 }
 
 .feedback-status {
-  margin: 6px 0 0;
+  margin: var(--space-8) 0 0;
   min-height: 15px;
   color: var(--color-text-muted);
   font-size: 12px;
