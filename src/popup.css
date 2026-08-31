@@ -14,14 +14,14 @@ body {
 }
 
 .container {
-  padding: 20px;
+  padding: var(--space-20);
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: var(--space-8);
 }
 
 .header-title {
@@ -40,13 +40,13 @@ header h1 {
 #current-version {
   font-size: 12px;
   color: var(--color-text-muted);
-  margin-left: 8px;
+  margin-left: var(--space-8);
 }
 
 .search-bar {
-  margin-bottom: 10px;
-  padding-right: 5px;
-  padding-left: 3px;
+  margin-bottom: var(--space-8);
+  padding-right: var(--space-4);
+  padding-left: var(--space-4);
   position: relative;
 }
 
@@ -62,7 +62,7 @@ header h1 {
 .search-bar input {
   width: 100%;
   height: 36px;
-  padding: 0 12px 0 33px;
+  padding: 0 var(--space-12) 0 var(--space-32);
   box-sizing: border-box;
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -84,13 +84,13 @@ header h1 {
   color: var(--color-notice);
   text-decoration: none;
   font-size: 12px;
-  margin-left: 8px;
+  margin-left: var(--space-8);
   /* 헤더가 두 줄로 밀리지 않게 문구 자체는 쪼개지지 않는다. */
   white-space: nowrap;
 }
 
 .empty-message {
-  margin: 22px 0;
+  margin: var(--space-24) 0;
   color: var(--color-text-muted);
   font-size: 13px;
   text-align: center;
@@ -99,15 +99,14 @@ header h1 {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: var(--space-12);
   max-height: 300px;
   overflow-y: auto;
   overflow-x: hidden;
 
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-right: 5px;
-  padding-left: 3px;
+  /* 좌우 합 8px은 카드 글자 폭 계산에 그대로 들어간다(스펙 3-2-7). 위쪽은 hover의
+     translateY(-3px)가 잘리지 않을 최소치다. 네 면을 같은 값으로 둔다. */
+  padding: var(--space-4);
 }
 
 .grid-container::-webkit-scrollbar {
@@ -135,7 +134,10 @@ header h1 {
   flex-direction: column;
   align-items: center;
 
-  padding: 10px 5px 8px 5px;
+  /* 세로는 스케일 밖이다. 아이콘이 위에 있는 90px 고정 카드라 위를 조금 더 줘야
+     아이콘과 글자 덩어리가 시각적으로 가운데에 온다. 8/8로 펴면 글자가 놀 공간이
+     2px 늘어 아이콘과 글자 사이가 벌어진다. 세로 패딩은 글자 폭과 무관하다. */
+  padding: var(--space-8) var(--space-4);
   box-sizing: border-box;
 
   cursor: pointer;
@@ -166,8 +168,8 @@ header h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
-  margin-top: 12px;
+  gap: var(--space-8);
+  margin-top: var(--space-12);
 }
 
 .footer-link {
@@ -192,13 +194,13 @@ header h1 {
 }
 
 .feedback-panel {
-  margin-top: 12px;
+  margin-top: var(--space-12);
 }
 
 .feedback-panel textarea {
   width: 100%;
   box-sizing: border-box;
-  padding: 8px 10px;
+  padding: var(--space-8) var(--space-12);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-field);
@@ -217,8 +219,8 @@ header h1 {
 .feedback-email {
   width: 100%;
   box-sizing: border-box;
-  margin-top: 6px;
-  padding: 7px 10px;
+  margin-top: var(--space-8);
+  padding: var(--space-8) var(--space-12);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-field);
@@ -236,11 +238,11 @@ header h1 {
 .feedback-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 6px;
+  margin-top: var(--space-8);
 }
 
 .feedback-send {
-  padding: 5px 14px;
+  padding: var(--space-8) var(--space-16);
   border: none;
   border-radius: 6px;
   background: var(--color-primary-fill);
@@ -256,7 +258,7 @@ header h1 {
 }
 
 .feedback-status {
-  margin: 6px 0 0;
+  margin: var(--space-8) 0 0;
   min-height: 14px;
   color: var(--color-text-muted);
   font-size: 11.5px;
@@ -264,7 +266,9 @@ header h1 {
 }
 
 .grid-item span {
-  font-size: 11.5px;
+  /* 카드 폭이 넓어진 만큼 키웠다. 12.5px부터는 한글 여섯 자가 한 줄에 안 들어가
+     줄바꿈 표(shared.js)를 다시 정해야 하므로 12px이 천장이다(스펙 3-2-7). */
+  font-size: 12px;
   color: var(--color-text);
   font-weight: 500;
   letter-spacing: -0.5px;
@@ -272,7 +276,7 @@ header h1 {
   line-height: 1.25;
 
   width: 100%;
-  padding: 0 2px;
+  padding: 0;
   box-sizing: border-box;
 
   word-break: keep-all;
@@ -290,15 +294,15 @@ header h1 {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-top: -6px;
+  gap: var(--space-4);
+  margin-top: calc(var(--space-4) * -1);
 }
 
 .icon-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: var(--space-4);
   border: none;
   border-radius: 6px;
   background: none;
@@ -348,7 +352,7 @@ header h1 {
   overflow: visible;
   clip: auto;
   white-space: normal;
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-8);
   color: var(--color-notice);
   font-size: 11.5px;
   text-align: center;

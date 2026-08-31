@@ -23,14 +23,17 @@ const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
 const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
 const IMAGE_DIRECTORIES = ["images/common", "images/colleges", "images/departments"];
 
-// 팝업 카드 한 줄에 들어가는 폭이다. 팝업 320px에서 컨테이너·그리드·카드·span 패딩과
-// 3열 gap을 빼면 68.7px이고, 스크롤바가 뜨면 66.7px이다. 좁은 쪽을 기준으로 잡는다.
-// 카드 폭(src/popup.css의 .grid-item span)이 바뀌면 이 값도 같이 바뀌어야 한다.
-const CARD_LINE_WIDTH_PX = 66.7;
-// 글자 폭 근사다. Noto Sans KR 11.5px 기준 한글 11.5 / 라틴·숫자 6.9 / 그 외 5.0에서
+// 팝업 카드 한 줄에 들어가는 폭이다. 팝업 320px에서 컨테이너 패딩 40, 그리드 패딩 8,
+// 스크롤바 6, 3열 gap 24를 빼면 카드 한 칸이 80.67px이고, 거기서 카드 테두리 2와
+// 카드 패딩 8을 빼면 70.67px이다. 스크롤바가 없으면 칸이 2px씩 넓어져 72.67px이다.
+// 좁은 쪽을 기준으로 내려 잡는다. 유도 과정은 스펙 3-2-7이 원본이다.
+// 카드 폭에 관여하는 값(src/popup.css의 .container, .grid-container, .grid-item)이
+// 바뀌면 이 값도 같이 바뀌어야 한다.
+const CARD_LINE_WIDTH_PX = 70.6;
+// 글자 폭 근사다. Noto Sans KR 12px 기준 한글 12 / 라틴·숫자 7.2 / 그 외 5.2에서
 // letter-spacing: -0.5px를 각각 뺀다. 실제 글자마다 폭이 다르므로 정확한 측정이 아니라,
 // "표에 넣어야 할 만큼 긴 이름"을 걸러내기 위한 어림값이다.
-const CHAR_WIDTH_PX = { hangul: 11.0, latin: 6.4, other: 4.5 };
+const CHAR_WIDTH_PX = { hangul: 11.5, latin: 6.7, other: 4.7 };
 
 function loadSiteList() {
   const source = fs.readFileSync(DATA_FILE, "utf8");
@@ -89,6 +92,18 @@ function findCardLineBreakErrors(siteList, shared) {
       errors.push(
         `${site.id}: CARD_LINE_BREAKS first line "${firstLine}" is not a prefix of "${site.name}".`,
       );
+    } else if (firstLine !== undefined) {
+      // 표에 있는 이름은 두 줄로 갈리므로 "한 줄을 넘는가"만 봐서는 부족하다.
+      // 갈라진 두 줄이 각각 카드 폭에 들어가야 한다. 넘치면 그 줄이 말줄임된다.
+      [firstLine, site.name.slice(firstLine.length)].forEach((line, index) => {
+        const lineWidth = estimateCardTextWidth(line);
+        if (lineWidth > CARD_LINE_WIDTH_PX) {
+          errors.push(
+            `${site.id}: CARD_LINE_BREAKS line ${index + 1} "${line}" is about ` +
+              `${lineWidth.toFixed(1)}px wide and does not fit a ${CARD_LINE_WIDTH_PX}px card line.`,
+          );
+        }
+      });
     }
 
     if (/\s/.test(site.name)) return;
@@ -287,6 +302,7 @@ if (require.main === module) {
 
 module.exports = {
   ALLOWED_CATEGORIES,
+  CARD_LINE_WIDTH_PX,
   estimateCardTextWidth,
   findCardLineBreakErrors,
   findDuplicateFieldErrors,
