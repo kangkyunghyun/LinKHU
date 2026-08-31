@@ -45,7 +45,7 @@ body {
   background: none;
   color: var(--color-text-muted);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-body);
   text-decoration: none;
   cursor: pointer;
 }
@@ -135,7 +135,7 @@ h1 {
   min-width: 0;
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: var(--text-body);
 }
 
 .shortcut-guide {
@@ -145,7 +145,7 @@ h1 {
   border-radius: var(--radius-8);
   background: var(--color-primary-soft);
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-body);
 }
 
 .shortcut-guide summary {
@@ -215,7 +215,7 @@ h1 {
 }
 
 .column h2 {
-  font-size: 16px;
+  font-size: var(--text-heading);
   margin: 0 0 var(--space-12);
   color: var(--color-text);
   text-align: center;
@@ -253,7 +253,7 @@ h1 {
   background: var(--color-field);
   color: var(--color-text-muted);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-body);
   cursor: pointer;
   transition:
     border-color 0.2s ease,
@@ -296,7 +296,7 @@ h1 {
   border-radius: var(--radius-8);
   background: var(--color-field);
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-body);
   outline: none;
   transition:
     border-color 0.2s ease,
@@ -312,7 +312,7 @@ h1 {
   flex-shrink: 0;
   margin: 0 0 var(--space-12);
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: var(--text-body);
   text-align: center;
 }
 
@@ -345,7 +345,7 @@ h1 {
   margin-bottom: var(--space-16);
 }
 .category-title {
-  font-size: 13px;
+  font-size: var(--text-body);
   font-weight: bold;
   color: var(--color-primary);
   /* 왼쪽 여백은 .drop-zone의 패딩과 같은 값이어야 제목과 카드의 왼쪽 선이 맞는다. */
@@ -432,7 +432,7 @@ h1 {
   min-width: 0;
   font-weight: bold;
   color: var(--color-text);
-  font-size: 13px;
+  font-size: var(--text-body);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -472,7 +472,7 @@ h1 {
   color: var(--color-on-primary);
   border: none;
   border-radius: var(--radius-8);
-  font-size: 16px;
+  font-size: var(--text-heading);
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
@@ -506,7 +506,7 @@ h1 {
   white-space: normal;
   margin: var(--space-8) 0 0;
   color: var(--color-notice);
-  font-size: 12px;
+  font-size: var(--text-caption);
   text-align: center;
 }
 
@@ -537,7 +537,7 @@ h1 {
   background: var(--color-field);
   color: var(--color-text);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-body);
   resize: vertical;
 }
 
@@ -557,7 +557,7 @@ h1 {
   background: var(--color-field);
   color: var(--color-text);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-body);
 }
 
 .feedback-email:focus {
@@ -579,7 +579,7 @@ h1 {
   background: var(--color-primary-fill);
   color: var(--color-on-primary);
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--text-body);
   cursor: pointer;
 }
 
@@ -592,7 +592,7 @@ h1 {
   margin: var(--space-8) 0 0;
   min-height: 15px;
   color: var(--color-text-muted);
-  font-size: 12px;
+  font-size: var(--text-caption);
   text-align: right;
 }
 
