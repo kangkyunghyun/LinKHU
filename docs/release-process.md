@@ -2,6 +2,29 @@
 
 LinKHU 릴리스와 스토어 배포 절차입니다.
 
+## 0. 버전을 어디까지 올릴지 정한다
+
+**릴리스 노트에 `### Features` 섹션이 있으면 minor, `### Fixes`만 있으면 patch다.**
+
+무엇이 바뀌었는지를 먼저 릴리스 노트로 적고, 그 결과가 버전을 정한다. "얼마나 많이 바꿨나"로 재지 않는다.
+
+| 릴리스 | 릴리스 노트 섹션 | 버전 |
+| --- | --- | --- |
+| v2.4.0 | Features / Internal | minor |
+| v2.5.0 | Features / Fixes / Internal | minor |
+| v2.6.0 | Features / Fixes / Internal | minor |
+| v2.7.0 | Features / Fixes / Internal | minor |
+| v2.7.1 | **Fixes** / Internal | **patch** |
+| v2.8.0 | Features / Internal | minor |
+
+**v2.4.0 이전에는 지켜지지 않았다.** `v2.3.2`는 검색 기능 셋을 `### Features`에 담고도 patch로 나갔다. 그 커밋만 보고 "규칙이 없다"고 판단하지 않는다 — 릴리스 절차가 문서로 정리되기 전의 느슨한 시기이고, **기준은 v2.4.0부터 적용된다.**
+
+**`### Internal`만 있으면 patch다.** 사용자가 화면에서 겪는 변화가 없다는 뜻이다.
+
+**데이터만 늘어난 경우(서비스 추가)도 Features다** — 따라서 minor다. 코드가 한 줄도 안 바뀌어도 **사용자가 새로 갈 수 있는 곳이 생긴 것**이므로 릴리스 노트의 Features에 적히고, 그러면 위 기준이 minor로 정한다. v2.8.0이 그 경우다(경희사이버대 두 곳 추가).
+
+메이저는 이 기준의 대상이 아니다. 저장 데이터나 사용자 목록이 깨지는 변경일 때만 올린다 — 지금까지 그런 릴리스는 없었다.
+
 ## 1. 릴리스 준비 PR
 
 - `src/manifest.json`의 `version`을 올린다.

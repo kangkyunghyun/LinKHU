@@ -25,7 +25,7 @@ Visit the [homepage](https://kangkyunghyun.github.io/LinKHU/) for a quick overvi
 
 ### 🏫 Supported Services
 
-165 services are supported — grouped by topic (academics, campus life, scholarships and careers, learning, campus culture, administration) plus colleges and departments/majors — and you can pick just the ones you need from the options page.
+167 services are supported — grouped by topic (academics, campus life, scholarships and careers, learning, campus culture, administration) plus colleges and departments/majors — and you can pick just the ones you need from the options page.
 See the full list in [Supported Services](./docs/supported-services.md).
 
 ### 🔎 Popup Search

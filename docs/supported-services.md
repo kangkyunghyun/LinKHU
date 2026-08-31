@@ -1,8 +1,8 @@
 # Supported Services
 
-LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 165개 서비스를 지원한다.
+LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 167개 서비스를 지원한다.
 
-## 학사·포털 (11개)
+## 학사·포털 (13개)
 
 - 인포21
 - 경희대학교
@@ -15,6 +15,8 @@ LinKHU는 `src/data.js`의 `MASTER_SITE_LIST`를 기준으로 총 165개 서비�
 - 자기주도적 학사제도
 - 입학처
 - 규정관리시스템
+- 경희사이버대 포털
+- 경희사이버대 LMS
 
 ## 생활·복지 (12개)
 
