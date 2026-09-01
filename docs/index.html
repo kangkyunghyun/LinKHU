@@ -64,6 +64,7 @@
           <a href="#features">기능</a>
           <a href="#how-it-works">사용 방법</a>
           <a href="#services">지원 서비스</a>
+          <a href="#releases">업데이트</a>
           <button class="nav-link-button" type="button" data-feedback-open>
             문의
           </button>
@@ -569,6 +570,38 @@
         </div>
       </section>
 
+      <!-- 릴리스 목록은 GitHub API에서 받아 landing.js가 채운다. 받기 전과 실패했을 때는
+           hidden이라 소개 흐름에 빈 상자가 남지 않는다. -->
+      <section
+        class="section section-releases"
+        id="releases"
+        aria-labelledby="releases-title"
+        aria-busy="true"
+        hidden
+      >
+        <div class="shell">
+          <div class="section-heading">
+            <p class="eyebrow">업데이트</p>
+            <h2 id="releases-title">꾸준히 고치고<br>더하고 있습니다.</h2>
+            <p>
+              자동으로 업데이트되니 따로 받으실 것은 없습니다.
+            </p>
+          </div>
+
+          <div class="release-list" id="release-list"></div>
+
+          <a
+            class="release-archive"
+            href="https://github.com/kangkyunghyun/LinKHU/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub에서 전체 릴리스 보기
+            <span class="sr-only">(새 창)</span>
+          </a>
+        </div>
+      </section>
+
       <section class="section section-cta" aria-labelledby="cta-title">
         <div class="shell">
           <div class="cta-card">
@@ -627,6 +660,7 @@
           >
             지원 서비스<span class="sr-only">(새 창)</span>
           </a>
+          <a href="#releases">업데이트 내역</a>
           <button
             class="footer-link-button"
             type="button"
