@@ -237,6 +237,216 @@
       });
   }
 
+  const RELEASES_API_URL =
+    "https://api.github.com/repos/kangkyunghyun/LinKHU/releases";
+  // 탭 세션마다 한 번만 부른다. 자세한 이유는 스펙 3-3-18.
+  const RELEASES_CACHE_KEY = "linkhu-releases";
+  // 최신 하나만 펼쳐 둔다. 나머지는 제목 줄만 보이고 눌러서 편다.
+  const RELEASES_OPEN_COUNT = 1;
+  // 최근 다섯 개만 그린다. 접어도 열여덟 줄이면 소개 흐름을 끊는다.
+  // 잘린 나머지는 섹션 아래 "GitHub에서 전체 릴리스 보기"가 받는다.
+  const RELEASES_SHOW_COUNT = 5;
+
+  // scripts/publish-firefox.js의 stripInternalSection과 같은 규칙이다. Node 스크립트와
+  // 브라우저라 파일을 공유할 수 없어 두 벌로 둔다(검색 랭킹과 같은 이유, 스펙 3-1).
+  // 한쪽을 고치면 다른 쪽도 고친다 — tests/landing-releases.test.js가 실제
+  // release-notes/*.md로 두 구현의 결과가 같은지 검사한다.
+  function stripInternalSection(releaseNotes) {
+    const kept = [];
+    let skipping = false;
+
+    String(releaseNotes)
+      .split("\n")
+      .forEach((line) => {
+        // 다음 헤딩을 만나면 다시 살린다. Internal이 마지막 섹션이 아닐 수도 있다.
+        if (line.startsWith("### ")) skipping = line.trim() === "### Internal";
+        if (!skipping) kept.push(line);
+      });
+
+    return `${kept.join("\n").trimEnd()}\n`;
+  }
+
+  // 릴리스 노트가 쓰는 문법은 셋뿐이다 — "### 제목", "- 불릿", "`코드`".
+  // 마크다운 파서를 넣지 않는 이유는 스펙 3-3-1(의존성 없음)이다. 그래서 이 셋만
+  // 블록으로 나누고, 그 밖의 줄은 문단으로 그대로 보여준다. 문법이 늘면 여기를 고친다.
+  function parseReleaseBody(body) {
+    const blocks = [];
+
+    stripInternalSection(body)
+      .split("\n")
+      .forEach((rawLine) => {
+        const line = rawLine.trim();
+        if (!line) return;
+
+        if (line.startsWith("### ")) {
+          blocks.push({ type: "heading", text: line.slice(4).trim() });
+          return;
+        }
+
+        if (line.startsWith("- ")) {
+          const item = line.slice(2).trim();
+          const last = blocks[blocks.length - 1];
+          if (last && last.type === "list") last.items.push(item);
+          else blocks.push({ type: "list", items: [item] });
+          return;
+        }
+
+        blocks.push({ type: "paragraph", text: line });
+      });
+
+    return blocks;
+  }
+
+  // 본문은 GitHub API 응답이라 신뢰 경계 밖이다. innerHTML을 쓰지 않고 텍스트 노드로만
+  // 붙여, 릴리스 본문에 마크업이 들어와도 글자로 보이게 한다.
+  function appendInlineText(documentObject, parent, text) {
+    const pieces = String(text).split("`");
+
+    pieces.forEach((piece, index) => {
+      // 홀수 자리가 백틱 사이다. 다만 마지막 조각이면 닫는 백틱이 없었다는 뜻이라
+      // 코드로 보지 않고 백틱까지 글자로 되돌린다.
+      const isCode = index % 2 === 1 && index < pieces.length - 1;
+
+      if (isCode) {
+        const code = documentObject.createElement("code");
+        code.textContent = piece;
+        parent.append(code);
+        return;
+      }
+
+      const plain = index % 2 === 1 ? `\`${piece}` : piece;
+      if (plain) parent.append(documentObject.createTextNode(plain));
+    });
+  }
+
+  function createReleaseBody(documentObject, body) {
+    const wrapper = documentObject.createElement("div");
+    wrapper.className = "release-body";
+
+    parseReleaseBody(body).forEach((block) => {
+      if (block.type === "heading") {
+        const heading = documentObject.createElement("h4");
+        heading.textContent = block.text;
+        wrapper.append(heading);
+        return;
+      }
+
+      if (block.type === "list") {
+        const list = documentObject.createElement("ul");
+        block.items.forEach((item) => {
+          const listItem = documentObject.createElement("li");
+          appendInlineText(documentObject, listItem, item);
+          list.append(listItem);
+        });
+        wrapper.append(list);
+        return;
+      }
+
+      const paragraph = documentObject.createElement("p");
+      appendInlineText(documentObject, paragraph, block.text);
+      wrapper.append(paragraph);
+    });
+
+    return wrapper;
+  }
+
+  function formatReleaseDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "";
+    return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`;
+  }
+
+  function createReleaseItem(documentObject, release, isOpen) {
+    const item = documentObject.createElement("details");
+    item.className = "release-item";
+    if (isOpen) item.open = true;
+
+    const summary = documentObject.createElement("summary");
+    const name = documentObject.createElement("span");
+    name.className = "release-name";
+    name.textContent = release.tag_name || release.name || "";
+    summary.append(name);
+
+    const publishedAt = formatReleaseDate(release.published_at);
+    if (publishedAt) {
+      const date = documentObject.createElement("span");
+      date.className = "release-date";
+      date.textContent = publishedAt;
+      summary.append(date);
+    }
+
+    item.append(summary, createReleaseBody(documentObject, release.body || ""));
+    return item;
+  }
+
+  function readCachedReleases(storage) {
+    try {
+      const cached = storage?.getItem(RELEASES_CACHE_KEY);
+      const parsed = cached ? JSON.parse(cached) : null;
+      return Array.isArray(parsed) ? parsed : null;
+    } catch {
+      // 시크릿 모드나 저장소 차단 환경에서는 접근 자체가 던진다. 캐시가 없는 것으로 본다.
+      return null;
+    }
+  }
+
+  function writeCachedReleases(storage, releases) {
+    try {
+      storage?.setItem(RELEASES_CACHE_KEY, JSON.stringify(releases));
+    } catch {
+      // 캐시는 있으면 좋은 것이지 없으면 안 되는 것이 아니다.
+    }
+  }
+
+  // 실패하면 섹션을 통째로 감춘다. 빈 상자를 남기면 "불러오는 중"인지 "없는 것"인지
+  // 알 수 없다. 푸터의 GitHub 릴리스 링크가 대체 경로다.
+  function initializeLandingReleases(documentObject, fetchFunction, storage) {
+    const section = documentObject.querySelector("#releases");
+    const list = documentObject.querySelector("#release-list");
+    if (!section || !list) return Promise.resolve();
+
+    function render(releases) {
+      const published = releases.filter((release) => !release.draft);
+      if (published.length === 0) throw new Error("released nothing");
+
+      list.replaceChildren(
+        ...published
+          .slice(0, RELEASES_SHOW_COUNT)
+          .map((release, index) =>
+            createReleaseItem(documentObject, release, index < RELEASES_OPEN_COUNT),
+          ),
+      );
+      section.hidden = false;
+      section.setAttribute("aria-busy", "false");
+    }
+
+    const cached = readCachedReleases(storage);
+    if (cached) {
+      try {
+        render(cached);
+        return Promise.resolve();
+      } catch {
+        // 캐시가 깨졌으면 그냥 다시 받는다.
+      }
+    }
+
+    return fetchFunction(RELEASES_API_URL, {
+      headers: { Accept: "application/vnd.github+json" },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((releases) => {
+        if (!Array.isArray(releases)) throw new Error("unexpected payload");
+        render(releases);
+        writeCachedReleases(storage, releases);
+      })
+      .catch(() => {
+        section.hidden = true;
+      });
+  }
+
   function createFeedbackSubmission(message, email, config = FEEDBACK_CONFIG) {
     const body = new URLSearchParams({ [config.messageEntry]: message });
     if (email && config.emailEntry) {
@@ -354,8 +564,10 @@
       getDefaultServices,
       isMobileUserAgent,
       normalizeSearchText,
+      parseReleaseBody,
       scoreService,
       searchServices,
+      stripInternalSection,
     };
   }
 
@@ -363,5 +575,10 @@
     initializeLandingSearch(globalScope.document, globalScope.fetch.bind(globalScope));
     initializeLandingFeedback(globalScope.document, globalScope.fetch.bind(globalScope));
     initializeMobileInstallGuide(globalScope.document, globalScope);
+    initializeLandingReleases(
+      globalScope.document,
+      globalScope.fetch.bind(globalScope),
+      globalScope.sessionStorage,
+    );
   }
 })(typeof window !== "undefined" ? window : globalThis);

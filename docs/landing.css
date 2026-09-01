@@ -1151,6 +1151,107 @@ kbd {
   margin-inline: auto;
 }
 
+.section-releases {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-background);
+}
+
+.release-list {
+  max-width: 760px;
+  margin-inline: auto;
+  border-top: 1px solid var(--color-border);
+}
+
+/* 최신 하나만 펼쳐 두고 나머지는 제목 줄만 보인다. 여닫기는 <details>가 맡으므로
+   JS 토글이 없다. 18개가 모두 펼쳐지면 소개 흐름보다 길어진다. */
+.release-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.release-item > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 4px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.release-item > summary::-webkit-details-marker {
+  display: none;
+}
+
+.release-item > summary:hover .release-name {
+  color: var(--color-primary);
+}
+
+.release-item > summary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.release-name {
+  font-size: 19px;
+  font-weight: 700;
+  transition: color var(--transition-fast);
+}
+
+.release-date {
+  flex-shrink: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.release-body {
+  padding: 0 4px 24px;
+  color: var(--color-muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.release-body h4 {
+  margin: 20px 0 8px;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.release-body h4:first-child {
+  margin-top: 0;
+}
+
+.release-body p {
+  margin: 0 0 8px;
+}
+
+.release-body ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.release-body li + li {
+  margin-top: 6px;
+}
+
+.release-body code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--color-surface);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.release-archive {
+  display: block;
+  width: fit-content;
+  margin: 32px auto 0;
+  color: var(--color-muted);
+  font-size: 15px;
+}
+
 .section-browsers {
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
