@@ -17,9 +17,9 @@
   <a href="https://addons.mozilla.org/ko/firefox/addon/linkhu"><img alt="Firefox Add-ons Weekly Downloads" src="https://img.shields.io/amo/dw/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20downloads"></a>
 </p>
 
-[![Chrome Web Store](./docs/assets/store/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
-[![Naver Whale Store](./docs/assets/store/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
-[![Firefox Add-ons](./docs/assets/store/firefox-sm.png)](https://addons.mozilla.org/ko/firefox/addon/linkhu)
+[![Chrome Web Store](./landing/assets/store/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
+[![Naver Whale Store](./landing/assets/store/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
+[![Firefox Add-ons](./landing/assets/store/firefox-sm.png)](https://addons.mozilla.org/ko/firefox/addon/linkhu)
 
 ## 🔗 경희대학교 자주 찾는 웹서비스 바로가기 제공
 ### 🏫 지원 웹서비스
@@ -43,9 +43,9 @@
 
 |                                  실행 화면                                   |                                 팝업 화면                                 |
 | :--------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-|     <img src="docs/assets/screenshots/screenshot.png" alt="Main Screenshot" width="500"/>     | <img src="docs/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
+|     <img src="landing/assets/screenshots/screenshot.png" alt="Main Screenshot" width="500"/>     | <img src="landing/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
 |                                  설정 화면                                   |                                                                           |
-| <img src="docs/assets/screenshots/screenshot-options.png" alt="Options Screenshot" width="500"/> |                                                                           |
+| <img src="landing/assets/screenshots/screenshot-options.png" alt="Options Screenshot" width="500"/> |                                                                           |
 
 ## 🚀 설치 방법
 
@@ -99,7 +99,8 @@ LinKHU/
 │   ├── feedback.js            # 문의 전송
 │   ├── images/                # 카테고리별 서비스 아이콘
 │   └── icons/                 # 확장 프로그램 아이콘
-├── docs/                      # GitHub Pages 랜딩 + 배포/운영 문서
+├── docs/                      # 요구사항·ADR·설계·스펙 + 운영 문서
+├── landing/                   # GitHub Pages 랜딩
 │   ├── index.html             # 랜딩 페이지
 │   ├── landing.{js,css}       # 랜딩 검색·문의·스타일
 │   └── assets/                # 랜딩 데이터, 서비스 아이콘, 스크린샷

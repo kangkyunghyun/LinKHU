@@ -81,7 +81,7 @@ EOF
 ```
 
 - **`문의 내용`이 `필수=X`면 빈 응답이 저장됩니다.** `formUrl`은 공개 페이지의 JS에 그대로 있어 누구나 `formResponse`에 직접 POST할 수 있고, 필수가 아니면 Google이 빈 요청을 그대로 받습니다. 확장과 랜딩이 빈 값을 막아도 그 경로는 우회됩니다. 실제로 응답 9개 중 8개가 빈 채로 쌓인 적이 있습니다(이슈 [#194](https://github.com/kangkyunghyun/LinKHU/issues/194)).
-- **entry ID가 `src/feedback.js`·`docs/landing.js`의 값과 다르면** 보낸 내용이 존재하지 않는 필드로 들어가 `문의 내용`이 빈 채로 저장됩니다.
+- **entry ID가 `src/feedback.js`·`landing/landing.js`의 값과 다르면** 보낸 내용이 존재하지 않는 필드로 들어가 `문의 내용`이 빈 채로 저장됩니다.
 
 폼 질문을 고친 뒤에는 이 점검을 다시 돌립니다.
 

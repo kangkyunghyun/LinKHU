@@ -35,7 +35,7 @@ test("shared rankSites orders by name prefix, name, id, then category", () => {
 });
 
 test("shared rankSites matches landing search order", () => {
-  const { searchServices } = require("../docs/landing");
+  const { searchServices } = require("../landing/landing");
   const services = [
     { id: "info21", name: "인포21", category: "학사·포털" },
     { id: "ecampus", name: "e-Campus", category: "학사·포털" },

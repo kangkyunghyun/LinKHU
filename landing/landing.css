@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  /* 아래 6종은 라이트·다크 모두 src/theme.css의 값과 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* 아래 6종은 라이트·다크 모두 src/theme.css의 값과 동기 유지한다. GitHub Pages가 landing/만 서빙해 파일을 공유할 수 없다. */
   /* 텍스트·강조 전용. 배경을 칠할 때는 --color-primary-fill을 쓴다. */
   --color-primary: #a40f16;
   --color-primary-fill: #a40f16;
@@ -347,7 +347,7 @@ a {
   margin-top: 34px;
 }
 
-/* 모바일 방문자 전용 PC 설치 안내. 기본은 hidden이고 docs/landing.js가 노출한다. */
+/* 모바일 방문자 전용 PC 설치 안내. 기본은 hidden이고 landing/landing.js가 노출한다. */
 .mobile-guide {
   display: block;
   margin-top: 28px;

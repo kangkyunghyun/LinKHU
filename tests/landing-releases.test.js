@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const { parseReleaseBody, stripInternalSection } = require("../docs/landing");
+const { parseReleaseBody, stripInternalSection } = require("../landing/landing");
 const {
   stripInternalSection: stripInPublishScript,
 } = require("../scripts/publish-firefox");
@@ -152,9 +152,9 @@ function runLandingScript({ releases, fetchReleases }) {
 
   vm.createContext(context);
   vm.runInContext(
-    fs.readFileSync(path.join(PROJECT_ROOT, "docs", "landing.js"), "utf8"),
+    fs.readFileSync(path.join(PROJECT_ROOT, "landing", "landing.js"), "utf8"),
     context,
-    { filename: "docs/landing.js" },
+    { filename: "landing/landing.js" },
   );
   // 초기화가 fetch 체인을 돌 때까지 기다린다.
   return new Promise((resolve) => setImmediate(() => resolve(elements)));

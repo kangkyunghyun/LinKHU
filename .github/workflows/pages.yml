@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "docs/**"
+      - "landing/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -35,7 +35,7 @@ jobs:
       - name: Upload landing page
         uses: actions/upload-pages-artifact@v5
         with:
-          path: docs
+          path: landing
 
       - name: Deploy to GitHub Pages
         id: deployment

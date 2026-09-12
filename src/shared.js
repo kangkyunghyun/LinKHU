@@ -1,6 +1,6 @@
 // 팝업(popup.js)과 설정(options.js)이 함께 쓰는 검색/설정 유틸.
-// 랜딩 페이지(docs/landing.js)는 파일을 공유할 수 없으므로,
-// 검색 정규화 규칙을 바꿀 때는 docs/landing.js와 동작을 맞춘다.
+// 랜딩 페이지(landing/landing.js)는 파일을 공유할 수 없으므로,
+// 검색 정규화 규칙을 바꿀 때는 landing/landing.js와 동작을 맞춘다.
 const LinKHUShared = {
   normalize(value) {
     return String(value || "")
@@ -8,7 +8,7 @@ const LinKHUShared = {
       .replace(/\s+/g, "");
   },
 
-  // 점수가 낮을수록 상위 노출. 랜딩 페이지(docs/landing.js)의 scoreService와
+  // 점수가 낮을수록 상위 노출. 랜딩 페이지(landing/landing.js)의 scoreService와
   // 같은 규칙을 유지해야 팝업과 랜딩의 검색 결과 순서가 일치한다.
   scoreSite(site, normalizedQuery) {
     const name = this.normalize(site.name);

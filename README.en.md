@@ -17,9 +17,9 @@ Visit the [homepage](https://kangkyunghyun.github.io/LinKHU/) for a quick overvi
   <a href="https://addons.mozilla.org/firefox/addon/linkhu"><img alt="Firefox Add-ons Weekly Downloads" src="https://img.shields.io/amo/dw/linkhu?style=flat-square&logo=firefoxbrowser&label=firefox%20downloads"></a>
 </p>
 
-[![Chrome Web Store](./docs/assets/store/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
-[![Naver Whale Store](./docs/assets/store/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
-[![Firefox Add-ons](./docs/assets/store/firefox-sm.png)](https://addons.mozilla.org/firefox/addon/linkhu)
+[![Chrome Web Store](./landing/assets/store/chrome-web-store.png)](https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp)
+[![Naver Whale Store](./landing/assets/store/whalestore-sm.png)](https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc)
+[![Firefox Add-ons](./landing/assets/store/firefox-sm.png)](https://addons.mozilla.org/firefox/addon/linkhu)
 
 ## 🔗 Quick Access to Kyung Hee University Web Services
 
@@ -44,9 +44,9 @@ Use the **Feedback** form at the bottom of the popup or the options page to send
 
 |                                  Main Screen                                  |                                Popup Screen                                |
 | :--------------------------------------------------------------------------: | :-----------------------------------------------------------------------: |
-|     <img src="docs/assets/screenshots/screenshot.png" alt="Main Screenshot" width="500"/>     | <img src="docs/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
+|     <img src="landing/assets/screenshots/screenshot.png" alt="Main Screenshot" width="500"/>     | <img src="landing/assets/screenshots/screenshot-popup.png" alt="Popup Screenshot" width="270"/> |
 |                                Options Screen                                 |                                                                           |
-| <img src="docs/assets/screenshots/screenshot-options.png" alt="Options Screenshot" width="500"/> |                                                                           |
+| <img src="landing/assets/screenshots/screenshot-options.png" alt="Options Screenshot" width="500"/> |                                                                           |
 
 ## 🚀 Installation
 
@@ -104,7 +104,8 @@ LinKHU/
 │   ├── feedback.js            # Feedback submission
 │   ├── images/                # Service icons by category
 │   └── icons/                 # Extension icons
-├── docs/                      # GitHub Pages landing + operation docs
+├── docs/                      # requirements, ADR, design, spec + operation docs
+├── landing/                   # GitHub Pages landing
 │   ├── index.html             # Landing page
 │   ├── landing.{js,css}       # Landing search/feedback/styles
 │   └── assets/                # Landing data, service icons, screenshots

@@ -18,7 +18,7 @@
   color-scheme: light;
 
   /* 주색 계열 */
-  /* primary 계열과 on-primary는 docs/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 docs/만 서빙해 파일을 공유할 수 없다. */
+  /* primary 계열과 on-primary는 landing/landing.css의 :root와 값을 동기 유지한다. GitHub Pages가 landing/만 서빙해 파일을 공유할 수 없다. */
   /* 텍스트·강조 전용. 배경을 칠할 때는 --color-primary-fill을 쓴다. */
   --color-primary: #a40f16;
   /* 채움 배경 전용(버튼, 배지, 브랜드 패널) */
@@ -102,7 +102,7 @@
 /* 모서리 반경 — 여백과 같은 이유로 값 이름을 쓴다. 크기로 고르는 값이라
    --radius-8은 8px이다. 확장이 쓰는 값은 이 넷뿐이다.
 
-   docs/landing.css는 --radius-sm/md/lg를 자기 :root에 따로 갖는다. 이름 체계를
+   landing/landing.css는 --radius-sm/md/lg를 자기 :root에 따로 갖는다. 이름 체계를
    일부러 다르게 둬서 두 파일의 토큰이 같은 이름 다른 값으로 겹치지 않게 한다. */
 :root {
   --radius-4: 4px;

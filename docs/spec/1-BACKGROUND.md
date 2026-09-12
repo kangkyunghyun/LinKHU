@@ -52,7 +52,7 @@ LinKHU가 만드는 가치는 두 가지다.
 
 - **로그인·인증 대행** — LinKHU는 사용자를 대신해 로그인하지 않는다. 각 서비스의 인증은 해당 사이트에서 이뤄진다.
 - **교내 서비스 데이터 크롤링·중계** — 공지, 성적, 식단 같은 콘텐츠를 가져오지 않는다. 이동만 시킨다.
-- **사용자 행동 수집** — 분석 SDK, 텔레메트리, 원격 로그가 없다. 근거는 [3-3 결정 기록](3-3-DESIGN-DECISIONS.md)을 참고한다.
+- **사용자 행동 수집** — 분석 SDK, 텔레메트리, 원격 로그가 없다. 근거는 [ADR 0003 최소 권한](../adr/0003-least-privilege.md)을 참고한다.
 - **계정 기반 동기화** — 설정은 브라우저 로컬 저장소에만 남는다. 서버가 없다.
 - **경희대학교 공식 서비스 지위** — LinKHU는 공식 산출물이 아니다. 공식 색상을 쓰되([3-2 UI 규칙](3-2-DESIGN-UI-RULES.md)), 대학을 사칭하지 않는다.
 
@@ -113,7 +113,8 @@ src/            확장 프로그램 소스. 이 폴더 전체가 패키징 대�
   icons/            확장 아이콘 (16/48/128)
   images/           서비스 아이콘 (common/colleges/departments)
 
-docs/           GitHub Pages로 서빙되는 랜딩 + 운영 문서
+landing/        GitHub Pages로 서빙되는 랜딩
+docs/           요구사항·ADR·설계·스펙과 운영 문서
   index.html, landing.css, landing.js   랜딩 페이지
   assets/services.json                  data.js에서 생성된 랜딩 검색 데이터
   assets/images/                        src/images/에서 복사된 서비스 아이콘
@@ -138,7 +139,7 @@ spec/           이 스펙 문서
 | **기본 목록(default list)** | `userOrder`가 없을 때 쓰는 서비스 목록. `LinKHUShared.DEFAULT_SITE_IDS`에 적힌 10개를 이름 가나다순으로 사용한다. 카테고리와 별개의 개념이다. |
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
 | **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
-| **랜딩(Landing)** | GitHub Pages로 서빙되는 `docs/index.html` 소개 페이지. |
+| **랜딩(Landing)** | GitHub Pages로 서빙되는 `landing/index.html` 소개 페이지. |
 | **디자인 토큰(Design Token)** | `src/theme.css`의 `:root` CSS 변수. 색상 값의 단일 소스다. [3-2](3-2-DESIGN-UI-RULES.md) 참고. |
 
 ## 1-7 검토 중인 범위 확장
@@ -152,5 +153,5 @@ spec/           이 스펙 문서
 확정 전까지 지켜야 할 것은 다음이다.
 
 - **외부 공지·홍보에서 이 기능을 예정된 것으로 말하지 않는다** (MUST). 구현되지 않은 기능을 알리면 약속이 되고, 무산되면 신뢰를 잃는다. 릴리스 공지 규칙은 [7-DEPLOYMENT](7-DEPLOYMENT.md)에 있다.
-- 착수한다면 §1-3의 "하지 않는 것"과 충돌하는지 먼저 판단한다 (MUST). 특히 노출·클릭 집계가 필요해지는 순간 [3-3의 최소 권한 결정](3-3-DESIGN-DECISIONS.md)과 정면으로 부딪힌다. 집계 없이 운영할 수 있는 형태인지가 착수 조건이다.
+- 착수한다면 §1-3의 "하지 않는 것"과 충돌하는지 먼저 판단한다 (MUST). 특히 노출·클릭 집계가 필요해지는 순간 [ADR 0003 최소 권한](../adr/0003-least-privilege.md)과 정면으로 부딪힌다. 집계 없이 운영할 수 있는 형태인지가 착수 조건이다.
 - 팝업은 320px 폭의 도구 화면이다. 배너가 바로가기 조작을 밀어내면 안 된다 ([3-2](3-2-DESIGN-UI-RULES.md)).
