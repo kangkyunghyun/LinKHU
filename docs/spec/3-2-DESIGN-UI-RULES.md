@@ -272,7 +272,7 @@ npm run validate:dark-icons    # 짝 검증만 (파일을 쓰지 않음)
 
 **SVG 원본**
 
-새로 그리는 아이콘은 **SVG 원본을 `design/icons/<카테고리>/<id>.svg`에 남긴다** (SHOULD). 색 규칙이 바뀌면 다시 내보낼 수 있다. 기존 자산은 SVG 원본이 없으므로 소급 적용 대상이 아니다.
+새로 그리는 아이콘은 **SVG 원본을 `assets/icons/<카테고리>/<id>.svg`에 남긴다** (SHOULD). 색 규칙이 바뀌면 다시 내보낼 수 있다. 기존 자산은 SVG 원본이 없으므로 소급 적용 대상이 아니다.
 
 - **`src/` 안에 두지 않는다** (MUST). `scripts/package-extension.js`는 `src/` 아래 모든 파일을 확장 패키지에 넣으므로, SVG가 그 안에 있으면 사용자에게 배포되는 확장에 함께 들어간다. `design/`은 패키징 대상이 아니라 제외 규칙을 따로 둘 필요가 없다.
 - 그리는 절차와 실측된 도안 규칙(캔버스, 선 두께, 여백, 붉은색 비중)은 `.claude/skills/service-icon/SKILL.md`에 있다.
