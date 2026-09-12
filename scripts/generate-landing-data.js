@@ -5,7 +5,7 @@ const { loadSiteList } = require("./validate-data");
 
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
-const ASSETS_ROOT = path.join(PROJECT_ROOT, "docs", "assets");
+const ASSETS_ROOT = path.join(PROJECT_ROOT, "landing", "assets");
 const OUTPUT_FILE = path.join(ASSETS_ROOT, "services.json");
 const ICON_OUTPUT_ROOT = path.join(ASSETS_ROOT, "images");
 

@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 
-const { createFeedbackSubmission } = require("../docs/landing");
+const { createFeedbackSubmission } = require("../landing/landing");
 const Feedback = require("../src/feedback");
 
 const CONFIG = {

@@ -4,9 +4,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const { PC_INSTALL_URL, isMobileUserAgent } = require("../docs/landing");
+const { PC_INSTALL_URL, isMobileUserAgent } = require("../landing/landing");
 
-const DOCS_ROOT = path.join(__dirname, "..", "docs");
+const LANDING_ROOT = path.join(__dirname, "..", "landing");
 const QR_TARGET_URL = `${PC_INSTALL_URL}?utm_source=qr`;
 
 test("mobile detection covers extension-less browsers only", () => {
@@ -40,19 +40,19 @@ test("iPadOS is detected by touch points because its UA says Macintosh", () => {
 });
 
 test("mobile install guide markup and QR asset stay in sync", () => {
-  const markup = fs.readFileSync(path.join(DOCS_ROOT, "index.html"), "utf8");
+  const markup = fs.readFileSync(path.join(LANDING_ROOT, "index.html"), "utf8");
 
   assert.ok(markup.includes(PC_INSTALL_URL), "안내 UI가 복사 대상 주소를 보여줘야 한다");
   assert.ok(markup.includes("assets/pc-install-qr.png"), "QR 이미지를 참조해야 한다");
   assert.ok(
-    fs.existsSync(path.join(DOCS_ROOT, "assets", "pc-install-qr.png")),
+    fs.existsSync(path.join(LANDING_ROOT, "assets", "pc-install-qr.png")),
     "QR 이미지 파일이 있어야 한다",
   );
   // QR 이미지를 다시 만들 때 쓸 대상 주소. landing.js 주석과 함께 유지한다.
   assert.equal(QR_TARGET_URL, "https://kangkyunghyun.github.io/LinKHU/?utm_source=qr");
 });
 
-// docs/landing.js는 브라우저 전역에서 스스로 초기화한다. 검색·피드백 요소는 없는 문서를
+// landing/landing.js는 브라우저 전역에서 스스로 초기화한다. 검색·피드백 요소는 없는 문서를
 // 만들어 두 모듈이 일찍 빠져나가게 하고, 모바일 안내 요소만 붙여 실제 배선을 확인한다.
 class StubElement {
   constructor() {
@@ -99,9 +99,9 @@ function runLandingScript({ userAgent, maxTouchPoints, gtag, clipboard }) {
 
   vm.createContext(context);
   vm.runInContext(
-    fs.readFileSync(path.join(DOCS_ROOT, "landing.js"), "utf8"),
+    fs.readFileSync(path.join(LANDING_ROOT, "landing.js"), "utf8"),
     context,
-    { filename: "docs/landing.js" },
+    { filename: "landing/landing.js" },
   );
   return elements;
 }

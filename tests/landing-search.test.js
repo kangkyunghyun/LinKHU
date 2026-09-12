@@ -5,7 +5,7 @@ const {
   getDefaultServices,
   normalizeSearchText,
   searchServices,
-} = require("../docs/landing");
+} = require("../landing/landing");
 
 const SERVICES = [
   { id: "info21", name: "인포21", category: "학사·포털", url: "https://portal.khu.ac.kr" },
