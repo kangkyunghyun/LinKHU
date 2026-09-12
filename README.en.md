@@ -88,7 +88,7 @@ npm run build   # tests + data validation + packaging in one step
 ```
 
 See `scripts` in [package.json](./package.json) for individual commands and [AGENTS.md](./AGENTS.md) for working conventions.
-Release and store deployment steps are documented in [Release Process](docs/guides/release-process.md).
+Release and store deployment steps are documented in [Release Process](docs/guides/1-RELEASE-PROCESS.md).
 
 ## 📁 Project Structure
 

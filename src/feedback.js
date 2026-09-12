@@ -1,4 +1,4 @@
-// 문의 전송 설정. docs/guides/feedback-setup.md 절차대로 Google Form을 만든 뒤
+// 문의 전송 설정. docs/guides/6-FEEDBACK-SETUP.md 절차대로 Google Form을 만든 뒤
 // 아래 두 값을 채우면 팝업/설정 페이지의 문의 기능이 활성화된다.
 // Google Forms 전송 주소는 공개돼도 안전하므로 확장 소스에 그대로 둔다.
 const FEEDBACK_CONFIG = {
