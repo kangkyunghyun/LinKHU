@@ -2,7 +2,7 @@
 
 `src/data.js`의 `MASTER_SITE_LIST`는 LinKHU에서 가장 자주 바뀌고, 잘못되면 가장 눈에 띄게 깨지는 자산이다. 서비스가 하나라도 스키마를 어기면 팝업에 깨진 아이콘이 뜨거나 랜딩 검색이 어긋난다.
 
-이 문서는 그 스키마와 검증 규칙을 확정한다. [`AGENTS.md`의 데이터 변경 규칙](../AGENTS.md)이 "무엇을 확인하는가"를 짧게 정하고, 이 문서는 그 계약을 필드 단위까지 구체화한다.
+이 문서는 그 스키마와 검증 규칙을 확정한다. [`AGENTS.md`의 데이터 변경 규칙](../../AGENTS.md)이 "무엇을 확인하는가"를 짧게 정하고, 이 문서는 그 계약을 필드 단위까지 구체화한다.
 
 **문서와 검증기가 어긋났을 때**는 어느 쪽을 고칠지가 상황에 따라 다르다.
 
@@ -170,7 +170,7 @@ src/images/departments/   학과
 
 확장 프로그램 자체 아이콘(`src/icons/icon16.png`, `icon48.png`, `icon128.png`)은 서비스 아이콘과 별개이며 위 검증 대상이 아니다. `icon48.png`는 서비스 아이콘 로딩이 실패했을 때의 대체 이미지로도 쓰인다.
 
-도안 규칙은 [아이콘 스타일 가이드](../docs/icon-style-guide.md)를 따른다. 표시 크기와 관련한 제약은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
+도안 규칙은 [아이콘 스타일 가이드](../icon-style-guide.md)를 따른다. 표시 크기와 관련한 제약은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
 
 ## 4-5 검증 파이프라인
 
@@ -188,8 +188,8 @@ src/images/departments/   학과
 
 | 산출물 | 내용 |
 | --- | --- |
-| `docs/assets/services.json` | `id`, `name`, `url`, `category`, `imgSrc` 직렬화 (들여쓰기 2, 끝에 개행) |
-| `docs/assets/images/**` | `src/images/`에서 실제 쓰이는 아이콘만 복사 |
+| `landing/assets/services.json` | `id`, `name`, `url`, `category`, `imgSrc` 직렬화 (들여쓰기 2, 끝에 개행) |
+| `landing/assets/images/**` | `src/images/`에서 실제 쓰이는 아이콘만 복사 |
 
 쓰이지 않게 된 아이콘 복사본은 삭제한다. 이 산출물은 **생성물이므로 직접 수정하지 않는다** (MUST).
 

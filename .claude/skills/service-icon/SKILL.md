@@ -26,7 +26,7 @@ description: LinKHU에 새 서비스 아이콘을 만들 때 사용. 기존 아�
 
 **SVG에 적는 값은 라이트 벌 기준 하나뿐이다.** 다크 벌은 생성기가 만든다.
 
-**팔레트는 세 가지뿐이다 — 브랜드 레드, 검정, 투명.** 값의 원본은 [`spec/3-2-DESIGN-UI-RULES.md`](../../../spec/3-2-DESIGN-UI-RULES.md) §3-2-4다.
+**팔레트는 세 가지뿐이다 — 브랜드 레드, 검정, 투명.** 값의 원본은 [`docs/spec/3-2-DESIGN-UI-RULES.md`](../../../docs/spec/3-2-DESIGN-UI-RULES.md) §3-2-4다.
 
 | 용도 | SVG에 적는 값 | 다크 벌 |
 |---|---|---|
@@ -43,7 +43,7 @@ description: LinKHU에 새 서비스 아이콘을 만들 때 사용. 기존 아�
 - 다크 두 값도 스펙 §3-2-4가 원본이다. **SVG에 다크 색을 적지 말고** `npm run generate:dark-icons`에 맡긴다.
 - 다크 두 색은 다크 카드 위에서 비텍스트 기준 3:1을 넘는다. 실측 대비는 스펙 §3-2-4에 있다.
 
-**빨강을 왜 두 값으로 나누는가** — 진한 라이트용 빨강은 다크 배경에서 2점대로 묻히고, 밝은 다크용 빨강은 라이트 배경에서 대비가 얕다. 한 값으로 양쪽을 만족시키려면 중간 톤이 되어 라이트가 원래 대비를 크게 잃는다. 실패 경과는 [`spec/3-3-DESIGN-DECISIONS.md`](../../../spec/3-3-DESIGN-DECISIONS.md) §3-3-16에 있다.
+**빨강을 왜 두 값으로 나누는가** — 진한 라이트용 빨강은 다크 배경에서 2점대로 묻히고, 밝은 다크용 빨강은 라이트 배경에서 대비가 얕다. 한 값으로 양쪽을 만족시키려면 중간 톤이 되어 라이트가 원래 대비를 크게 잃는다. 실패 경과는 [`docs/spec/3-3-DESIGN-DECISIONS.md`](../../../docs/spec/3-3-DESIGN-DECISIONS.md) §3-3-16에 있다.
 
 ### ⚠️ 저장된 PNG의 픽셀값은 SVG에 적은 값과 다르다
 
@@ -119,7 +119,7 @@ npm run generate:dark-icons
   imgSrc: "images/common/aikhu.png", category: "교육·역량" }
 ```
 
-규칙은 [`spec/4-DATA.md`](../../../spec/4-DATA.md)를 따른다.
+규칙은 [`docs/spec/4-DATA.md`](../../../docs/spec/4-DATA.md)를 따른다.
 
 ### 5. 검증한다
 

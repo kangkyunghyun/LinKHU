@@ -131,15 +131,15 @@ host_permissions:  ["https://api.github.com/repos/kangkyunghyun/LinKHU/releases/
 
 **결정**
 
-3번을 택했다. `docs/` 폴더를 GitHub Pages로 배포하고, `docs/**` 변경이 `main`에 들어오면 자동 배포한다.
+3번을 택했다. `docs/` 폴더를 GitHub Pages로 배포하고, `landing/**` 변경이 `main`에 들어오면 자동 배포한다.
 
 **영향**
 
 - 비용이 0이고 저장소와 함께 버전 관리된다.
 - 대가로 **`docs/` 폴더만 서빙된다**. 랜딩이 `src/`의 파일을 참조할 수 없다. 이 제약이 두 곳에서 구조를 결정한다.
-  - 검색 로직: 랜딩이 `docs/landing.js`에 규칙을 따로 구현하고, 확장 구현과의 일치를 테스트로 강제한다.
-  - 색상 토큰: 랜딩이 `docs/landing.css`에 토큰 값을 복제하고, 동기 유지를 주석과 규칙으로 관리한다 ([3-2](3-2-DESIGN-UI-RULES.md)).
-- 서비스 목록도 같은 이유로 `docs/assets/services.json`에 생성해 둔다. 이 생성물이 최신인지는 `npm run build`가 검사한다.
+  - 검색 로직: 랜딩이 `landing/landing.js`에 규칙을 따로 구현하고, 확장 구현과의 일치를 테스트로 강제한다.
+  - 색상 토큰: 랜딩이 `landing/landing.css`에 토큰 값을 복제하고, 동기 유지를 주석과 규칙으로 관리한다 ([3-2](3-2-DESIGN-UI-RULES.md)).
+- 서비스 목록도 같은 이유로 `landing/assets/services.json`에 생성해 둔다. 이 생성물이 최신인지는 `npm run build`가 검사한다.
 - 랜딩이 정적 페이지이므로 서버 로직이 필요한 기능은 넣을 수 없다. 문의 폼이 Google Forms를 쓰는 이유이기도 하다.
 
 ## 3-3-5 PR #98 반려 — 랜딩 디자인 언어의 확장 이식 거부
@@ -576,7 +576,7 @@ LinKHU가 제공하는 것은 "학과 목록"이 아니라 "바로가기"다. �
 
 **대안**
 
-1. **빌드 시점 생성** — 릴리스 때 `release-notes/*.md`를 읽어 `docs/assets/releases.json`을 만든다
+1. **빌드 시점 생성** — 릴리스 때 `release-notes/*.md`를 읽어 `landing/assets/releases.json`을 만든다
 2. **런타임 fetch** — 브라우저가 GitHub Releases API를 부른다 — 채택
 3. 손으로 랜딩에 옮겨 적는다 — 릴리스마다 사람이 한 번 더 해야 하므로 검토에서 제외
 
@@ -590,7 +590,7 @@ LinKHU가 제공하는 것은 "학과 목록"이 아니라 "바로가기"다. �
 
 릴리스 노트의 `### Internal`은 저장소 기록이지 사용자에게 보일 것이 아니다. 그대로 뿌리면 "토큰으로 통합", "폭 가드 추가"가 학생에게 보인다. Firefox 배포에서 이미 한 번 새어 나갔다([#171](https://github.com/kangkyunghyun/LinKHU/issues/171)).
 
-거르는 규칙은 `scripts/publish-firefox.js`와 `docs/landing.js`에 **두 벌로 있다.** Node 스크립트와 브라우저라 파일을 공유할 수 없기 때문이다. 검색 랭킹이 같은 이유로 두 벌인 것과 같다([3-1](3-1-DESIGN-SOFTWARE-ARCHITECTURE.md)). **주석으로 서로를 가리키는 데서 그치지 않고, 실제 `release-notes/*.md` 전부에 두 구현을 돌려 결과가 같은지 테스트로 고정한다** (MUST). 갈라지면 `npm test`가 실패한다.
+거르는 규칙은 `scripts/publish-firefox.js`와 `landing/landing.js`에 **두 벌로 있다.** Node 스크립트와 브라우저라 파일을 공유할 수 없기 때문이다. 검색 랭킹이 같은 이유로 두 벌인 것과 같다([3-1](3-1-DESIGN-SOFTWARE-ARCHITECTURE.md)). **주석으로 서로를 가리키는 데서 그치지 않고, 실제 `release-notes/*.md` 전부에 두 구현을 돌려 결과가 같은지 테스트로 고정한다** (MUST). 갈라지면 `npm test`가 실패한다.
 
 **마크다운 파서를 넣지 않는다** (MUST)
 

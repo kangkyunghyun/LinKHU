@@ -19,7 +19,7 @@
 | --- | --- | --- | --- |
 | 팝업 | `src/popup.html` | 확장 팝업 | 내 바로가기 표시, 검색, 이동 |
 | 설정 | `src/options.html` | 탭 (`open_in_tab: true`) | 내 바로가기 선택과 정렬 |
-| 랜딩 | `docs/index.html` | GitHub Pages | 제품 소개, 지원 서비스 검색 |
+| 랜딩 | `landing/index.html` | GitHub Pages | 제품 소개, 지원 서비스 검색 |
 
 팝업과 설정은 확장 컨텍스트에서 실행되므로 `chrome.*` API를 쓴다. 랜딩은 **일반 웹페이지**이므로 `chrome.*`를 쓸 수 없고 확장의 파일도 참조할 수 없다.
 
@@ -49,7 +49,7 @@ options.html  <head> theme.js
 
 **의존 대상은 반드시 자신보다 먼저 로드되어야 한다** (MUST). `popup.js`는 `MASTER_SITE_LIST`와 `LinKHUShared`가 이미 정의되어 있다고 가정하고 실행된다.
 
-`shared.js`, `version.js`, `feedback.js`, `docs/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되고 Node 테스트에서는 `require`로 불러올 수 있게 하기 위한 장치다 (MUST). 새 공용 모듈을 추가할 때도 같은 패턴을 따른다.
+`shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되고 Node 테스트에서는 `require`로 불러올 수 있게 하기 위한 장치다 (MUST). 새 공용 모듈을 추가할 때도 같은 패턴을 따른다.
 
 문의 폼은 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다.
 
@@ -66,7 +66,7 @@ options.html  <head> theme.js
 
 `rankSites`는 동점 처리에 원본 인덱스를 쓴다 (MUST). 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
 
-랜딩의 `docs/landing.js`는 같은 규칙을 `normalizeSearchText`, `scoreService`, `searchServices`로 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꿔야 한다** (MUST). 두 구현의 결과 일치는 테스트로 고정되어 있다 ([5-TESTING](5-TESTING.md) 참고).
+랜딩의 `landing/landing.js`는 같은 규칙을 `normalizeSearchText`, `scoreService`, `searchServices`로 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꿔야 한다** (MUST). 두 구현의 결과 일치는 테스트로 고정되어 있다 ([5-TESTING](5-TESTING.md) 참고).
 
 ## 3-1-4 저장소
 
@@ -113,13 +113,13 @@ src/data.js  (MASTER_SITE_LIST — 단일 소스)
       ├── src/popup.js, src/options.js        직접 참조 (전역)
       │
       └── npm run generate:landing-data
-              ├── docs/assets/services.json    id·name·url·category·imgSrc 직렬화
-              └── docs/assets/images/**        src/images/의 사용 중인 아이콘 복사
+              ├── landing/assets/services.json    id·name·url·category·imgSrc 직렬화
+              └── landing/assets/images/**        src/images/의 사용 중인 아이콘 복사
                         │
-                        └── docs/landing.js    fetch("assets/services.json")
+                        └── landing/landing.js    fetch("assets/services.json")
 ```
 
-- `docs/assets/services.json`과 `docs/assets/images/`는 **생성물이다. 직접 수정하지 않는다** (MUST).
+- `landing/assets/services.json`과 `landing/assets/images/`는 **생성물이다. 직접 수정하지 않는다** (MUST).
 - 생성 스크립트는 사용 중인 아이콘만 복사하고, 더 이상 쓰이지 않는 복사본은 삭제한다.
 - `npm run validate:landing-data`(`--check`)가 산출물이 최신인지 검사하며, `npm run build`에 포함되어 있다. 데이터를 바꾸고 생성을 잊으면 CI가 막는다.
 

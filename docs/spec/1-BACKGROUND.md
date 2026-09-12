@@ -113,7 +113,8 @@ src/            확장 프로그램 소스. 이 폴더 전체가 패키징 대�
   icons/            확장 아이콘 (16/48/128)
   images/           서비스 아이콘 (common/colleges/departments)
 
-docs/           GitHub Pages로 서빙되는 랜딩 + 운영 문서
+landing/        GitHub Pages로 서빙되는 랜딩
+docs/           요구사항·ADR·설계·스펙과 운영 문서
   index.html, landing.css, landing.js   랜딩 페이지
   assets/services.json                  data.js에서 생성된 랜딩 검색 데이터
   assets/images/                        src/images/에서 복사된 서비스 아이콘
@@ -138,7 +139,7 @@ spec/           이 스펙 문서
 | **기본 목록(default list)** | `userOrder`가 없을 때 쓰는 서비스 목록. `LinKHUShared.DEFAULT_SITE_IDS`에 적힌 10개를 이름 가나다순으로 사용한다. 카테고리와 별개의 개념이다. |
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
 | **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
-| **랜딩(Landing)** | GitHub Pages로 서빙되는 `docs/index.html` 소개 페이지. |
+| **랜딩(Landing)** | GitHub Pages로 서빙되는 `landing/index.html` 소개 페이지. |
 | **디자인 토큰(Design Token)** | `src/theme.css`의 `:root` CSS 변수. 색상 값의 단일 소스다. [3-2](3-2-DESIGN-UI-RULES.md) 참고. |
 
 ## 1-7 검토 중인 범위 확장

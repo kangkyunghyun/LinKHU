@@ -2,7 +2,7 @@
 
 LinKHU는 경희대학교 주요 웹서비스 바로가기를 제공하는 브라우저 확장 프로그램이다.
 
-이 폴더는 "무엇을 왜 이렇게 만들었는가"를 기록한다. "어떻게 일하는가"(이슈·브랜치·커밋·PR·검증 절차)는 [`AGENTS.md`](../AGENTS.md)가 원본이며, 여기서 반복하지 않는다. 운영 절차 문서(릴리스, 스토어 배포, 아이콘 가이드 등)는 [`docs/`](../docs)에 있고, 이 폴더는 링크로만 연결한다.
+이 폴더는 "무엇을 왜 이렇게 만들었는가"를 기록한다. "어떻게 일하는가"(이슈·브랜치·커밋·PR·검증 절차)는 [`AGENTS.md`](../../AGENTS.md)가 원본이며, 여기서 반복하지 않는다. 운영 절차 문서(릴리스, 스토어 배포, 아이콘 가이드 등)는 [`docs/`](..)에 있고, 이 폴더는 링크로만 연결한다.
 
 ## 문서 상태
 
@@ -92,12 +92,12 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 
 | 주제 | 원본 | 다른 문서의 역할 |
 | --- | --- | --- |
-| 이슈·브랜치·커밋·PR 절차 | [`AGENTS.md`](../AGENTS.md) | 반복하지 않음 |
+| 이슈·브랜치·커밋·PR 절차 | [`AGENTS.md`](../../AGENTS.md) | 반복하지 않음 |
 | 데이터 스키마·필드 규칙·삭제 절차 | [4-DATA](4-DATA.md) | `2-2`는 운영자 판단 지점만 |
 | 검증·생성 스크립트 실행 순서 | [4-DATA](4-DATA.md) | `7`은 CI에서 언제 도는지만 |
-| 릴리스 실행 절차 | [`docs/release-process.md`](../docs/release-process.md) | `2-2`는 판단 지점, `7`은 자동화 경계 |
-| 스토어 배포 체크리스트 | [`docs/store-release-checklist.md`](../docs/store-release-checklist.md) | `7`은 경로와 자동화 범위 |
+| 릴리스 실행 절차 | [`docs/release-process.md`](../release-process.md) | `2-2`는 판단 지점, `7`은 자동화 경계 |
+| 스토어 배포 체크리스트 | [`docs/store-release-checklist.md`](../store-release-checklist.md) | `7`은 경로와 자동화 범위 |
 | 색상 값·토큰 계약 | [3-2](3-2-DESIGN-UI-RULES.md) | 다른 문서는 참조만 |
-| 아이콘 도안 규칙 | [`docs/icon-style-guide.md`](../docs/icon-style-guide.md) | `3-2`는 표시 크기 제약과 임시 색상 규칙 |
+| 아이콘 도안 규칙 | [`docs/icon-style-guide.md`](../icon-style-guide.md) | `3-2`는 표시 크기 제약과 임시 색상 규칙 |
 | 수동 검증 항목 | [5-TESTING](5-TESTING.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
 | 결정의 배경과 대안 | [3-3](3-3-DESIGN-DECISIONS.md) | 다른 문서는 결과만 쓰고 링크 |
