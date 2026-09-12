@@ -40,15 +40,15 @@ spec/*.md                이제 이렇게 동작한다        ── 코드와 �
 | [운영 가이드](guides/README.md) | 운영 절차의 읽는 순서와 책임 |
 | [배포 문구](copy/README.md) | 스토어·커뮤니티 문구의 읽는 순서와 책임 |
 | [1-RELEASE-PROCESS.md](guides/1-RELEASE-PROCESS.md) | 릴리스 준비부터 스토어 배포까지 |
-| [2-STORE-RELEASE-CHECKLIST.md](guides/2-STORE-RELEASE-CHECKLIST.md) | 스토어별 제출 절차 |
-| [1-STORE-LISTING.md](copy/1-STORE-LISTING.md) | 스토어 설명 원본 |
-| [2-COMMUNITY-POST.md](copy/2-COMMUNITY-POST.md) | 커뮤니티 홍보글 원본 |
-| [3-CHROME-WEB-STORE.md](guides/3-CHROME-WEB-STORE.md) | Chrome 자동 배포 |
-| [4-FIREFOX-ADDONS.md](guides/4-FIREFOX-ADDONS.md) | Firefox 자동 배포 |
-| [5-WHALE-STORE.md](guides/5-WHALE-STORE.md) | Whale 수동 배포 |
-| [6-FEEDBACK-SETUP.md](guides/6-FEEDBACK-SETUP.md) | 문의 채널(Google Form) 연결 |
-| [7-ICON-STYLE-GUIDE.md](guides/7-ICON-STYLE-GUIDE.md) | 서비스 아이콘 도안 규칙 |
-| [8-SCREENSHOT-GUIDE.md](guides/8-SCREENSHOT-GUIDE.md) | 스크린샷 촬영 기준 |
+| [2-1-STORE-RELEASE-CHECKLIST.md](guides/2-1-STORE-RELEASE-CHECKLIST.md) | 스토어별 제출 절차 |
+| [1-1-STORE-LISTING.md](copy/1-1-STORE-LISTING.md) | 스토어 설명 원본 |
+| [1-2-COMMUNITY-POST.md](copy/1-2-COMMUNITY-POST.md) | 커뮤니티 홍보글 원본 |
+| [2-2-CHROME-WEB-STORE.md](guides/2-2-CHROME-WEB-STORE.md) | Chrome 자동 배포 |
+| [2-3-FIREFOX-ADDONS.md](guides/2-3-FIREFOX-ADDONS.md) | Firefox 자동 배포 |
+| [2-4-WHALE-STORE.md](guides/2-4-WHALE-STORE.md) | Whale 수동 배포 |
+| [3-FEEDBACK-SETUP.md](guides/3-FEEDBACK-SETUP.md) | 문의 채널(Google Form) 연결 |
+| [4-1-ICON-STYLE-GUIDE.md](guides/4-1-ICON-STYLE-GUIDE.md) | 서비스 아이콘 도안 규칙 |
+| [4-2-SCREENSHOT-GUIDE.md](guides/4-2-SCREENSHOT-GUIDE.md) | 스크린샷 촬영 기준 |
 | [supported-services.md](supported-services.md) | 지원 서비스 목록 (생성물) |
 
 GitHub Pages 랜딩은 [`landing/`](../landing)에 있다. 이 폴더는 사이트로 배포되지 않는다.

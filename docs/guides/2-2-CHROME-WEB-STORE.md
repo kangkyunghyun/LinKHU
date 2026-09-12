@@ -1,19 +1,19 @@
-# 3. Chrome Web Store 자동 배포
+# 2-2. Chrome Web Store 자동 배포
 
 Chrome Web Store 배포는 GitHub Actions의 `Publish Chrome Web Store` 워크플로우에서 수동으로 실행한다 (MUST).
 
 ```text
-§3-1   동작 범위                                       실행 조건과 업로드 범위
-§3-2   필요한 GitHub Actions secrets                   배포 자격 증명
-§3-3   실행 방법                                       Actions 수동 실행
-§3-4   실행 후 확인                                    응답과 심사 상태 확인
-§3-5   사전 확인                                       릴리스와 등록 정보 확인
-§3-6   토큰 만료 대응                                  원인 판별과 토큰 재발급
-§3-7   심사 중 업로드 실패 대응                        심사 중 아이템의 재시도
-§3-8   참고 문서                                       공식 API와 OAuth 문서
+§2-2-1   동작 범위                                       실행 조건과 업로드 범위
+§2-2-2   필요한 GitHub Actions secrets                   배포 자격 증명
+§2-2-3   실행 방법                                       Actions 수동 실행
+§2-2-4   실행 후 확인                                    응답과 심사 상태 확인
+§2-2-5   사전 확인                                       릴리스와 등록 정보 확인
+§2-2-6   토큰 만료 대응                                  원인 판별과 토큰 재발급
+§2-2-7   심사 중 업로드 실패 대응                        심사 중 아이템의 재시도
+§2-2-8   참고 문서                                       공식 API와 OAuth 문서
 ```
 
-## 3-1 동작 범위
+## 2-2-1 동작 범위
 
 - `main` 브랜치에서만 실행한다 (MUST).
 - 입력한 버전, `src/manifest.json`의 `version`, 현재 커밋의 태그가 일치해야 한다 (MUST).
@@ -22,7 +22,7 @@ Chrome Web Store 배포는 GitHub Actions의 `Publish Chrome Web Store` 워크�
 - Chrome Web Store API로 ZIP 패키지를 업로드한다 (MUST).
 - Chrome Web Store API로 publish 요청을 보내 심사에 제출한다 (MUST).
 
-## 3-2 필요한 GitHub Actions secrets
+## 2-2-2 필요한 GitHub Actions secrets
 
 - `CHROME_CLIENT_ID`
 - `CHROME_CLIENT_SECRET`
@@ -31,7 +31,7 @@ Chrome Web Store 배포는 GitHub Actions의 `Publish Chrome Web Store` 워크�
 
 Chrome Web Store extension ID는 워크플로우에 `ihidkmjkpfphgljieecfcikljaopcldp`로 고정되어 있다.
 
-## 3-3 실행 방법
+## 2-2-3 실행 방법
 
 다음 절차를 따른다 (MUST).
 
@@ -43,20 +43,20 @@ Chrome Web Store extension ID는 워크플로우에 `ihidkmjkpfphgljieecfcikljao
 6. `confirm_publish`에 `publish-chrome`을 입력한다 (MUST).
 7. 실행 후 Chrome Web Store Developer Dashboard에서 심사 상태를 확인한다 (MUST).
 
-## 3-4 실행 후 확인
+## 2-2-4 실행 후 확인
 
 1. Actions 로그에서 upload, publish, fetchStatus 응답을 확인한다 (MUST).
 2. Chrome Web Store Developer Dashboard에서 새 버전이 심사 제출 상태인지 확인한다 (MUST).
 3. 심사 중 추가 조치가 필요한 경고나 메일이 있는지 확인한다 (MUST).
 
-## 3-5 사전 확인
+## 2-2-5 사전 확인
 
 1. GitHub Release에 같은 버전의 ZIP asset이 생성되어 있는지 확인한다 (MUST).
 2. `docs/releases/v{version}.md` 내용이 Chrome Web Store의 What's new에 반영되어 있는지 확인한다 (MUST).
 3. Store Listing, Privacy, Distribution 정보 변경이 필요한지 확인한다 (MUST).
 4. 권한 변경이 있는 경우 심사용 안내가 필요한지 확인한다 (MUST).
 
-## 3-6 토큰 만료 대응
+## 2-2-6 토큰 만료 대응
 
 ### 증상
 
@@ -68,7 +68,7 @@ Chrome access token request failed (400): {"error":"invalid_grant","error_descri
 
 - 입력값 오류는 증상이 다르다. `confirm_publish`가 `publish-chrome`이 아니면 그 앞 `Verify release input` 단계에서 `confirm_publish must be publish-chrome.`로 걸린다.
 - 즉 **어느 단계에서 멈췄는지를 먼저 본다.** `Verify release input`이면 입력값 문제다.
-- `Publish to Chrome Web Store`에서 멈췄다면 **응답 본문으로 갈린다.** `invalid_grant`면 토큰 문제이고, `NOT_UPDATEABLE`이면 아래 [심사 중 업로드 실패 대응](#3-7-심사-중-업로드-실패-대응)이다.
+- `Publish to Chrome Web Store`에서 멈췄다면 **응답 본문으로 갈린다.** `invalid_grant`면 토큰 문제이고, `NOT_UPDATEABLE`이면 아래 [심사 중 업로드 실패 대응](#2-2-7-심사-중-업로드-실패-대응)이다.
 
 ### 원인
 
@@ -155,7 +155,7 @@ Google Cloud OAuth 동의 화면의 게시 상태가 **테스트(Testing)**이�
 
 재발급한 토큰의 스코프는 `chromewebstore` 하나뿐이었다. 같은 날 OAuth 동의 화면을 프로덕션으로 전환해 만료 문제를 없앴다.
 
-## 3-7 심사 중 업로드 실패 대응
+## 2-2-7 심사 중 업로드 실패 대응
 
 ### 증상
 
@@ -165,7 +165,7 @@ Google Cloud OAuth 동의 화면의 게시 상태가 **테스트(Testing)**이�
 400: {"error":{"code":400,"message":"You may not edit or publish an item that is in review.","status":"FAILED_PRECONDITION","details":[{"reason":"NOT_UPDATEABLE"}]}}
 ```
 
-- 같은 단계에서 나는 `invalid_grant`와 구분한다. 그쪽은 토큰 문제이고 [토큰 만료 대응](#3-6-토큰-만료-대응)을 따른다.
+- 같은 단계에서 나는 `invalid_grant`와 구분한다. 그쪽은 토큰 문제이고 [토큰 만료 대응](#2-2-6-토큰-만료-대응)을 따른다.
 - 판별 기준은 응답 본문이다. `NOT_UPDATEABLE`이 보이면 아래로 온다.
 
 ### 원인
@@ -187,7 +187,7 @@ gh workflow run publish-chrome.yml --ref main \
 
 심사 소요 시간은 Google이 정하며 우리가 앞당길 수 없다. 기다리는 것이 유일한 대응이다.
 
-## 3-8 참고 문서
+## 2-2-8 참고 문서
 
 - [Use the Chrome Web Store API](https://developer.chrome.com/docs/webstore/using_webstore_api)
 - [Chrome Web Store API reference](https://developer.chrome.com/docs/webstore/api/reference/rest)

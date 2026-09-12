@@ -96,8 +96,8 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 | 데이터 스키마·필드 규칙·삭제 절차 | [4-DATA](4-DATA.md) | `2-2`는 운영자 판단 지점만 |
 | 검증·생성 스크립트 실행 순서 | [4-DATA](4-DATA.md) | `7`은 CI에서 언제 도는지만 |
 | 릴리스 실행 절차 | [`docs/guides/1-RELEASE-PROCESS.md`](../guides/1-RELEASE-PROCESS.md) | `2-2`는 판단 지점, `7`은 자동화 경계 |
-| 스토어 배포 체크리스트 | [`docs/guides/2-STORE-RELEASE-CHECKLIST.md`](../guides/2-STORE-RELEASE-CHECKLIST.md) | `7`은 경로와 자동화 범위 |
+| 스토어 배포 체크리스트 | [`docs/guides/2-1-STORE-RELEASE-CHECKLIST.md`](../guides/2-1-STORE-RELEASE-CHECKLIST.md) | `7`은 경로와 자동화 범위 |
 | 색상 값·토큰 계약 | [3-2](3-2-DESIGN-UI-RULES.md) | 다른 문서는 참조만 |
-| 아이콘 도안 규칙 | [`docs/guides/7-ICON-STYLE-GUIDE.md`](../guides/7-ICON-STYLE-GUIDE.md) | `3-2`는 표시 크기 제약과 임시 색상 규칙 |
+| 아이콘 도안 규칙 | [`docs/guides/4-1-ICON-STYLE-GUIDE.md`](../guides/4-1-ICON-STYLE-GUIDE.md) | `3-2`는 표시 크기 제약과 임시 색상 규칙 |
 | 수동 검증 항목 | [5-TESTING](5-TESTING.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
 | 결정의 배경과 대안 | [ADR](../adr/README.md) | 다른 문서는 결과만 쓰고 링크 |

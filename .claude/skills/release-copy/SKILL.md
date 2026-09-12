@@ -1,6 +1,6 @@
 ---
 name: release-copy
-description: LinKHU 버전을 올린 뒤 사용자에게 알릴 문구를 쓸 때 사용. 릴리스 노트에서 사용자 노출 변경만 골라 스토어 설명(docs/copy/1-STORE-LISTING.md)의 업데이트 섹션을 교체하고, 계속 알릴 기능이면 커뮤니티 홍보 글(docs/copy/2-COMMUNITY-POST.md)의 본문 문단에 한 문장으로 녹인다. "버전 올렸으니 스토어 문구 써줘", "업데이트 안내 글 써줘", "에브리타임에 올릴 글", "2.6.0 문구로 바꿔줘" 같은 요청에 사용.
+description: LinKHU 버전을 올린 뒤 사용자에게 알릴 문구를 쓸 때 사용. 릴리스 노트에서 사용자 노출 변경만 골라 스토어 설명(docs/copy/1-1-STORE-LISTING.md)의 업데이트 섹션을 교체하고, 계속 알릴 기능이면 커뮤니티 홍보 글(docs/copy/1-2-COMMUNITY-POST.md)의 본문 문단에 한 문장으로 녹인다. "버전 올렸으니 스토어 문구 써줘", "업데이트 안내 글 써줘", "에브리타임에 올릴 글", "2.6.0 문구로 바꿔줘" 같은 요청에 사용.
 ---
 
 # 릴리스 문구 쓰기
@@ -11,8 +11,8 @@ description: LinKHU 버전을 올린 뒤 사용자에게 알릴 문구를 쓸 �
 
 | 문서 | 쓰는 곳 | 독자 | 릴리스마다 하는 일 |
 |---|---|---|---|
-| [`docs/copy/1-STORE-LISTING.md`](../../../docs/copy/1-STORE-LISTING.md) | Chrome / Firefox / Whale 설명란, What's new | 설치를 고민하는 사람 | **`[vX.Y.Z 업데이트]` 섹션을 교체한다** |
-| [`docs/copy/2-COMMUNITY-POST.md`](../../../docs/copy/2-COMMUNITY-POST.md) | 에브리타임 등 커뮤니티 게시글 | LinKHU를 모르는 사람 | **변경 목록을 두지 않는다.** 계속 알릴 기능만 본문 문단에 한 문장으로 녹인다 |
+| [`docs/copy/1-1-STORE-LISTING.md`](../../../docs/copy/1-1-STORE-LISTING.md) | Chrome / Firefox / Whale 설명란, What's new | 설치를 고민하는 사람 | **`[vX.Y.Z 업데이트]` 섹션을 교체한다** |
+| [`docs/copy/1-2-COMMUNITY-POST.md`](../../../docs/copy/1-2-COMMUNITY-POST.md) | 에브리타임 등 커뮤니티 게시글 | LinKHU를 모르는 사람 | **변경 목록을 두지 않는다.** 계속 알릴 기능만 본문 문단에 한 문장으로 녹인다 |
 
 두 글은 같은 릴리스를 다루지만 독자가 다르다. 스토어 글은 이미 페이지에 들어온 사람에게 목록으로 알리고, 커뮤니티 글은 아무 맥락 없는 사람에게 이게 뭔지부터 설명한다. 한쪽을 복사해 다른 쪽에 넣지 않는다.
 
@@ -72,8 +72,8 @@ v2.4.0의 문의하기가 그렇게 내려갔다. v2.4.0에서는 새 기능이�
 
 ### 5. 두 문서를 갱신한다
 
-- `docs/copy/1-STORE-LISTING.md` — 한국어 블록의 `[vX.Y.Z 업데이트]` 섹션을 교체한다. 나머지 섹션은 3단계에서 옮길 게 없으면 건드리지 않는다.
-- `docs/copy/2-COMMUNITY-POST.md` — **버전별 변경 목록을 넣지 않는다** (MUST). 3단계에서 고른 "계속 알릴 기능"만 본문 문단에 한 문장으로 녹이고, 대괄호 목록을 새로 만들지 않는다. 그럴 것이 없으면 **이 문서는 이번 릴리스에 손대지 않는다.** 제목과 맺음말은 그대로 둔다.
+- `docs/copy/1-1-STORE-LISTING.md` — 한국어 블록의 `[vX.Y.Z 업데이트]` 섹션을 교체한다. 나머지 섹션은 3단계에서 옮길 게 없으면 건드리지 않는다.
+- `docs/copy/1-2-COMMUNITY-POST.md` — **버전별 변경 목록을 넣지 않는다** (MUST). 3단계에서 고른 "계속 알릴 기능"만 본문 문단에 한 문장으로 녹이고, 대괄호 목록을 새로 만들지 않는다. 그럴 것이 없으면 **이 문서는 이번 릴리스에 손대지 않는다.** 제목과 맺음말은 그대로 둔다.
   설치 안내는 홈페이지 링크(`https://kangkyunghyun.github.io/LinKHU/?utm_source=everytime`) 하나로 유지하고,
   스토어 직링크를 다시 붙이지 않는다. 커뮤니티 유입의 상당수가 확장을 설치할 수 없는 모바일 인앱 브라우저라
   스토어 페이지로 바로 보내면 설치로 이어지지 않는다. 홈페이지는 그 방문자에게 PC 설치 경로를 안내한다.
@@ -86,19 +86,19 @@ v2.4.0의 문의하기가 그렇게 내려갔다. v2.4.0에서는 새 기능이�
 VERSION=$(node -p "require('./src/manifest.json').version")
 
 # 스토어 글이 새 버전을 말하는가 (1이어야 한다)
-grep -c "v$VERSION" docs/copy/1-STORE-LISTING.md
+grep -c "v$VERSION" docs/copy/1-1-STORE-LISTING.md
 
 # 스토어 글에 지난 버전 표기가 남아 있는가 (0줄이어야 한다)
-grep -nE "v[0-9]+\.[0-9]+\.[0-9]+ 업데이트" docs/copy/1-STORE-LISTING.md | grep -v "v$VERSION"
+grep -nE "v[0-9]+\.[0-9]+\.[0-9]+ 업데이트" docs/copy/1-1-STORE-LISTING.md | grep -v "v$VERSION"
 
 # 커뮤니티 글에 버전 표기가 새어 들어갔는가 (0줄이어야 한다)
-grep -nE "v[0-9]+\.[0-9]+\.[0-9]+" docs/copy/2-COMMUNITY-POST.md
+grep -nE "v[0-9]+\.[0-9]+\.[0-9]+" docs/copy/1-2-COMMUNITY-POST.md
 
 # 내부 용어가 새어 나갔는가 (0줄이어야 한다)
-grep -nE "토큰|리팩터|워크플로우|스크립트|스펙|커밋|검증 추가" docs/copy/1-STORE-LISTING.md docs/copy/2-COMMUNITY-POST.md
+grep -nE "토큰|리팩터|워크플로우|스크립트|스펙|커밋|검증 추가" docs/copy/1-1-STORE-LISTING.md docs/copy/1-2-COMMUNITY-POST.md
 
 # 커뮤니티 글에 스토어 문법이 들어갔는가 (0줄이어야 한다)
-sed -n '/^본문:/,/^```$/p' docs/copy/2-COMMUNITY-POST.md | grep -nE "^\["
+sed -n '/^본문:/,/^```$/p' docs/copy/1-2-COMMUNITY-POST.md | grep -nE "^\["
 ```
 
 세 번째 명령이 이번에 갈린 부분이다. 예전에는 두 문서를 함께 `grep -c "v$VERSION"`으로 검사했는데, 커뮤니티 글이 버전을 말하지 않게 되면서 그 명령은 **0을 정상으로 봐야 한다.** 0이 정상인 검사는 "빠뜨린 것"과 구분되지 않으므로, **커뮤니티 글은 버전이 있으면 실패하는 검사로 바꿨다.**
@@ -115,9 +115,9 @@ sed -n '/^본문:/,/^```$/p' docs/copy/2-COMMUNITY-POST.md | grep -nE "^\["
 - **커뮤니티 글에 변경 목록을 넣지 않는다.** 읽는 사람이 이전 버전을 모른다. 변경 이력은 홈페이지의 업데이트 섹션이 맡는다. 이유는 위 표 아래에 있다.
 - **커뮤니티 글에 스토어 직링크를 넣지 않는다.** 착지점은 홈페이지 하나로 유지한다. 이유는 5단계에 있다.
 - **커뮤니티 글에 스토어 글의 기능 목록을 옮기지 않는다.** 대괄호 섹션과 단축키 설명이 들어가는 순간 광고글이 된다. 이유는 위 표 아래에 있다.
-- **스토어 대시보드에 붙여넣는 것까지 대신하지 않는다.** 문서를 갱신하는 데서 끝내고, 붙여넣기는 [Store Release Checklist](../../../docs/guides/2-STORE-RELEASE-CHECKLIST.md)를 따라 사람이 한다.
+- **스토어 대시보드에 붙여넣는 것까지 대신하지 않는다.** 문서를 갱신하는 데서 끝내고, 붙여넣기는 [Store Release Checklist](../../../docs/guides/2-1-STORE-RELEASE-CHECKLIST.md)를 따라 사람이 한다.
 
 ## 관련 문서
 
 - [Release Process](../../../docs/guides/1-RELEASE-PROCESS.md) — 버전 올리기부터 스토어 배포까지 전체 절차
-- [Store Release Checklist](../../../docs/guides/2-STORE-RELEASE-CHECKLIST.md) — 스토어별 제출 절차
+- [Store Release Checklist](../../../docs/guides/2-1-STORE-RELEASE-CHECKLIST.md) — 스토어별 제출 절차
