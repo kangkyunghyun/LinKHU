@@ -170,7 +170,7 @@ src/images/departments/   학과
 
 확장 프로그램 자체 아이콘(`src/icons/icon16.png`, `icon48.png`, `icon128.png`)은 서비스 아이콘과 별개이며 위 검증 대상이 아니다. `icon48.png`는 서비스 아이콘 로딩이 실패했을 때의 대체 이미지로도 쓰인다.
 
-도안 규칙은 [아이콘 스타일 가이드](../icon-style-guide.md)를 따른다. 표시 크기와 관련한 제약은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
+도안 규칙은 [아이콘 스타일 가이드](../guides/7-ICON-STYLE-GUIDE.md)를 따른다. 표시 크기와 관련한 제약은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
 
 ## 4-5 검증 파이프라인
 

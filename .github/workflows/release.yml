@@ -37,7 +37,7 @@ jobs:
 
       - name: Verify release notes
         run: |
-          notes_file="release-notes/$GITHUB_REF_NAME.md"
+          notes_file="docs/releases/$GITHUB_REF_NAME.md"
 
           if [ ! -f "$notes_file" ]; then
             echo "Release notes file not found: $notes_file"
@@ -48,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          notes_file="release-notes/$GITHUB_REF_NAME.md"
+          notes_file="docs/releases/$GITHUB_REF_NAME.md"
 
           gh release create "$GITHUB_REF_NAME" \
             dist/*.zip \

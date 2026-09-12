@@ -70,7 +70,7 @@ SVG에 #a40f16  →  저장된 PNG는 #9e0007 알파 240  →  흰 카드 위에
 </svg>
 ```
 
-원본은 `design/icons/<카테고리>/<id>.svg`에 남긴다. 색 규칙이 바뀌면 다시 내보내면 된다.
+원본은 `assets/icons/<카테고리>/<id>.svg`에 남긴다. 색 규칙이 바뀌면 다시 내보내면 된다.
 
 **`src/` 안에 두지 않는다.** `scripts/package-extension.js`는 `src/` 아래 모든 파일을 확장 패키지에 넣으므로, SVG가 그 안에 있으면 확장에 함께 배포된다.
 
@@ -82,7 +82,7 @@ SVG에 #a40f16  →  저장된 PNG는 #9e0007 알파 240  →  흰 카드 위에
 
 ```bash
 ID=aikhu; CAT=common
-SVG=design/icons/$CAT/$ID.svg
+SVG=assets/icons/$CAT/$ID.svg
 
 # width/height만 280으로 키운 임시 사본 — viewBox는 0 0 70 70 그대로 둔다
 sed 's/width="70" height="70"/width="280" height="280"/' "$SVG" > /tmp/$ID-280.svg

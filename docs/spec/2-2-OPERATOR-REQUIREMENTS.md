@@ -20,15 +20,15 @@
 - `npm run validate:data` 결과를 PR 본문에 남긴다 (MUST).
 - 한 PR에서 너무 많은 아이콘을 한꺼번에 바꾸지 않는다 (SHOULD).
 
-**스키마, 필드 규칙, 검증·생성 순서, 삭제 절차, URL 판단 기준은 [4-DATA](4-DATA.md)가 원본이다.** 데이터를 실제로 바꾸기 전에 그 문서를 본다. 아이콘 도안 규칙은 [아이콘 스타일 가이드](../icon-style-guide.md), 색상 관련 임시 규칙은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
+**스키마, 필드 규칙, 검증·생성 순서, 삭제 절차, URL 판단 기준은 [4-DATA](4-DATA.md)가 원본이다.** 데이터를 실제로 바꾸기 전에 그 문서를 본다. 아이콘 도안 규칙은 [아이콘 스타일 가이드](../guides/7-ICON-STYLE-GUIDE.md), 색상 관련 임시 규칙은 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
 
 운영자 관점에서 기억할 것은 하나다. **데이터 변경은 데이터만 바꾸는 작업이 아니다.** 랜딩 산출물과 문서에 적힌 서비스 수가 함께 움직이며, 빠뜨리면 CI 또는 사용자 눈에서 드러난다.
 
 ## 2-2-2 릴리스
 
-절차의 원본은 [Release Process](../release-process.md)이고, 자동화 경계는 [7-DEPLOYMENT](7-DEPLOYMENT.md)에 있다. 여기서는 운영자가 판단해야 할 것만 적는다.
+절차의 원본은 [Release Process](../guides/1-RELEASE-PROCESS.md)이고, 자동화 경계는 [7-DEPLOYMENT](7-DEPLOYMENT.md)에 있다. 여기서는 운영자가 판단해야 할 것만 적는다.
 
-- 릴리스 준비 PR에서 `src/manifest.json`의 `version`을 올리고, 같은 PR에 `release-notes/v{version}.md`를 작성한다 (MUST).
+- 릴리스 준비 PR에서 `src/manifest.json`의 `version`을 올리고, 같은 PR에 `docs/releases/v{version}.md`를 작성한다 (MUST).
 - 릴리스 노트는 내부 리팩터링이 아니라 **사용자에게 보이는 변경** 중심으로 쓴다 (MUST).
 - 버전 자리 판단(패치인가 마이너인가)은 [ADR 0011](../adr/0011-semver.md)의 semver 방침을 따른다 (MUST).
 - 준비 PR이 머지된 뒤 같은 버전 태그를 push한다.
@@ -40,10 +40,10 @@
 
 LinKHU는 세 스토어에 배포되며, 각 스토어의 심사 주기와 요구사항이 다르다. 태그 push로 만들어지는 GitHub Release는 배포의 **끝이 아니라 시작**이다.
 
-- 공통 절차는 [Store Release Checklist](../store-release-checklist.md)를 따른다.
-- 스토어 설명 원본은 [Store Listing](../store-listing.md)에서 관리하고, 버전마다 업데이트 섹션을 교체한다.
-- Chrome Web Store와 Firefox Add-ons는 수동 실행(`workflow_dispatch`) 워크플로로 제출한다. 두 워크플로 모두 실수 방지를 위해 확인 문자열 입력을 요구한다 (MUST). 상세는 [Chrome](../chrome-web-store-automation.md), [Firefox](../firefox-addons-automation.md) 문서를 참고한다.
-- Whale Store는 공개 배포 API가 확인되기 전까지 수동 배포를 유지한다. [Whale 절차](../whale-store-automation.md)를 따른다.
+- 공통 절차는 [Store Release Checklist](../guides/2-STORE-RELEASE-CHECKLIST.md)를 따른다.
+- 스토어 설명 원본은 [Store Listing](../copy/1-STORE-LISTING.md)에서 관리하고, 버전마다 업데이트 섹션을 교체한다.
+- Chrome Web Store와 Firefox Add-ons는 수동 실행(`workflow_dispatch`) 워크플로로 제출한다. 두 워크플로 모두 실수 방지를 위해 확인 문자열 입력을 요구한다 (MUST). 상세는 [Chrome](../guides/3-CHROME-WEB-STORE.md), [Firefox](../guides/4-FIREFOX-ADDONS.md) 문서를 참고한다.
+- Whale Store는 공개 배포 API가 확인되기 전까지 수동 배포를 유지한다. [Whale 절차](../guides/5-WHALE-STORE.md)를 따른다.
 - 매니페스트를 바꾼 릴리스는 Chrome·Firefox·Whale 세 곳의 호환성과 권한 범위를 확인한다 (MUST). Firefox는 `strict_min_version`과 데이터 수집 선언이 있어 특히 영향을 받는다.
 
 권한을 새로 추가하는 변경은 세 스토어 모두에서 재심사 사유가 되고 기존 사용자에게 권한 승인 요구가 뜬다. 권한 추가는 [ADR 0003](../adr/0003-least-privilege.md)의 최소 권한 원칙에 따라 별도 판단 대상이다 (MUST).
@@ -52,7 +52,7 @@ LinKHU는 세 스토어에 배포되며, 각 스토어의 심사 주기와 요�
 
 사용자 의견 경로는 두 가지다.
 
-1. **문의하기 폼** — 팝업·설정·랜딩에 있다. GitHub 계정이 없는 사용자를 위한 경로이며, Google Forms로 수집된다. 연결 설정은 [문의 채널 설정 가이드](../feedback-setup.md)를 따른다.
+1. **문의하기 폼** — 팝업·설정·랜딩에 있다. GitHub 계정이 없는 사용자를 위한 경로이며, Google Forms로 수집된다. 연결 설정은 [문의 채널 설정 가이드](../guides/6-FEEDBACK-SETUP.md)를 따른다.
 2. **GitHub Issue** — 개발자와 기여자를 위한 경로다.
 
 - 문의 폼이 설정되지 않은 상태에서도 화면이 깨지지 않아야 한다 (MUST). 설정 여부를 확인해 안내 문구로 처리한다.

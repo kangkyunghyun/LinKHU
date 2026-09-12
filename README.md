@@ -83,7 +83,7 @@ npm run build   # 테스트 + 데이터 검증 + 패키징을 한 번에 실행
 ```
 
 개별 스크립트는 [package.json](./package.json)의 `scripts`를, 작업 규칙은 [AGENTS.md](./AGENTS.md)를 참고하세요.
-릴리스와 스토어 배포 절차는 [Release Process](./docs/release-process.md)를 따릅니다.
+릴리스와 스토어 배포 절차는 [Release Process](docs/guides/1-RELEASE-PROCESS.md)를 따릅니다.
 
 ## 📁 프로젝트 구조
 
@@ -99,14 +99,21 @@ LinKHU/
 │   ├── feedback.js            # 문의 전송
 │   ├── images/                # 카테고리별 서비스 아이콘
 │   └── icons/                 # 확장 프로그램 아이콘
+├── assets/icons/              # 아이콘 SVG 원본
 ├── docs/                      # 요구사항·ADR·설계·스펙 + 운영 문서
+│   ├── requirements/         # 요구사항과 완료 조건
+│   ├── adr/                  # 설계 결정 기록
+│   ├── design/               # 구현 설계
+│   ├── spec/                 # 현재 동작
+│   ├── guides/               # 운영 절차
+│   ├── copy/                 # 스토어·커뮤니티 문구
+│   └── releases/             # 버전별 릴리스 노트
 ├── landing/                   # GitHub Pages 랜딩
 │   ├── index.html             # 랜딩 페이지
 │   ├── landing.{js,css}       # 랜딩 검색·문의·스타일
 │   └── assets/                # 랜딩 데이터, 서비스 아이콘, 스크린샷
 ├── scripts/                   # 데이터 검증·패키징·스토어 배포 스크립트
 ├── tests/                     # node --test 기반 테스트
-├── release-notes/             # 버전별 릴리스 노트
 └── .github/workflows/         # 검증·릴리스·스토어 배포 자동화
 ```
 
