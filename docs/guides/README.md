@@ -7,14 +7,14 @@
 ## 읽는 순서
 
 ```text
-1-RELEASE-PROCESS   릴리스 절차
+1-RELEASE-PROCESS           릴리스 절차
 2-STORE-RELEASE-CHECKLIST   스토어 배포 체크리스트
-3-CHROME-WEB-STORE   Chrome Web Store 자동 배포
-4-FIREFOX-ADDONS   Firefox Add-ons 자동 배포
-5-WHALE-STORE   Whale Store 배포
-6-FEEDBACK-SETUP   문의 채널 설정
-7-ICON-STYLE-GUIDE   아이콘 스타일 가이드
-8-SCREENSHOT-GUIDE   스크린샷 촬영 기준
+3-CHROME-WEB-STORE          Chrome Web Store 자동 배포
+4-FIREFOX-ADDONS            Firefox Add-ons 자동 배포
+5-WHALE-STORE               Whale Store 배포
+6-FEEDBACK-SETUP            문의 채널 설정
+7-ICON-STYLE-GUIDE          아이콘 스타일 가이드
+8-SCREENSHOT-GUIDE          스크린샷 촬영 기준
 ```
 
 ## 문서와 책임

@@ -7,7 +7,7 @@
 ## 읽는 순서
 
 ```text
-1-STORE-LISTING   스토어 설명
+1-STORE-LISTING    스토어 설명
 2-COMMUNITY-POST   커뮤니티 홍보글
 ```
 

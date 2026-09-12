@@ -5,7 +5,7 @@ LinKHU 릴리스와 스토어 배포 절차다.
 ```text
 §1-1   버전을 어디까지 올릴지 정한다                   릴리스 노트로 정하는 버전
 §1-2   릴리스 준비 PR                                  준비 PR과 문구 PR의 순서
-§1-3   태그 push과 GitHub Release 자동 생성            태그 명령과 릴리스 산출물
+§1-3   태그 push와 GitHub Release 자동 생성            태그 명령과 릴리스 산출물
 §1-4   스토어 배포                                     스토어별 절차와 문구 원본
 §1-5   관련 운영 문서                                  문의와 아이콘 운영 문서
 ```
@@ -60,7 +60,7 @@ LinKHU 릴리스와 스토어 배포 절차다.
 이미 어긋났다면 태그를 `main` tip으로 옮겨 해결할 수 있지만, **이미 공개된 태그를 force-push하게 된다.**
 GitHub Release가 가리키는 커밋도 함께 바뀌므로, 순서를 지켜 애초에 이 상황을 만들지 않는 편이 낫다 (SHOULD).
 
-## 1-3 태그 push과 GitHub Release 자동 생성
+## 1-3 태그 push와 GitHub Release 자동 생성
 
 ```bash
 git switch main
