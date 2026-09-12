@@ -121,21 +121,21 @@ PR: feat: 공통 서비스 바로가기 추가
 데이터를 변경한 뒤에는 `npm run generate:landing-data`로 랜딩 페이지 검색 데이터와
 서비스 아이콘(`landing/assets/images/`)을 갱신하고, `npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
 
-서비스 아이콘을 추가하거나 변경할 때는 `docs/guides/icon-style-guide.md`를 따른다.
+서비스 아이콘을 추가하거나 변경할 때는 `docs/guides/7-ICON-STYLE-GUIDE.md`를 따른다.
 
 ## 릴리스 준비 규칙
 
-전체 절차는 [Release Process](docs/guides/release-process.md)를 따른다.
+전체 절차는 [Release Process](docs/guides/1-RELEASE-PROCESS.md)를 따른다.
 
 - 릴리스 준비 PR에서는 `src/manifest.json`의 `version`을 변경한다.
 - 같은 PR에서 `docs/releases/v{version}.md` 파일을 기존 릴리스 노트 형식에 맞춰 작성한다.
 - 릴리스 노트는 사용자에게 보이는 변경 사항 중심으로 작성한다.
 - 릴리스 준비 PR이 머지된 뒤 같은 버전 태그를 push한다.
 - 버전 태그 push는 GitHub Release와 ZIP 첨부만 자동화한다.
-- Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다루며 `docs/guides/store-release-checklist.md`를 따른다.
-- Chrome Web Store 자동 배포는 `docs/guides/chrome-web-store-automation.md`를 따른다.
-- Firefox Add-ons 자동 배포는 `docs/guides/firefox-addons-automation.md`를 따른다.
-- Whale Store는 공개 배포 API가 확인되기 전까지 `docs/guides/whale-store-automation.md`에 따라 수동 배포로 유지한다.
+- Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다루며 `docs/guides/2-STORE-RELEASE-CHECKLIST.md`를 따른다.
+- Chrome Web Store 자동 배포는 `docs/guides/3-CHROME-WEB-STORE.md`를 따른다.
+- Firefox Add-ons 자동 배포는 `docs/guides/4-FIREFOX-ADDONS.md`를 따른다.
+- Whale Store는 공개 배포 API가 확인되기 전까지 `docs/guides/5-WHALE-STORE.md`에 따라 수동 배포로 유지한다.
 
 ## 수동 검증 기준
 
