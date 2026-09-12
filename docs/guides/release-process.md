@@ -28,7 +28,7 @@ LinKHU 릴리스와 스토어 배포 절차입니다.
 ## 1. 릴리스 준비 PR
 
 - `src/manifest.json`의 `version`을 올린다.
-- `release-notes/v{version}.md`를 기존 형식에 맞춰 작성한다. (사용자 노출 변경 중심)
+- `docs/releases/v{version}.md`를 기존 형식에 맞춰 작성한다. (사용자 노출 변경 중심)
 - PR을 `main`에 머지한다.
 
 ### 스토어·커뮤니티 문구 PR도 여기서 머지한다
@@ -63,7 +63,7 @@ git push origin "v$VERSION"
 ```
 
 릴리스 워크플로우가 `npm run build`로 패키징한 `linkhu-v{version}.zip`을 첨부하고,
-`release-notes/v{version}.md` 내용을 릴리스 노트로 사용한다.
+`docs/releases/v{version}.md` 내용을 릴리스 노트로 사용한다.
 
 ## 3. 스토어 배포
 

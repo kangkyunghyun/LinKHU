@@ -16,7 +16,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - GitHub Release가 생성되어 있다.
 - Release tag와 `src/manifest.json`의 `version`이 일치한다.
 - Release asset에 `linkhu-v{version}.zip`이 첨부되어 있다.
-- Release notes가 `release-notes/v{version}.md` 내용과 일치한다.
+- Release notes가 `docs/releases/v{version}.md` 내용과 일치한다.
 - Chrome, Firefox, Whale 스토어 관리자 계정에 접근할 수 있다.
 
 ## 공통 배포 전 확인
@@ -55,7 +55,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - 새 버전으로 `linkhu-v{version}.zip`을 업로드한다.
 - AMO validator 결과를 확인하고, error가 있으면 제출하지 않는다.
 - warning이 있으면 보안, 개인정보, 호환성 관련 경고인지 확인한다.
-- 릴리스 노트에는 `release-notes/v{version}.md` 내용을 사용한다.
+- 릴리스 노트에는 `docs/releases/v{version}.md` 내용을 사용한다.
 - source code package 제출이 필요한지 확인한다.
 - `Submit Version`으로 제출한다.
 - 제출 후 서명, 심사, 게시 상태를 기록한다.
@@ -67,7 +67,7 @@ LinKHU 스토어 배포는 GitHub Release에 첨부된 ZIP 파일을 기준으�
 - [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 접속하여 로그인한다.
 - My extensions 또는 개발자 관리 화면에서 LinKHU 항목으로 이동한다.
 - 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
-- 필수 정보, 권한, 심사용 설명 및 버전 설명(`release-notes/v{version}.md` 내용 활용)을 확인한다.
+- 필수 정보, 권한, 심사용 설명 및 버전 설명(`docs/releases/v{version}.md` 내용 활용)을 확인한다.
 - 스토어 설명, 스크린샷, 카테고리 변경 필요 여부를 확인한다. 스크린샷 촬영 기준은 [Screenshot Guide](screenshot-guide.md)에 있다.
 - 제출 전 경고 메시지를 확인한다.
 - 심사를 제출한다.

@@ -6,12 +6,12 @@ Firefox Add-ons 배포는 GitHub Actions의 `Publish Firefox Add-ons` 워크플�
 
 - `main` 브랜치에서만 실행한다.
 - 입력한 버전, `src/manifest.json`의 `version`, 현재 커밋의 태그가 일치해야 한다.
-- `release-notes/v{version}.md`가 존재해야 한다.
+- `docs/releases/v{version}.md`가 존재해야 한다.
 - `npm run build`로 `dist/linkhu-v{version}.zip`을 생성한다.
 - Firefox Add-ons API로 ZIP 패키지를 listed channel에 업로드한다.
 - AMO validator 처리가 끝날 때까지 upload status를 확인한다.
 - 검증이 통과하면 기존 LinKHU add-on에 새 버전을 생성한다.
-- `release-notes/v{version}.md` 내용을 `ko` locale의 AMO release notes로 사용한다.
+- `docs/releases/v{version}.md` 내용을 `ko` locale의 AMO release notes로 사용한다.
 - 버전 license는 `MIT`로 제출한다.
 
 ## 필요한 GitHub Actions secrets
@@ -49,7 +49,7 @@ Firefox Add-ons license는 워크플로우에 `MIT`로 고정되어 있다.
 ## 사전 확인
 
 - GitHub Release에 같은 버전의 ZIP asset이 생성되어 있는지 확인한다.
-- `release-notes/v{version}.md` 내용이 AMO release notes에 사용해도 되는지 확인한다.
+- `docs/releases/v{version}.md` 내용이 AMO release notes에 사용해도 되는지 확인한다.
 - source code package 제출이 필요한 변경인지 확인한다.
 - 권한 변경이 있는 경우 심사용 안내가 필요한지 확인한다.
 

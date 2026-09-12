@@ -58,6 +58,6 @@ jobs:
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
           FIREFOX_LICENSE: MIT
           FIREFOX_PACKAGE_FILE: dist/linkhu-v${{ inputs.version }}.zip
-          FIREFOX_RELEASE_NOTES_FILE: release-notes/v${{ inputs.version }}.md
+          FIREFOX_RELEASE_NOTES_FILE: docs/releases/v${{ inputs.version }}.md
           FIREFOX_RELEASE_NOTES_LOCALE: ko
         run: node scripts/publish-firefox.js

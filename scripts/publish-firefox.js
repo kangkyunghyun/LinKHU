@@ -21,7 +21,7 @@ function getReleaseNotesFile() {
   const manifestVersion = readManifest().version;
   const releaseNotesFile =
     process.env.FIREFOX_RELEASE_NOTES_FILE ||
-    path.join(PROJECT_ROOT, "release-notes", `v${manifestVersion}.md`);
+    path.join(PROJECT_ROOT, "docs/releases", `v${manifestVersion}.md`);
 
   if (!fs.existsSync(releaseNotesFile)) {
     throw new Error(`Firefox release notes file does not exist: ${releaseNotesFile}`);
@@ -31,7 +31,7 @@ function getReleaseNotesFile() {
 }
 
 // AMO 릴리스 노트에는 내부 변경을 싣지 않는다. 사람이 붙여넣는 스토어 문구에만 걸려 있던
-// 규칙이라 자동 배포 경로로 그대로 새어 나갔다(v2.7.0). release-notes/*.md 원본은 저장소
+// 규칙이라 자동 배포 경로로 그대로 새어 나갔다(v2.7.0). docs/releases/*.md 원본은 저장소
 // 기록이므로 그대로 두고, 보내기 직전에만 거른다.
 function stripInternalSection(releaseNotes) {
   const kept = [];

@@ -6,7 +6,7 @@ Chrome Web Store 배포는 GitHub Actions의 `Publish Chrome Web Store` 워크�
 
 - `main` 브랜치에서만 실행한다.
 - 입력한 버전, `src/manifest.json`의 `version`, 현재 커밋의 태그가 일치해야 한다.
-- `release-notes/v{version}.md`가 존재해야 한다.
+- `docs/releases/v{version}.md`가 존재해야 한다.
 - `npm run build`로 `dist/linkhu-v{version}.zip`을 생성한다.
 - Chrome Web Store API로 ZIP 패키지를 업로드한다.
 - Chrome Web Store API로 publish 요청을 보내 심사에 제출한다.
@@ -39,7 +39,7 @@ Chrome Web Store extension ID는 워크플로우에 `ihidkmjkpfphgljieecfcikljao
 ## 사전 확인
 
 - GitHub Release에 같은 버전의 ZIP asset이 생성되어 있는지 확인한다.
-- `release-notes/v{version}.md` 내용이 Chrome Web Store의 What's new에 반영되어 있는지 확인한다.
+- `docs/releases/v{version}.md` 내용이 Chrome Web Store의 What's new에 반영되어 있는지 확인한다.
 - Store Listing, Privacy, Distribution 정보 변경이 필요한지 확인한다.
 - 권한 변경이 있는 경우 심사용 안내가 필요한지 확인한다.
 

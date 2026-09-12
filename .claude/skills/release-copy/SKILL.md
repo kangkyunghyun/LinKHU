@@ -28,7 +28,7 @@ description: LinKHU 버전을 올린 뒤 사용자에게 알릴 문구를 쓸 �
 
 ```bash
 VERSION=$(node -p "require('./src/manifest.json').version")
-cat "release-notes/v$VERSION.md"
+cat "docs/releases/v$VERSION.md"
 ```
 
 버전은 `src/manifest.json`이 원본이다. 문구에 적는 번호는 여기서 가져온다.

@@ -31,6 +31,8 @@ LinKHU가 "왜 이렇게 되어 있는가"를 남긴다. 코드를 읽으면 무
 **영향**
 ```
 
+`release-notes/`는 지금 `docs/releases/`, 운영 문서는 `docs/guides/`·`docs/copy/`다.
+
 ## 목록
 
 0001~0018은 2026-09-13에 옛 `spec/3-3-DESIGN-DECISIONS.md`에서 한 건씩 분리한 것이다. 그 문서를 가리키던 `§3-3-N`은 `ADR 000N`이다. 본문 안의 `docs/` 경로는 당시 랜딩 폴더를 뜻하며 지금은 `landing/`이다.

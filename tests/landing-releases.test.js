@@ -52,7 +52,7 @@ test("Internal이 없는 릴리스 노트는 그대로 나온다", () => {
 // 같은 규칙이 두 벌이라 갈라질 수 있다. 검색 랭킹을 확장·랜딩 양쪽에서 검사하는 것과
 // 같은 방식으로, 실제 릴리스 노트 전부에 두 구현을 돌려 결과가 같은지 고정한다.
 test("랜딩과 Firefox 배포 스크립트의 Internal 제거 규칙이 같다", () => {
-  const notesDirectory = path.join(PROJECT_ROOT, "release-notes");
+  const notesDirectory = path.join(PROJECT_ROOT, "docs/releases");
   const noteFiles = fs.readdirSync(notesDirectory).filter((name) => name.endsWith(".md"));
 
   assert.ok(noteFiles.length > 0, "릴리스 노트가 있어야 한다");

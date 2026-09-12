@@ -39,7 +39,7 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 ### 준비 PR
 
 - `src/manifest.json`의 `version`을 올린다 (MUST).
-- 같은 PR에 `release-notes/v{version}.md`를 작성한다 (MUST).
+- 같은 PR에 `docs/releases/v{version}.md`를 작성한다 (MUST).
 - 릴리스 노트는 사용자에게 보이는 변경 중심으로 쓴다 (MUST).
 
 ### 태그 push
@@ -50,7 +50,7 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 
 1. 태그가 매니페스트 버전과 일치하는가
 2. `npm run build`가 통과하는가
-3. `release-notes/v{version}.md`가 존재하는가
+3. `docs/releases/v{version}.md`가 존재하는가
 
 **태그 push가 자동화하는 것은 GitHub Release 생성과 ZIP 첨부까지다** (MUST 인지). 스토어 배포는 여기서 일어나지 않는다. 태그를 밀었다고 사용자에게 배포된 것이 아니다.
 

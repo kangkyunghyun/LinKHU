@@ -250,7 +250,7 @@
   // scripts/publish-firefox.js의 stripInternalSection과 같은 규칙이다. Node 스크립트와
   // 브라우저라 파일을 공유할 수 없어 두 벌로 둔다(검색 랭킹과 같은 이유, 스펙 3-1).
   // 한쪽을 고치면 다른 쪽도 고친다 — tests/landing-releases.test.js가 실제
-  // release-notes/*.md로 두 구현의 결과가 같은지 검사한다.
+  // docs/releases/*.md로 두 구현의 결과가 같은지 검사한다.
   function stripInternalSection(releaseNotes) {
     const kept = [];
     let skipping = false;

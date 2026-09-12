@@ -5,7 +5,7 @@ const test = require("node:test");
 
 const { stripInternalSection } = require("../scripts/publish-firefox");
 
-const RELEASE_NOTES_ROOT = path.join(__dirname, "..", "release-notes");
+const RELEASE_NOTES_ROOT = path.join(__dirname, "..", "docs/releases");
 
 function readReleaseNotes(fileName) {
   return fs.readFileSync(path.join(RELEASE_NOTES_ROOT, fileName), "utf8");

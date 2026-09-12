@@ -71,9 +71,9 @@ function validateRelease(inputVersion) {
     );
   }
 
-  const releaseNotesFile = path.join(PROJECT_ROOT, "release-notes", `${tag}.md`);
+  const releaseNotesFile = path.join(PROJECT_ROOT, "docs/releases", `${tag}.md`);
   if (!fs.existsSync(releaseNotesFile)) {
-    errors.push(`Release notes file does not exist: release-notes/${tag}.md`);
+    errors.push(`Release notes file does not exist: docs/releases/${tag}.md`);
   }
 
   return errors;

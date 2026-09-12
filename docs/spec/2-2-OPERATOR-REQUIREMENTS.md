@@ -28,7 +28,7 @@
 
 절차의 원본은 [Release Process](../guides/release-process.md)이고, 자동화 경계는 [7-DEPLOYMENT](7-DEPLOYMENT.md)에 있다. 여기서는 운영자가 판단해야 할 것만 적는다.
 
-- 릴리스 준비 PR에서 `src/manifest.json`의 `version`을 올리고, 같은 PR에 `release-notes/v{version}.md`를 작성한다 (MUST).
+- 릴리스 준비 PR에서 `src/manifest.json`의 `version`을 올리고, 같은 PR에 `docs/releases/v{version}.md`를 작성한다 (MUST).
 - 릴리스 노트는 내부 리팩터링이 아니라 **사용자에게 보이는 변경** 중심으로 쓴다 (MUST).
 - 버전 자리 판단(패치인가 마이너인가)은 [ADR 0011](../adr/0011-semver.md)의 semver 방침을 따른다 (MUST).
 - 준비 PR이 머지된 뒤 같은 버전 태그를 push한다.
