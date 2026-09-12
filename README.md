@@ -99,7 +99,8 @@ LinKHU/
 │   ├── feedback.js            # 문의 전송
 │   ├── images/                # 카테고리별 서비스 아이콘
 │   └── icons/                 # 확장 프로그램 아이콘
-├── docs/                      # GitHub Pages 랜딩 + 배포/운영 문서
+├── docs/                      # 요구사항·ADR·설계·스펙 + 운영 문서
+├── landing/                   # GitHub Pages 랜딩
 │   ├── index.html             # 랜딩 페이지
 │   ├── landing.{js,css}       # 랜딩 검색·문의·스타일
 │   └── assets/                # 랜딩 데이터, 서비스 아이콘, 스크린샷

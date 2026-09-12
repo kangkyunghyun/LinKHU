@@ -104,7 +104,8 @@ LinKHU/
 │   ├── feedback.js            # Feedback submission
 │   ├── images/                # Service icons by category
 │   └── icons/                 # Extension icons
-├── docs/                      # GitHub Pages landing + operation docs
+├── docs/                      # requirements, ADR, design, spec + operation docs
+├── landing/                   # GitHub Pages landing
 │   ├── index.html             # Landing page
 │   ├── landing.{js,css}       # Landing search/feedback/styles
 │   └── assets/                # Landing data, service icons, screenshots
