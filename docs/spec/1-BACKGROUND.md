@@ -114,16 +114,22 @@ src/            확장 프로그램 소스. 이 폴더 전체가 패키징 대�
   images/           서비스 아이콘 (common/colleges/departments)
 
 landing/        GitHub Pages로 서빙되는 랜딩
-docs/           요구사항·ADR·설계·스펙과 운영 문서
   index.html, landing.css, landing.js   랜딩 페이지
   assets/services.json                  data.js에서 생성된 랜딩 검색 데이터
   assets/images/                        src/images/에서 복사된 서비스 아이콘
-  *.md                                  릴리스·배포·아이콘 운영 문서
+
+assets/icons/   아이콘 SVG 원본
+docs/           프로젝트 문서
+  requirements/ 요구사항과 완료 조건
+  adr/          설계 결정 기록
+  design/       구현 설계
+  spec/         이 스펙 문서
+  guides/       릴리스·배포·아이콘 운영 문서
+  copy/         스토어·커뮤니티 문구
+  releases/     버전별 릴리스 노트
 
 scripts/        검증·생성·패키징 스크립트 (Node.js)
 tests/          node --test 대상 테스트
-release-notes/  버전별 릴리스 노트
-spec/           이 스펙 문서
 ```
 
 `dist/`는 패키징 산출물이며 버전 관리 대상이 아니다.

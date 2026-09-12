@@ -33,7 +33,7 @@ LinKHU 릴리스와 스토어 배포 절차입니다.
 
 ### 스토어·커뮤니티 문구 PR도 여기서 머지한다
 
-**태그를 밀기 전에 `docs/store-listing.md`와 `docs/community-post.md` 갱신을 끝내 머지한다** (MUST).
+**태그를 밀기 전에 `docs/copy/store-listing.md`와 `docs/copy/community-post.md` 갱신을 끝내 머지한다** (MUST).
 문구 작성 기준은 `.claude/skills/release-copy/SKILL.md`에 있다. 준비 PR에 함께 담아도 되고 별도 PR로 나눠도 되지만,
 **둘 다 태그 push보다 앞에 온다.**
 
@@ -69,15 +69,15 @@ git push origin "v$VERSION"
 
 문구 원본 두 개는 **1번에서 이미 머지되어 있어야 한다.** 여기서는 붙여넣기만 한다.
 
-- 공통 절차: [Store Release Checklist](./store-release-checklist.md)
-- 스토어 설명 원본: [Store Listing](./store-listing.md) — 버전마다 업데이트 섹션을 교체한다. (교체는 1번에서)
-- 커뮤니티 홍보 글 원본: [Community Post](./community-post.md) — 커뮤니티에 올릴 때 사용한다.
+- 공통 절차: [Store Release Checklist](store-release-checklist.md)
+- 스토어 설명 원본: [Store Listing](../copy/store-listing.md) — 버전마다 업데이트 섹션을 교체한다. (교체는 1번에서)
+- 커뮤니티 홍보 글 원본: [Community Post](../copy/community-post.md) — 커뮤니티에 올릴 때 사용한다.
 - 두 문구 작성 기준: `.claude/skills/release-copy/SKILL.md`
-- Chrome Web Store: [자동 배포 워크플로우](./chrome-web-store-automation.md)
-- Firefox Add-ons: [자동 배포 워크플로우](./firefox-addons-automation.md)
-- Whale Store: [수동 절차](./whale-store-automation.md)
+- Chrome Web Store: [자동 배포 워크플로우](chrome-web-store-automation.md)
+- Firefox Add-ons: [자동 배포 워크플로우](firefox-addons-automation.md)
+- Whale Store: [수동 절차](whale-store-automation.md)
 
 ## 관련 운영 문서
 
-- [문의 채널 설정 가이드](./feedback-setup.md) — 팝업/설정/랜딩 문의 기능의 Google Form 연결
-- [아이콘 스타일 가이드](./icon-style-guide.md) — 서비스 아이콘 추가/변경 시
+- [문의 채널 설정 가이드](feedback-setup.md) — 팝업/설정/랜딩 문의 기능의 Google Form 연결
+- [아이콘 스타일 가이드](icon-style-guide.md) — 서비스 아이콘 추가/변경 시

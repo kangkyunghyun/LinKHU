@@ -27,20 +27,20 @@ spec/*.md                이제 이렇게 동작한다        ── 코드와 �
 
 ## 운영 문서
 
-네 계층에 속하지 않는 절차 문서는 이 폴더 바로 아래에 둔다.
+네 계층에 속하지 않는 절차 문서는 `guides/`, 스토어·커뮤니티 문구는 `copy/`, 버전별 릴리스 노트는 `releases/`에 둔다.
 
 | 문서 | 용도 |
 |---|---|
-| [release-process.md](release-process.md) | 릴리스 준비부터 스토어 배포까지 |
-| [store-release-checklist.md](store-release-checklist.md) | 스토어별 제출 절차 |
-| [store-listing.md](store-listing.md) | 스토어 설명 원본 |
-| [community-post.md](community-post.md) | 커뮤니티 홍보글 원본 |
-| [chrome-web-store-automation.md](chrome-web-store-automation.md) | Chrome 자동 배포 |
-| [firefox-addons-automation.md](firefox-addons-automation.md) | Firefox 자동 배포 |
-| [whale-store-automation.md](whale-store-automation.md) | Whale 수동 배포 |
-| [feedback-setup.md](feedback-setup.md) | 문의 채널(Google Form) 연결 |
-| [icon-style-guide.md](icon-style-guide.md) | 서비스 아이콘 도안 규칙 |
-| [screenshot-guide.md](screenshot-guide.md) | 스크린샷 촬영 기준 |
+| [release-process.md](guides/release-process.md) | 릴리스 준비부터 스토어 배포까지 |
+| [store-release-checklist.md](guides/store-release-checklist.md) | 스토어별 제출 절차 |
+| [store-listing.md](copy/store-listing.md) | 스토어 설명 원본 |
+| [community-post.md](copy/community-post.md) | 커뮤니티 홍보글 원본 |
+| [chrome-web-store-automation.md](guides/chrome-web-store-automation.md) | Chrome 자동 배포 |
+| [firefox-addons-automation.md](guides/firefox-addons-automation.md) | Firefox 자동 배포 |
+| [whale-store-automation.md](guides/whale-store-automation.md) | Whale 수동 배포 |
+| [feedback-setup.md](guides/feedback-setup.md) | 문의 채널(Google Form) 연결 |
+| [icon-style-guide.md](guides/icon-style-guide.md) | 서비스 아이콘 도안 규칙 |
+| [screenshot-guide.md](guides/screenshot-guide.md) | 스크린샷 촬영 기준 |
 | [supported-services.md](supported-services.md) | 지원 서비스 목록 (생성물) |
 
 GitHub Pages 랜딩은 [`landing/`](../landing)에 있다. 이 폴더는 사이트로 배포되지 않는다.

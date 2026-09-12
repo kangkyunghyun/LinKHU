@@ -11,7 +11,7 @@ Whale Store 배포는 현재 공개 배포 API가 확인되지 않아 수동 절
 
 ## 운영 판단
 
-Whale Store 배포는 자동화하지 않고 [Store Release Checklist](./store-release-checklist.md)의 수동 절차를 따른다.
+Whale Store 배포는 자동화하지 않고 [Store Release Checklist](store-release-checklist.md)의 수동 절차를 따른다.
 
 비공식 브라우저 자동 조작, 세션 쿠키 재사용, 개발자 페이지 내부 요청 역공학은 기본 운영 경로로 채택하지 않는다. 이 방식은 로그인 세션과 UI 변경에 취약하고, 계정 보안 및 약관 리스크를 만들 수 있다.
 
@@ -25,7 +25,7 @@ Whale Store 배포는 자동화하지 않고 [Store Release Checklist](./store-r
 
 ## 수동 배포 절차
 
-Whale Store의 구체적인 수동 배포 단계는 [Store Release Checklist](./store-release-checklist.md#naver-whale-store)를 참고한다.
+Whale Store의 구체적인 수동 배포 단계는 [Store Release Checklist](store-release-checklist.md#naver-whale-store)를 참고한다.
 
 ## 참고 문서
 

@@ -88,7 +88,7 @@ npm run build   # tests + data validation + packaging in one step
 ```
 
 See `scripts` in [package.json](./package.json) for individual commands and [AGENTS.md](./AGENTS.md) for working conventions.
-Release and store deployment steps are documented in [Release Process](./docs/release-process.md).
+Release and store deployment steps are documented in [Release Process](docs/guides/release-process.md).
 
 ## 📁 Project Structure
 
@@ -104,14 +104,21 @@ LinKHU/
 │   ├── feedback.js            # Feedback submission
 │   ├── images/                # Service icons by category
 │   └── icons/                 # Extension icons
+├── assets/icons/              # Icon SVG originals
 ├── docs/                      # requirements, ADR, design, spec + operation docs
+│   ├── requirements/         # Requirements and acceptance criteria
+│   ├── adr/                  # Decision records
+│   ├── design/               # Implementation designs
+│   ├── spec/                 # Current behavior
+│   ├── guides/               # Operational guides
+│   ├── copy/                 # Store and community copy
+│   └── releases/             # Release notes per version
 ├── landing/                   # GitHub Pages landing
 │   ├── index.html             # Landing page
 │   ├── landing.{js,css}       # Landing search/feedback/styles
 │   └── assets/                # Landing data, service icons, screenshots
 ├── scripts/                   # Data validation, packaging, store publishing
 ├── tests/                     # node --test based tests
-├── release-notes/             # Release notes per version
 └── .github/workflows/         # Validation, release, store publishing automation
 ```
 

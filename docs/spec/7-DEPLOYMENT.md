@@ -58,7 +58,7 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 
 스토어 반영이 끝나면 학내 커뮤니티에 업데이트를 알린다. 스토어 목록 페이지만으로는 기존 사용자가 새 버전을 인지하지 못하기 때문이다.
 
-- 공지 문구는 [Store Listing](../store-listing.md)의 해당 버전 업데이트 섹션을 재사용한다 (SHOULD). 같은 내용을 따로 쓰지 않는다.
+- 공지 문구는 [Store Listing](../copy/store-listing.md)의 해당 버전 업데이트 섹션을 재사용한다 (SHOULD). 같은 내용을 따로 쓰지 않는다.
 - 랜딩 페이지 링크를 함께 넣는다 (SHOULD). 설치 전에 확인할 경로를 주기 위해서다.
 - **아직 코드가 없는 기능을 공지에 넣지 않는다** (MUST). 구상 중인 계획은 약속이 되고, 지키지 못하면 신뢰를 잃는다.
 
@@ -77,11 +77,11 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 
 즉 **자동 배포는 GitHub Release에 첨부된 ZIP을 내려받아 쓰지 않고, 태그 시점의 소스로 다시 빌드한다.** 패키징이 재현 가능하므로(§7-3, [ADR 0013](../adr/0013-release-integrity.md)) 같은 태그에서 나온 ZIP은 릴리스 첨부물과 바이트 단위로 같아야 한다.
 
-**알려진 간극:** [Store Release Checklist](../store-release-checklist.md)는 "GitHub Release에 첨부된 ZIP을 내려받아 진행"하는 수동 절차를 기준으로 쓰여 있다. Whale 수동 배포에는 그대로 맞지만, Chrome·Firefox 자동 배포의 실제 동작과는 다르다. 두 경로가 같은 산출물을 만든다는 전제가 재현 가능한 패키징으로 보장되므로 당장 문제가 되지는 않는다. **체크리스트를 자동·수동 경로로 나눠 정리하는 것은 후속 과제다.**
+**알려진 간극:** [Store Release Checklist](../guides/store-release-checklist.md)는 "GitHub Release에 첨부된 ZIP을 내려받아 진행"하는 수동 절차를 기준으로 쓰여 있다. Whale 수동 배포에는 그대로 맞지만, Chrome·Firefox 자동 배포의 실제 동작과는 다르다. 두 경로가 같은 산출물을 만든다는 전제가 재현 가능한 패키징으로 보장되므로 당장 문제가 되지는 않는다. **체크리스트를 자동·수동 경로로 나눠 정리하는 것은 후속 과제다.**
 
 **자동 배포 자격 증명은 만료된다.** 배포 워크플로가 인증 실패로 떨어지는 것은 코드 문제가 아니라 자격 증명 갱신 시점이 된 것일 수 있다 (MUST 인지). 이 실패는 릴리스 당일에 발견되기 쉬우므로, 오래 배포하지 않았다면 **릴리스 전에 배포 경로를 미리 점검한다** (SHOULD).
 
-인증 제공자의 앱 승인 상태가 검토·테스트 단계에 머물러 있으면 자격 증명 수명이 짧게 제한되는 경우가 있다. 반복 갱신을 없애는 근본 대응은 앱을 정식 상태로 전환하는 것이다. 갱신 절차와 필요한 값의 이름은 [Chrome 자동 배포 문서](../chrome-web-store-automation.md)에 있다.
+인증 제공자의 앱 승인 상태가 검토·테스트 단계에 머물러 있으면 자격 증명 수명이 짧게 제한되는 경우가 있다. 반복 갱신을 없애는 근본 대응은 앱을 정식 상태로 전환하는 것이다. 갱신 절차와 필요한 값의 이름은 [Chrome 자동 배포 문서](../guides/chrome-web-store-automation.md)에 있다.
 
 배포 자격 증명 파일과 값은 **저장소에 커밋하지 않는다** (MUST). 저장소 비밀값으로만 관리하고, 로컬에 내려받은 자격 증명 파일은 버전 관리에서 제외한다.
 
@@ -94,7 +94,7 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 ### 공통
 
 - 세 스토어 모두 심사가 있고 주기가 다르다. 같은 버전이 스토어마다 다른 시점에 공개된다.
-- 스토어 설명은 [Store Listing](../store-listing.md)에서 원본을 관리하고, 버전마다 업데이트 섹션을 교체한다 (MUST).
+- 스토어 설명은 [Store Listing](../copy/store-listing.md)에서 원본을 관리하고, 버전마다 업데이트 섹션을 교체한다 (MUST).
 - 권한을 추가한 릴리스는 재심사 대상이며 기존 사용자에게 권한 승인 요구가 뜬다. 권한 변경은 배포 문제가 아니라 제품 결정으로 다룬다 ([ADR 0003](../adr/0003-least-privilege.md)).
 
 ## 7-5 랜딩 배포
@@ -116,10 +116,10 @@ PR과 `main` push에서 `npm run build`가 실행된다. 즉 테스트, 데이�
 
 | 문서 | 내용 |
 | --- | --- |
-| [Release Process](../release-process.md) | 릴리스 준비부터 스토어까지 전체 절차 |
-| [Store Release Checklist](../store-release-checklist.md) | 스토어 배포 공통 체크리스트 |
-| [Store Listing](../store-listing.md) | 스토어 설명 원본 |
-| [Chrome Web Store 자동 배포](../chrome-web-store-automation.md) | Chrome 워크플로 사용법 |
-| [Firefox Add-ons 자동 배포](../firefox-addons-automation.md) | Firefox 워크플로 사용법 |
-| [Whale Store 배포](../whale-store-automation.md) | Whale 수동 절차 |
-| [문의 채널 설정](../feedback-setup.md) | Google Form 연결 |
+| [Release Process](../guides/release-process.md) | 릴리스 준비부터 스토어까지 전체 절차 |
+| [Store Release Checklist](../guides/store-release-checklist.md) | 스토어 배포 공통 체크리스트 |
+| [Store Listing](../copy/store-listing.md) | 스토어 설명 원본 |
+| [Chrome Web Store 자동 배포](../guides/chrome-web-store-automation.md) | Chrome 워크플로 사용법 |
+| [Firefox Add-ons 자동 배포](../guides/firefox-addons-automation.md) | Firefox 워크플로 사용법 |
+| [Whale Store 배포](../guides/whale-store-automation.md) | Whale 수동 절차 |
+| [문의 채널 설정](../guides/feedback-setup.md) | Google Form 연결 |
