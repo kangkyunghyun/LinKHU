@@ -6,15 +6,20 @@
 
 ## 읽는 순서
 
+1은 릴리스, 2는 스토어 배포, 3은 문의 채널, 4는 자산 계층이다.
+
 ```text
-1-RELEASE-PROCESS           릴리스 절차
-2-STORE-RELEASE-CHECKLIST   스토어 배포 체크리스트
-3-CHROME-WEB-STORE          Chrome Web Store 자동 배포
-4-FIREFOX-ADDONS            Firefox Add-ons 자동 배포
-5-WHALE-STORE               Whale Store 배포
-6-FEEDBACK-SETUP            문의 채널 설정
-7-ICON-STYLE-GUIDE          아이콘 스타일 가이드
-8-SCREENSHOT-GUIDE          스크린샷 촬영 기준
+1     RELEASE-PROCESS           릴리스 절차
+
+2-1   STORE-RELEASE-CHECKLIST   스토어 배포 체크리스트
+2-2   CHROME-WEB-STORE          Chrome Web Store 자동 배포
+2-3   FIREFOX-ADDONS            Firefox Add-ons 자동 배포
+2-4   WHALE-STORE               Whale Store 배포
+
+3     FEEDBACK-SETUP            문의 채널 설정
+
+4-1   ICON-STYLE-GUIDE          아이콘 스타일 가이드
+4-2   SCREENSHOT-GUIDE          스크린샷 촬영 기준
 ```
 
 ## 문서와 책임
@@ -22,13 +27,13 @@
 | 문서 | 책임 |
 | --- | --- |
 | [1-RELEASE-PROCESS.md](1-RELEASE-PROCESS.md) | 릴리스 절차 |
-| [2-STORE-RELEASE-CHECKLIST.md](2-STORE-RELEASE-CHECKLIST.md) | 스토어 배포 체크리스트 |
-| [3-CHROME-WEB-STORE.md](3-CHROME-WEB-STORE.md) | Chrome Web Store 자동 배포 |
-| [4-FIREFOX-ADDONS.md](4-FIREFOX-ADDONS.md) | Firefox Add-ons 자동 배포 |
-| [5-WHALE-STORE.md](5-WHALE-STORE.md) | Whale Store 배포 |
-| [6-FEEDBACK-SETUP.md](6-FEEDBACK-SETUP.md) | 문의 채널 설정 |
-| [7-ICON-STYLE-GUIDE.md](7-ICON-STYLE-GUIDE.md) | 아이콘 스타일 가이드 |
-| [8-SCREENSHOT-GUIDE.md](8-SCREENSHOT-GUIDE.md) | 스크린샷 촬영 기준 |
+| [2-1-STORE-RELEASE-CHECKLIST.md](2-1-STORE-RELEASE-CHECKLIST.md) | 스토어 배포 체크리스트 |
+| [2-2-CHROME-WEB-STORE.md](2-2-CHROME-WEB-STORE.md) | Chrome Web Store 자동 배포 |
+| [2-3-FIREFOX-ADDONS.md](2-3-FIREFOX-ADDONS.md) | Firefox Add-ons 자동 배포 |
+| [2-4-WHALE-STORE.md](2-4-WHALE-STORE.md) | Whale Store 배포 |
+| [3-FEEDBACK-SETUP.md](3-FEEDBACK-SETUP.md) | 문의 채널 설정 |
+| [4-1-ICON-STYLE-GUIDE.md](4-1-ICON-STYLE-GUIDE.md) | 아이콘 스타일 가이드 |
+| [4-2-SCREENSHOT-GUIDE.md](4-2-SCREENSHOT-GUIDE.md) | 스크린샷 촬영 기준 |
 
 ## 변경 원칙
 

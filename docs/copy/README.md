@@ -6,17 +6,19 @@
 
 ## 읽는 순서
 
+1은 배포 문구 계층이다.
+
 ```text
-1-STORE-LISTING    스토어 설명
-2-COMMUNITY-POST   커뮤니티 홍보글
+1-1   STORE-LISTING    스토어 설명
+1-2   COMMUNITY-POST   커뮤니티 홍보글
 ```
 
 ## 문서와 책임
 
 | 문서 | 책임 |
 | --- | --- |
-| [1-STORE-LISTING.md](1-STORE-LISTING.md) | 스토어 설명 |
-| [2-COMMUNITY-POST.md](2-COMMUNITY-POST.md) | 커뮤니티 홍보글 |
+| [1-1-STORE-LISTING.md](1-1-STORE-LISTING.md) | 스토어 설명 |
+| [1-2-COMMUNITY-POST.md](1-2-COMMUNITY-POST.md) | 커뮤니티 홍보글 |
 
 ## 변경 원칙
 

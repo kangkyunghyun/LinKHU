@@ -1,29 +1,29 @@
-# 5. Whale Store 배포
+# 2-4. Whale Store 배포
 
 Whale Store 배포는 현재 공개 배포 API가 확인되지 않아 수동 절차를 기본 경로로 유지한다 (MUST).
 
 ```text
-§5-1   조사 결과                                       공개 API와 인증 수단
-§5-2   운영 판단                                       수동 배포를 유지하는 이유
-§5-3   재검토 기준                                     자동화를 다시 검토할 조건
-§5-4   수동 배포 절차                                  스토어 체크리스트 연결
-§5-5   참고 문서                                       Whale 공식 문서
+§2-4-1   조사 결과                                       공개 API와 인증 수단
+§2-4-2   운영 판단                                       수동 배포를 유지하는 이유
+§2-4-3   재검토 기준                                     자동화를 다시 검토할 조건
+§2-4-4   수동 배포 절차                                  스토어 체크리스트 연결
+§2-4-5   참고 문서                                       Whale 공식 문서
 ```
 
-## 5-1 조사 결과
+## 2-4-1 조사 결과
 
 - Whale 개발자센터는 확장앱 구현 API와 배포 절차를 제공하지만, Chrome Web Store API나 AMO API처럼 ZIP 업로드와 리뷰 요청을 자동화하는 공개 API 문서를 제공하지 않는다.
 - Whale 개발자센터의 업데이트 문서는 개발자 페이지에서 확장앱 관리 화면으로 이동한 뒤 패키지 업로드, 새로운 기능 작성, 리뷰 요청 버튼을 진행하는 수동 절차를 안내한다.
 - Whale Help Center의 확장앱 등록 안내도 Whale Store 로그인, 개발자 등록, 새 확장앱 추가, 패키지 업로드, 필수 정보 입력, 제출 순서로 설명한다.
 - 현재 기준으로 GitHub Actions에서 안전하게 사용할 수 있는 공식 인증 방식, API endpoint, CLI는 확인되지 않았다.
 
-## 5-2 운영 판단
+## 2-4-2 운영 판단
 
-Whale Store 배포는 자동화하지 않고 [Store Release Checklist](2-STORE-RELEASE-CHECKLIST.md)의 수동 절차를 따른다.
+Whale Store 배포는 자동화하지 않고 [Store Release Checklist](2-1-STORE-RELEASE-CHECKLIST.md)의 수동 절차를 따른다.
 
 비공식 브라우저 자동 조작, 세션 쿠키 재사용, 개발자 페이지 내부 요청 역공학은 기본 운영 경로로 채택하지 않는다 (MUST). 이 방식은 로그인 세션과 UI 변경에 취약하고, 계정 보안 및 약관 리스크를 만들 수 있다.
 
-## 5-3 재검토 기준
+## 2-4-3 재검토 기준
 
 다음 중 하나가 확인되면 Whale Store 자동화를 다시 검토한다.
 
@@ -31,11 +31,11 @@ Whale Store 배포는 자동화하지 않고 [Store Release Checklist](2-STORE-R
 - Whale Store 개발자 페이지에서 API key, OAuth, service account 같은 자동화용 인증 수단을 제공한다.
 - Naver Whale 팀이 공식 CLI 또는 GitHub Actions 연동 방법을 문서화한다.
 
-## 5-4 수동 배포 절차
+## 2-4-4 수동 배포 절차
 
-Whale Store의 구체적인 수동 배포 단계는 [Store Release Checklist](2-STORE-RELEASE-CHECKLIST.md#2-6-naver-whale-store)를 참고한다.
+Whale Store의 구체적인 수동 배포 단계는 [Store Release Checklist](2-1-STORE-RELEASE-CHECKLIST.md#2-1-6-naver-whale-store)를 참고한다.
 
-## 5-5 참고 문서
+## 2-4-5 참고 문서
 
 - [Whale Store Add my extensions](https://help.whale.naver.com/en/desktop/store/)
 - [Whale Developer Center Distribution](https://whale.dev/distribution/)
