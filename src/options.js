@@ -107,6 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
           (command) => command.name === "_execute_action",
         );
         shortcutGuide.hidden = Boolean(actionCommand?.shortcut);
+        if (!shortcutGuide.hidden && window.location?.hash === "#shortcut-guide") {
+          shortcutGuide.scrollIntoView();
+        }
       });
     }
 
