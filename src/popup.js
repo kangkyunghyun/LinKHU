@@ -113,7 +113,61 @@ function applyIconTheme(theme) {
   });
 }
 
+function initShortcutNotice() {
+  const notice = document.getElementById("shortcut-notice");
+  const settings = document.getElementById("shortcut-notice-settings");
+  const dismiss = document.getElementById("shortcut-notice-dismiss");
+  const status = document.getElementById("theme-status");
+  if (!notice || !settings || !dismiss || !chrome.commands?.getAll) return;
+
+  settings.addEventListener("click", () => {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL("options.html#shortcut-guide"),
+    });
+  });
+
+  const saveFailedMessage = "단축키 안내 숨김을 저장하지 못했습니다. 다시 시도해주세요.";
+  let saving = false;
+  dismiss.addEventListener("click", () => {
+    if (saving) return;
+    saving = true;
+    notice.hidden = true;
+    const complete = (failed) => {
+      saving = false;
+      if (failed) {
+        notice.hidden = false;
+        if (status) {
+          status.textContent = saveFailedMessage;
+          status.classList.add("theme-status-visible");
+        }
+      } else if (status?.textContent === saveFailedMessage) {
+        status.textContent = "";
+        status.classList.remove("theme-status-visible");
+      }
+    };
+    try {
+      chrome.storage.local.set({ shortcutNoticeDismissed: true }, () => {
+        complete(Boolean(chrome.runtime.lastError));
+      });
+    } catch {
+      complete(true);
+    }
+  });
+
+  // 등록된 사용자에게는 숨김 설정을 읽기 전부터 안내를 표시하지 않는다.
+  chrome.commands.getAll((commands) => {
+    if (chrome.runtime.lastError) return;
+    const action = commands.find((command) => command.name === "_execute_action");
+    if (action?.shortcut) return;
+    chrome.storage.local.get(["shortcutNoticeDismissed"], (result) => {
+      const failed = Boolean(chrome.runtime.lastError);
+      notice.hidden = !failed && result.shortcutNoticeDismissed === true;
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  initShortcutNotice();
   App.render();
   ThemeManager.subscribeThemeChange(applyIconTheme);
 

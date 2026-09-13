@@ -76,6 +76,7 @@ options.html  <head> theme.js
 | --- | --- | --- |
 | `userOrder` | 서비스 id 배열 | 설정에서 저장, 팝업·설정에서 읽음 |
 | `themeMode` | `"system"` \| `"light"` \| `"dark"` | 설정에서 저장, 팝업·설정에서 읽음 |
+| `shortcutNoticeDismissed` | boolean | 팝업에서 저장·읽음. `true`이면 단축키 미등록 안내를 숨김 |
 | `latestReleaseVersion` | 최신 릴리스 버전 문자열 | `version.js` |
 | `latestReleaseVersionTime` | 위 값의 조회 시각(ms) | `version.js` |
 
@@ -102,6 +103,8 @@ options.html  <head> theme.js
 앞으로 새 키를 추가할 때는 **어느 쪽인지 먼저 정한다** (MUST). 사용자 설정이면 저장 시점을 사용자가 통제해야 하고, 캐시면 조용히 관리한다.
 
 `themeMode`는 사용자 설정이지만 **즉시 반영형**이라 저장 버튼을 거치지 않는다. 대신 저장에 실패하면 화면과 컨트롤을 직전 값으로 되돌린다. 규칙과 근거는 [3-2](3-2-DESIGN-UI-RULES.md)에 있다.
+
+`shortcutNoticeDismissed`도 사용자 설정 중 **즉시 반영형**이다. 팝업 안내를 닫으면 즉시 숨기고 `true`를 저장한다. 저장에 실패하면 안내를 다시 보이고 `#theme-status` 상태 줄로 실패를 알려야 한다 (MUST). 단축키 등록 여부를 먼저 확인하고, 미등록일 때만 이 키를 읽어 안내 노출을 결정한다. 근거는 [ADR 3-4](../adr/3-4-SHORTCUT-GUIDE-IN-POPUP.md)에 있다.
 
 팝업 렌더링은 `chrome.storage.local.get` 콜백 안에서 이뤄지는 비동기 흐름이다. 검색어를 빠르게 입력하면 이전 요청의 콜백이 나중에 도착할 수 있으므로, 렌더 토큰으로 최신 요청만 반영한다 (MUST).
 

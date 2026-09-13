@@ -64,11 +64,17 @@
         </div>
       </div>
 
-      <details id="shortcut-guide" class="shortcut-guide" hidden>
-        <summary>단축키가 설정되어 있지 않습니다.</summary>
+      <section id="shortcut-guide" class="shortcut-guide" hidden>
+        <h2>단축키가 설정되어 있지 않습니다.</h2>
         <p>
           브라우저 확장 프로그램 단축키 설정 화면에서 LinKHU 단축키를 직접
-          지정해주세요.
+          지정해주세요. 브라우저나 다른 프로그램이 같은 조합을 이미 쓰면 등록되지 않습니다.
+        </p>
+        <p>
+          Chromium 기반 브라우저는 브라우저 내부 주소에
+          <code>/extensions/shortcuts</code>를 붙여 단축키 설정으로 이동합니다.
+          아래 목록에 없는 브라우저는
+          <code>&lt;브라우저 이름&gt;://extensions/shortcuts</code> 형식을 참고해주세요.
         </p>
         <ul>
           <li>
@@ -84,6 +90,12 @@
             </button>
           </li>
           <li>
+            Aside:
+            <button type="button" class="shortcut-link" data-shortcut-url="aside://extensions/shortcuts">
+              aside://extensions/shortcuts
+            </button>
+          </li>
+          <li>
             Firefox:
             <button type="button" class="shortcut-link" data-shortcut-url="about:addons">
               about:addons
@@ -91,7 +103,7 @@
             → 톱니바퀴 메뉴 → 확장 기능 단축키 관리
           </li>
         </ul>
-      </details>
+      </section>
 
       <div class="board">
         <div class="column">

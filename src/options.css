@@ -148,15 +148,11 @@ h1 {
   font-size: var(--text-body);
 }
 
-.shortcut-guide summary {
+.shortcut-guide h2 {
   color: var(--color-primary);
   font-weight: bold;
-  cursor: pointer;
-}
-
-.shortcut-guide summary:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  margin: 0;
+  font-size: inherit;
 }
 
 .shortcut-guide p {
