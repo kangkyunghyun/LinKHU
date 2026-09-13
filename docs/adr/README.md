@@ -21,6 +21,7 @@ LinKHU가 "왜 이렇게 되어 있는가"를 남긴다. 코드를 읽으면 무
 3-1   UPDATE-NOTICE-LINK-BRANCH              업데이트 안내 링크 분기
 3-2   RELEASE-INTEGRITY                      릴리스 무결성 장치
 3-3   SHORTCUT-GUIDANCE-NOT-ENFORCED         단축키는 강제하지 않고 안내한다
+3-4   SHORTCUT-GUIDE-IN-POPUP                단축키 안내를 팝업까지 올리고 주소를 규칙으로 안내한다
 
 4-1   PRIMARY-COLOR-TEXT-VS-FILL             주색을 텍스트용과 채움용으로 분리
 4-2   ICONS-TWO-THEME-SETS                   서비스 아이콘을 테마별 두 벌로 나눔
@@ -55,6 +56,7 @@ LinKHU가 "왜 이렇게 되어 있는가"를 남긴다. 코드를 읽으면 무
 | [3-1](3-1-UPDATE-NOTICE-LINK-BRANCH.md) | 업데이트 안내 링크 분기 (작성일: 2026-07-30) |
 | [3-2](3-2-RELEASE-INTEGRITY.md) | 릴리스 무결성 장치 (작성일: 2026-07-30) |
 | [3-3](3-3-SHORTCUT-GUIDANCE-NOT-ENFORCED.md) | 단축키는 강제하지 않고 안내한다 (작성일: 2026-07-30) |
+| [3-4](3-4-SHORTCUT-GUIDE-IN-POPUP.md) | 단축키 안내 노출 지점과 주소 규칙 (작성일: 2026-09-13) |
 | [4-1](4-1-PRIMARY-COLOR-TEXT-VS-FILL.md) | 주색을 텍스트용과 채움용으로 분리 (작성일: 2026-07-30) |
 | [4-2](4-2-ICONS-TWO-THEME-SETS.md) | 서비스 아이콘을 테마별 두 벌로 나눔 (작성일: 2026-07-30) |
 | [4-3](4-3-ICON-PALETTE-THREE-COLORS.md) | 아이콘 팔레트를 세 가지로 고정하고 전량 정합 (작성일: 2026-07-30) |
