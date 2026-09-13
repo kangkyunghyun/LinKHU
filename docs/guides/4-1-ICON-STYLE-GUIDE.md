@@ -55,4 +55,4 @@ npm run build                   # 두 벌 짝 검증 포함
 
 따라서 위 색 규칙은 새로 그리는 아이콘뿐 아니라 **모든 아이콘에 적용된다 (MUST).** 팔레트를 벗어난 색을 새로 들이지 않는다.
 
-정합 근거와 실측은 [ADR 0017](../adr/0017-icon-palette-three-colors.md)에 있다.
+정합 근거와 실측은 [ADR 4-3](../adr/4-3-ICON-PALETTE-THREE-COLORS.md)에 있다.

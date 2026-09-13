@@ -2,7 +2,7 @@
 
 이 문서는 LinKHU의 시각적 판단 기준을 고정한다. 어떤 색을 쓰는지, 색 값을 어디에 두는지, 확장과 랜딩 중 무엇이 기준인지, 다크 테마를 어떻게 구현할지를 정한다. 화면 모양을 바꾸는 PR은 여기 적힌 규칙을 근거로 심사한다.
 
-색상 판단이 문서로 고정되어 있지 않으면 PR마다 같은 논쟁이 반복된다. 실제로 그 논쟁이 반려로 이어진 사례가 있고, 기록은 [ADR 0005](../adr/0005-reject-pr-98-landing-design-language.md)에 있다.
+색상 판단이 문서로 고정되어 있지 않으면 PR마다 같은 논쟁이 반복된다. 실제로 그 논쟁이 반려로 이어진 사례가 있고, 기록은 [ADR 5-2](../adr/5-2-REJECT-PR-98-LANDING-DESIGN-LANGUAGE.md)에 있다.
 
 **§3-2-5 다크 테마는 아직 구현되지 않은 확정 스펙이다.** 나머지 절은 현재 코드의 사실 기록이다. 두 성격이 섞여 있으므로 각 절 서두에 상태를 밝힌다.
 
@@ -91,7 +91,7 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 `landing/landing.css`는 자체 `:root`에 같은 이름의 토큰을 **값만 복제**해서 갖는다.
 
-이유는 GitHub Pages가 `landing/` 폴더만 서빙하기 때문이다. 랜딩에서 `src/theme.css`를 참조하면 배포된 사이트에서 404가 난다. 심볼릭 링크나 빌드 단계로 해결할 수도 있지만, 빌드리스 구성([ADR 0001](../adr/0001-buildless-static.md))을 지키기 위해 값 동기를 택했다.
+이유는 GitHub Pages가 `landing/` 폴더만 서빙하기 때문이다. 랜딩에서 `src/theme.css`를 참조하면 배포된 사이트에서 404가 난다. 심볼릭 링크나 빌드 단계로 해결할 수도 있지만, 빌드리스 구성([ADR 1-1](../adr/1-1-BUILDLESS-STATIC.md))을 지키기 위해 값 동기를 택했다.
 
 **동기 대상은 브랜드 색이다. 표면 색은 각자 갖는다.**
 
@@ -221,7 +221,7 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 - 랜딩 고유의 시각 요소는 랜딩 안에서만 유지한다 (MAY). 랜딩을 확장과 똑같이 만들 필요는 없다.
 - 확장 UI는 정보 밀도와 조작 속도를 우선한다 (MUST). 장식이 조작을 느리게 만들면 장식을 뺀다.
 
-이 원칙을 근거로 반려된 PR이 있다. [ADR 0005](../adr/0005-reject-pr-98-landing-design-language.md)를 참고한다.
+이 원칙을 근거로 반려된 PR이 있다. [ADR 5-2](../adr/5-2-REJECT-PR-98-LANDING-DESIGN-LANGUAGE.md)를 참고한다.
 
 ## 3-2-4 아이콘
 
@@ -282,7 +282,7 @@ npm run validate:dark-icons    # 짝 검증만 (파일을 쓰지 않음)
 **출처는 [Reicon](https://github.com/huntiezz/reicon)이다** (MIT, 24×24 그리드, Outline 웨이트).
 
 - **새 UI 아이콘은 Reicon에서 고른다** (MUST). 직접 그리거나 다른 아이콘 세트를 섞지 않는다. 굵기와 모서리 처리가 달라지면 화면이 지저분해진다.
-- **npm 패키지를 추가하지 않는다** (MUST). 필요한 SVG 마크업만 인라인으로 가져온다. 제로 의존성 원칙([ADR 0001](../adr/0001-buildless-static.md))을 지킨다.
+- **npm 패키지를 추가하지 않는다** (MUST). 필요한 SVG 마크업만 인라인으로 가져온다. 제로 의존성 원칙([ADR 1-1](../adr/1-1-BUILDLESS-STATIC.md))을 지킨다.
 - 색은 `fill="currentColor"`로 두고 **부모의 `color`를 상속시키거나 `style="color: var(--color-...)"`로 준다** (MUST). 색 값을 직접 쓰지 않는다.
 - Reicon 아이콘은 대부분 fill 기반이라 §3-2-2의 SVG 표현 속성 제약에 걸리지 않는다. 다만 일부(돋보기, 홑화살괄호)는 stroke 기반이므로 그 경우에는 제약이 그대로 적용된다.
 - `viewBox`는 `0 0 24 24`를 유지하고 **표시 크기만 `width`/`height`로 조절한다** (MUST).
@@ -319,7 +319,7 @@ Chrome·Firefox·Whale 로고는 **각 사의 브랜드 자산이므로 Reicon�
 
 `#9d2235`는 **가이드 문서가 주장한 값일 뿐 자산에 반영된 적이 없다.** 실제 도안은 저마다 다른 빨강을 쓰며, 어느 하나가 기준값 노릇을 한 적도 없다.
 
-따라서 **`#9d2235`로 되돌리는 식의 재색상은 근거가 없었다.** 다만 도안마다 빨강이 달랐다는 사실 자체가 격자에서 카테고리별 톤 차이로 드러나, 이슈 [#126](https://github.com/kangkyunghyun/LinKHU/issues/126)에서 **전량을 정해진 팔레트로 정합했다.** 근거와 실측은 [ADR 0017](../adr/0017-icon-palette-three-colors.md)에 있다.
+따라서 **`#9d2235`로 되돌리는 식의 재색상은 근거가 없었다.** 다만 도안마다 빨강이 달랐다는 사실 자체가 격자에서 카테고리별 톤 차이로 드러나, 이슈 [#126](https://github.com/kangkyunghyun/LinKHU/issues/126)에서 **전량을 정해진 팔레트로 정합했다.** 근거와 실측은 [ADR 4-3](../adr/4-3-ICON-PALETTE-THREE-COLORS.md)에 있다.
 
 정합 내용은 이렇다.
 
@@ -476,7 +476,7 @@ Chrome·Firefox·Whale 로고는 **각 사의 브랜드 자산이므로 Reicon�
 
 *주색 계열*
 
-**주색은 역할에 따라 두 토큰으로 나뉜다** (MUST). `--color-primary`는 **텍스트·강조 전용**, `--color-primary-fill`은 **채움 배경 전용**이다. 하나로 겸용하면 다크에서 채도를 잃는다 — 근거는 [ADR 0015](../adr/0015-primary-color-text-vs-fill.md)에 있다.
+**주색은 역할에 따라 두 토큰으로 나뉜다** (MUST). `--color-primary`는 **텍스트·강조 전용**, `--color-primary-fill`은 **채움 배경 전용**이다. 하나로 겸용하면 다크에서 채도를 잃는다 — 근거는 [ADR 4-1](../adr/4-1-PRIMARY-COLOR-TEXT-VS-FILL.md)에 있다.
 
 | 토큰 | 라이트 | 다크 | 쓰이는 곳 |
 | --- | --- | --- | --- |
