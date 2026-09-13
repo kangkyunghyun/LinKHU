@@ -18,9 +18,9 @@ LinKHU의 요구사항·결정·설계·현재 동작과 운영 문서를 기록
 ## 읽는 순서
 
 ```text
-requirements/N-slug.md   무엇을, 어디까지          ─┐
-adr/NNNN-slug.md         왜 이 방식인가 (필요할 때)  ├─ 이슈 #N, 브랜치 type/N-slug
-design/N-slug.md         어떻게 (자명하지 않을 때)   ─┘
+requirements/N-UPPER-KEBAB.md   무엇을, 어디까지          ─┐
+adr/N-M-UPPER-KEBAB.md         왜 이 방식인가 (필요할 때)  ├─ 이슈 #N, 브랜치 type/N-slug
+design/N-UPPER-KEBAB.md         어떻게 (자명하지 않을 때)   ─┘
         ↓ 구현
 spec/*.md                이제 이렇게 동작한다        ── 코드와 같은 PR
 ```
