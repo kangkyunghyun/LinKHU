@@ -63,7 +63,7 @@ LinKHU가 만드는 가치는 두 가지다.
 
 ### 런타임
 
-빌드 단계가 없는 **정적 HTML/CSS/JavaScript**다. 번들러, 트랜스파일러, 프레임워크를 쓰지 않는다. `src/`의 파일이 그대로 확장 프로그램에 들어간다. 각 스크립트는 전역 객체(`MASTER_SITE_LIST`, `LinKHUShared`, `VersionManager`, `Feedback`)를 노출하고 HTML의 `<script>` 순서로 결합한다.
+빌드 단계가 없는 **정적 HTML/CSS/JavaScript**다. 번들러, 트랜스파일러, 프레임워크를 쓰지 않는다. `src/`의 파일이 그대로 확장 프로그램에 들어간다. 각 스크립트는 전역 객체를 노출하고 HTML의 `<script>` 순서로 결합한다.
 
 Node.js는 실행 런타임이 아니라 **개발 도구**로만 쓴다. 검증·생성·패키징 스크립트가 `scripts/`에 있고, 테스트는 Node 내장 테스트 러너(`node --test`)를 쓴다. 런타임 의존성과 개발 의존성 모두 없다 — `package.json`에 `dependencies`가 없다.
 
@@ -111,7 +111,7 @@ src/            확장 프로그램 소스. 이 폴더 전체가 패키징 대�
   options.html/css/js 설정 화면
   theme.css         디자인 토큰 (색상 SSOT)
   theme.js          테마 모드 해석·저장·적용
-  data.js           MASTER_SITE_LIST — 지원 서비스 단일 소스
+  data.js           지원 서비스 목록 (단일 소스)
   shared.js         팝업·설정 공용 검색/정렬 유틸
   version.js        현재 버전 표시와 업데이트 안내
   feedback.js       문의 폼 전송
@@ -139,11 +139,10 @@ tests/          node --test 대상 테스트
 
 | 용어 | 뜻 |
 | --- | --- |
-| **서비스(Service)** | LinKHU가 바로가기를 제공하는 교내 웹사이트 하나. `MASTER_SITE_LIST`의 항목 하나에 대응한다. |
-| **`MASTER_SITE_LIST`** | `src/data.js`에 정의된 지원 서비스 전체 배열. 서비스 정보의 단일 소스다. |
-| **카테고리(Category)** | 서비스 분류. `학사·포털`, `생활·복지`, `장학·진로·창업`, `교육·역량`, `캠퍼스·문화`, `대학·행정`, `단과대`, `학과` 여덟 가지만 허용한다. 목록의 단일 소스는 `src/data.js`의 `SITE_CATEGORIES`다. |
-| **내 바로가기(userOrder)** | 사용자가 팝업에 표시하려고 고른 서비스 id 배열. `chrome.storage.local`의 `userOrder` 키에 저장한다. |
-| **기본 목록(default list)** | `userOrder`가 없을 때 쓰는 서비스 목록. `LinKHUShared.DEFAULT_SITE_IDS`에 적힌 10개를 이름 가나다순으로 사용한다. 카테고리와 별개의 개념이다. |
+| **서비스(Service)** | LinKHU가 바로가기를 제공하는 교내 웹사이트 하나. 지원 서비스 목록의 항목 하나다. |
+| **카테고리(Category)** | 서비스 분류. `학사·포털`, `생활·복지`, `장학·진로·창업`, `교육·역량`, `캠퍼스·문화`, `대학·행정`, `단과대`, `학과` 여덟 가지만 허용한다. |
+| **내 바로가기** | 사용자가 팝업에 표시하려고 직접 고르고 정렬한 서비스들. |
+| **기본 목록** | 사용자가 아직 아무것도 고르지 않았을 때 쓰는 열 개. 카테고리와 별개의 개념이다. |
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
 | **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
 | **랜딩(Landing)** | GitHub Pages로 서빙되는 `landing/index.html` 소개 페이지. |
