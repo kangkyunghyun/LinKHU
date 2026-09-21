@@ -23,17 +23,6 @@
 
 메이저는 이 기준의 대상이 아니다. 저장 데이터나 사용자 목록이 깨지는 변경일 때만 올린다 — 지금까지 그런 릴리스는 없었다.
 
-적용 이력이다. **기준은 v2.4.0부터다** — 그 전에는 지켜지지 않았고, `v2.3.2`는 검색 기능 셋을 `### Features`에 담고도 patch로 나갔다. 그 커밋만 보고 "규칙이 없다"고 판단하지 않는다.
-
-| 릴리스 | 노트 섹션 | 버전 |
-| --- | --- | --- |
-| v2.4.0 | Features / Internal | minor |
-| v2.5.0 | Features / Fixes / Internal | minor |
-| v2.6.0 | Features / Fixes / Internal | minor |
-| v2.7.0 | Features / Fixes / Internal | minor |
-| v2.7.1 | **Fixes** / Internal | **patch** |
-| v2.8.0 | Features / Internal | minor |
-
 버전 자리 방침의 근거는 DECISIONS 2-4에 있다.
 
 ## 7-5-2 준비 PR
