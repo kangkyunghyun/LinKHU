@@ -80,6 +80,8 @@ Manifest V3를 쓴다. 요청 권한은 다음이 전부다.
 
 `tabs` 권한은 요청하지 않는다. 탭 열기에 쓰는 `chrome.tabs.create` / `chrome.tabs.update`는 별도 권한 없이 동작한다.
 
+팝업을 여는 단축키는 `commands`의 `_execute_action`에 **제안값으로** 등록한다. `suggested_key`는 기본 `Ctrl+Shift+L`, macOS는 `Command+Shift+L`이다. 제안일 뿐 등록이 보장되지 않는 이유와 그 대응은 DECISIONS 3-3에 있다.
+
 ### 대상 브라우저
 
 | 브라우저 | 비고 |

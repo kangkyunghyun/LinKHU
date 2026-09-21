@@ -49,6 +49,8 @@ flowchart LR
 | `feedback.js` | `Feedback` + `initFeedbackForm` | 문의 폼 전송과 화면 와이어링 |
 | `popup.js` / `options.js` | (없음) | 각 화면의 진입점 |
 
+ES 모듈로 전환하지 않고 classic script를 유지하는 이유는 DECISIONS 1-4에 있다 — 검증 스크립트와 테스트 하네스가 이 로딩 방식에 묶여 있다.
+
 **의존 대상은 반드시 자신보다 먼저 로드되어야 한다** (MUST). `popup.js`는 `MASTER_SITE_LIST`와 `LinKHUShared`가 이미 정의되어 있다고 가정하고 실행된다.
 
 `shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되고 Node 테스트에서는 `require`로 불러올 수 있게 하기 위한 장치다 (MUST). 새 공용 모듈을 추가할 때도 같은 패턴을 따른다.
