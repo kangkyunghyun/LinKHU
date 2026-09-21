@@ -32,10 +32,10 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 
 | 절 | 상태 |
 | --- | --- |
-| [4-2-5 다크 테마](4-2-DESIGN-UI-SYSTEM.md) | 현재 코드 반영 완료 (확정 스펙으로 먼저 작성 후 이슈 #97에서 구현) |
+| [4-2-5 다크 테마](4-2-UI-SYSTEM.md) | 현재 코드 반영 완료 (확정 스펙으로 먼저 작성 후 이슈 #97에서 구현) |
 | [1-7 팝업 하단 배너](1-BACKGROUND.md) | 구상 단계 |
 | [2-1-8 키보드 순서 변경](2-1-USER-STORIES.md) | 후속 과제 후보 |
-| [6-2-9 데이터 검증 보강](6-2-IMPL-DATA.md) | 후속 과제 후보 |
+| [6-2-9 데이터 검증 보강](6-2-DATA.md) | 후속 과제 후보 |
 
 ## 키워드
 
@@ -72,13 +72,13 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 2-1   USER-STORIES                   학생 사용자가 무엇을 하려고 하는가
 2-2   OPERATOR-REQUIREMENTS          메인테이너가 무엇을 유지해야 하는가
 3     INFORMATION-ARCHITECTURE       다루는 단위, 카테고리, 화면별 범위, 검색 범위
-4-1   DESIGN-LAYOUT                  화면 영역, 설정 목록 격자, 팝업 카드 이름
-4-2   DESIGN-UI-SYSTEM               공식 색상표, 디자인 토큰, 다크 테마
-4-3   DESIGN-SOFTWARE-ARCHITECTURE   3개 화면 경계, 스크립트 결합, 공용 유틸
-4-4   DESIGN-STATE                   저장 키, 사용자 설정과 캐시, 비동기 렌더
+4-1   LAYOUT                         화면 영역, 설정 목록 격자, 팝업 카드 이름
+4-2   UI-SYSTEM                      공식 색상표, 디자인 토큰, 다크 테마
+4-3   SOFTWARE-ARCHITECTURE          3개 화면 경계, 스크립트 결합, 공용 유틸
+4-4   STATE                          저장 키, 사용자 설정과 캐시, 비동기 렌더
 5     CONTRACT                       랜딩 파생 산출물, GitHub API, Google Forms
-6-1   IMPL-INTERACTION               렌더·검색·이동·저장·테마·안내의 실행 순서
-6-2   IMPL-DATA                      MASTER_SITE_LIST 스키마, 검증 파이프라인
+6-1   INTERACTION                    렌더·검색·이동·저장·테마·안내의 실행 순서
+6-2   DATA                           MASTER_SITE_LIST 스키마, 검증 파이프라인
 7-1   ERROR-HANDLING                 실패 상황에서의 동작 규약
 7-2   TEST-CASES                     자동 테스트, 수동 검증 매트릭스, 검증 환경
 7-4   DEPLOYMENT                     릴리스와 스토어 배포, 자격 증명, 배포 후 확인
@@ -96,13 +96,13 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | [2-1-USER-STORIES.md](2-1-USER-STORIES.md) | 학생 사용자의 핵심 사용 사례와 완료 조건 |
 | [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리 |
 | [3-INFORMATION-ARCHITECTURE.md](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리 8개, 화면별 노출 범위, 기본 목록, 검색 순위 |
-| [4-1-DESIGN-LAYOUT.md](4-1-DESIGN-LAYOUT.md) | 팝업·설정 영역 순서, 격자 열 수, 카드 폭 계산과 줄바꿈 표 |
-| [4-2-DESIGN-UI-SYSTEM.md](4-2-DESIGN-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, 다크 테마 |
-| [4-3-DESIGN-SOFTWARE-ARCHITECTURE.md](4-3-DESIGN-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
-| [4-4-DESIGN-STATE.md](4-4-DESIGN-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
+| [4-1-LAYOUT.md](4-1-LAYOUT.md) | 팝업·설정 영역 순서, 격자 열 수, 카드 폭 계산과 줄바꿈 표 |
+| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, 다크 테마 |
+| [4-3-SOFTWARE-ARCHITECTURE.md](4-3-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
+| [4-4-STATE.md](4-4-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
 | [5-CONTRACT.md](5-CONTRACT.md) | 랜딩 파생 산출물, GitHub 릴리스 API, Google Forms, 공통 원칙 |
-| [6-1-IMPL-INTERACTION.md](6-1-IMPL-INTERACTION.md) | 렌더·검색·이동·저장·테마·단축키 안내의 실행 순서 |
-| [6-2-IMPL-DATA.md](6-2-IMPL-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
+| [6-1-INTERACTION.md](6-1-INTERACTION.md) | 렌더·검색·이동·저장·테마·단축키 안내의 실행 순서 |
+| [6-2-DATA.md](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
 | [7-1-ERROR-HANDLING.md](7-1-ERROR-HANDLING.md) | 데이터·저장소·네트워크·자산 실패 시의 동작 |
 | [7-2-TEST-CASES.md](7-2-TEST-CASES.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경, 특별 검증 절차 |
 | [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지 |
@@ -115,18 +115,18 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | 코드 | 스펙 |
 | --- | --- |
 | `src/manifest.json` | [1-BACKGROUND](1-BACKGROUND.md), [7-4](7-4-DEPLOYMENT.md), [DECISIONS 1-2](DECISIONS.md#d-1-2)·[1-3](DECISIONS.md#d-1-3) |
-| `src/data.js` | [3](3-INFORMATION-ARCHITECTURE.md), [6-2](6-2-IMPL-DATA.md) |
-| `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-3-DESIGN-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-DESIGN-LAYOUT.md) |
-| `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-DESIGN-LAYOUT.md), [6-1-1](6-1-IMPL-INTERACTION.md)~[6-1-3](6-1-IMPL-INTERACTION.md), [6-1-6](6-1-IMPL-INTERACTION.md) |
-| `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-DESIGN-LAYOUT.md)·[4-1-3](4-1-DESIGN-LAYOUT.md), [6-1-4](6-1-IMPL-INTERACTION.md) |
-| `src/theme.js` / `theme.css` | [4-2-2](4-2-DESIGN-UI-SYSTEM.md)·[4-2-5](4-2-DESIGN-UI-SYSTEM.md), [6-1-5](6-1-IMPL-INTERACTION.md) |
-| `src/version.js` | [4-4-3](4-4-DESIGN-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
+| `src/data.js` | [3](3-INFORMATION-ARCHITECTURE.md), [6-2](6-2-DATA.md) |
+| `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-3-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-LAYOUT.md) |
+| `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-LAYOUT.md), [6-1-1](6-1-INTERACTION.md)~[6-1-3](6-1-INTERACTION.md), [6-1-6](6-1-INTERACTION.md) |
+| `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-LAYOUT.md)·[4-1-3](4-1-LAYOUT.md), [6-1-4](6-1-INTERACTION.md) |
+| `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md)·[4-2-5](4-2-UI-SYSTEM.md), [6-1-5](6-1-INTERACTION.md) |
+| `src/version.js` | [4-4-3](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
 | `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
-| `src/images/**` | [4-2-4](4-2-DESIGN-UI-SYSTEM.md), [`guides/4-1`](../guides/4-1-ICON-STYLE-GUIDE.md) |
+| `src/images/**` | [4-2-4](4-2-UI-SYSTEM.md), [`guides/4-1`](../guides/4-1-ICON-STYLE-GUIDE.md) |
 | `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
-| `scripts/validate-data.js` | [6-2-5](6-2-IMPL-DATA.md), [4-1-4](4-1-DESIGN-LAYOUT.md) |
-| `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-IMPL-DATA.md) |
-| `scripts/generate-dark-icons.js` | [4-2-4](4-2-DESIGN-UI-SYSTEM.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
+| `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
+| `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
+| `scripts/generate-dark-icons.js` | [4-2-4](4-2-UI-SYSTEM.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
 | `scripts/package-extension.js` / `validate-release.js` | [7-4](7-4-DEPLOYMENT.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
 | `tests/**` | [7-2](7-2-TEST-CASES.md) |
 | `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md)·[7-4-3](7-4-DEPLOYMENT.md) |
@@ -151,12 +151,12 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | --- | --- | --- |
 | 이슈·브랜치·커밋·PR 절차 | [`AGENTS.md`](../../AGENTS.md) | 반복하지 않음 |
 | 카테고리 목록과 화면별 노출 범위 | [3](3-INFORMATION-ARCHITECTURE.md) | `4-1`은 배치만, `6-2`는 형식만 |
-| 데이터 스키마·필드 규칙·삭제 절차 | [6-2](6-2-IMPL-DATA.md) | `2-2`는 운영자 판단 지점만 |
-| 검증·생성 스크립트 실행 순서 | [6-2](6-2-IMPL-DATA.md) | `7-4`는 CI에서 언제 도는지만 |
-| 저장 키와 저장 시점 | [4-4](4-4-DESIGN-STATE.md) | `6-1`은 호출 순서만 |
+| 데이터 스키마·필드 규칙·삭제 절차 | [6-2](6-2-DATA.md) | `2-2`는 운영자 판단 지점만 |
+| 검증·생성 스크립트 실행 순서 | [6-2](6-2-DATA.md) | `7-4`는 CI에서 언제 도는지만 |
+| 저장 키와 저장 시점 | [4-4](4-4-STATE.md) | `6-1`은 호출 순서만 |
 | 외부 호출 계약 | [5](5-CONTRACT.md) | `7-1`은 실패 시 화면 동작만 |
-| 색상 값·토큰 계약 | [4-2](4-2-DESIGN-UI-SYSTEM.md) | 다른 문서는 참조만 |
-| 카드 폭 계산과 줄바꿈 표 | [4-1-4](4-1-DESIGN-LAYOUT.md) | `6-2`는 검증기 동작만 |
+| 색상 값·토큰 계약 | [4-2](4-2-UI-SYSTEM.md) | 다른 문서는 참조만 |
+| 카드 폭 계산과 줄바꿈 표 | [4-1-4](4-1-LAYOUT.md) | `6-2`는 검증기 동작만 |
 | 릴리스 실행 절차 | [`guides/1-RELEASE-PROCESS.md`](../guides/1-RELEASE-PROCESS.md) | `2-2`는 판단 지점, `7-4`는 자동화 경계 |
 | 스토어 배포 체크리스트 | [`guides/2-1-STORE-RELEASE-CHECKLIST.md`](../guides/2-1-STORE-RELEASE-CHECKLIST.md) | `7-4`는 경로와 자동화 범위 |
 | 아이콘 도안 규칙 | [`guides/4-1-ICON-STYLE-GUIDE.md`](../guides/4-1-ICON-STYLE-GUIDE.md) | `4-2-4`는 표시 크기 제약과 색 규칙 |

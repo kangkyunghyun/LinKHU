@@ -26,7 +26,7 @@ description: LinKHU에 새 서비스 아이콘을 만들 때 사용. 기존 아�
 
 **SVG에 적는 값은 라이트 벌 기준 하나뿐이다.** 다크 벌은 생성기가 만든다.
 
-**팔레트는 세 가지뿐이다 — 브랜드 레드, 검정, 투명.** 값의 원본은 [`docs/spec/4-2-DESIGN-UI-SYSTEM.md`](../../../docs/spec/4-2-DESIGN-UI-SYSTEM.md) §4-2-4다.
+**팔레트는 세 가지뿐이다 — 브랜드 레드, 검정, 투명.** 값의 원본은 [`docs/spec/4-2-UI-SYSTEM.md`](../../../docs/spec/4-2-UI-SYSTEM.md) §4-2-4다.
 
 | 용도 | SVG에 적는 값 | 다크 벌 |
 |---|---|---|
@@ -119,7 +119,7 @@ npm run generate:dark-icons
   imgSrc: "images/common/aikhu.png", category: "교육·역량" }
 ```
 
-규칙은 [`docs/spec/6-2-IMPL-DATA.md`](../../../docs/spec/6-2-IMPL-DATA.md)를 따른다.
+규칙은 [`docs/spec/6-2-DATA.md`](../../../docs/spec/6-2-DATA.md)를 따른다.
 
 ### 5. 검증한다
 

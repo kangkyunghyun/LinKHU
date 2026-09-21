@@ -9,7 +9,7 @@
 // 저장된 모드가 오면 그때 보정한다. 기본값이 system이라 보정이 필요한 경우는
 // light/dark를 명시적으로 고른 사용자뿐이다.
 //
-// 규칙의 원본은 docs/spec/4-2-DESIGN-UI-SYSTEM.md의 4-2-5다.
+// 규칙의 원본은 docs/spec/4-2-UI-SYSTEM.md의 4-2-5다.
 const THEME_STORAGE_KEY = "themeMode";
 const THEME_MODES = ["system", "light", "dark"];
 const DEFAULT_THEME_MODE = "system";
