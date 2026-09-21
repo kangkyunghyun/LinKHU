@@ -2,7 +2,7 @@
 
 이 문서는 LinKHU가 무엇이고, 어떤 문제를 어떤 방식으로 푸는지, 그리고 어디까지가 이 제품의 범위인지를 고정한다. 뒤따르는 모든 문서는 여기서 정의한 범위와 용어를 전제로 한다.
 
-기술 스택과 디렉터리 구조도 여기에 둔다. 구현 세부는 [3-1 아키텍처](3-1-DESIGN-SOFTWARE-ARCHITECTURE.md)에서 다루고, 이 문서는 "무엇 위에 서 있는가"까지만 기술한다.
+기술 스택과 디렉터리 구조도 여기에 둔다. 구현 세부는 [4-3 아키텍처](4-3-SOFTWARE-ARCHITECTURE.md)에서 다루고, 이 문서는 "무엇 위에 서 있는가"까지만 기술한다.
 
 ```text
 §1-1   제품 정의         한 줄 정의와 배포 형태
@@ -52,9 +52,9 @@ LinKHU가 만드는 가치는 두 가지다.
 
 - **로그인·인증 대행** — LinKHU는 사용자를 대신해 로그인하지 않는다. 각 서비스의 인증은 해당 사이트에서 이뤄진다.
 - **교내 서비스 데이터 크롤링·중계** — 공지, 성적, 식단 같은 콘텐츠를 가져오지 않는다. 이동만 시킨다.
-- **사용자 행동 수집** — 분석 SDK, 텔레메트리, 원격 로그가 없다. 근거는 [ADR 1-3 최소 권한](../adr/1-3-LEAST-PRIVILEGE.md)을 참고한다.
+- **사용자 행동 수집** — 분석 SDK, 텔레메트리, 원격 로그가 없다. 근거는 [DECISIONS 1-3](DECISIONS.md#d-1-3)을 참고한다.
 - **계정 기반 동기화** — 설정은 브라우저 로컬 저장소에만 남는다. 서버가 없다.
-- **경희대학교 공식 서비스 지위** — LinKHU는 공식 산출물이 아니다. 공식 색상을 쓰되([3-2 UI 규칙](3-2-DESIGN-UI-RULES.md)), 대학을 사칭하지 않는다.
+- **경희대학교 공식 서비스 지위** — LinKHU는 공식 산출물이 아니다. 공식 색상을 쓰되([4-2 UI 규칙](4-2-UI-SYSTEM.md)), 대학을 사칭하지 않는다.
 
 ## 1-4 기술 스택
 
@@ -93,7 +93,7 @@ Manifest V3를 쓴다. 요청 권한은 다음이 전부다.
 | `npm run validate:landing-data` | 위 산출물이 최신인지 확인 (`--check`) |
 | `npm run validate:release` | 태그와 매니페스트 버전 대조 |
 | `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
-| `npm run build` | 위 검증을 묶어 실행 (test → validate:data → validate:landing-data → package) |
+| `npm run build` | 위 검증을 묶어 실행 (test → validate:data → validate:dark-icons → validate:landing-data → package) |
 
 CI는 Node.js 22를 쓴다.
 
@@ -120,10 +120,7 @@ landing/        GitHub Pages로 서빙되는 랜딩
 
 assets/icons/   아이콘 SVG 원본
 docs/           프로젝트 문서
-  requirements/ 요구사항과 완료 조건
-  adr/          설계 결정 기록
-  design/       구현 설계
-  spec/         이 스펙 문서
+  spec/         이 스펙 문서 + DECISIONS.md
   guides/       릴리스·배포·아이콘 운영 문서
   copy/         스토어·커뮤니티 문구
   releases/     버전별 릴리스 노트
@@ -146,7 +143,7 @@ tests/          node --test 대상 테스트
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
 | **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
 | **랜딩(Landing)** | GitHub Pages로 서빙되는 `landing/index.html` 소개 페이지. |
-| **디자인 토큰(Design Token)** | `src/theme.css`의 `:root` CSS 변수. 색상 값의 단일 소스다. [3-2](3-2-DESIGN-UI-RULES.md) 참고. |
+| **디자인 토큰(Design Token)** | `src/theme.css`의 `:root` CSS 변수. 색상 값의 단일 소스다. [4-2](4-2-UI-SYSTEM.md) 참고. |
 
 ## 1-7 검토 중인 범위 확장
 
@@ -158,6 +155,6 @@ tests/          node --test 대상 테스트
 
 확정 전까지 지켜야 할 것은 다음이다.
 
-- **외부 공지·홍보에서 이 기능을 예정된 것으로 말하지 않는다** (MUST). 구현되지 않은 기능을 알리면 약속이 되고, 무산되면 신뢰를 잃는다. 릴리스 공지 규칙은 [7-DEPLOYMENT](7-DEPLOYMENT.md)에 있다.
-- 착수한다면 §1-3의 "하지 않는 것"과 충돌하는지 먼저 판단한다 (MUST). 특히 노출·클릭 집계가 필요해지는 순간 [ADR 1-3 최소 권한](../adr/1-3-LEAST-PRIVILEGE.md)과 정면으로 부딪힌다. 집계 없이 운영할 수 있는 형태인지가 착수 조건이다.
-- 팝업은 320px 폭의 도구 화면이다. 배너가 바로가기 조작을 밀어내면 안 된다 ([3-2](3-2-DESIGN-UI-RULES.md)).
+- **외부 공지·홍보에서 이 기능을 예정된 것으로 말하지 않는다** (MUST). 구현되지 않은 기능을 알리면 약속이 되고, 무산되면 신뢰를 잃는다. 릴리스 공지 규칙은 [7-4 배포](7-4-DEPLOYMENT.md)에 있다.
+- 착수한다면 §1-3의 "하지 않는 것"과 충돌하는지 먼저 판단한다 (MUST). 특히 노출·클릭 집계가 필요해지는 순간 [DECISIONS 1-3](DECISIONS.md#d-1-3)과 정면으로 부딪힌다. 집계 없이 운영할 수 있는 형태인지가 착수 조건이다.
+- 팝업은 320px 폭의 도구 화면이다. 배너가 바로가기 조작을 밀어내면 안 된다 ([4-2](4-2-UI-SYSTEM.md)).

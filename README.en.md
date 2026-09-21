@@ -105,11 +105,8 @@ LinKHU/
 │   ├── images/                # Service icons by category
 │   └── icons/                 # Extension icons
 ├── assets/icons/              # Icon SVG originals
-├── docs/                      # requirements, ADR, design, spec + operation docs
-│   ├── requirements/         # Requirements and acceptance criteria
-│   ├── adr/                  # Decision records
-│   ├── design/               # Implementation designs
-│   ├── spec/                 # Current behavior
+├── docs/                      # spec + operation docs
+│   ├── spec/                 # Background, requirements, design, contract, impl, ops + DECISIONS.md
 │   ├── guides/               # Operational guides
 │   ├── copy/                 # Store and community copy
 │   └── releases/             # Release notes per version

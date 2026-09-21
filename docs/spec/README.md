@@ -2,17 +2,17 @@
 
 LinKHU는 경희대학교 주요 웹서비스 바로가기를 제공하는 브라우저 확장 프로그램이다.
 
-이 폴더는 **현재 구조와 동작**을 기록하며 코드와 함께 갱신한다. 결정의 배경과 대안은 [ADR](../adr/README.md), 만들 기능과 완료 조건은 [요구사항](../requirements/README.md), 구현 방법은 [설계](../design/README.md)에 있다. 네 계층의 역할과 수명은 [`docs/README.md`](../README.md)가 정한다. "어떻게 일하는가"(이슈·브랜치·커밋·PR·검증 절차)는 [`AGENTS.md`](../../AGENTS.md)가 원본이며, 여기서 반복하지 않는다. 운영 절차 문서(릴리스, 스토어 배포, 아이콘 가이드 등)는 [`docs/`](..)에 있고, 이 폴더는 링크로만 연결한다.
+이 폴더가 **저장소의 유일한 문서 원본**이다. 배경·요구사항·설계·계약·구현 규약·운영을 번호 계층으로 담고, 결정의 배경과 대안은 [`DECISIONS.md`](DECISIONS.md)가 로그로 따로 쌓는다. "어떻게 일하는가"(이슈·브랜치·커밋·PR 절차)는 [`AGENTS.md`](../../AGENTS.md)가 원본이며 여기서 반복하지 않는다. 릴리스·스토어 배포·아이콘 같은 운영 절차 문서는 [`docs/guides/`](../guides/README.md)에 있고, 이 폴더는 링크로만 연결한다.
 
 ## 문서 상태
 
 | 항목 | 값 |
 | --- | --- |
-| 상태 | Baseline v1 |
-| 기준일 | 2026-08-27 |
+| 상태 | Baseline v2 |
+| 기준일 | 2026-09-21 |
 | 제품명 | LinKHU |
 | 저장소 | https://github.com/kangkyunghyun/LinKHU |
-| 기준 버전 | `src/manifest.json` v2.6.0 |
+| 기준 버전 | `src/manifest.json` v2.8.0 |
 
 이 기준선은 위 시점의 코드를 읽고 대조해 작성했다.
 
@@ -32,10 +32,10 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 
 | 절 | 상태 |
 | --- | --- |
-| [3-2-5 다크 테마](3-2-DESIGN-UI-RULES.md) | 현재 코드 반영 완료 (확정 스펙으로 먼저 작성 후 이슈 #97에서 구현) |
+| [4-2-5 다크 테마](4-2-UI-SYSTEM.md) | 현재 코드 반영 완료 (확정 스펙으로 먼저 작성 후 이슈 #97에서 구현) |
 | [1-7 팝업 하단 배너](1-BACKGROUND.md) | 구상 단계 |
 | [2-1-8 키보드 순서 변경](2-1-USER-STORIES.md) | 후속 과제 후보 |
-| [4-9 데이터 검증 보강](4-DATA.md) | 후속 과제 후보 |
+| [6-2-9 데이터 검증 보강](6-2-DATA.md) | 후속 과제 후보 |
 
 ## 키워드
 
@@ -45,44 +45,103 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 - **SHOULD** — 권장한다. 어길 때는 PR 본문에 이유를 남긴다.
 - **MAY** — 선택이다. 해도 되고 안 해도 된다.
 
+## 번호는 층위다
+
+**번호가 작을수록 위다. 위가 바뀌면 아래를 전부 바꾸고, 아래는 위를 바꾸지 못한다** (MUST).
+
+| 층 | 무엇을 정하는가 |
+| --- | --- |
+| 1 | 제품이 무엇이고 어디까지가 범위인가 |
+| 2 | 사용자와 운영자가 무엇을 할 수 있어야 하는가 |
+| 3 | 제품이 다루는 단위와 각 화면이 보여주는 범위 |
+| 4 | 그것을 어떤 화면·조각·상태로 만드는가 |
+| 5 | 바깥과 무엇을 주고받기로 약속했는가 |
+| 6 | 그 약속을 어떤 순서와 규약으로 구현하는가 |
+| 7 | 실패·검증·배포를 어떻게 다루는가 |
+
+**파일명은 층에 문서가 하나면 `N`, 둘 이상이면 `N-M`이다** (MUST). 지금 `1`·`3`·`5`가 하나이고 나머지는 둘 이상이다. 문서가 늘어 쪼개질 때 비로소 `N-1`·`N-2`를 붙이고, 그때 바깥 링크를 함께 고친다.
+
+이 방향이 리뷰 순서이기도 하다. 위 문서부터 합의하고 아래로 내려간다. **아래를 고치려다 위를 고쳐야 한다면 그건 위쪽 설계가 틀렸다는 신호다** — 아래에 맞춰 위를 주무르지 말고, 위가 왜 틀렸는지부터 본다.
+
+예를 들어 카테고리를 하나 늘리는 변경은 3층이므로 4층(설정 화면 영역·필터 칩), 6층(데이터 계약·검증기), 7층(테스트)이 함께 움직인다. 반대로 카드 여백을 조정하는 변경은 4층이라 위로 올라가지 않는다.
+
 ## 읽는 순서
 
 ```text
 1     BACKGROUND                     제품 정의, 문제와 가치, 범위, 기술 스택, 용어
 2-1   USER-STORIES                   학생 사용자가 무엇을 하려고 하는가
 2-2   OPERATOR-REQUIREMENTS          메인테이너가 무엇을 유지해야 하는가
-3-1   DESIGN-SOFTWARE-ARCHITECTURE   3개 화면과 데이터 흐름, 저장소 사용
-3-2   DESIGN-UI-RULES                공식 색상표, 디자인 토큰 규칙, 다크 테마 스펙
-4     DATA                           MASTER_SITE_LIST 스키마, 검증 파이프라인, 데이터 함정
-5     TESTING                        자동 테스트, 수동 검증, 검증 환경, 오류 처리
-7     DEPLOYMENT                     릴리스와 스토어 배포, 자격 증명, 배포 후 확인
+3     INFORMATION-ARCHITECTURE       다루는 단위, 카테고리, 화면별 범위, 검색 범위
+4-1   LAYOUT                         화면 영역, 설정 목록 격자, 팝업 카드 이름
+4-2   UI-SYSTEM                      공식 색상표, 디자인 토큰, 다크 테마
+4-3   SOFTWARE-ARCHITECTURE          3개 화면 경계, 스크립트 결합, 공용 유틸
+4-4   STATE                          저장 키, 사용자 설정과 캐시, 비동기 렌더
+5     CONTRACT                       랜딩 파생 산출물, GitHub API, Google Forms
+6-1   INTERACTION                    렌더·검색·이동·저장·테마·안내의 실행 순서
+6-2   DATA                           MASTER_SITE_LIST 스키마, 검증 파이프라인
+7-1   ERROR-HANDLING                 실패 상황에서의 동작 규약
+7-2   TEST-CASES                     자동 테스트, 수동 검증 매트릭스, 검증 환경
+7-4   DEPLOYMENT                     릴리스와 스토어 배포, 자격 증명, 배포 후 확인
+
+DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙이기만 한다)
 ```
 
-6번 관측 레이어는 만들지 않는다. LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않으므로 관측할 수단 자체가 없다. 근거는 [ADR 1-3 최소 권한](../adr/1-3-LEAST-PRIVILEGE.md)을 참고한다.
+**7-3 관측은 결번이다.** LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않으므로 관측할 수단 자체가 없다. 번호를 당기지 않고 비워 둔다 — 층위 번호를 옮기면 바깥 링크가 전부 깨지고, 빈 자리가 "없다"는 사실을 남긴다. 근거는 [DECISIONS 1-3](DECISIONS.md#d-1-3)이다.
 
 ## 문서와 책임
 
 | 문서 | 책임 |
 | --- | --- |
-| [1-BACKGROUND.md](1-BACKGROUND.md) | 제품이 무엇이고 어디까지가 범위인지, 어떤 기술 위에 서 있는지, 검토 중인 범위 확장 |
-| [2-1-USER-STORIES.md](2-1-USER-STORIES.md) | 학생 사용자의 핵심 사용 사례와 완료 조건, 접근성 후속 과제 |
-| [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리와 응대 방침 |
-| [3-1-DESIGN-SOFTWARE-ARCHITECTURE.md](3-1-DESIGN-SOFTWARE-ARCHITECTURE.md) | 화면 구성, 스크립트 로드 순서, 공용 유틸, 저장소, 랜딩 데이터 파생 흐름 |
-| [3-2-DESIGN-UI-RULES.md](3-2-DESIGN-UI-RULES.md) | 경희대 공식 색상표와 대비 실측, 디자인 토큰 SSOT 규칙, 확장-랜딩 우선순위, 다크 테마 확정 스펙 |
-| [4-DATA.md](4-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약, URL 점검 함정 |
-| [5-TESTING.md](5-TESTING.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경 준비, 특별 검증 절차, 오류 처리 |
-| [7-DEPLOYMENT.md](7-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지, 상세 문서 링크 |
+| [1-BACKGROUND.md](1-BACKGROUND.md) | 제품이 무엇이고 어디까지가 범위인지, 어떤 기술 위에 서 있는지 |
+| [2-1-USER-STORIES.md](2-1-USER-STORIES.md) | 학생 사용자의 핵심 사용 사례와 완료 조건 |
+| [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리 |
+| [3-INFORMATION-ARCHITECTURE.md](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리 8개, 화면별 노출 범위, 기본 목록, 검색 순위 |
+| [4-1-LAYOUT.md](4-1-LAYOUT.md) | 팝업·설정 영역 순서, 격자 열 수, 카드 폭 계산과 줄바꿈 표 |
+| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, 다크 테마 |
+| [4-3-SOFTWARE-ARCHITECTURE.md](4-3-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
+| [4-4-STATE.md](4-4-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
+| [5-CONTRACT.md](5-CONTRACT.md) | 랜딩 파생 산출물, GitHub 릴리스 API, Google Forms, 공통 원칙 |
+| [6-1-INTERACTION.md](6-1-INTERACTION.md) | 렌더·검색·이동·저장·테마·단축키 안내의 실행 순서 |
+| [6-2-DATA.md](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
+| [7-1-ERROR-HANDLING.md](7-1-ERROR-HANDLING.md) | 데이터·저장소·네트워크·자산 실패 시의 동작 |
+| [7-2-TEST-CASES.md](7-2-TEST-CASES.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경, 특별 검증 절차 |
+| [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지 |
+| [DECISIONS.md](DECISIONS.md) | 결정 22건의 배경·대안·채택·영향 |
+
+## 코드와 스펙의 대응
+
+어떤 파일을 고칠 때 어떤 문서를 함께 봐야 하는지를 고정한다. **코드를 바꾸면 여기 짝지어진 문서를 같은 PR에서 갱신한다** (MUST).
+
+| 코드 | 스펙 |
+| --- | --- |
+| `src/manifest.json` | [1-BACKGROUND](1-BACKGROUND.md), [7-4](7-4-DEPLOYMENT.md), [DECISIONS 1-2](DECISIONS.md#d-1-2)·[1-3](DECISIONS.md#d-1-3) |
+| `src/data.js` | [3](3-INFORMATION-ARCHITECTURE.md), [6-2](6-2-DATA.md) |
+| `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-3-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-LAYOUT.md) |
+| `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-LAYOUT.md), [6-1-1](6-1-INTERACTION.md)~[6-1-3](6-1-INTERACTION.md), [6-1-6](6-1-INTERACTION.md) |
+| `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-LAYOUT.md)·[4-1-3](4-1-LAYOUT.md), [6-1-4](6-1-INTERACTION.md) |
+| `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md)·[4-2-5](4-2-UI-SYSTEM.md), [6-1-5](6-1-INTERACTION.md) |
+| `src/version.js` | [4-4-3](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
+| `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
+| `src/images/**` | [4-2-4](4-2-UI-SYSTEM.md), [`guides/4-1`](../guides/4-1-ICON-STYLE-GUIDE.md) |
+| `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
+| `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
+| `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
+| `scripts/generate-dark-icons.js` | [4-2-4](4-2-UI-SYSTEM.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
+| `scripts/package-extension.js` / `validate-release.js` | [7-4](7-4-DEPLOYMENT.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
+| `tests/**` | [7-2](7-2-TEST-CASES.md) |
+| `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md)·[7-4-3](7-4-DEPLOYMENT.md) |
 
 ## 변경 원칙
 
 1. **스펙이 먼저다.** 구현 PR은 관련 스펙 문서를 먼저 갱신하거나, 스펙과 구현을 **같은 PR에서 함께** 바꾼다 (MUST). 스펙 없이 구현부터 하고 문서를 나중에 맞추지 않는다.
-2. 코드나 규칙을 바꾸면 그 영향을 받는 스펙 문서를 **같은 PR에서** 갱신한다 (MUST). 문서 갱신을 후속 PR로 미루지 않는다.
-3. 절의 성격이 문서 기본값과 다르면 위 문서 상태 표의 표기를 서두에 붙인다 (MUST). 읽는 사람이 "이미 있는 것", "만들어야 할 것", "언젠가 할 수도 있는 것"을 구분할 수 있어야 한다.
-4. 사실 기록에는 코드에서 확인할 수 없는 내용을 적지 않는다 (MUST). 확정 스펙에는 검증 가능한 기준을 적는다 (MUST) — "적절한 대비"가 아니라 "4.5:1 이상"처럼, "깜빡임 없음"이 아니라 "첫 페인트 전 표식 적용"처럼 측정 가능해야 한다.
-5. **문서와 코드가 어긋나면 어느 쪽이 앞서 있는지 밝힌다** (MUST). 계약을 바꾸려는 것이면 스펙을 먼저 고치고 구현을 맞추고, 현행 동작을 잘못 기술한 것이면 문서를 고친다.
-6. 같은 내용을 두 곳에 쓰지 않는다 (MUST). 아래 원본 표에서 그 주제의 원본을 확인하고, 다른 문서에서는 링크로 대체한다.
-7. 설계 방향을 바꾸는 판단(무엇을 채택했고 무엇을 거부했는지)은 [ADR](../adr/README.md)에 배경·대안·영향과 함께 남긴다 (MUST). 같은 논쟁을 PR마다 반복하지 않기 위한 기록이다. 스펙에는 결과만 쓰고 ADR을 링크한다.
-8. 기준선을 크게 바꾸는 개정은 위 문서 상태 표의 상태와 기준일을 함께 올린다 (SHOULD).
+2. **위 번호를 고쳤으면 아래를 전부 훑는다** (MUST). 위가 바뀌면 아래가 따라오고, 아래 때문에 위를 고쳐야 한다면 위쪽 설계를 먼저 의심한다.
+3. 코드를 바꾸면 위 대응표에서 짝지어진 문서를 **같은 PR에서** 갱신한다 (MUST). 문서 갱신을 후속 PR로 미루지 않는다.
+4. 절의 성격이 문서 기본값과 다르면 문서 상태 표의 표기를 서두에 붙인다 (MUST).
+5. 사실 기록에는 코드에서 확인할 수 없는 내용을 적지 않는다 (MUST). 확정 스펙에는 검증 가능한 기준을 적는다 (MUST) — "적절한 대비"가 아니라 "4.5:1 이상"처럼 측정 가능해야 한다.
+6. **문서와 코드가 어긋나면 어느 쪽이 앞서 있는지 밝힌다** (MUST). 계약을 바꾸려는 것이면 스펙을 먼저 고치고 구현을 맞추고, 현행 동작을 잘못 기술한 것이면 문서를 고친다.
+7. 같은 내용을 두 곳에 쓰지 않는다 (MUST). 아래 원본 표에서 그 주제의 원본을 확인하고, 다른 문서에서는 링크로 대체한다.
+8. 설계 방향을 바꾸는 판단은 [`DECISIONS.md`](DECISIONS.md)에 배경·대안·채택·영향과 함께 남긴다 (MUST). 스펙에는 결과만 쓰고 앵커로 링크한다.
+9. 기준선을 크게 바꾸는 개정은 문서 상태 표의 상태와 기준일을 함께 올린다 (SHOULD).
 
 ## 주제별 원본
 
@@ -91,13 +150,15 @@ LinKHU는 **스펙을 먼저 확정하고 구현이 스펙을 따르는** 방식
 | 주제 | 원본 | 다른 문서의 역할 |
 | --- | --- | --- |
 | 이슈·브랜치·커밋·PR 절차 | [`AGENTS.md`](../../AGENTS.md) | 반복하지 않음 |
-| 만들 기능과 완료 조건 | [요구사항](../requirements/README.md) | 스펙은 구현된 결과만 |
-| 구현 방법 | [설계](../design/README.md) | 스펙은 구현된 결과만 |
-| 데이터 스키마·필드 규칙·삭제 절차 | [4-DATA](4-DATA.md) | `2-2`는 운영자 판단 지점만 |
-| 검증·생성 스크립트 실행 순서 | [4-DATA](4-DATA.md) | `7`은 CI에서 언제 도는지만 |
-| 릴리스 실행 절차 | [`docs/guides/1-RELEASE-PROCESS.md`](../guides/1-RELEASE-PROCESS.md) | `2-2`는 판단 지점, `7`은 자동화 경계 |
-| 스토어 배포 체크리스트 | [`docs/guides/2-1-STORE-RELEASE-CHECKLIST.md`](../guides/2-1-STORE-RELEASE-CHECKLIST.md) | `7`은 경로와 자동화 범위 |
-| 색상 값·토큰 계약 | [3-2](3-2-DESIGN-UI-RULES.md) | 다른 문서는 참조만 |
-| 아이콘 도안 규칙 | [`docs/guides/4-1-ICON-STYLE-GUIDE.md`](../guides/4-1-ICON-STYLE-GUIDE.md) | `3-2`는 표시 크기 제약과 임시 색상 규칙 |
-| 수동 검증 항목 | [5-TESTING](5-TESTING.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
-| 결정의 배경과 대안 | [ADR](../adr/README.md) | 다른 문서는 결과만 쓰고 링크 |
+| 카테고리 목록과 화면별 노출 범위 | [3](3-INFORMATION-ARCHITECTURE.md) | `4-1`은 배치만, `6-2`는 형식만 |
+| 데이터 스키마·필드 규칙·삭제 절차 | [6-2](6-2-DATA.md) | `2-2`는 운영자 판단 지점만 |
+| 검증·생성 스크립트 실행 순서 | [6-2](6-2-DATA.md) | `7-4`는 CI에서 언제 도는지만 |
+| 저장 키와 저장 시점 | [4-4](4-4-STATE.md) | `6-1`은 호출 순서만 |
+| 외부 호출 계약 | [5](5-CONTRACT.md) | `7-1`은 실패 시 화면 동작만 |
+| 색상 값·토큰 계약 | [4-2](4-2-UI-SYSTEM.md) | 다른 문서는 참조만 |
+| 카드 폭 계산과 줄바꿈 표 | [4-1-4](4-1-LAYOUT.md) | `6-2`는 검증기 동작만 |
+| 릴리스 실행 절차 | [`guides/1-RELEASE-PROCESS.md`](../guides/1-RELEASE-PROCESS.md) | `2-2`는 판단 지점, `7-4`는 자동화 경계 |
+| 스토어 배포 체크리스트 | [`guides/2-1-STORE-RELEASE-CHECKLIST.md`](../guides/2-1-STORE-RELEASE-CHECKLIST.md) | `7-4`는 경로와 자동화 범위 |
+| 아이콘 도안 규칙 | [`guides/4-1-ICON-STYLE-GUIDE.md`](../guides/4-1-ICON-STYLE-GUIDE.md) | `4-2-4`는 표시 크기 제약과 색 규칙 |
+| 수동 검증 항목 | [7-2](7-2-TEST-CASES.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
+| 결정의 배경과 대안 | [DECISIONS](DECISIONS.md) | 다른 문서는 결과만 쓰고 링크 |
