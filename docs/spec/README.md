@@ -111,7 +111,7 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-LAYOUT.md), [6-1-1](6-1-INTERACTION.md)~[6-1-3](6-1-INTERACTION.md), [6-1-6](6-1-INTERACTION.md) |
 | `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-LAYOUT.md)·[4-1-3](4-1-LAYOUT.md), [6-1-4](6-1-INTERACTION.md) |
 | `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md)·[4-2-5](4-2-UI-SYSTEM.md), [6-1-5](6-1-INTERACTION.md) |
-| `src/version.js` | [4-4-3](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
+| `src/version.js` | [4-4-2](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
 | `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
 | `src/images/**` | [4-2-4](4-2-UI-SYSTEM.md), [`guides/4-1`](../guides/4-1-ICON-STYLE-GUIDE.md) |
 | `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
