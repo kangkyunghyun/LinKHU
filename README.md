@@ -100,11 +100,8 @@ LinKHU/
 │   ├── images/                # 카테고리별 서비스 아이콘
 │   └── icons/                 # 확장 프로그램 아이콘
 ├── assets/icons/              # 아이콘 SVG 원본
-├── docs/                      # 요구사항·ADR·설계·스펙 + 운영 문서
-│   ├── requirements/         # 요구사항과 완료 조건
-│   ├── adr/                  # 설계 결정 기록
-│   ├── design/               # 구현 설계
-│   ├── spec/                 # 현재 동작
+├── docs/                      # 스펙 + 운영 문서
+│   ├── spec/                 # 배경·요구사항·설계·계약·구현·운영 + DECISIONS.md
 │   ├── guides/               # 운영 절차
 │   ├── copy/                 # 스토어·커뮤니티 문구
 │   └── releases/             # 버전별 릴리스 노트
