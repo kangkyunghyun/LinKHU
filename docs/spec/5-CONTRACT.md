@@ -17,16 +17,14 @@ LinKHU의 카운터파트는 셋이다. 확장이 부르는 외부 API 둘(GitHu
 
 `src/data.js`가 서비스 정보의 단일 소스이고, 랜딩이 쓰는 데이터는 여기서 **생성된 파생물**이다. 손으로 고치는 순간 두 곳이 어긋난다.
 
-```text
-src/data.js  (MASTER_SITE_LIST — 단일 소스)
-      │
-      ├── src/popup.js, src/options.js        직접 참조 (전역)
-      │
-      └── npm run generate:landing-data
-              ├── landing/assets/services.json    id·name·url·category·imgSrc 직렬화
-              └── landing/assets/images/**        src/images/의 사용 중인 아이콘 복사
-                        │
-                        └── landing/landing.js    fetch("assets/services.json")
+```mermaid
+flowchart TD
+    A["src/data.js<br>MASTER_SITE_LIST — 단일 소스"]
+    A -- "전역으로 직접 참조" --> B["src/popup.js<br>src/options.js"]
+    A -- "npm run generate:landing-data" --> C["landing/assets/services.json<br>id·name·url·category·imgSrc 직렬화"]
+    A -- "npm run generate:landing-data" --> D["landing/assets/images/**<br>src/images/의 사용 중인 아이콘 복사"]
+    C -- "fetch" --> E["landing/landing.js"]
+    D --> E
 ```
 
 - `landing/assets/services.json`과 `landing/assets/images/`는 **생성물이다. 직접 수정하지 않는다** (MUST).

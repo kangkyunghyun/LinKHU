@@ -18,12 +18,11 @@ LinKHU의 현재 동작과 그렇게 정한 이유, 그리고 운영 절차를 �
 
 ## 읽는 순서
 
-```text
-spec/README.md          번호가 왜 층위인지, 어느 코드가 어느 문서와 짝인지
-   ↓
-spec/1 ~ spec/7         위에서 아래로. 위가 바뀌면 아래가 따라온다
-   ↓
-spec/DECISIONS.md       "왜 그렇게 정했지?"가 생길 때만
+```mermaid
+flowchart TD
+    A["spec/README.md<br>번호가 왜 층위인지, 어느 코드가 어느 문서와 짝인지"]
+    A --> B["spec/1 ~ spec/7<br>위에서 아래로. 위가 바뀌면 아래가 따라온다"]
+    B --> C["spec/DECISIONS.md<br>왜 그렇게 정했는지 궁금할 때만"]
 ```
 
 스펙 안쪽의 층위 규칙과 읽는 순서는 [`spec/README.md`](spec/README.md)가 원본이다. 작업 절차(이슈·브랜치·커밋·PR)는 [`AGENTS.md`](../AGENTS.md)가 원본이다.

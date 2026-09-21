@@ -15,22 +15,16 @@
 
 ## 6-1-1 팝업 렌더
 
-```text
-DOMContentLoaded
-   ↓
-renderToken = ++state.renderToken        토큰 발급
-   ↓
-chrome.storage.local.get(["userOrder"])
-   ↓
-if (renderToken !== state.renderToken) return    낡은 콜백 폐기
-   ↓
-userOrder ?? getDefaultOrder(MASTER_SITE_LIST)   없으면 기본 목록
-   ↓
-id → 서비스 해석, 없는 id 제외, 중복 id 1회만
-   ↓
-카드 조립 (cardDisplayName으로 줄바꿈 삽입)
-   ↓
-grid-container 교체
+```mermaid
+flowchart TD
+    A["DOMContentLoaded"] --> B["renderToken = ++state.renderToken<br>토큰 발급"]
+    B --> C["chrome.storage.local.get 으로 userOrder 읽기"]
+    C --> D{"renderToken이<br>아직 최신인가"}
+    D -- "아니오" --> X["낡은 콜백이므로 즉시 반환"]
+    D -- "예" --> E["userOrder 없으면<br>getDefaultOrder 로 폴백"]
+    E --> F["id를 서비스로 해석<br>없는 id 제외, 중복 id 1회만"]
+    F --> G["카드 조립<br>cardDisplayName으로 줄바꿈 삽입"]
+    G --> H["grid-container 교체"]
 ```
 
 - **토큰 발급이 `get` 호출보다 먼저다** (MUST). 순서가 뒤집히면 같은 토큰을 두 요청이 나눠 갖는다.
@@ -39,16 +33,15 @@ grid-container 교체
 
 ## 6-1-2 검색 입력 처리
 
-```text
-input 이벤트
-   ↓
-검색어가 비었나? → 예: userOrder 기준으로 §6-1-1 재실행
-   ↓ 아니오
-LinKHUShared.normalize(검색어)                 소문자화 + 공백 제거
-   ↓
-LinKHUShared.rankSites(MASTER_SITE_LIST, q)    전체가 대상
-   ↓
-0건이면 empty-message 노출, 아니면 격자 교체
+```mermaid
+flowchart TD
+    A["input 이벤트"] --> B{"검색어가 비었나"}
+    B -- "예" --> C["userOrder 기준으로 6-1-1 재실행"]
+    B -- "아니오" --> D["LinKHUShared.normalize<br>소문자화 + 공백 제거"]
+    D --> E["LinKHUShared.rankSites<br>MASTER_SITE_LIST 전체가 대상"]
+    E --> F{"결과가 0건인가"}
+    F -- "예" --> G["empty-message 노출"]
+    F -- "아니오" --> H["격자 교체"]
 ```
 
 - **검색 대상은 `userOrder`가 아니라 전체다** (MUST). 근거는 [3-3](3-INFORMATION-ARCHITECTURE.md)에 있다.
@@ -72,18 +65,14 @@ LinKHUShared.rankSites(MASTER_SITE_LIST, q)    전체가 대상
 
 ## 6-1-4 설정 저장
 
-```text
-드래그                              DOM 순서만 바꾼다. 저장하지 않는다
-   ↓
-저장 버튼 클릭
-   ↓
-오른쪽 '내 바로가기' 열에서 id 순서를 읽는다     ← 왼쪽 목록/필터는 보지 않는다
-   ↓
-chrome.storage.local.set({ userOrder })
-   ↓
-chrome.runtime.lastError 확인
-   ↓
-성공 알림 / 실패 알림
+```mermaid
+flowchart TD
+    A["드래그<br>DOM 순서만 바꾼다. 저장하지 않는다"] --> B["저장 버튼 클릭"]
+    B --> C["오른쪽 '내 바로가기' 열에서 id 순서를 읽는다<br>왼쪽 목록과 필터는 보지 않는다"]
+    C --> D["chrome.storage.local.set 으로 userOrder 저장"]
+    D --> E{"chrome.runtime.lastError"}
+    E -- "없음" --> F["성공 알림"]
+    E -- "있음" --> G["실패 알림"]
 ```
 
 - **저장은 버튼에서만 일어난다** (MUST). 드래그 도중 저장하면 되돌릴 수 있는 조작과 확정이 섞인다.
@@ -94,14 +83,11 @@ chrome.runtime.lastError 확인
 
 ## 6-1-5 테마 적용
 
-```text
-<head>에서 theme.js 동기 로드         ← 첫 페인트 전
-   ↓
-저장된 themeMode 해석 (없으면 system)
-   ↓
-문서 루트에 테마 표식 적용
-   ↓
-(이후) 본문 스크립트 로드, 구독 등록
+```mermaid
+flowchart TD
+    A["head에서 theme.js 동기 로드<br>첫 페인트 전"] --> B["저장된 themeMode 해석<br>없으면 system"]
+    B --> C["문서 루트에 테마 표식 적용"]
+    C --> D["본문 스크립트 로드, 구독 등록"]
 ```
 
 - **표식은 첫 페인트 전에 붙어야 한다** (MUST). 본문 뒤로 미루면 라이트로 한 번 그린 뒤 다크로 바뀌는 깜빡임이 보인다. 그래서 `theme.js`만 `<head>` 동기 로드다 ([4-3-2](4-3-SOFTWARE-ARCHITECTURE.md)).
@@ -112,12 +98,14 @@ chrome.runtime.lastError 확인
 
 비동기 확인이 **두 번 연달아** 일어난다. 순서를 바꾸면 등록된 사용자에게도 저장소를 읽는 일이 생긴다.
 
-```text
-chrome.commands.getAll                      ① 등록 여부
-   ↓ 미등록일 때만
-chrome.storage.local.get(["shortcutNoticeDismissed"])   ② 닫은 적 있나
-   ↓ true가 아닐 때만
-헤더 아래 안내 표시
+```mermaid
+flowchart TD
+    A["chrome.commands.getAll<br>① 등록 여부"] --> B{"단축키가<br>등록되어 있나"}
+    B -- "예" --> X["안내를 띄우지 않는다"]
+    B -- "아니오" --> C["shortcutNoticeDismissed 읽기<br>② 닫은 적 있나"]
+    C --> D{"true인가"}
+    D -- "예" --> X
+    D -- "아니오" --> E["헤더 아래 안내 표시"]
 ```
 
 - `chrome.commands?.getAll`이 없는 환경이면 **아무것도 하지 않고 반환한다** (MUST). 안내가 없는 것이 잘못된 안내보다 낫다.

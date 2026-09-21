@@ -93,7 +93,7 @@ Manifest V3를 쓴다. 요청 권한은 다음이 전부다.
 | `npm run validate:landing-data` | 위 산출물이 최신인지 확인 (`--check`) |
 | `npm run validate:release` | 태그와 매니페스트 버전 대조 |
 | `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
-| `npm run build` | 위 검증을 묶어 실행 (test → validate:data → validate:landing-data → package) |
+| `npm run build` | 위 검증을 묶어 실행 (test → validate:data → validate:dark-icons → validate:landing-data → package) |
 
 CI는 Node.js 22를 쓴다.
 

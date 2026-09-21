@@ -199,8 +199,9 @@ src/images/departments/   학과
 
 ### `npm run build`에서의 순서
 
-```text
-npm test  →  validate:data  →  validate:landing-data  →  package
+```mermaid
+flowchart LR
+    A["npm test"] --> B["validate:data"] --> C["validate:dark-icons"] --> D["validate:landing-data"] --> E["package"]
 ```
 
 데이터를 바꾸고 랜딩 산출물 생성을 잊으면 `validate:landing-data`에서 막힌다. CI가 같은 명령을 실행하므로 로컬에서 잊어도 PR에서 걸린다.

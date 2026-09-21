@@ -26,11 +26,16 @@
 
 번들러가 없으므로 각 스크립트는 전역 객체를 노출하고, HTML이 순서대로 로드해 결합한다.
 
-```text
-popup.html    <head> theme.js
-              <body 끝> data.js → shared.js → version.js → feedback.js → popup.js
-options.html  <head> theme.js
-              <body 끝> data.js → shared.js → feedback.js → options.js
+```mermaid
+flowchart LR
+    subgraph P["popup.html"]
+        direction LR
+        P0["head<br>theme.js"] --> P1["data.js"] --> P2["shared.js"] --> P3["version.js"] --> P4["feedback.js"] --> P5["popup.js"]
+    end
+    subgraph O["options.html"]
+        direction LR
+        O0["head<br>theme.js"] --> O1["data.js"] --> O2["shared.js"] --> O3["feedback.js"] --> O4["options.js"]
+    end
 ```
 
 `theme.js`만 `<head>`에서 동기 로드한다 (MUST). 테마 표식을 첫 페인트 전에 붙여야 하기 때문이며, 근거는 [4-2](4-2-UI-SYSTEM.md)에 있다. 나머지는 본문 뒤에서 로드한다.
