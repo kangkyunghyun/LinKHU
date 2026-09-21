@@ -2,7 +2,7 @@
 
 이 문서는 LinKHU가 어떤 조각으로 나뉘고 그 조각들이 어떻게 연결되는지를 기술한다. 빌드 단계가 없기 때문에 "모듈 그래프"가 아니라 **HTML의 스크립트 로드 순서와 전역 객체**가 결합 방식이다. 이 특성을 모르면 파일을 옮기거나 `import`를 도입하려다 화면을 깨뜨린다.
 
-조각이 들고 있는 값과 저장 규칙은 4-4 상태에, 조각 바깥과 주고받는 약속은 5 계약에 있다. 이 문서는 **무엇이 무엇을 부를 수 있는가**까지만 다룬다.
+이 문서는 **무엇이 무엇을 부를 수 있는가**까지만 다룬다. 조각이 들고 있는 값과 바깥과 주고받는 약속은 여기서 다루지 않는다.
 
 ```text
 §4-3-1   3개 화면            popup, options, landing의 경계
@@ -38,7 +38,7 @@ flowchart LR
     end
 ```
 
-`theme.js`만 `<head>`에서 동기 로드한다 (MUST). 테마 표식을 첫 페인트 전에 붙여야 하기 때문이며, 근거는 §4-2에 있다. 나머지는 본문 뒤에서 로드한다.
+`theme.js`만 `<head>`에서 동기 로드한다. 테마 표식을 첫 페인트 전에 붙여야 하기 때문이며, 근거는 §4-2에 있다. 나머지는 본문 뒤에서 로드한다.
 
 | 파일 | 노출하는 전역 | 책임 |
 | --- | --- | --- |
@@ -51,9 +51,9 @@ flowchart LR
 
 ES 모듈로 전환하지 않고 classic script를 유지하는 이유는 DECISIONS 1-4에 있다 — 검증 스크립트와 테스트 하네스가 이 로딩 방식에 묶여 있다.
 
-**의존 대상은 반드시 자신보다 먼저 로드되어야 한다** (MUST). `popup.js`는 `MASTER_SITE_LIST`와 `LinKHUShared`가 이미 정의되어 있다고 가정하고 실행된다.
+**의존 대상은 반드시 자신보다 먼저 로드되어야 한다**. `popup.js`는 `MASTER_SITE_LIST`와 `LinKHUShared`가 이미 정의되어 있다고 가정하고 실행된다.
 
-`shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되고 Node 테스트에서는 `require`로 불러올 수 있게 하기 위한 장치다 (MUST). 새 공용 모듈을 추가할 때도 같은 패턴을 따른다.
+`shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되고 Node 테스트에서는 `require`로 불러올 수 있게 하기 위한 장치다. 새 공용 모듈을 추가할 때도 같은 패턴을 따른다.
 
 문의 폼은 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다.
 
@@ -68,6 +68,6 @@ ES 모듈로 전환하지 않고 classic script를 유지하는 이유는 DECISI
 | `rankSites(sites, q)` | 점수 오름차순, 동점이면 원본 배열 순서 유지 |
 | `getDefaultOrder(list)` | 기본 목록(`DEFAULT_SITE_IDS`) 중 `list`에 있는 서비스의 id 배열. 이름 `ko-KR` 가나다순 |
 
-`rankSites`는 동점 처리에 원본 인덱스를 쓴다 (MUST). 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
+`rankSites`는 동점 처리에 원본 인덱스를 쓴다. 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
 
-랜딩의 `landing/landing.js`는 같은 규칙을 `normalizeSearchText`, `scoreService`, `searchServices`로 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꿔야 한다** (MUST). 두 구현의 결과 일치는 테스트로 고정되어 있다 (7-2 테스트 케이스 참고).
+랜딩의 `landing/landing.js`는 같은 규칙을 `normalizeSearchText`, `scoreService`, `searchServices`로 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꿔야 한다**. 두 구현의 결과 일치는 테스트로 고정되어 있다 (7-2 테스트 케이스 참고).
