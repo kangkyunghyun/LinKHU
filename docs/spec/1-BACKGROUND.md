@@ -128,7 +128,6 @@ landing/        GitHub Pages로 서빙되는 랜딩
 assets/icons/   아이콘 SVG 원본
 docs/           프로젝트 문서
   spec/         이 스펙 문서 + DECISIONS.md
-  guides/       릴리스·배포·아이콘 운영 문서
   copy/         스토어·커뮤니티 문구
   releases/     버전별 릴리스 노트
 

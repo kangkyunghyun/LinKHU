@@ -2,7 +2,7 @@
 
 LinKHU는 경희대학교 주요 웹서비스 바로가기를 제공하는 브라우저 확장 프로그램이다.
 
-이 폴더가 **저장소의 유일한 문서 원본**이다. 배경·요구사항·설계·계약·구현 규약·운영을 번호 계층으로 담고, 결정의 배경과 대안은 [`DECISIONS.md`](DECISIONS.md)가 로그로 따로 쌓는다. "어떻게 일하는가"(이슈·브랜치·커밋·PR 절차)는 [`AGENTS.md`](../../AGENTS.md)가 원본이며 여기서 반복하지 않는다. 릴리스·스토어 배포·아이콘 같은 운영 절차 문서는 [`docs/guides/`](../guides/README.md)에 있고, 이 폴더는 링크로만 연결한다.
+이 폴더가 **저장소의 유일한 문서 원본**이다. 배경·요구사항·설계·계약·구현 규약·운영을 번호 계층으로 담고, 결정의 배경과 대안은 [`DECISIONS.md`](DECISIONS.md)가 로그로 따로 쌓는다. "어떻게 일하는가"(이슈·브랜치·커밋·PR 절차)는 [`AGENTS.md`](../../AGENTS.md)가 원본이며 여기서 반복하지 않는다. 릴리스·스토어 제출·아이콘·스크린샷 같은 운영 규격도 모두 이 안의 번호 계층에 있다.
 
 ## 전체 그림
 
@@ -65,22 +65,26 @@ flowchart LR
 ## 읽는 순서
 
 ```text
-1     BACKGROUND                     제품 정의, 문제와 가치, 범위, 기술 스택, 용어
-2-1   USER-STORIES                   학생 사용자가 무엇을 하려고 하는가
-2-2   OPERATOR-REQUIREMENTS          메인테이너가 무엇을 유지해야 하는가
-3     INFORMATION-ARCHITECTURE       다루는 단위, 카테고리, 화면별 범위, 검색 범위
-4-1   LAYOUT                         화면 영역, 설정 목록 격자, 팝업 카드 이름
-4-2   UI-SYSTEM                      공식 색상표, 디자인 토큰, 다크 테마
-4-3   SOFTWARE-ARCHITECTURE          3개 화면 경계, 스크립트 결합, 공용 유틸
-4-4   STATE                          저장 키, 사용자 설정과 캐시, 비동기 렌더
-5     CONTRACT                       랜딩 파생 산출물, GitHub API, Google Forms
-6-1   INTERACTION                    렌더·검색·이동·저장·테마·안내의 실행 순서
-6-2   DATA                           MASTER_SITE_LIST 스키마, 검증 파이프라인
-7-1   ERROR-HANDLING                 실패 상황에서의 동작 규약
-7-2   TEST-CASES                     자동 테스트, 수동 검증 매트릭스, 검증 환경
-7-4   DEPLOYMENT                     릴리스와 스토어 배포, 자격 증명, 배포 후 확인
+1     BACKGROUND               제품 정의, 문제와 가치, 범위, 기술 스택, 용어
+2-1   USER-STORIES             학생 사용자가 무엇을 하려고 하는가
+2-2   OPERATOR-REQUIREMENTS    메인테이너가 무엇을 유지해야 하는가
+3     INFORMATION-ARCHITECTURE 다루는 단위, 카테고리, 화면별 범위, 검색 범위
+4-1   LAYOUT                   화면 영역, 설정 목록 격자, 팝업 카드 이름
+4-2   UI-SYSTEM                공식 색상표, 디자인 토큰, UI 아이콘, 다크 테마
+4-3   SOFTWARE-ARCHITECTURE    3개 화면 경계, 스크립트 결합, 공용 유틸
+4-4   STATE                    저장 키, 사용자 설정과 캐시, 비동기 렌더
+4-5   SERVICE-ICON             팔레트, 두 벌 체계, 생성기, 추가 절차
+4-6   SCREENSHOT               세 장의 규격, 촬영 방식, 개인정보 처리
+5     CONTRACT                 랜딩 파생 산출물, GitHub API, Google Forms
+6-1   INTERACTION              렌더·검색·이동·저장·테마·안내의 실행 순서
+6-2   DATA                     MASTER_SITE_LIST 스키마, 검증 파이프라인
+7-1   ERROR-HANDLING           실패 상황에서의 동작 규약
+7-2   TEST-CASES               자동 테스트, 수동 검증 매트릭스, 특별 검증
+7-4   DEPLOYMENT               배포 경로와 자동화 경계, CI, 랜딩 배포
+7-5   RELEASE                  버전 자리, 준비 PR, 태그 push, 릴리스 후 공지
+7-6   STORE                    세 스토어 제출, 자격 증명, 실패 대응
 
-DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙이기만 한다)
+DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기만 한다)
 ```
 
 **7-3 관측은 결번이다.** LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않으므로 관측할 수단 자체가 없다. 번호를 당기지 않고 비워 둔다 — 층위 번호를 옮기면 바깥 링크가 전부 깨지고, 빈 자리가 "없다"는 사실을 남긴다. 근거는 [DECISIONS 1-3](DECISIONS.md#d-1-3)이다.
@@ -94,15 +98,19 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리 |
 | [3-INFORMATION-ARCHITECTURE.md](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리 8개, 화면별 노출 범위, 기본 목록, 검색 순위 |
 | [4-1-LAYOUT.md](4-1-LAYOUT.md) | 팝업·설정 영역 순서, 격자 열 수, 카드 폭 계산과 줄바꿈 표 |
-| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, 다크 테마 |
+| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, UI 아이콘, 다크 테마 |
 | [4-3-SOFTWARE-ARCHITECTURE.md](4-3-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
 | [4-4-STATE.md](4-4-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
+| [4-5-SERVICE-ICON.md](4-5-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 |
+| [4-6-SCREENSHOT.md](4-6-SCREENSHOT.md) | 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 |
 | [5-CONTRACT.md](5-CONTRACT.md) | 랜딩 파생 산출물, GitHub 릴리스 API, Google Forms, 공통 원칙 |
 | [6-1-INTERACTION.md](6-1-INTERACTION.md) | 렌더·검색·이동·저장·테마·단축키 안내의 실행 순서 |
 | [6-2-DATA.md](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
 | [7-1-ERROR-HANDLING.md](7-1-ERROR-HANDLING.md) | 데이터·저장소·네트워크·자산 실패 시의 동작 |
 | [7-2-TEST-CASES.md](7-2-TEST-CASES.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경, 특별 검증 절차 |
-| [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지 |
+| [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, CI 검증, 랜딩 배포 |
+| [7-5-RELEASE.md](7-5-RELEASE.md) | 버전 자리 판단, 준비 PR과 태그 순서, 릴리스 후 공지 |
+| [7-6-STORE.md](7-6-STORE.md) | 세 스토어 제출 절차, 자격 증명, Chrome 실패 대응 |
 | [DECISIONS.md](DECISIONS.md) | 결정 21건의 배경·대안·채택·영향 |
 
 ## 코드와 스펙의 대응
@@ -119,14 +127,15 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md)·[4-2-5](4-2-UI-SYSTEM.md), [6-1-5](6-1-INTERACTION.md) |
 | `src/version.js` | [4-4-2](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
 | `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
-| `src/images/**` | [4-2-4](4-2-UI-SYSTEM.md), [`guides/4-1`](../guides/4-1-ICON-STYLE-GUIDE.md) |
+| `src/images/**` | [4-5](4-5-SERVICE-ICON.md) |
+| `landing/assets/screenshots/**` | [4-6](4-6-SCREENSHOT.md) |
 | `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
 | `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
 | `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
-| `scripts/generate-dark-icons.js` | [4-2-4](4-2-UI-SYSTEM.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
-| `scripts/package-extension.js` / `validate-release.js` | [7-4](7-4-DEPLOYMENT.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
+| `scripts/generate-dark-icons.js` | [4-5-4](4-5-SERVICE-ICON.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
+| `scripts/package-extension.js` / `validate-release.js` | [7-5](7-5-RELEASE.md)·[7-6](7-6-STORE.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
 | `tests/**` | [7-2](7-2-TEST-CASES.md) |
-| `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md)·[7-4-3](7-4-DEPLOYMENT.md) |
+| `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md), [7-5-3](7-5-RELEASE.md), [7-6](7-6-STORE.md) |
 
 ## 변경 원칙
 
@@ -151,8 +160,9 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | 외부 호출 계약 | [5](5-CONTRACT.md) | `7-1`은 실패 시 화면 동작만 |
 | 색상 값·토큰 계약 | [4-2](4-2-UI-SYSTEM.md) | 다른 문서는 참조만 |
 | 카드 폭 계산과 줄바꿈 표 | [4-1-4](4-1-LAYOUT.md) | `6-2`는 검증기 동작만 |
-| 릴리스 실행 절차 | [`guides/1-RELEASE-PROCESS.md`](../guides/1-RELEASE-PROCESS.md) | `2-2`는 판단 지점, `7-4`는 자동화 경계 |
-| 스토어 배포 체크리스트 | [`guides/2-1-STORE-RELEASE-CHECKLIST.md`](../guides/2-1-STORE-RELEASE-CHECKLIST.md) | `7-4`는 경로와 자동화 범위 |
-| 아이콘 도안 규칙 | [`guides/4-1-ICON-STYLE-GUIDE.md`](../guides/4-1-ICON-STYLE-GUIDE.md) | `4-2-4`는 표시 크기 제약과 색 규칙 |
+| 릴리스 실행 절차 | [7-5](7-5-RELEASE.md) | `2-2`는 판단 지점, `7-4`는 자동화 경계 |
+| 스토어 제출 절차 | [7-6](7-6-STORE.md) | `7-4`는 경로와 자동화 범위 |
+| 서비스 아이콘 규칙 | [4-5](4-5-SERVICE-ICON.md) | `4-2-4`는 UI 아이콘만 |
+| 스크린샷 규격 | [4-6](4-6-SCREENSHOT.md) | 다른 문서는 참조만 |
 | 수동 검증 항목 | [7-2](7-2-TEST-CASES.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
 | 결정의 배경과 대안 | [DECISIONS](DECISIONS.md) | 다른 문서는 결과만 쓰고 링크 |

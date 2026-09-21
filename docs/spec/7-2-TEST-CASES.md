@@ -174,7 +174,32 @@ PR 본문에는 **무엇을 어떤 기준으로 확인했는지 재현 가능하
 | 위 확인을 할 때 | 확장과 랜딩 **양쪽에서** 각각 전송한다. 두 경로가 같은 폼을 쓰는지는 테스트가 보지만, 폼 자체가 살아 있는지는 보지 못한다 | MUST |
 | 필드 id를 확인할 때 | 공개된 폼 페이지에서 직접 본다. **일반 공유 링크는 필드 id를 담고 있지 않다** | |
 
-연결 절차는 [문의 채널 설정 가이드](../guides/3-FEEDBACK-SETUP.md)를 따른다. 이 채널을 택한 이유와 그 제약은 DECISIONS 1-5에 있다.
+**라이브 폼 점검**
+
+**설정했다고 믿지 말고 실제 폼을 확인한다** (MUST). 공개된 `viewform` 페이지에 폼 구조가 들어 있어 entry ID와 필수 여부를 한 번에 볼 수 있다.
+
+```bash
+FORM=https://docs.google.com/forms/d/e/<폼 ID>/viewform
+curl -sL "$FORM" -o /tmp/form.html
+
+python3 - /tmp/form.html <<'PYEOF'
+import re, sys, json
+html = open(sys.argv[1], encoding="utf-8").read()
+data = json.loads(re.search(r'FB_PUBLIC_LOAD_DATA_ = (.*?);</script>', html, re.S).group(1))
+for question in data[1][1]:
+    for entry in (question[4] or []):
+        print(f'"{question[1]}"  entry.{entry[0]}  필수={"O" if entry[2] else "X"}')
+PYEOF
+```
+
+기대 출력이다. 다르면 §5-3의 계약이 깨진 것이다.
+
+```text
+"문의 내용"        entry.1096769292  필수=O
+"답변 받을 이메일"  entry.491031779   필수=X
+```
+
+폼 질문을 고친 뒤에는 이 점검을 다시 돌린다 (MUST). 계약과 조용히 실패하는 경우는 §5-3에 있고, 이 채널을 택한 이유와 제약은 DECISIONS 1-5에 있다.
 
 ### 팝업 백지 위험
 
