@@ -49,7 +49,7 @@
 
 ## 4-1-3 설정 페이지 목록
 
-**상태: 현재 코드 반영 완료 (이슈 [#142](https://github.com/kangkyunghyun/LinKHU/issues/142)).**
+이슈 [#142](https://github.com/kangkyunghyun/LinKHU/issues/142)에서 구현했다.
 
 서비스가 늘어날수록 세로로만 쌓는 배치는 훑기 어려워지므로, 왼쪽 "사용 가능한 사이트"는 격자로 깐다.
 
@@ -70,7 +70,7 @@
 
 ### 항목 안의 새 탭 링크
 
-**상태: 현재 코드 반영 완료 (이슈 [#161](https://github.com/kangkyunghyun/LinKHU/issues/161)).**
+이슈 [#161](https://github.com/kangkyunghyun/LinKHU/issues/161)에서 구현했다.
 
 목록 항목 오른쪽 끝에 그 서비스를 새 탭으로 여는 링크를 둔다. 왼쪽 목록과 오른쪽 '내 바로가기' 양쪽에 같은 형태로 붙는다.
 
@@ -91,7 +91,7 @@
 
 ## 4-1-4 팝업 카드 이름
 
-**상태: 현재 코드 반영 완료 (이슈 [#165](https://github.com/kangkyunghyun/LinKHU/issues/165), 폭 재계산은 [#177](https://github.com/kangkyunghyun/LinKHU/issues/177)).**
+이슈 [#165](https://github.com/kangkyunghyun/LinKHU/issues/165)에서 구현했고, 폭 계산은 [#177](https://github.com/kangkyunghyun/LinKHU/issues/177)에서 다시 잡았다.
 
 팝업 카드의 이름 칸은 **두 줄까지만 보이고**(`-webkit-line-clamp: 2`), 넘치면 말줄임된다.
 

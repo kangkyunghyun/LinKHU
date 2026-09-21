@@ -4,7 +4,7 @@
 
 LinKHU의 카운터파트는 셋이다. 확장이 부르는 외부 API 둘(GitHub, Google Forms)과, 확장이 생성해 랜딩에 넘기는 산출물이다. 서버가 없으므로 자체 API는 없고, 따라서 여기에 적히는 것은 **우리가 통제할 수 없는 상대와의 약속**과 **두 화면이 코드를 공유할 수 없어 생긴 약속**뿐이다.
 
-약속이 깨졌을 때 화면이 어떻게 행동하는지는 7-1 오류 처리에 있다.
+**실패했을 때의 동작은 여기 적지 않는다** (MUST). 계약은 주고받기로 한 모양이고, 그 모양이 오지 않았을 때 화면이 무엇을 하는지는 §7-1 오류 처리가 정한다.
 
 ```text
 §5-1   랜딩 파생 산출물     data.js에서 랜딩까지
@@ -27,6 +27,20 @@ flowchart TD
     D --> E
 ```
 
+`services.json`은 다섯 필드를 그대로 직렬화한 배열이다. 여섯 번째 필드를 넣지 않는다 (MUST) — §6-2-1의 스키마가 그대로 계약이다.
+
+```json
+[
+  {
+    "id": "info21",
+    "name": "인포21",
+    "url": "https://portal.khu.ac.kr",
+    "category": "학사·포털",
+    "imgSrc": "images/common/portal.png"
+  }
+]
+```
+
 - `landing/assets/services.json`과 `landing/assets/images/`는 **생성물이다. 직접 수정하지 않는다** (MUST).
 - 생성 스크립트는 사용 중인 아이콘만 복사하고, 더 이상 쓰이지 않는 복사본은 삭제한다.
 - `npm run validate:landing-data`(`--check`)가 산출물이 최신인지 검사하며, `npm run build`에 포함되어 있다. 데이터를 바꾸고 생성을 잊으면 CI가 막는다.
@@ -42,7 +56,28 @@ flowchart TD
 | 주소 | `https://api.github.com/repos/kangkyunghyun/LinKHU/releases/latest` |
 | 부르는 곳 | 확장 `src/version.js`, 랜딩 `landing/landing.js` |
 | 목적 | 최신 릴리스 버전 조회, 랜딩의 변경 이력 표시 |
-| 실패 시 | 캐시된 값 사용, 없으면 안내·섹션 미표시 |
+
+응답에서 **실제로 읽는 필드는 넷뿐이다.** 나머지는 받아도 쓰지 않는다.
+
+| 필드 | 쓰는 곳 | 없으면 |
+| --- | --- | --- |
+| `tag_name` | 확장의 버전 비교, 랜딩의 릴리스 제목 | 확장은 비교를 건너뛴다. 랜딩은 `name`으로 대체 |
+| `name` | 랜딩의 릴리스 제목 대체값 | 빈 제목 |
+| `published_at` | 랜딩의 릴리스 날짜 | 날짜를 비운다 |
+| `body` | 랜딩의 변경 내용 | 빈 본문 |
+
+```text
+GET https://api.github.com/repos/kangkyunghyun/LinKHU/releases/latest
+
+200 {
+  "tag_name": "v2.8.0",
+  "name": "v2.8.0",
+  "published_at": "2026-09-13T00:00:00Z",
+  "body": "### Features\n- ...\n\n### Internal\n- ..."
+}
+```
+
+확장은 `tag_name`에서 앞의 `v`를 떼고 매니페스트 버전과 비교한다. `body`의 `### Internal` 절은 사용자에게 보이지 않아야 하므로 랜딩이 걸러낸다.
 
 - 호스트 권한은 이 **단 하나의 URL**로 좁혀 두었다. 근거는 DECISIONS 1-3에 있다.
 - 확장의 조회는 12시간 캐싱한다 (MUST). rate limit에 걸리면 모든 사용자의 버전 안내가 동시에 실패한다.
@@ -56,7 +91,21 @@ flowchart TD
 | 주소 | Google Forms `formResponse` 엔드포인트 |
 | 부르는 곳 | 확장 `src/feedback.js`, 랜딩 |
 | 목적 | 팝업·설정·랜딩 세 경로의 문의를 폼 하나로 수집 |
-| 실패 시 | 사용자에게 실패 문구 표시 |
+
+보내는 필드는 둘이고, **채워야 하는 값과 비어도 되는 값이 갈린다.**
+
+| 필드 | 내용 | 필수 |
+| --- | --- | --- |
+| `entry.1096769292` | 문의 본문 | **필수.** 비면 보내지 않는다 |
+| `entry.491031779` | 답변받을 이메일 | 선택. 비면 답변 없이 접수된다 |
+
+```text
+POST .../formResponse   (mode: "no-cors")
+entry.1096769292=경영대 홈페이지 주소가 바뀌었습니다
+entry.491031779=            ← 비워도 된다
+```
+
+이메일 질문 id를 설정에서 비워 두면 입력란 자체가 숨겨지므로, 이메일을 받지 않는 구성으로도 운영할 수 있다.
 
 - Google Forms가 CORS 응답 헤더를 주지 않으므로 `mode: "no-cors"`로 보낸다. 응답 본문을 읽을 수 없으므로 **네트워크 오류가 없으면 전송된 것으로 간주한다**. 이 한계를 전제로 성공 문구를 정한다.
 - 폼 주소와 필드 id는 **공개돼도 안전한 값**이다. 노출되어도 남이 할 수 있는 일은 폼에 응답을 넣는 것뿐이다. 근거는 DECISIONS 1-5에 있다.

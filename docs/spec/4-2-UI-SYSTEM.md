@@ -4,19 +4,15 @@
 
 색상 판단이 문서로 고정되어 있지 않으면 PR마다 같은 논쟁이 반복된다. 실제로 그 논쟁이 반려로 이어진 사례가 있고, 기록은 DECISIONS 5-2에 있다.
 
-**§4-2-5 다크 테마는 아직 구현되지 않은 확정 스펙이다.** 나머지 절은 현재 코드의 사실 기록이다. 두 성격이 섞여 있으므로 각 절 서두에 상태를 밝힌다.
-
 ```text
 §4-2-1   경희대 공식 색상표     주색과 보조색, 사용 금지색
 §4-2-2   디자인 토큰 규칙       theme.css SSOT, 랜딩 값 동기, 간격 스케일, 반경·그림자, 글자 크기
 §4-2-3   확장 우선 원칙         확장이 기준, 랜딩이 따른다
 §4-2-4   아이콘               아이콘 스타일 가이드 연결
-§4-2-5   다크 테마 스펙        3단계 테마 모드 확정 스펙 (미구현)
+§4-2-5   다크 테마            3단계 테마 모드, 토큰 스왑, 대비 기준
 ```
 
 ## 4-2-1 경희대 공식 색상표
-
-**상태: 현재 코드 반영 완료.**
 
 LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung Hee Red**다.
 
@@ -59,8 +55,6 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 다크 테마의 대비 기준은 §4-2-5-5에 있다.
 
 ## 4-2-2 디자인 토큰 규칙
-
-**상태: 현재 코드 반영 완료.**
 
 ### SSOT는 `src/theme.css`
 
@@ -113,7 +107,7 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 ### 간격 스케일
 
-**상태: `src/options.css` 반영 완료 (이슈 [#173](https://github.com/kangkyunghyun/LinKHU/issues/173)). `src/popup.css`와 `landing/landing.css`는 아직이다 — 아래 "남은 일" 참조.**
+스케일을 쓰는 곳은 `src/options.css`뿐이다 (이슈 [#173](https://github.com/kangkyunghyun/LinKHU/issues/173)). `src/popup.css`와 `landing/landing.css`는 아직 리터럴을 쓴다.
 
 여백(`padding`·`margin`·`gap`)의 단일 소스도 `src/theme.css`다. 색 토큰과 달리 **테마별로 갈리지 않으므로 `data-theme`별로 재정의하지 않는다** (MUST).
 
@@ -143,15 +137,11 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 `6px`처럼 두 배수의 한가운데 있는 값은 반올림 규칙으로 정해지지 않는다. **왜 그 값인지 한 줄로 답할 수 없으면 아직 정한 것이 아니다** (MUST).
 
-**남은 일**
-
-**`src/popup.css`와 `landing/landing.css`는 아직 스케일을 쓰지 않는다.** 이 절을 "전부 끝났다"로 읽지 않는다. 랜딩은 값 동기 대상이 브랜드 색뿐이므로(위 절) 여백까지 맞출 의무는 없지만, `popup.css`는 같은 확장의 화면이라 옮기는 것이 맞다. 옮길 때는 위와 같이 **자리마다 역할을 보고 정하며, 픽셀이 움직이므로 화면을 보고 판단한다.**
-
-여백이 아닌 값(`border-radius`, `font-size`, `height`, `min-height`, `top`)에는 아직 배수가 아닌 것이 남아 있다. **이 스케일의 대상이 아니므로 그대로 둔다.** 다만 `.list-item`의 `height: 46px`처럼 여백과 함께 움직이는 값은, 카드 안쪽 여백을 다시 조정할 때 함께 본다.
+여백이 아닌 값(`border-radius`, `font-size`, `height`, `min-height`, `top`)은 **이 스케일의 대상이 아니다** (MUST). 배수가 아니어도 그대로 둔다. 다만 `.list-item`의 `height: 46px`처럼 여백과 함께 움직이는 값은, 카드 안쪽 여백을 다시 조정할 때 함께 본다.
 
 ### 반경과 그림자
 
-**상태: 현재 코드 반영 완료 (이슈 [#179](https://github.com/kangkyunghyun/LinKHU/issues/179)).**
+이슈 [#179](https://github.com/kangkyunghyun/LinKHU/issues/179)에서 구현했다.
 
 모서리 반경과 그림자도 `src/theme.css`가 단일 소스다. **확장 CSS에 `border-radius`나 `box-shadow` 리터럴을 새로 쓰지 않는다** (MUST).
 
@@ -178,7 +168,7 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 ### 글자 크기
 
-**상태: 현재 코드 반영 완료 (이슈 [#180](https://github.com/kangkyunghyun/LinKHU/issues/180), [#181](https://github.com/kangkyunghyun/LinKHU/issues/181)).**
+이슈 [#180](https://github.com/kangkyunghyun/LinKHU/issues/180)과 [#181](https://github.com/kangkyunghyun/LinKHU/issues/181)에서 구현했다.
 
 글자 크기도 `src/theme.css`가 단일 소스다. **확장 CSS에 `font-size` 리터럴을 새로 쓰지 않는다** (MUST).
 
@@ -206,8 +196,6 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 
 ## 4-2-3 확장 우선 원칙
 
-**상태: 현재 코드 반영 완료.**
-
 > **확장 프로그램 UI가 LinKHU의 디자인 기준이고, 랜딩 페이지가 그것을 따른다.**
 
 확장은 제품 그 자체이고, 랜딩은 그 제품을 소개하는 홍보 표면이다. 랜딩은 넓은 화면에서 스크롤하며 읽는 마케팅 페이지이므로 큰 여백, 그라디언트, 글로우, 애니메이션 같은 표현을 쓴다. 확장 팝업은 320px 폭에서 즉시 목표를 달성해야 하는 도구다. 두 표면의 목적이 다르므로 시각 언어도 다르다.
@@ -222,8 +210,6 @@ LinKHU는 경희대학교 공식 색상 체계를 따른다. 주색은 **Kyung H
 이 원칙을 근거로 반려된 PR이 있다. DECISIONS 5-2를 참고한다.
 
 ## 4-2-4 아이콘
-
-**상태: 현재 코드 반영 완료.**
 
 LinKHU에는 성격이 다른 두 종류의 아이콘이 있다. **섞어서 다루지 않는다** (MUST).
 
@@ -339,7 +325,7 @@ Chrome·Firefox·Whale 로고는 **각 사의 브랜드 자산이므로 Reicon�
 
 ## 4-2-5 다크 테마 스펙
 
-**상태: 현재 코드 반영 완료.** 이 절은 구현 계약으로 먼저 작성되었고, 이슈 [#97](https://github.com/kangkyunghyun/LinKHU/issues/97)에서 구현되었다. 이후 변경도 이 절을 근거로 심사한다.
+이슈 [#97](https://github.com/kangkyunghyun/LinKHU/issues/97)에서 구현했다. 이후 변경도 이 절을 근거로 심사한다.
 
 ### 4-2-5-1 테마 모드
 
@@ -590,7 +576,7 @@ hover 상태도 같은 이유로 갈린다. 다크에서 `--color-primary-strong
 
 ### 4-2-5-6 랜딩 다크 팔레트
 
-**상태: 현재 코드 반영 완료.** 이슈 [#104](https://github.com/kangkyunghyun/LinKHU/issues/104)에서 정렬했다.
+이슈 [#104](https://github.com/kangkyunghyun/LinKHU/issues/104)에서 정렬했다.
 
 랜딩은 확장 저장소를 읽을 수 없으므로 **3단계 테마 모드를 지원하지 않고 시스템 설정만 따른다** (MUST). `prefers-color-scheme: dark` 블록 하나로 다크를 표현한다.
 
