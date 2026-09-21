@@ -81,7 +81,7 @@ gh workflow run publish-chrome.yml --ref main \
 Chrome access token request failed (400): {"error":"invalid_grant","error_description":"Token has been expired or revoked."}
 ```
 
-Google Cloud OAuth 동의 화면의 게시 상태가 **테스트**이면 refresh token이 7일 후 만료된다. **LinKHU는 2026-07-30에 프로덕션으로 전환했으므로 더 이상 주기적으로 만료되지 않는다.** 아래는 토큰이 폐기되었거나 OAuth 클라이언트를 교체하는 예외 상황용이다.
+OAuth 동의 화면이 **테스트** 상태면 refresh token이 7일 후 만료된다. **LinKHU는 프로덕션 상태이므로 주기적으로 만료되지 않는다.** 아래는 토큰이 폐기되었거나 클라이언트를 교체하는 예외 상황용이다.
 
 **게시 상태는 경고 표시로 판별할 수 없다**. `https://www.googleapis.com/auth/chromewebstore`는 Google이 민감한 스코프로 분류하므로, 프로덕션으로 전환했더라도 검증을 받지 않았으면 "확인되지 않은 앱" 경고가 계속 나온다. 개인용 앱은 검증이 필요 없고 **고급 → 안전하지 않은 페이지로 이동**으로 진행하면 된다. 판별은 Google Cloud Console의 OAuth 동의 화면 → 게시 상태 항목으로만 한다.
 
@@ -144,9 +144,14 @@ Chrome Web Store는 **심사 중인 아이템에 새 패키지를 올리거나 p
 | 확인 문자열 | `confirm_publish`에 `publish-firefox` |
 | add-on ID / locale / license | `linkhu` / `ko` / `MIT` (워크플로에 고정) |
 
-필요한 저장소 비밀값은 둘이다 — `FIREFOX_JWT_ISSUER`(API key), `FIREFOX_JWT_SECRET`(API secret). [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/) 페이지에서 발급한다.
+저장소 비밀값은 둘이고 [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/)에서 발급한다.
 
-워크플로는 ZIP을 listed channel에 업로드하고, **AMO validator 처리가 끝날 때까지 upload status를 확인한 뒤** 검증이 통과하면 새 버전을 만든다. `docs/releases/v{version}.md` 내용이 `ko` locale의 릴리스 노트가 된다.
+| 비밀값 | 무엇 |
+| --- | --- |
+| `FIREFOX_JWT_ISSUER` | API key |
+| `FIREFOX_JWT_SECRET` | API secret |
+
+워크플로는 ZIP을 listed channel에 올리고 **AMO validator가 끝날 때까지 기다린 뒤** 새 버전을 만든다. 릴리스 노트 파일 내용이 `ko` locale 노트가 된다.
 
 실행 후 Actions 로그에서 upload·upload status·version create 응답을 보고, Developer Hub에서 validator 결과와 제출 상태를 확인한다. **source code package 제출이 필요한 변경인지**도 함께 본다.
 
