@@ -106,7 +106,7 @@ DECISIONS                            왜 그렇게 정했는가 (로그, 덧붙�
 | [7-1-ERROR-HANDLING.md](7-1-ERROR-HANDLING.md) | 데이터·저장소·네트워크·자산 실패 시의 동작 |
 | [7-2-TEST-CASES.md](7-2-TEST-CASES.md) | `npm test` 범위, 수동 검증 매트릭스, 검증 환경, 특별 검증 절차 |
 | [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, 자격 증명 관리, 릴리스 후 공지 |
-| [DECISIONS.md](DECISIONS.md) | 결정 22건의 배경·대안·채택·영향 |
+| [DECISIONS.md](DECISIONS.md) | 결정 21건의 배경·대안·채택·영향 |
 
 ## 코드와 스펙의 대응
 
