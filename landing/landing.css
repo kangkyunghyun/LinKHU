@@ -184,8 +184,81 @@ a {
   color: var(--color-primary);
 }
 
-.nav-shell > .button {
+.nav-actions {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 헤더 링크와 같은 시각 언어를 쓴다. 평소 muted, hover에 주색. */
+.theme-toggle {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* 아이콘은 칠해진 테마가 아니라 고른 모드를 보여준다. */
+.theme-icon {
+  display: none;
+}
+
+:root[data-theme-mode="system"] .theme-icon-system,
+:root[data-theme-mode="light"] .theme-icon-light,
+:root[data-theme-mode="dark"] .theme-icon-dark {
+  display: block;
+}
+
+/* 평소에는 스크린 리더에만 읽힌다. 모드 변경은 화면 전체 색이 바뀌는 강한
+   피드백이 이미 있어 텍스트가 중복이다. 저장 실패 때만 눈에 보인다. */
+.theme-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.theme-status-visible {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 8px 24px;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 650;
+  text-align: center;
 }
 
 .button {
@@ -1710,11 +1783,15 @@ kbd {
     gap: 12px;
   }
 
-  .nav-shell > .button {
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .nav-actions .button {
     padding-inline: 14px;
   }
 
-  .nav-shell > .button svg {
+  .nav-actions .button svg {
     display: none;
   }
 
@@ -1927,7 +2004,7 @@ kbd {
     height: 26px;
   }
 
-  .nav-shell > .button {
+  .nav-actions .button {
     font-size: 13px;
   }
 
@@ -1952,72 +2029,71 @@ kbd {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --color-primary: #ff4d52;
-    --color-primary-fill: #c4121b;
-    --color-primary-fill-strong: #d7141e;
-    --color-primary-strong: #ff7175;
-    --color-primary-soft: #2a1214;
-    --color-on-primary: #ffffff;
-    --color-background: #0a0a0a;
-    --color-surface: #161616;
-    --color-surface-muted: #1c1c1c;
-    --color-foreground: #f4f4f5;
-    --color-muted: #a1a1aa;
-    --color-border: #27272a;
-    --color-focus: #73a7ff;
-    --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.22);
-    --shadow-md: 0 24px 70px rgba(0, 0, 0, 0.35);
-  }
+/* 다크 값은 문서 루트의 표식 아래 모은다. 시스템 설정은 테마 스크립트가
+   system 모드를 해석할 때만 읽는다 (스펙 4-3-4). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-primary: #ff4d52;
+  --color-primary-fill: #c4121b;
+  --color-primary-fill-strong: #d7141e;
+  --color-primary-strong: #ff7175;
+  --color-primary-soft: #2a1214;
+  --color-on-primary: #ffffff;
+  --color-background: #0a0a0a;
+  --color-surface: #161616;
+  --color-surface-muted: #1c1c1c;
+  --color-foreground: #f4f4f5;
+  --color-muted: #a1a1aa;
+  --color-border: #27272a;
+  --color-focus: #73a7ff;
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
 
-  .site-header {
-    background: color-mix(in srgb, var(--color-background) 88%, transparent);
-  }
+:root[data-theme="dark"] .site-header {
+  background: color-mix(in srgb, var(--color-background) 88%, transparent);
+}
 
-  /* 배경과 글자색은 토큰이 이미 다크 값으로 해석한다. 어두운 배경에서
-     붉은 그림자는 번짐으로 보여 깊이를 만들지 못하므로 중성으로 바꾼다. */
-  .button-primary {
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
-  }
+/* 배경과 글자색은 토큰이 이미 다크 값으로 해석한다. 어두운 배경에서
+:root[data-theme="dark"] 붉은 그림자는 번짐으로 보여 깊이를 만들지 못하므로 중성으로 바꾼다. */ .button-primary {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
 
-  .button-primary:hover {
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
-  }
+:root[data-theme="dark"] .button-primary:hover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5);
+}
 
-  .button-secondary:hover {
-    background: #242424;
-  }
+:root[data-theme="dark"] .button-secondary:hover {
+  background: #242424;
+}
 
-  .hero {
-    background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 70%),
-      var(--color-background);
-  }
+:root[data-theme="dark"] .hero {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.45), transparent 70%),
+    var(--color-background);
+}
 
-  .browser-bar {
-    background: #262626;
-  }
+:root[data-theme="dark"] .browser-bar {
+  background: #262626;
+}
 
-  .browser-address,
-  .key,
-  kbd {
-    background: #2d2d2d;
-    color: var(--color-foreground);
-  }
+:root[data-theme="dark"] .browser-address,
+:root[data-theme="dark"] .key,
+:root[data-theme="dark"] kbd {
+  background: #2d2d2d;
+  color: var(--color-foreground);
+}
 
-  .browser-screen {
-    opacity: 0.88;
-  }
+:root[data-theme="dark"] .browser-screen {
+  opacity: 0.88;
+}
 
-  .mini-list {
-    background: #2a2a2a;
-  }
+:root[data-theme="dark"] .mini-list {
+  background: #2a2a2a;
+}
 
-  .mini-list > div {
-    border-color: #3a3a3a;
-  }
+:root[data-theme="dark"] .mini-list > div {
+  border-color: #3a3a3a;
 }
 
 @media (prefers-reduced-motion: reduce) {
