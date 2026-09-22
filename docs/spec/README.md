@@ -124,7 +124,7 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 | `src/feedback.js` | [5-3](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
 | `src/images/**` | [4-6](4-6-SERVICE-ICON.md) |
 | `landing/assets/screenshots/**` | [4-7](4-7-SCREENSHOT.md) |
-| `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
+| `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [4-3](4-3-THEME.md), [5-1](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
 | `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
 | `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
 | `scripts/generate-dark-icons.js` | [4-6-4](4-6-SERVICE-ICON.md), [결정 기록](DECISIONS.md) |

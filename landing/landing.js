@@ -79,23 +79,22 @@
     }
 
     if (service.imgSrc) {
-      // 랜딩은 확장과 달리 저장된 테마 모드가 없고 prefers-color-scheme만 따른다.
-      // picture/source에 맡기면 브라우저가 그리기 전에 고르므로 깜빡임이 없고
-      // OS 설정이 바뀌어도 별도 구독 없이 따라간다.
-      const picture = documentObject.createElement("picture");
-      const darkSource = documentObject.createElement("source");
+      // 라이트 경로를 data-icon-src에 남겨두면 테마가 바뀔 때 theme.js가
+      // 이 아이콘의 경로를 갈아끼운다. 조건부 이미지 선택은 시스템 설정만 보므로
+      // 사용자가 고른 모드를 반영하지 못한다 (스펙 4-6-3).
       const icon = documentObject.createElement("img");
+      const theme = globalScope.LandingTheme;
 
-      darkSource.media = "(prefers-color-scheme: dark)";
-      darkSource.srcset = `assets/${service.imgSrc.replace(/^images\//, "images/dark/")}`;
-      icon.src = `assets/${service.imgSrc}`;
+      icon.dataset.iconSrc = service.imgSrc;
+      icon.src = theme
+        ? theme.assetSrc(service.imgSrc)
+        : `assets/${service.imgSrc}`;
       icon.alt = "";
       icon.loading = "lazy";
       icon.addEventListener("error", showFallbackMark);
 
-      picture.append(darkSource, icon);
       mark.classList.add("has-icon");
-      mark.append(picture);
+      mark.append(icon);
     } else {
       showFallbackMark();
     }
