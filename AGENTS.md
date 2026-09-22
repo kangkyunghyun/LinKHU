@@ -18,7 +18,7 @@
 2. 최신 `main`을 기준으로 이슈 번호가 포함된 브랜치를 만든다.
 3. 바꾸려는 동작이 [스펙](docs/spec/README.md)의 어느 층인지 먼저 확인한다. **위 번호를 고치면 아래를 전부 훑는다** — 아래 때문에 위를 고쳐야 한다면 위쪽 설계를 먼저 의심한다.
 4. 변경 범위를 이슈에 맞게 좁게 유지하고, 현재 동작이 바뀌면 `docs/spec/`을 같은 PR에서 갱신한다. 어느 코드가 어느 문서와 짝인지는 [스펙 README의 대응표](docs/spec/README.md)가 정한다.
-5. 설계 방향을 정하거나 바꾸는 판단이 있으면 [`docs/spec/DECISIONS.md`](docs/spec/DECISIONS.md)에 배경·대안·채택·영향으로 덧붙인다.
+5. 다른 설계 방향을 놓고 고른 판단이 있으면 [`docs/spec/DECISIONS.md`](docs/spec/DECISIONS.md)에 무엇을 정했고 어떤 방향을 왜 거부했는지 한 줄 덧붙인다. 실패한 시도나 측정 결과는 쓰지 않는다.
 6. 변경 후 검증 결과를 남긴다.
 7. PR을 만들고 관련 이슈를 `Close #이슈번호`로 연결한다.
 
@@ -121,21 +121,18 @@ PR: feat: 공통 서비스 바로가기 추가
 데이터를 변경한 뒤에는 `npm run generate:landing-data`로 랜딩 페이지 검색 데이터와
 서비스 아이콘(`landing/assets/images/`)을 갱신하고, `npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
 
-서비스 아이콘을 추가하거나 변경할 때는 `docs/guides/4-1-ICON-STYLE-GUIDE.md`를 따른다.
+서비스 아이콘을 추가하거나 변경할 때는 [스펙 §4-6](docs/spec/4-6-SERVICE-ICON.md)를 따른다.
 
 ## 릴리스 준비 규칙
 
-전체 절차는 [Release Process](docs/guides/1-RELEASE-PROCESS.md)를 따른다.
+전체 절차는 [스펙 §7-5 릴리스](docs/spec/7-5-RELEASE.md)를 따른다.
 
 - 릴리스 준비 PR에서는 `src/manifest.json`의 `version`을 변경한다.
 - 같은 PR에서 `docs/releases/v{version}.md` 파일을 기존 릴리스 노트 형식에 맞춰 작성한다.
 - 릴리스 노트는 사용자에게 보이는 변경 사항 중심으로 작성한다.
 - 릴리스 준비 PR이 머지된 뒤 같은 버전 태그를 push한다.
 - 버전 태그 push는 GitHub Release와 ZIP 첨부만 자동화한다.
-- Chrome, Firefox, Whale 스토어 배포는 별도 작업으로 다루며 `docs/guides/2-1-STORE-RELEASE-CHECKLIST.md`를 따른다.
-- Chrome Web Store 자동 배포는 `docs/guides/2-2-CHROME-WEB-STORE.md`를 따른다.
-- Firefox Add-ons 자동 배포는 `docs/guides/2-3-FIREFOX-ADDONS.md`를 따른다.
-- Whale Store는 공개 배포 API가 확인되기 전까지 `docs/guides/2-4-WHALE-STORE.md`에 따라 수동 배포로 유지한다.
+- Chrome, Firefox, Whale 스토어 제출은 별도 작업으로 다루며 [스펙 §7-6](docs/spec/7-6-STORE.md)을 따른다. Whale은 공개 배포 API가 확인되기 전까지 수동 배포로 유지한다.
 
 ## 수동 검증 기준
 
