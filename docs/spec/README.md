@@ -49,7 +49,7 @@ flowchart LR
 
 **파일명은 층에 문서가 하나면 `N`, 둘 이상이면 `N-M`이다**. 지금 `1`·`3`·`5`가 하나이고 나머지는 둘 이상이다. 문서가 늘어 쪼개질 때 비로소 `N-1`·`N-2`를 붙이고, 그때 바깥 링크를 함께 고친다.
 
-이 층위를 왜 이렇게 잡았는지는 DECISIONS 6-2에 있다.
+이 층위를 왜 이렇게 잡았는지는 [결정 기록](DECISIONS.md)에 있다.
 
 리뷰도 이 순서를 따른다. 위 문서부터 합의하고 아래로 내려간다. **아래를 고치려다 위를 고쳐야 한다면 위쪽 설계가 틀렸다는 신호다.** 아래에 맞춰 위를 바꾸기 전에 위가 왜 틀렸는지부터 본다.
 
@@ -81,7 +81,7 @@ flowchart LR
 DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기만 한다)
 ```
 
-**7-3 관측은 결번이다.** LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않아 관측 수단이 없다. 번호를 당기지 않고 비워 둔다. 층위 번호를 옮기면 바깥 링크가 모두 깨지며, 빈 자리는 관측이 없다는 사실을 남긴다. 근거는 [DECISIONS 1-3](DECISIONS.md#d-1-3)이다.
+**7-3 관측은 결번이다.** LinKHU는 텔레메트리, 분석 SDK, 원격 로그 수집을 두지 않아 관측 수단이 없다. 번호를 당기지 않고 비워 둔다. 층위 번호를 옮기면 바깥 링크가 모두 깨지며, 빈 자리는 관측이 없다는 사실을 남긴다. 근거는 [결정 기록](DECISIONS.md)의 최소 권한 항목이다.
 
 ## 문서와 책임
 
@@ -106,7 +106,7 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 | [7-4-DEPLOYMENT.md](7-4-DEPLOYMENT.md) | 배포 4경로와 자동화 경계, CI 검증, 랜딩 배포 |
 | [7-5-RELEASE.md](7-5-RELEASE.md) | 버전 자리 판단, 준비 PR과 태그 순서, 릴리스 후 공지 |
 | [7-6-STORE.md](7-6-STORE.md) | 세 스토어 제출 절차, 자격 증명, Chrome 실패 대응 |
-| [DECISIONS.md](DECISIONS.md) | 결정 21건의 배경·대안·채택·영향 |
+| [DECISIONS.md](DECISIONS.md) | 결정 22건을 날짜순으로. 무엇을 정했고 어떤 방향을 왜 거부했는지 |
 
 ## 코드와 스펙의 대응
 
@@ -114,21 +114,21 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 
 | 코드 | 스펙 |
 | --- | --- |
-| `src/manifest.json` | [1-BACKGROUND](1-BACKGROUND.md), [7-4](7-4-DEPLOYMENT.md), [DECISIONS 1-2](DECISIONS.md#d-1-2)·[1-3](DECISIONS.md#d-1-3) |
+| `src/manifest.json` | [1-BACKGROUND](1-BACKGROUND.md), [7-4](7-4-DEPLOYMENT.md), [결정 기록](DECISIONS.md) |
 | `src/data.js` | [3](3-INFORMATION-ARCHITECTURE.md), [6-2](6-2-DATA.md) |
 | `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-4-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-LAYOUT.md) |
 | `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-LAYOUT.md), [6-1-1](6-1-INTERACTION.md)~[6-1-3](6-1-INTERACTION.md), [6-1-6](6-1-INTERACTION.md) |
 | `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-LAYOUT.md)·[4-1-3](4-1-LAYOUT.md), [6-1-4](6-1-INTERACTION.md) |
 | `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md), [4-3](4-3-THEME.md), [6-1-5](6-1-INTERACTION.md) |
-| `src/version.js` | [4-5-2](4-5-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
-| `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
+| `src/version.js` | [4-5-2](4-5-STATE.md), [5-2](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
+| `src/feedback.js` | [5-3](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
 | `src/images/**` | [4-6](4-6-SERVICE-ICON.md) |
 | `landing/assets/screenshots/**` | [4-7](4-7-SCREENSHOT.md) |
-| `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
+| `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [결정 기록](DECISIONS.md) |
 | `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
 | `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
-| `scripts/generate-dark-icons.js` | [4-6-4](4-6-SERVICE-ICON.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
-| `scripts/package-extension.js` / `validate-release.js` | [7-5](7-5-RELEASE.md)·[7-6](7-6-STORE.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
+| `scripts/generate-dark-icons.js` | [4-6-4](4-6-SERVICE-ICON.md), [결정 기록](DECISIONS.md) |
+| `scripts/package-extension.js` / `validate-release.js` | [7-5](7-5-RELEASE.md)·[7-6](7-6-STORE.md), [결정 기록](DECISIONS.md) |
 | `tests/**` | [7-2](7-2-TEST-CASES.md) |
 | `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md), [7-5-3](7-5-RELEASE.md), [7-6](7-6-STORE.md) |
 
@@ -139,7 +139,7 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 3. 코드를 바꾸면 위 대응표에서 짝지어진 문서를 **같은 PR에서** 갱신한다. 문서 갱신을 후속 PR로 미루지 않는다.
 4. **문서와 코드가 어긋나면 코드가 사실이다**. 문서를 고친다. 계약을 바꾸려는 것이라면 스펙과 구현을 같은 PR에서 함께 바꾼다.
 5. 같은 내용을 두 곳에 쓰지 않는다. 아래 원본 표에서 그 주제의 원본을 확인하고, 다른 문서에서는 번호로 가리킨다.
-6. 설계 방향을 바꾸는 판단은 [`DECISIONS.md`](DECISIONS.md)에 배경·대안·채택·영향과 함께 남긴다. 스펙에는 결과만 쓰고 앵커로 링크한다.
+6. 설계 방향을 바꾸는 판단은 [`DECISIONS.md`](DECISIONS.md)에 한 줄 덧붙인다. 스펙에는 결과만 쓴다.
 
 ## 주제별 원본
 
