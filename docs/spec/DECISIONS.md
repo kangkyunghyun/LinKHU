@@ -121,7 +121,7 @@ host_permissions:  ["https://api.github.com/repos/kangkyunghyun/LinKHU/releases/
 **채택** — 2번. **검증 도구가 이 구조에 묶여 있다.** `scripts/validate-data.js`와 테스트 하네스는 `src/`의 파일을 Node의 `vm`으로 평가해 전역을 꺼내 쓴다. ES 모듈로 바꾸면 이 로딩 방식을 쓸 수 없어 검증 스크립트와 테스트를 함께 재작성해야 한다.
 
 **영향**
-- 스크립트 로드 순서가 곧 의존 관계다. 순서를 바꾸면 깨진다 ([4-3](4-3-SOFTWARE-ARCHITECTURE.md)).
+- 스크립트 로드 순서가 곧 의존 관계다. 순서를 바꾸면 깨진다 ([4-4](4-4-SOFTWARE-ARCHITECTURE.md)).
 - 전역 이름이 충돌하지 않도록 각 파일이 객체 하나만 노출한다. Node 테스트에서 쓰려면 `module.exports` 가드가 필요하다.
 - 뒤집으려면 검증 스크립트와 테스트 하네스의 재작성 계획이 함께 나와야 한다.
 
@@ -272,7 +272,7 @@ host_permissions:  ["https://api.github.com/repos/kangkyunghyun/LinKHU/releases/
 
 **영향**
 - 미등록 사용자는 팝업에서 설정 안내에 바로 도달한다. 등록된 사용자는 추가 배너를 보지 않는다.
-- 저장 키가 하나 늘어나며 저장 실패를 알리고 화면을 되돌리는 계약을 따른다 ([4-4](4-4-STATE.md)).
+- 저장 키가 하나 늘어나며 저장 실패를 알리고 화면을 되돌리는 계약을 따른다 ([4-4](4-5-STATE.md)).
 - 닫기 선택은 지속된다. 기본 제안키와 권한은 바꾸지 않는다.
 
 <a id="d-3-5"></a>

@@ -62,15 +62,16 @@ flowchart LR
 2-1   USER-STORIES             학생 사용자가 무엇을 하려고 하는가
 2-2   OPERATOR-REQUIREMENTS    메인테이너가 무엇을 유지해야 하는가
 3     INFORMATION-ARCHITECTURE 다루는 단위, 카테고리, 화면별 범위, 검색 범위
-4-1   LAYOUT                   화면 영역, 설정 목록 격자, 팝업 카드 이름
-4-2   UI-SYSTEM                공식 색상표, 디자인 토큰, UI 아이콘, 다크 테마
-4-3   SOFTWARE-ARCHITECTURE    3개 화면 경계, 스크립트 결합, 공용 유틸
-4-4   STATE                    저장 키, 사용자 설정과 캐시, 비동기 렌더
-4-5   SERVICE-ICON             팔레트, 두 벌 체계, 생성기, 추가 절차
-4-6   SCREENSHOT               세 장의 규격, 촬영 방식, 개인정보 처리
+4-1   LAYOUT                   화면 영역과 치수, 설정 목록 격자, 팝업 카드 이름
+4-2   UI-SYSTEM                공식 색상표, 디자인 토큰, 확장 우선 원칙, UI 아이콘
+4-3   THEME                    세 모드, 저장, 선택 UI, 토큰 계약, 대비 기준
+4-4   SOFTWARE-ARCHITECTURE    3개 화면 경계, 스크립트 결합, 공용 유틸
+4-5   STATE                    저장 키, 사용자 설정과 캐시, 비동기 렌더
+4-6   SERVICE-ICON             팔레트, 두 벌 체계, 생성기, 추가 절차
+4-7   SCREENSHOT               세 장의 규격, 촬영 방식, 개인정보 처리
 5     CONTRACT                 랜딩 파생 산출물, GitHub API, Google Forms
 6-1   INTERACTION              렌더·검색·이동·저장·테마·안내의 실행 순서
-6-2   DATA                     MASTER_SITE_LIST 스키마, 검증 파이프라인
+6-2   DATA                     서비스 데이터 스키마, 검증 파이프라인
 7-1   ERROR-HANDLING           실패 상황에서의 동작 규약
 7-2   TEST-CASES               자동 테스트, 수동 검증 매트릭스, 특별 검증
 7-4   DEPLOYMENT               배포 경로와 자동화 경계, CI, 랜딩 배포
@@ -91,11 +92,12 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 | [2-2-OPERATOR-REQUIREMENTS.md](2-2-OPERATOR-REQUIREMENTS.md) | 데이터 갱신, 릴리스, 스토어 배포, 문의 대응, 기여 관리 |
 | [3-INFORMATION-ARCHITECTURE.md](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리 8개, 화면별 노출 범위, 기본 목록, 검색 순위 |
 | [4-1-LAYOUT.md](4-1-LAYOUT.md) | 팝업·설정 영역 순서, 격자 열 수, 카드 폭 계산과 줄바꿈 표 |
-| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, UI 아이콘, 다크 테마 |
-| [4-3-SOFTWARE-ARCHITECTURE.md](4-3-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
-| [4-4-STATE.md](4-4-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
-| [4-5-SERVICE-ICON.md](4-5-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 |
-| [4-6-SCREENSHOT.md](4-6-SCREENSHOT.md) | 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 |
+| [4-2-UI-SYSTEM.md](4-2-UI-SYSTEM.md) | 공식 색상표와 대비 실측, 토큰 SSOT, 확장-랜딩 우선순위, UI 아이콘 |
+| [4-3-THEME.md](4-3-THEME.md) | 세 모드와 저장, 선택 UI, 토큰 스왑 계약, 테마별 대비 기준 |
+| [4-4-SOFTWARE-ARCHITECTURE.md](4-4-SOFTWARE-ARCHITECTURE.md) | 3개 화면 경계, 스크립트 로드 순서와 전역, 공용 유틸 |
+| [4-5-STATE.md](4-5-STATE.md) | 저장 키 다섯, 사용자 설정과 캐시의 구분, 렌더 토큰 |
+| [4-6-SERVICE-ICON.md](4-6-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 |
+| [4-7-SCREENSHOT.md](4-7-SCREENSHOT.md) | 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 |
 | [5-CONTRACT.md](5-CONTRACT.md) | 랜딩 파생 산출물, GitHub 릴리스 API, Google Forms, 공통 원칙 |
 | [6-1-INTERACTION.md](6-1-INTERACTION.md) | 렌더·검색·이동·저장·테마·단축키 안내의 실행 순서 |
 | [6-2-DATA.md](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마, 필드 규칙, 검증·생성 스크립트 계약 |
@@ -114,18 +116,18 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 | --- | --- |
 | `src/manifest.json` | [1-BACKGROUND](1-BACKGROUND.md), [7-4](7-4-DEPLOYMENT.md), [DECISIONS 1-2](DECISIONS.md#d-1-2)·[1-3](DECISIONS.md#d-1-3) |
 | `src/data.js` | [3](3-INFORMATION-ARCHITECTURE.md), [6-2](6-2-DATA.md) |
-| `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-3-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-LAYOUT.md) |
+| `src/shared.js` | [3-4](3-INFORMATION-ARCHITECTURE.md)·[3-5](3-INFORMATION-ARCHITECTURE.md), [4-3-3](4-4-SOFTWARE-ARCHITECTURE.md), [4-1-4](4-1-LAYOUT.md) |
 | `src/popup.js` / `popup.html` / `popup.css` | [4-1-1](4-1-LAYOUT.md), [6-1-1](6-1-INTERACTION.md)~[6-1-3](6-1-INTERACTION.md), [6-1-6](6-1-INTERACTION.md) |
 | `src/options.js` / `options.html` / `options.css` | [4-1-2](4-1-LAYOUT.md)·[4-1-3](4-1-LAYOUT.md), [6-1-4](6-1-INTERACTION.md) |
-| `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md)·[4-2-5](4-2-UI-SYSTEM.md), [6-1-5](6-1-INTERACTION.md) |
-| `src/version.js` | [4-4-2](4-4-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
+| `src/theme.js` / `theme.css` | [4-2-2](4-2-UI-SYSTEM.md), [4-3](4-3-THEME.md), [6-1-5](6-1-INTERACTION.md) |
+| `src/version.js` | [4-5-2](4-5-STATE.md), [5-2](5-CONTRACT.md), [DECISIONS 3-1](DECISIONS.md#d-3-1) |
 | `src/feedback.js` | [5-3](5-CONTRACT.md), [DECISIONS 1-5](DECISIONS.md#d-1-5) |
-| `src/images/**` | [4-5](4-5-SERVICE-ICON.md) |
-| `landing/assets/screenshots/**` | [4-6](4-6-SCREENSHOT.md) |
+| `src/images/**` | [4-6](4-6-SERVICE-ICON.md) |
+| `landing/assets/screenshots/**` | [4-7](4-7-SCREENSHOT.md) |
 | `landing/**` | [3-3](3-INFORMATION-ARCHITECTURE.md), [5-1](5-CONTRACT.md), [DECISIONS 5-1](DECISIONS.md#d-5-1)·[5-3](DECISIONS.md#d-5-3) |
 | `scripts/validate-data.js` | [6-2-5](6-2-DATA.md), [4-1-4](4-1-LAYOUT.md) |
 | `scripts/generate-landing-data.js` | [5-1](5-CONTRACT.md), [6-2-5](6-2-DATA.md) |
-| `scripts/generate-dark-icons.js` | [4-5-4](4-5-SERVICE-ICON.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
+| `scripts/generate-dark-icons.js` | [4-6-4](4-6-SERVICE-ICON.md), [DECISIONS 4-2](DECISIONS.md#d-4-2) |
 | `scripts/package-extension.js` / `validate-release.js` | [7-5](7-5-RELEASE.md)·[7-6](7-6-STORE.md), [DECISIONS 3-2](DECISIONS.md#d-3-2) |
 | `tests/**` | [7-2](7-2-TEST-CASES.md) |
 | `.github/workflows/**` | [7-4-2](7-4-DEPLOYMENT.md), [7-5-3](7-5-RELEASE.md), [7-6](7-6-STORE.md) |
@@ -149,13 +151,13 @@ DECISIONS                      왜 그렇게 정했는가 (로그, 덧붙이기�
 | 카테고리 목록과 화면별 노출 범위 | [3](3-INFORMATION-ARCHITECTURE.md) | `4-1`은 배치만, `6-2`는 형식만 |
 | 데이터 스키마·필드 규칙·삭제 절차 | [6-2](6-2-DATA.md) | `2-2`는 운영자 판단 지점만 |
 | 검증·생성 스크립트 실행 순서 | [6-2](6-2-DATA.md) | `7-4`는 CI에서 언제 도는지만 |
-| 저장 키와 저장 시점 | [4-4](4-4-STATE.md) | `6-1`은 호출 순서만 |
+| 저장 키와 저장 시점 | [4-4](4-5-STATE.md) | `6-1`은 호출 순서만 |
 | 외부 호출 계약 | [5](5-CONTRACT.md) | `7-1`은 실패 시 화면 동작만 |
 | 색상 값·토큰 계약 | [4-2](4-2-UI-SYSTEM.md) | 다른 문서는 참조만 |
 | 카드 폭 계산과 줄바꿈 표 | [4-1-4](4-1-LAYOUT.md) | `6-2`는 검증기 동작만 |
 | 릴리스 실행 절차 | [7-5](7-5-RELEASE.md) | `2-2`는 판단 지점, `7-4`는 자동화 경계 |
 | 스토어 제출 절차 | [7-6](7-6-STORE.md) | `7-4`는 경로와 자동화 범위 |
-| 서비스 아이콘 규칙 | [4-5](4-5-SERVICE-ICON.md) | `4-2-4`는 UI 아이콘만 |
-| 스크린샷 규격 | [4-6](4-6-SCREENSHOT.md) | 다른 문서는 참조만 |
+| 서비스 아이콘 규칙 | [4-6](4-6-SERVICE-ICON.md) | `4-2-4`는 UI 아이콘만 |
+| 스크린샷 규격 | [4-7](4-7-SCREENSHOT.md) | 다른 문서는 참조만 |
 | 수동 검증 항목 | [7-2](7-2-TEST-CASES.md) | `AGENTS.md`의 기준을 화면 단위로 구체화 |
 | 결정의 배경과 대안 | [DECISIONS](DECISIONS.md) | 다른 문서는 결과만 쓰고 링크 |

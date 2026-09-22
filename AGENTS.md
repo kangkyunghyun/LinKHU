@@ -121,7 +121,7 @@ PR: feat: 공통 서비스 바로가기 추가
 데이터를 변경한 뒤에는 `npm run generate:landing-data`로 랜딩 페이지 검색 데이터와
 서비스 아이콘(`landing/assets/images/`)을 갱신하고, `npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
 
-서비스 아이콘을 추가하거나 변경할 때는 [스펙 §4-5](docs/spec/4-5-SERVICE-ICON.md)를 따른다.
+서비스 아이콘을 추가하거나 변경할 때는 [스펙 §4-6](docs/spec/4-6-SERVICE-ICON.md)를 따른다.
 
 ## 릴리스 준비 규칙
 
