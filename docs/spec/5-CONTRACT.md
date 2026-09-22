@@ -25,8 +25,8 @@ LinKHU가 **외부와 주고받는 값의 계약**이다. 내부 구현과 관�
 flowchart TD
     A["src/data.js<br>MASTER_SITE_LIST — 단일 소스"]
     A -- "전역으로 직접 참조" --> B["src/popup.js<br>src/options.js"]
-    A -- "npm run generate:landing-data" --> C["landing/assets/services.json<br>id·name·url·category·imgSrc 직렬화"]
-    A -- "npm run generate:landing-data" --> D["landing/assets/images/**<br>src/images/의 사용 중인 아이콘 복사"]
+    A -- "생성" --> C["landing/assets/services.json<br>다섯 필드를 직렬화"]
+    A -- "생성" --> D["landing/assets/images/**<br>쓰이는 아이콘만 복사"]
     C -- "fetch" --> E["landing/landing.js"]
     D --> E
 ```
@@ -47,7 +47,7 @@ flowchart TD
 
 - `landing/assets/services.json`과 `landing/assets/images/`는 **생성물이다. 직접 수정하지 않는다**.
 - 생성 스크립트는 사용 중인 아이콘만 복사하고, 더 이상 쓰이지 않는 복사본은 삭제한다.
-- `npm run validate:landing-data`(`--check`)가 산출물이 최신인지 검사하며, `npm run build`에 포함되어 있다. 데이터를 바꾸고 생성을 잊으면 CI가 막는다.
+- 산출물이 최신인지 검사하는 단계가 빌드에 들어 있다. 데이터를 바꾸고 생성을 잊으면 CI가 막는다.
 
 랜딩은 검색어가 없을 때 `DEFAULT_SERVICE_IDS`(`info21`, `ecampus`, `sugang`) 세 개를 보여주고, 검색 결과는 최대 5개로 제한한다. 이 값들은 랜딩 전용 표시 규칙이며 확장 팝업과 무관하다.
 
