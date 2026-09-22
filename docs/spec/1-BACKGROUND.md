@@ -147,6 +147,6 @@ tests/          node --test 대상 테스트
 | **내 바로가기** | 사용자가 팝업에 표시하려고 직접 고르고 정렬한 서비스들. |
 | **기본 목록** | 사용자가 아직 아무것도 고르지 않았을 때 쓰는 열 개. 카테고리와 별개의 개념이다. |
 | **팝업(Popup)** | 툴바 아이콘을 눌렀을 때 열리는 `popup.html` 화면. |
-| **설정 페이지(Options)** | `options.html`. 탭으로 열린다(`open_in_tab: true`). |
+| **설정 페이지(Options)** | `options.html`. 팝업이 아니라 탭으로 열린다. |
 | **랜딩(Landing)** | GitHub Pages로 서빙되는 `landing/index.html` 소개 페이지. |
 | **디자인 토큰(Design Token)** | `src/theme.css`의 `:root` CSS 변수. 색상 값의 단일 소스다. |
