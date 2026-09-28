@@ -44,7 +44,7 @@ flowchart LR
 | `data.js` | `MASTER_SITE_LIST` | 지원 서비스 배열 |
 | `shared.js` | `LinKHUShared` | 검색 정규화·점수·정렬, 기본 순서 |
 | `version.js` | `VersionManager` | 현재 버전 표시, 최신 릴리스 비교, 스토어 링크 |
-| `feedback.js` | `Feedback` + `initFeedbackForm` | 문의 폼 전송과 화면 와이어링 |
+| `feedback.js` | `Feedback` + `initFeedbackForm` | 문의 폼 전송과 화면 연결 |
 | `popup.js` / `options.js` | (없음) | 각 화면의 진입점 |
 
 ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크립트와 테스트 하네스가 이 로딩 방식에 묶여 있다.
@@ -53,11 +53,11 @@ ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크�
 
 `shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되며 Node 테스트에서는 `require`로 불러오는 장치다. 새 공용 모듈도 같은 패턴을 따른다.
 
-문의 폼은 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다.
+문의 폼은 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 연결하므로, 각 화면이 따로 구현하지 않는다.
 
 ## 4-4-3 공용 유틸
 
-`LinKHUShared`(`src/shared.js`)는 팝업과 설정이 함께 쓰는 검색·정렬 규칙을 담는다.
+`LinKHUShared`(`src/shared.js`)는 팝업과 설정이 함께 쓰는 검색과 정렬 규칙을 담는다.
 
 | 함수 | 보장하는 것 |
 | --- | --- |
@@ -68,4 +68,4 @@ ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크�
 
 `rankSites`는 동점 처리에 원본 인덱스를 쓴다. 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
 
-랜딩은 같은 규칙을 자기 쪽에 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꾼다.** 두 구현의 결과가 같은지는 테스트가 고정한다.
+랜딩은 같은 규칙을 자기 쪽에 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꾼다.** 두 구현의 결과가 같은지는 테스트가 검증한다.

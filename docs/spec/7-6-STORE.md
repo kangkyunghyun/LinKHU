@@ -22,7 +22,7 @@
 | 태그와 매니페스트 | `src/manifest.json`의 `version`과 일치한다 |
 | Release asset | `linkhu-v{version}.zip`이 첨부되어 있다 |
 | Release notes | `docs/releases/v{version}.md` 내용과 일치한다 |
-| 스토어 계정 | Chrome·Firefox·Whale 관리자 계정에 접근할 수 있다 |
+| 스토어 계정 | Chrome, Firefox, Whale 관리자 계정에 접근할 수 있다 |
 | 문구 | [Store Listing](../copy/1-1-STORE-LISTING.md)의 업데이트 섹션이 새 버전으로 갱신되어 머지되어 있다 |
 
 제출 전 **권한과 등록 정보 변경 여부**를 확인한다.
@@ -37,7 +37,7 @@ Chrome과 Firefox는 **수동 실행(`workflow_dispatch`) 워크플로**로 제�
 실행 순서는 둘 다 같다.
 
 1. 확인 문자열을 검사한다.
-2. `npm run validate:release`로 입력 버전을 검증한다 — 버전 형식, 매니페스트 버전 일치, 해당 태그 존재, 릴리스 노트 파일 존재.
+2. `npm run validate:release`로 입력 버전을 검증한다. 버전 형식, 매니페스트 버전 일치, 해당 태그 존재, 릴리스 노트 파일 존재를 확인한다.
 3. `npm run build`로 **패키지를 그 자리에서 다시 만든다.**
 4. 방금 빌드한 `dist/`의 ZIP을 스토어에 올린다.
 
@@ -56,9 +56,9 @@ Chrome과 Firefox는 **수동 실행(`workflow_dispatch`) 워크플로**로 제�
 | 확인 문자열 | `confirm_publish`에 `publish-chrome` |
 | extension ID | `ihidkmjkpfphgljieecfcikljaopcldp` (워크플로에 고정) |
 
-필요한 저장소 비밀값은 넷이다 — `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN`, `CHROME_PUBLISHER_ID`.
+필요한 저장소 비밀값은 넷이다. `CHROME_CLIENT_ID`, `CHROME_CLIENT_SECRET`, `CHROME_REFRESH_TOKEN`, `CHROME_PUBLISHER_ID`다.
 
-워크플로는 ZIP을 업로드한 뒤 publish 요청까지 보내 심사에 제출한다. 실행 후 Actions 로그에서 upload·publish·fetchStatus 응답을 확인하고, Developer Dashboard에서 새 버전이 심사 제출 상태인지 본다.
+워크플로는 ZIP을 업로드한 뒤 publish 요청까지 보내 심사에 제출한다. 실행 후 Actions 로그에서 upload, publish, fetchStatus 응답을 확인하고, Developer Dashboard에서 새 버전이 심사 제출 상태인지 본다.
 
 ```bash
 gh workflow run publish-chrome.yml --ref main \
@@ -75,7 +75,7 @@ gh workflow run publish-chrome.yml --ref main \
 | `Publish to Chrome Web Store` | `invalid_grant` | 토큰 문제 |
 | `Publish to Chrome Web Store` | `NOT_UPDATEABLE` | 이미 심사 중 |
 
-### 토큰 문제 — `invalid_grant`
+### 토큰 문제: `invalid_grant`
 
 ```text
 Chrome access token request failed (400): {"error":"invalid_grant","error_description":"Token has been expired or revoked."}
@@ -116,11 +116,11 @@ OAuth 동의 화면이 **테스트** 상태면 refresh token이 7일 후 만료�
 5. 응답의 `refresh_token`을 `gh secret set CHROME_REFRESH_TOKEN`으로 저장한다.
 6. 워크플로를 재실행한다.
 
-**스코프는 `chromewebstore` 하나만 발급한다**. 배포에 필요한 권한이 그것뿐이다. `gcloud auth application-default login`을 이 용도로 쓰지 않는다 — `cloud-platform` 스코프를 강제해 토큰 권한이 필요 이상으로 넓어진다.
+**스코프는 `chromewebstore` 하나만 발급한다**. 배포에 필요한 권한이 그것뿐이다. `gcloud auth application-default login`을 이 용도로 쓰지 않는다. `cloud-platform` 스코프를 강제해 토큰 권한이 필요 이상으로 넓어진다.
 
 **자리표시자(`{...}`)에 실제 값을 적어 커밋하지 않는다**. 이 저장소는 공개다.
 
-### 심사 중 — `NOT_UPDATEABLE`
+### 심사 중: `NOT_UPDATEABLE`
 
 ```text
 400: {"error":{"code":400,"message":"You may not edit or publish an item that is in review.","status":"FAILED_PRECONDITION","details":[{"reason":"NOT_UPDATEABLE"}]}}
@@ -153,7 +153,7 @@ Chrome Web Store는 **심사 중인 아이템에 새 패키지를 올리거나 p
 
 워크플로는 ZIP을 listed channel에 올리고 **AMO validator가 끝날 때까지 기다린 뒤** 새 버전을 만든다. 릴리스 노트 파일 내용이 `ko` locale 노트가 된다.
 
-실행 후 Actions 로그에서 upload·upload status·version create 응답을 보고, Developer Hub에서 validator 결과와 제출 상태를 확인한다. **source code package 제출이 필요한 변경인지**도 함께 본다.
+실행 후 Actions 로그에서 upload, upload status, version create 응답을 보고, Developer Hub에서 validator 결과와 제출 상태를 확인한다. **source code package 제출이 필요한 변경인지**도 함께 본다.
 
 ## 7-6-6 Whale Store
 
@@ -164,8 +164,8 @@ Chrome Web Store는 **심사 중인 아이템에 새 패키지를 올리거나 p
 1. [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 로그인한다.
 2. My extensions에서 LinKHU 항목으로 이동한다.
 3. 새 패키지로 `linkhu-v{version}.zip`을 업로드한다.
-4. 필수 정보, 권한, 버전 설명(`docs/releases/v{version}.md` 활용)을 확인한다.
-5. 스토어 설명·스크린샷·카테고리 변경이 필요한지 확인한다.
+4. 필수 정보, 권한, 버전 설명(`docs/releases/v{version}.md` 사용)을 확인한다.
+5. 스토어 설명, 스크린샷, 카테고리 변경이 필요한지 확인한다.
 6. 제출 전 경고 메시지를 확인하고 심사를 제출한다.
 
 ## 7-6-7 배포 후 확인
@@ -174,7 +174,7 @@ Chrome Web Store는 **심사 중인 아이템에 새 패키지를 올리거나 p
 | --- | --- |
 | 세 스토어에 표시되는 버전 | Release tag와 일치한다 |
 | 새 설치·업데이트 | 각 스토어에서 가능하다 |
-| README 배지 | Chrome·Firefox 사용자/버전 배지가 갱신된다 |
+| README 배지 | Chrome과 Firefox 사용자/버전 배지가 갱신된다 |
 | 버전 일치 | GitHub Release, 스토어 버전, `src/manifest.json`이 모두 같다 |
 
 ## 참고 문서
