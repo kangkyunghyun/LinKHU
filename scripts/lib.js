@@ -49,6 +49,30 @@ async function readResponseBody(response) {
   }
 }
 
+// 응답이 2xx가 아니면 본문을 담아 던진다. 스토어 API 호출이 모두 이 경로를 지난다.
+async function requestJson(label, url, options) {
+  const response = await fetch(url, options);
+  const body = await readResponseBody(response);
+
+  if (!response.ok) {
+    const message = typeof body === "string" ? body : JSON.stringify(body);
+    throw new Error(`${label} failed (${response.status}): ${message}`);
+  }
+
+  return body;
+}
+
+// 디렉터리 아래 모든 파일의 절대 경로. 없는 디렉터리는 빈 배열이다.
+function listFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+
+  return fs
+    .readdirSync(directory, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => path.join(entry.parentPath, entry.name))
+    .sort();
+}
+
 // 스토어 배포 스크립트가 업로드할 ZIP 경로. envName 환경 변수로 재정의할 수 있다.
 function getPackageFile(label, envName) {
   const packageFile =
@@ -67,6 +91,7 @@ module.exports = {
   getCrc32,
   getPackageFile,
   getRequiredEnv,
+  listFiles,
   readManifest,
-  readResponseBody,
+  requestJson,
 };

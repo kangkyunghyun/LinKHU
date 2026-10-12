@@ -173,3 +173,37 @@ test("줄바꿈 표의 첫 줄은 모두 실제 이름의 접두사다", () => {
     );
   });
 });
+
+test("shared isShortcutTarget ignores typing targets and modifier keys", () => {
+  const key = (overrides) => LinKHUShared.isShortcutTarget({ target: { tagName: "BODY" }, ...overrides });
+
+  assert.equal(key({}), true);
+  assert.equal(key({ target: { tagName: "INPUT" } }), false);
+  assert.equal(key({ target: { tagName: "TEXTAREA" } }), false);
+  assert.equal(key({ target: { tagName: "SELECT" } }), false);
+  assert.equal(key({ target: { tagName: "DIV", isContentEditable: true } }), false);
+  assert.equal(key({ ctrlKey: true }), false);
+  assert.equal(key({ metaKey: true }), false);
+  assert.equal(key({ altKey: true }), false);
+  assert.equal(key({ repeat: true }), false);
+});
+
+test("shared applyIconTheme rewrites only icons that carry data-icon-src", () => {
+  const icons = [
+    { dataset: { iconSrc: "images/common/portal.png" }, src: "images/common/portal.png" },
+    { dataset: { iconSrc: "images/departments/swcon.png" }, src: "images/departments/swcon.png" },
+  ];
+  const doc = { querySelectorAll: (selector) => (selector === "img[data-icon-src]" ? icons : []) };
+
+  LinKHUShared.applyIconTheme("dark", doc);
+  assert.deepEqual(
+    icons.map((icon) => icon.src),
+    ["images/dark/common/portal.png", "images/dark/departments/swcon.png"],
+  );
+
+  LinKHUShared.applyIconTheme("light", doc);
+  assert.deepEqual(
+    icons.map((icon) => icon.src),
+    ["images/common/portal.png", "images/departments/swcon.png"],
+  );
+});

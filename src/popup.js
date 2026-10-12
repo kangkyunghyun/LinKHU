@@ -105,14 +105,6 @@ const App = {
   },
 };
 
-// 테마가 바뀌면 이미 그려진 아이콘의 경로만 바꾼다. 다시 렌더하면
-// 격자를 통째로 새로 만들게 되어 무겁고 스크롤 위치도 흔들린다.
-function applyIconTheme(theme) {
-  document.querySelectorAll("#grid-container img[data-icon-src]").forEach((img) => {
-    img.src = LinKHUShared.iconSrc(img.dataset.iconSrc, theme);
-  });
-}
-
 function initShortcutNotice() {
   const notice = document.getElementById("shortcut-notice");
   const settings = document.getElementById("shortcut-notice-settings");
@@ -169,7 +161,7 @@ function initShortcutNotice() {
 document.addEventListener("DOMContentLoaded", () => {
   initShortcutNotice();
   App.render();
-  ThemeManager.subscribeThemeChange(applyIconTheme);
+  ThemeManager.subscribeThemeChange((theme) => LinKHUShared.applyIconTheme(theme));
 
   VersionManager.displayVersionInfo("current-version", "update-message");
 
@@ -208,17 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("keydown", (e) => {
-    if (
-      e.target.tagName === "INPUT" ||
-      e.target.tagName === "TEXTAREA" ||
-      e.target.isContentEditable ||
-      e.ctrlKey ||
-      e.altKey ||
-      e.metaKey ||
-      e.repeat
-    ) {
-      return;
-    }
+    if (!LinKHUShared.isShortcutTarget(e)) return;
 
     if (e.key === "/") {
       e.preventDefault();

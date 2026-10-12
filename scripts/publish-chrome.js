@@ -5,20 +5,8 @@ const {
   PROJECT_ROOT,
   getPackageFile,
   getRequiredEnv,
-  readResponseBody,
+  requestJson,
 } = require("./lib");
-
-async function requestJson(label, url, options) {
-  const response = await fetch(url, options);
-  const body = await readResponseBody(response);
-
-  if (!response.ok) {
-    const message = typeof body === "string" ? body : JSON.stringify(body);
-    throw new Error(`${label} failed (${response.status}): ${message}`);
-  }
-
-  return body;
-}
 
 async function getAccessToken(clientId, clientSecret, refreshToken) {
   const tokenResponse = await requestJson(

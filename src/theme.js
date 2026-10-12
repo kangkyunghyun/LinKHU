@@ -111,19 +111,16 @@ const ThemeManager = {
 
   // 순환 토글이 다음에 저장할 모드. system도 저장 가능한 선택이다.
   // 세 모드를 모두 거치므로 별도의 3단계 선택 없이 system에 도달할 수 있다.
-  nextToggleMode() {
-    const order = THEME_MODES;
-    const index = order.indexOf(this.normalizeMode(this.currentMode));
-    return order[(index + 1) % order.length];
+  nextToggleMode(mode = this.currentMode) {
+    const index = THEME_MODES.indexOf(this.normalizeMode(mode));
+    return THEME_MODES[(index + 1) % THEME_MODES.length];
   },
 
   // 순환은 다음에 무엇이 될지가 버튼에 드러나지 않는다.
   // 그래서 현재 모드와 다음 모드를 함께 알린다.
   toggleLabel(mode = this.currentMode) {
     const current = this.normalizeMode(mode);
-    const index = THEME_MODES.indexOf(current);
-    const next = THEME_MODES[(index + 1) % THEME_MODES.length];
-    return `테마: ${MODE_NAMES[current]}. 누르면 ${MODE_NAMES[next]}`;
+    return `테마: ${MODE_NAMES[current]}. 누르면 ${MODE_NAMES[this.nextToggleMode(current)]}`;
   },
 
   // 모드 변경을 라이브 영역으로 알릴 때 쓰는 문구.

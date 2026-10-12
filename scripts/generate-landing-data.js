@@ -1,9 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
+const { PROJECT_ROOT, listFiles } = require("./lib");
 const { loadSiteList } = require("./validate-data");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const ASSETS_ROOT = path.join(PROJECT_ROOT, "landing", "assets");
 const OUTPUT_FILE = path.join(ASSETS_ROOT, "services.json");
@@ -30,17 +30,10 @@ function collectUsedIconPaths(siteList) {
   return [...light, ...dark].sort();
 }
 
-function collectCopiedIconPaths(directory = ICON_OUTPUT_ROOT) {
-  if (!fs.existsSync(directory)) return [];
-
-  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
-    const absolutePath = path.join(directory, entry.name);
-    if (entry.isDirectory()) return collectCopiedIconPaths(absolutePath);
-    if (!entry.isFile()) return [];
-    return [
-      path.relative(ASSETS_ROOT, absolutePath).split(path.sep).join("/"),
-    ];
-  });
+function collectCopiedIconPaths() {
+  return listFiles(ICON_OUTPUT_ROOT).map((absolutePath) =>
+    path.relative(ASSETS_ROOT, absolutePath).split(path.sep).join("/"),
+  );
 }
 
 function syncLandingIcons(siteList) {

@@ -2,7 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const vm = require("vm");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
+const { PROJECT_ROOT, listFiles } = require("./lib");
+
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
 const SHARED_FILE = path.join(SRC_ROOT, "shared.js");
@@ -147,16 +148,6 @@ function findDuplicateFieldErrors(siteList) {
   );
 }
 
-function collectImagePaths(directory) {
-  if (!fs.existsSync(directory)) return [];
-
-  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
-    const absolutePath = path.join(directory, entry.name);
-    if (entry.isDirectory()) return collectImagePaths(absolutePath);
-    return entry.isFile() ? [absolutePath] : [];
-  });
-}
-
 function normalizeImagePath(imagePath) {
   return imagePath.replace(/\\/g, "/");
 }
@@ -169,7 +160,7 @@ function findUnusedImages(siteList) {
   );
 
   return IMAGE_DIRECTORIES.flatMap((relativeDirectory) =>
-    collectImagePaths(path.join(SRC_ROOT, relativeDirectory)),
+    listFiles(path.join(SRC_ROOT, relativeDirectory)),
   )
     .map((absolutePath) =>
       normalizeImagePath(path.relative(SRC_ROOT, absolutePath)),

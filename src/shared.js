@@ -45,6 +45,29 @@ const LinKHUShared = {
     return String(imgSrc).replace(/^images\//, "images/dark/");
   },
 
+  // 테마가 바뀌면 이미 그려진 아이콘의 경로만 바꾼다. 다시 렌더하면
+  // 목록을 통째로 새로 만들게 되어 무겁고 스크롤 위치도 흔들린다.
+  applyIconTheme(theme, doc = document) {
+    doc.querySelectorAll("img[data-icon-src]").forEach((img) => {
+      img.src = this.iconSrc(img.dataset.iconSrc, theme);
+    });
+  },
+
+  // 글자를 입력 중이거나 보조키를 누른 키 입력은 단축키로 보지 않는다.
+  isShortcutTarget(event) {
+    const tagName = event.target?.tagName;
+    return !(
+      tagName === "INPUT" ||
+      tagName === "TEXTAREA" ||
+      tagName === "SELECT" ||
+      event.target?.isContentEditable ||
+      event.ctrlKey ||
+      event.altKey ||
+      event.metaKey ||
+      event.repeat
+    );
+  },
+
   // 팝업 카드 이름의 줄바꿈 지점. id → 첫 줄 문자열이다.
   // 카드 한 줄에 들어가는 것은 한글 6자다(폭 근거는 스펙 §3-2-7). 공백이 없는 긴 이름은
   // word-break: keep-all이 꺾을 자리를 못 찾아 overflow-wrap: anywhere로 넘어가고,

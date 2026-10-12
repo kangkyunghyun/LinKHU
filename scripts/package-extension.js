@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const { PROJECT_ROOT, getCrc32, readManifest } = require("./lib");
+const { PROJECT_ROOT, getCrc32, listFiles, readManifest } = require("./lib");
 
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DIST_ROOT = path.join(PROJECT_ROOT, "dist");
@@ -23,28 +23,15 @@ function createUInt32(value) {
   return buffer;
 }
 
-function collectFiles(directory, baseDirectory = directory) {
-  const entries = fs.readdirSync(directory, { withFileTypes: true });
-  const files = [];
-
-  entries.forEach((entry) => {
-    if (entry.name.startsWith(".")) return;
-
-    const absolutePath = path.join(directory, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...collectFiles(absolutePath, baseDirectory));
-      return;
-    }
-
-    if (entry.isFile()) {
-      files.push({
-        absolutePath,
-        archivePath: path.relative(baseDirectory, absolutePath).split(path.sep).join("/"),
-      });
-    }
-  });
-
-  return files.sort((a, b) => a.archivePath.localeCompare(b.archivePath));
+// 숨김 파일과 숨김 디렉터리(.DS_Store 등)는 어느 깊이에 있어도 뺀다.
+function collectFiles(directory) {
+  return listFiles(directory)
+    .map((absolutePath) => ({
+      absolutePath,
+      archivePath: path.relative(directory, absolutePath).split(path.sep).join("/"),
+    }))
+    .filter(({ archivePath }) => !archivePath.split("/").some((part) => part.startsWith(".")))
+    .sort((a, b) => a.archivePath.localeCompare(b.archivePath));
 }
 
 function createZip(files, outputFile) {
