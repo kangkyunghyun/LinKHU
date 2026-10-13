@@ -54,7 +54,7 @@ const LinKHUShared = {
   },
 
   // 글자를 입력 중이거나 보조키를 누른 키 입력은 단축키로 보지 않는다.
-  isShortcutTarget(event) {
+  isShortcutEvent(event) {
     const tagName = event.target?.tagName;
     return !(
       tagName === "INPUT" ||

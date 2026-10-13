@@ -68,7 +68,7 @@ ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크�
 | `iconSrc(imgSrc, theme)` | `dark`면 `images/` 아래 경로를 `images/dark/`로 바꾼 경로. 그 외는 원본 그대로 |
 | `applyIconTheme(theme)` | 문서 안 `img[data-icon-src]`의 `src`만 `iconSrc` 결과로 바꾼다. 목록을 다시 그리지 않는다 |
 | `cardDisplayName(site)` | `CARD_LINE_BREAKS`에 있으면 첫 줄 뒤에 ZWSP를 넣은 이름. 첫 줄이 접두사가 아니면 원본 그대로 |
-| `isShortcutTarget(event)` | 입력 요소(`INPUT`·`TEXTAREA`·`SELECT`·contentEditable)나 Ctrl·Alt·Meta·반복 입력이면 `false`. 화면 단축키는 `true`일 때만 반응한다 |
+| `isShortcutEvent(event)` | 입력 요소(`INPUT`·`TEXTAREA`·`SELECT`·contentEditable)나 Ctrl·Alt·Meta·반복 입력이면 `false`. 화면 단축키는 `true`일 때만 반응한다 |
 
 `rankSites`는 동점 처리에 원본 인덱스를 쓴다. 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
 

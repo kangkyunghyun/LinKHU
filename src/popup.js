@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("keydown", (e) => {
-    if (!LinKHUShared.isShortcutTarget(e)) return;
+    if (!LinKHUShared.isShortcutEvent(e)) return;
 
     if (e.key === "/") {
       e.preventDefault();

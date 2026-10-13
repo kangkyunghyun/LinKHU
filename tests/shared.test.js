@@ -174,8 +174,8 @@ test("줄바꿈 표의 첫 줄은 모두 실제 이름의 접두사다", () => {
   });
 });
 
-test("shared isShortcutTarget ignores typing targets and modifier keys", () => {
-  const key = (overrides) => LinKHUShared.isShortcutTarget({ target: { tagName: "BODY" }, ...overrides });
+test("shared isShortcutEvent ignores typing targets and modifier keys", () => {
+  const key = (overrides) => LinKHUShared.isShortcutEvent({ target: { tagName: "BODY" }, ...overrides });
 
   assert.equal(key({}), true);
   assert.equal(key({ target: { tagName: "INPUT" } }), false);
