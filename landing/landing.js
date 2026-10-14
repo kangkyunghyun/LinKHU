@@ -532,7 +532,7 @@
         messageInput.value = "";
         selectedType = "";
         typeButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
-        status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
+        status.textContent = "전송되었습니다. 소중한 의견 감사합니다!";
       } catch (error) {
         status.textContent = "전송에 실패했습니다. GitHub 이슈로 남겨주세요.";
       } finally {

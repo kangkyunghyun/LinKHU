@@ -115,7 +115,7 @@ function initFeedbackForm() {
       messageInput.value = "";
       selectedType = "";
       typeButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
-      status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
+      status.textContent = "전송되었습니다. 소중한 의견 감사합니다!";
     } catch (error) {
       console.error("문의 전송 실패:", error);
       status.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해주세요.";
