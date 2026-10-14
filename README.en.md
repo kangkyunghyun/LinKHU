@@ -38,7 +38,7 @@ Search shortcuts by service name, ID, or category from the search bar at the top
 
 ### 💬 Feedback
 
-Use the **Feedback** form at the bottom of the popup or the options page to send suggestions directly — no GitHub account required. Leave your email if you would like a reply.
+Use the **Feedback** form at the bottom of the popup or the options page to choose a feedback type and send suggestions directly — no GitHub account required. Leave your email if you would like a reply.
 
 ## 👀 Preview
 

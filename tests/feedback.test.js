@@ -22,7 +22,7 @@ test("feedback stays disabled until the form is configured", () => {
 });
 
 test("feedback submission targets the configured form entry", () => {
-  const { url, body } = Feedback.createSubmission("팝업이 열리지 않아요", "", {
+  const { url, body } = Feedback.createSubmission("팝업이 열리지 않아요", "", "오류 제보", {
     formUrl: "https://docs.google.com/forms/d/e/FORM/formResponse",
     messageEntry: "entry.123456789",
   });
@@ -38,16 +38,35 @@ test("feedback submission includes email only when entry is configured", () => {
     emailEntry: "entry.987654321",
   };
 
-  const withEmail = Feedback.createSubmission("문의", "khu@khu.ac.kr", config);
+  const withEmail = Feedback.createSubmission("문의", "khu@khu.ac.kr", "기타", config);
   assert.equal(withEmail.body.get("entry.987654321"), "khu@khu.ac.kr");
 
-  const withoutEmail = Feedback.createSubmission("문의", "", config);
+  const withoutEmail = Feedback.createSubmission("문의", "", "기타", config);
   assert.equal(withoutEmail.body.has("entry.987654321"), false);
 
-  const noEmailEntry = Feedback.createSubmission("문의", "khu@khu.ac.kr", {
+  const noEmailEntry = Feedback.createSubmission("문의", "khu@khu.ac.kr", "기타", {
     formUrl: config.formUrl,
     messageEntry: config.messageEntry,
     emailEntry: "",
   });
   assert.equal([...noEmailEntry.body.keys()].length, 1);
+});
+
+test("feedback sends the selected type separately without changing the message", () => {
+  const config = {
+    formUrl: "https://docs.google.com/forms/d/e/FORM/formResponse",
+    messageEntry: "entry.message",
+    typeEntry: "entry.type",
+  };
+  for (const type of Feedback.FEEDBACK_TYPES) {
+    const { body } = Feedback.createSubmission("문의 원문", "", type, config);
+    assert.equal(body.get(config.messageEntry), "문의 원문");
+    assert.equal(body.get(config.typeEntry), type);
+  }
+  const noType = Feedback.createSubmission("문의 원문", "", "", config);
+  assert.equal(noType.body.has(config.typeEntry), false);
+  const noEntry = Feedback.createSubmission("문의 원문", "", "기타", {
+    ...config, typeEntry: "",
+  });
+  assert.deepEqual([...noEntry.body.entries()], [["entry.message", "문의 원문"]]);
 });

@@ -524,6 +524,13 @@ h1 {
   display: none;
 }
 
+.feedback-types {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  white-space: nowrap;
+}
+
 .feedback-panel textarea {
   width: 100%;
   box-sizing: border-box;
