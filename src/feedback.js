@@ -122,8 +122,8 @@ function initFeedbackForm() {
     } finally {
       sendBtn.disabled = false;
       typeButtons.forEach((button) => {
-      button.disabled = false;
-    });
+        button.disabled = false;
+      });
     }
   });
 }

@@ -520,8 +520,8 @@
 
       sendBtn.disabled = true;
       typeButtons.forEach((button) => {
-      button.disabled = true;
-    });
+        button.disabled = true;
+      });
       status.textContent = "전송 중...";
 
       try {
@@ -538,8 +538,8 @@
       } finally {
         sendBtn.disabled = false;
         typeButtons.forEach((button) => {
-      button.disabled = false;
-    });
+          button.disabled = false;
+        });
       }
     });
   }
