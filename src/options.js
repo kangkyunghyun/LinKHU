@@ -419,18 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initSearchShortcut() {
     document.addEventListener("keydown", (e) => {
-      if (
-        e.target.tagName === "INPUT" ||
-        e.target.tagName === "TEXTAREA" ||
-        e.target.tagName === "SELECT" ||
-        e.target.isContentEditable ||
-        e.ctrlKey ||
-        e.altKey ||
-        e.metaKey ||
-        e.repeat
-      ) {
-        return;
-      }
+      if (!LinKHUShared.isShortcutEvent(e)) return;
 
       if (e.key === "/") {
         e.preventDefault();
@@ -461,27 +450,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const activeOrder =
         result.userOrder || LinKHUShared.getDefaultOrder(MASTER_SITE_LIST);
 
-      MASTER_SITE_LIST.filter((site) => activeOrder.includes(site.id)).forEach(
-        (site) => {
-          activeList.appendChild(createListItem(site));
-        },
-      );
-
-      activeOrder.forEach((id) => {
-        const item = activeList.querySelector(`[data-id="${id}"]`);
-        if (item) activeList.appendChild(item);
-      });
+      // 삭제된 서비스의 id는 조용히 빠진다. 같은 id가 두 번 있어도 항목은 하나다(createListItem이 재사용).
+      activeOrder
+        .map((id) => siteById.get(id))
+        .filter(Boolean)
+        .forEach((site) => activeList.appendChild(createListItem(site)));
 
       SearchPanel.update();
     });
   }
 
-  // 테마가 바뀌면 이미 만들어진 항목의 아이콘 경로만 바꾼다.
-  ThemeManager.subscribeThemeChange((theme) => {
-    document.querySelectorAll("img[data-icon-src]").forEach((icon) => {
-      icon.src = LinKHUShared.iconSrc(icon.dataset.iconSrc, theme);
-    });
-  });
+  ThemeManager.subscribeThemeChange((theme) => LinKHUShared.applyIconTheme(theme));
 
   initShortcutGuide();
   SearchPanel.init();

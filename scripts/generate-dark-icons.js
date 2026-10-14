@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const zlib = require("zlib");
 
-const { PROJECT_ROOT, getCrc32 } = require("./lib");
+const { PROJECT_ROOT, getCrc32, listFiles } = require("./lib");
 
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const IMAGES_ROOT = path.join(SRC_ROOT, "images");
@@ -304,18 +304,15 @@ function findOpaqueCorner({ width, height, pixels }) {
   return null;
 }
 
-function collectLightIcons(directory = IMAGES_ROOT) {
-  return fs
-    .readdirSync(directory, { withFileTypes: true })
-    .flatMap((entry) => {
-      const absolutePath = path.join(directory, entry.name);
-      if (entry.isDirectory()) {
-        // dark/ 는 산출물이므로 입력에서 제외한다.
-        return absolutePath === DARK_ROOT ? [] : collectLightIcons(absolutePath);
-      }
-      return entry.isFile() && entry.name.endsWith(".png") ? [absolutePath] : [];
-    })
-    .sort();
+function collectPngFiles(directory) {
+  return listFiles(directory).filter((file) => file.endsWith(".png"));
+}
+
+// dark/ 는 산출물이므로 입력에서 제외한다.
+function collectLightIcons() {
+  return collectPngFiles(IMAGES_ROOT).filter(
+    (file) => !file.startsWith(DARK_ROOT + path.sep),
+  );
 }
 
 function darkPathFor(lightPath) {
@@ -390,12 +387,9 @@ function generate({ check }) {
   });
 
   // 라이트에 짝이 없는 다크 아이콘이 남아 있으면 지운다(또는 오류로 알린다).
-  const orphans = fs.existsSync(DARK_ROOT)
-    ? collectLightIcons(DARK_ROOT).filter(
-        (darkPath) =>
-          !fs.existsSync(path.join(IMAGES_ROOT, path.relative(DARK_ROOT, darkPath))),
-      )
-    : [];
+  const orphans = collectPngFiles(DARK_ROOT).filter(
+    (darkPath) => !fs.existsSync(path.join(IMAGES_ROOT, path.relative(DARK_ROOT, darkPath))),
+  );
 
   orphans.forEach((darkPath) => {
     const relative = path.relative(PROJECT_ROOT, darkPath);

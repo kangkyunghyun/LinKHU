@@ -7,7 +7,7 @@ const {
   getPackageFile,
   getRequiredEnv,
   readManifest,
-  readResponseBody,
+  requestJson,
 } = require("./lib");
 
 const DEFAULT_API_BASE_URL = "https://addons.mozilla.org/api/v5";
@@ -82,24 +82,13 @@ function createJwt(issuer, secret) {
   return `${unsignedToken}.${signature}`;
 }
 
-async function requestJson(label, url, options, credentials) {
+// 요청마다 JWT를 새로 만든다. 만료가 5분이라 한 토큰을 돌려쓰면 긴 폴링에서 끊긴다.
+function authorizedRequest(label, url, options, credentials) {
   const token = createJwt(credentials.issuer, credentials.secret);
-  const headers = {
-    Authorization: `JWT ${token}`,
-    ...options.headers,
-  };
-  const response = await fetch(url, {
+  return requestJson(label, url, {
     ...options,
-    headers,
+    headers: { Authorization: `JWT ${token}`, ...options.headers },
   });
-  const body = await readResponseBody(response);
-
-  if (!response.ok) {
-    const message = typeof body === "string" ? body : JSON.stringify(body);
-    throw new Error(`${label} failed (${response.status}): ${message}`);
-  }
-
-  return body;
 }
 
 async function uploadPackage(apiBaseUrl, credentials, packageFile) {
@@ -113,7 +102,7 @@ async function uploadPackage(apiBaseUrl, credentials, packageFile) {
   );
   formData.append("channel", "listed");
 
-  return requestJson(
+  return authorizedRequest(
     "Firefox package upload",
     `${apiBaseUrl}/addons/upload/`,
     {
@@ -125,7 +114,7 @@ async function uploadPackage(apiBaseUrl, credentials, packageFile) {
 }
 
 async function fetchUploadStatus(apiBaseUrl, credentials, uploadUuid) {
-  return requestJson(
+  return authorizedRequest(
     "Firefox upload status fetch",
     `${apiBaseUrl}/addons/upload/${uploadUuid}/`,
     {
@@ -177,7 +166,7 @@ async function createVersion(
   releaseNotesLocale,
   license,
 ) {
-  return requestJson(
+  return authorizedRequest(
     "Firefox version create",
     `${apiBaseUrl}/addons/addon/${encodeURIComponent(addonId)}/versions/`,
     {

@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
 
-const PROJECT_ROOT = path.resolve(__dirname, "..");
-const MANIFEST_FILE = path.join(PROJECT_ROOT, "src", "manifest.json");
+const { PROJECT_ROOT, readManifest } = require("./lib");
+
 const VERSION_PATTERN = /^\d+\.\d+\.\d+$/;
 
 function runGit(args) {
@@ -29,8 +29,7 @@ function runGit(args) {
 
 function validateRelease(inputVersion) {
   const errors = [];
-  const manifest = JSON.parse(fs.readFileSync(MANIFEST_FILE, "utf8"));
-  const manifestVersion = manifest.version;
+  const manifestVersion = readManifest().version;
 
   if (!VERSION_PATTERN.test(inputVersion || "")) {
     errors.push(`Invalid release version: ${inputVersion || "(empty)"}`);
