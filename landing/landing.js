@@ -12,7 +12,10 @@
       "https://docs.google.com/forms/d/e/1FAIpQLSei30Rr122YHmLlixTDEaWtUPY_pM-EQ20kBMLvyu-52Q6IZQ/formResponse",
     messageEntry: "entry.1096769292",
     emailEntry: "entry.491031779",
+    typeEntry: "entry.275621407",
   };
+
+  const FEEDBACK_TYPES = ["오류 제보", "기능 건의", "기타"];
 
   // src/shared.js의 normalize와 같은 규칙을 유지한다.
   function normalizeSearchText(value) {
@@ -446,10 +449,13 @@
       });
   }
 
-  function createFeedbackSubmission(message, email, config = FEEDBACK_CONFIG) {
+  function createFeedbackSubmission(message, email, type, config = FEEDBACK_CONFIG) {
     const body = new URLSearchParams({ [config.messageEntry]: message });
     if (email && config.emailEntry) {
       body.set(config.emailEntry, email);
+    }
+    if (type && config.typeEntry) {
+      body.set(config.typeEntry, type);
     }
     return { url: config.formUrl, body };
   }
@@ -458,14 +464,32 @@
     const toggles = documentObject.querySelectorAll("[data-feedback-open]");
     const panel = documentObject.querySelector("#landing-feedback-panel");
     const closeBtn = documentObject.querySelector("#landing-feedback-close");
+    const typeContainer = documentObject.querySelector("#landing-feedback-type");
     const messageInput = documentObject.querySelector("#landing-feedback-message");
     const emailInput = documentObject.querySelector("#landing-feedback-email");
     const sendBtn = documentObject.querySelector("#landing-feedback-send");
     const status = documentObject.querySelector("#landing-feedback-status");
 
-    if (!toggles.length || !panel || !messageInput || !emailInput || !sendBtn || !status) {
+    if (!toggles.length || !panel || !typeContainer || !messageInput || !emailInput || !sendBtn || !status) {
       return;
     }
+
+    let selectedType = "";
+    const typeButtons = FEEDBACK_TYPES.map((type) => {
+      const button = documentObject.createElement("button");
+      button.type = "button";
+      button.className = "landing-feedback-chip";
+      button.textContent = type;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => {
+        selectedType = type;
+        typeButtons.forEach((chip) => {
+          chip.setAttribute("aria-pressed", String(chip === button));
+        });
+      });
+      return button;
+    });
+    typeContainer.replaceChildren(...typeButtons);
 
     toggles.forEach((toggle) => {
       toggle.addEventListener("click", () => {
@@ -477,6 +501,11 @@
     closeBtn?.addEventListener("click", () => panel.close());
 
     sendBtn.addEventListener("click", async () => {
+      if (!selectedType) {
+        status.textContent = "문의 유형을 골라주세요.";
+        return;
+      }
+
       const message = messageInput.value.trim();
       if (!message) {
         status.textContent = "문의 내용을 입력해주세요.";
@@ -490,19 +519,27 @@
       }
 
       sendBtn.disabled = true;
+      typeButtons.forEach((button) => {
+        button.disabled = true;
+      });
       status.textContent = "전송 중...";
 
       try {
         // Google Forms는 CORS 응답 헤더를 주지 않으므로 no-cors로 보내고,
         // 네트워크 오류가 없으면 전송된 것으로 간주한다.
-        const { url, body } = createFeedbackSubmission(message, email);
+        const { url, body } = createFeedbackSubmission(message, email, selectedType);
         await fetchFunction(url, { method: "POST", mode: "no-cors", body });
         messageInput.value = "";
-        status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
+        selectedType = "";
+        typeButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+        status.textContent = "전송되었습니다. 소중한 의견 감사합니다!";
       } catch (error) {
         status.textContent = "전송에 실패했습니다. GitHub 이슈로 남겨주세요.";
       } finally {
         sendBtn.disabled = false;
+        typeButtons.forEach((button) => {
+          button.disabled = false;
+        });
       }
     });
   }
@@ -559,6 +596,7 @@
   if (typeof module !== "undefined" && module.exports) {
     module.exports = {
       PC_INSTALL_URL,
+      FEEDBACK_TYPES,
       createFeedbackSubmission,
       getDefaultServices,
       isMobileUserAgent,

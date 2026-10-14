@@ -53,7 +53,7 @@ ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크�
 
 `shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되며 Node 테스트에서는 `require`로 불러오는 장치다. 새 공용 모듈도 같은 패턴을 따른다.
 
-문의 폼은 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다.
+문의 폼은 유형 선택을 포함해 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다. 랜딩은 자기 문의 대화상자에 같은 [폼 필드 계약](5-CONTRACT.md#5-3-google-forms)을 적용한다.
 
 ## 4-4-3 공용 유틸
 

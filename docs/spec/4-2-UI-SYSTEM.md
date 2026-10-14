@@ -143,7 +143,7 @@ GitHub Pages는 `landing/` 폴더만 서빙한다. 랜딩에서 `src/theme.css`�
 | `--radius-4` | `4px` | 포커스 표시, 스크롤바 썸 |
 | `--radius-8` | `8px` | 입력, 버튼, 아이콘 버튼, 목록 항목, 드롭존 |
 | `--radius-12` | `12px` | 팝업 카드, 떠 있는 문의 패널 |
-| `--radius-pill` | `999px` | 카테고리 필터 칩 |
+| `--radius-pill` | `999px` | 카테고리 필터 칩, 문의 유형 칩 |
 | `--shadow-card` | `0 4px 6px var(--color-shadow)` | 팝업 카드 평상시 |
 | `--shadow-card-hover` | `0 6px 12px var(--color-primary-shadow)` | 팝업 카드 hover |
 | `--shadow-focus-ring` | `0 0 0 3px var(--color-primary-ring)` | 입력 요소 포커스 링 |
@@ -179,7 +179,9 @@ GitHub Pages는 `landing/` 폴더만 서빙한다. 랜딩에서 `src/theme.css`�
 
 **단계는 실제로 쓰는 것만 만든다**. 2px 구간에 여러 단계를 두면 눈으로 구분되지 않으면서 고를 때만 헷갈린다.
 
-**두 화면의 같은 컴포넌트는 같은 토큰을 쓴다**. 문의 패널(`textarea`·`email`·`send`·`status`)과 테마 상태 문구는 팝업과 설정에 같은 기능을 그린 것이므로 값이 갈리면 안 된다.
+**두 화면의 같은 컴포넌트는 같은 토큰을 쓴다**. 문의 패널(유형 칩·`textarea`·`email`·`send`·`status`)과 테마 상태 문구는 팝업과 설정에 같은 기능을 그린 것이므로 값이 갈리면 안 된다.
+
+문의 유형 칩은 설정 카테고리 필터 칩(`src/options.css`의 `.filter-chip`)과 같은 모양을 쓴다. 팝업과 설정은 `--radius-pill`과 같은 토큰을 쓴다. 랜딩도 같은 알약 모양으로 표시하며 랜딩의 토큰 체계를 따른다. 칩의 표시 순서와 값은 [§5-3](5-CONTRACT.md#5-3-google-forms)을 따른다. 처음 열면 아무 유형도 선택하지 않은 상태다. 한 번에 하나만 선택한다. 선택한 칩은 `aria-pressed="true"`, 나머지는 `aria-pressed="false"`로 표시한다.
 
 `--text-card-label`은 스케일이 아니라 카드 폭이 정한다. 값은 `--text-caption`과 같지만 성격이 달라 별도 토큰으로 둔다. 한 줄 70.67px에 한글 여섯 자(69px)가 들어가야 한다. 12.5px이면 72px이 되어 줄바꿈 표 18건을 다시 정해야 한다. **본문 크기를 올려도 이 값은 함께 올리지 않는다.** 테스트가 두 줄이 각각 폭에 들어가는지 검사해 이 제약을 지킨다.
 

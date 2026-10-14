@@ -1615,6 +1615,42 @@ kbd {
   color: var(--color-foreground);
 }
 
+.landing-feedback-types {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.landing-feedback-chip {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.landing-feedback-chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-foreground);
+}
+
+.landing-feedback-chip[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.landing-feedback-chip:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 #landing-feedback-status {
   margin: 0;
   color: var(--color-muted);

@@ -190,6 +190,46 @@ header h1 {
   margin-top: var(--space-12);
 }
 
+.feedback-types {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  white-space: nowrap;
+}
+
+.filter-chip {
+  padding: 0 var(--space-12);
+  height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-field);
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-size: var(--text-body);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.filter-chip[aria-pressed="true"] {
+  border-color: var(--color-primary-border);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.filter-chip:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 .feedback-panel textarea {
   width: 100%;
   box-sizing: border-box;

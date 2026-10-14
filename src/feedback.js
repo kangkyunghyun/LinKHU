@@ -1,5 +1,5 @@
 // 문의 전송 설정. docs/spec/5-CONTRACT.md §5-3의 조건대로 Google Form을 만든 뒤
-// 아래 두 값을 채우면 팝업/설정 페이지의 문의 기능이 활성화된다.
+// 폼 주소와 본문 필드를 채우면 팝업/설정 페이지의 문의 기능이 활성화된다.
 // Google Forms 전송 주소는 공개돼도 안전하므로 확장 소스에 그대로 둔다.
 const FEEDBACK_CONFIG = {
   formUrl:
@@ -8,25 +8,32 @@ const FEEDBACK_CONFIG = {
   messageEntry: "entry.1096769292",
   // 답변 받을 이메일 단답형 질문의 entry ID. 비워두면 이메일 입력란이 표시되지 않는다.
   emailEntry: "entry.491031779",
+  typeEntry: "entry.275621407",
 };
 
+const FEEDBACK_TYPES = ["오류 제보", "기능 건의", "기타"];
+
 const Feedback = {
+  FEEDBACK_TYPES,
   isConfigured(config = FEEDBACK_CONFIG) {
     return Boolean(config.formUrl && config.messageEntry);
   },
 
-  createSubmission(message, email, config = FEEDBACK_CONFIG) {
+  createSubmission(message, email, type, config = FEEDBACK_CONFIG) {
     const body = new URLSearchParams({ [config.messageEntry]: message });
     if (email && config.emailEntry) {
       body.set(config.emailEntry, email);
+    }
+    if (type && config.typeEntry) {
+      body.set(config.typeEntry, type);
     }
     return { url: config.formUrl, body };
   },
 
   // Google Forms는 CORS 응답 헤더를 주지 않으므로 no-cors로 보내고,
   // 네트워크 오류가 없으면 전송된 것으로 간주한다.
-  async submit(message, email) {
-    const { url, body } = this.createSubmission(message, email);
+  async submit(message, email, type) {
+    const { url, body } = this.createSubmission(message, email, type);
     await fetch(url, { method: "POST", mode: "no-cors", body });
   },
 };
@@ -35,12 +42,32 @@ const Feedback = {
 function initFeedbackForm() {
   const toggle = document.getElementById("feedback-toggle");
   const panel = document.getElementById("feedback-panel");
+  const typeContainer = document.getElementById("feedback-type");
   const messageInput = document.getElementById("feedback-message");
   const emailInput = document.getElementById("feedback-email");
   const sendBtn = document.getElementById("feedback-send");
   const status = document.getElementById("feedback-status");
 
-  if (!toggle || !panel || !messageInput || !sendBtn || !status) return;
+  if (!toggle || !panel || !typeContainer || !messageInput || !sendBtn || !status) {
+    return;
+  }
+
+  let selectedType = "";
+  const typeButtons = FEEDBACK_TYPES.map((type) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "filter-chip";
+    button.textContent = type;
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      selectedType = type;
+      typeButtons.forEach((chip) => {
+        chip.setAttribute("aria-pressed", String(chip === button));
+      });
+    });
+    return button;
+  });
+  typeContainer.replaceChildren(...typeButtons);
 
   // 이메일 질문(entry)이 연결된 경우에만 입력란을 보여준다.
   if (emailInput) {
@@ -53,6 +80,11 @@ function initFeedbackForm() {
   });
 
   sendBtn.addEventListener("click", async () => {
+    if (!selectedType) {
+      status.textContent = "문의 유형을 골라주세요.";
+      return;
+    }
+
     const message = messageInput.value.trim();
     if (!message) {
       status.textContent = "문의 내용을 입력해주세요.";
@@ -73,17 +105,25 @@ function initFeedbackForm() {
     }
 
     sendBtn.disabled = true;
+    typeButtons.forEach((button) => {
+      button.disabled = true;
+    });
     status.textContent = "전송 중...";
 
     try {
-      await Feedback.submit(message, email);
+      await Feedback.submit(message, email, selectedType);
       messageInput.value = "";
-      status.textContent = "전송했습니다. 소중한 의견 감사합니다!";
+      selectedType = "";
+      typeButtons.forEach((button) => button.setAttribute("aria-pressed", "false"));
+      status.textContent = "전송되었습니다. 소중한 의견 감사합니다!";
     } catch (error) {
       console.error("문의 전송 실패:", error);
       status.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해주세요.";
     } finally {
       sendBtn.disabled = false;
+      typeButtons.forEach((button) => {
+        button.disabled = false;
+      });
     }
   });
 }
