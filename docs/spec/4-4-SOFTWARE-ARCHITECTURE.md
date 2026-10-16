@@ -1,75 +1,92 @@
 # 4-4. 소프트웨어 아키텍처
 
-LinKHU의 구성 요소와 연결 방식을 기술한다. 빌드 단계가 없으므로 "모듈 그래프" 대신 **HTML의 스크립트 로드 순서와 전역 객체**로 결합한다. 이 특성을 모르고 파일을 옮기거나 `import`를 도입하면 화면이 깨진다.
+이 문서는 세 화면의 경계, 빌드 없이 스크립트를 잇는 방식과 전역 이름, 팝업과 설정이 함께 쓰는 규칙의 범위를 정한다.
 
-```text
-§4-4-1   3개 화면            popup, options, landing의 경계
-§4-4-2   스크립트 결합 방식     전역 객체와 로드 순서
-§4-4-3   공용 유틸            shared.js가 보장하는 것
-```
+저장 키와 비동기 처리는 상태에, 화면별 처리 순서는 인터랙션에, 검색 순위와 기본 목록은 정보 구조에 있다. ([4-5 상태](4-5-STATE.md), [6-1 인터랙션](6-1-INTERACTION.md), [3-4 기본 목록](3-INFORMATION-ARCHITECTURE.md#3-4-기본-목록), [3-5 검색이 다루는 범위](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위))
 
-## 4-4-1 3개 화면
+빌드 단계가 없으므로 모듈 그래프 대신 HTML의 스크립트 로드 순서와 전역 객체로 파일을 잇는다. 이 특성을 모르고 파일을 옮기거나 `import`를 도입하면 화면이 깨진다.
+
+<br>
+
+## 4-4-1 세 화면
 
 | 화면 | 진입점 | 실행 환경 | 역할 |
 | --- | --- | --- | --- |
 | 팝업 | `src/popup.html` | 확장 팝업 | 내 바로가기 표시, 검색, 이동 |
-| 설정 | `src/options.html` | 탭으로 열린다 | 내 바로가기 선택과 정렬 |
-| 랜딩 | `landing/index.html` | GitHub Pages | 제품 소개, 지원 서비스 검색 |
+| 설정 | `src/options.html` | 확장 페이지. 탭으로 열림 | 내 바로가기 선택과 정렬 |
+| 랜딩 | `landing/index.html` | GitHub Pages | 제품 소개, 지원 서비스 검색, 변경 이력 |
 
-팝업과 설정은 확장 컨텍스트에서 실행되므로 `chrome.*` API를 쓴다. 랜딩은 **일반 웹페이지**이므로 `chrome.*`를 쓸 수 없고 확장의 파일도 참조할 수 없다.
+팝업과 설정은 확장 환경에서 실행되므로 `chrome.*` API를 쓴다. 랜딩은 일반 웹페이지라 `chrome.*`를 쓸 수 없고 확장의 파일도 참조할 수 없다. 백그라운드 스크립트나 서비스 워커는 없고 모든 로직은 화면 스크립트 안에 있다.
 
-이 경계가 아키텍처의 핵심 제약이다. 확장과 랜딩은 코드를 공유할 수 없어 **같은 규칙을 각자 구현하고 테스트로 일치를 강제**한다. 백그라운드 스크립트나 서비스 워커는 없다. 모든 로직은 화면 스크립트 안에 있다.
+확장과 랜딩은 코드를 공유할 수 없어, 두 곳이 같아야 하는 규칙은 각자 구현하고 테스트로 결과가 같은지 검증한다.
+
+| 같아야 하는 규칙 | 확장 쪽 | 랜딩 쪽 |
+| --- | --- | --- |
+| 검색 정규화와 순위 | 공용 규칙 파일 | 랜딩 스크립트 |
+| 릴리스 노트의 내부 절 제거 | Firefox 제출 스크립트 | 랜딩 스크립트 |
+| 문의 전송 폼과 필드 | 문의 스크립트 | 랜딩 스크립트 |
+
+한쪽 규칙을 바꾸면 같은 PR에서 다른 쪽도 바꾼다.
+
+<br>
 
 ## 4-4-2 스크립트 결합 방식
 
-번들러가 없으므로 각 스크립트는 전역 객체를 노출하고, HTML이 순서대로 로드해 결합한다.
-
 ```mermaid
+%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 24, "rankSpacing": 32}}}%%
 flowchart LR
-    subgraph P["popup.html"]
+    subgraph P["`**popup.html**`"]
         direction LR
-        P0["head<br>theme.js"] --> P1["data.js"] --> P2["shared.js"] --> P3["version.js"] --> P4["feedback.js"] --> P5["popup.js"]
+        P0["`**theme.js**
+head에서 동기 로드`"] --> P1["`**data.js**`"] --> P2["`**shared.js**`"] --> P3["`**version.js**`"] --> P4["`**feedback.js**`"] --> P5["`**popup.js**`"]
     end
-    subgraph O["options.html"]
+    subgraph O["`**options.html**`"]
         direction LR
-        O0["head<br>theme.js"] --> O1["data.js"] --> O2["shared.js"] --> O3["feedback.js"] --> O4["options.js"]
+        O0["`**theme.js**
+head에서 동기 로드`"] --> O1["`**data.js**`"] --> O2["`**shared.js**`"] --> O3["`**feedback.js**`"] --> O4["`**options.js**`"]
     end
+    subgraph L["`**landing/index.html**`"]
+        direction LR
+        L0["`**theme.js**
+head에서 동기 로드`"] --> L1["`**landing.js**`"]
+    end
+    classDef comp fill:#E8F2E8,stroke:#527A59,color:#182D1D
+    class P0,P1,P2,P3,P4,P5,O0,O1,O2,O3,O4,L0,L1 comp
+    style P fill:#FAFAFA,stroke:#AAAAAA
+    style O fill:#FAFAFA,stroke:#AAAAAA
+    style L fill:#FAFAFA,stroke:#AAAAAA
 ```
 
-`theme.js`만 `<head>`에서 동기 로드한다. 테마 표식을 첫 페인트 전에 붙여야 하기 때문이다. 나머지는 본문 뒤에서 로드한다.
+테마 스크립트만 `<head>`에서 동기 로드한다. 테마 표식을 첫 페인트 전에 붙여야 하기 때문이다. 나머지는 본문 뒤에서 그림의 순서대로 로드하며, 의존 대상은 항상 자신보다 먼저 로드된다. 화면 진입 스크립트는 지원 서비스 목록과 공용 규칙이 이미 정의되어 있다고 보고 실행된다.
 
 | 파일 | 노출하는 전역 | 책임 |
 | --- | --- | --- |
-| `theme.js` | `ThemeManager` | 테마 모드 해석·저장·적용 |
-| `data.js` | `MASTER_SITE_LIST` | 지원 서비스 배열 |
-| `shared.js` | `LinKHUShared` | 검색 정규화·점수·정렬, 기본 순서 |
-| `version.js` | `VersionManager` | 현재 버전 표시, 최신 릴리스 비교, 스토어 링크 |
-| `feedback.js` | `Feedback` + `initFeedbackForm` | 문의 폼 전송과 화면 와이어링 |
-| `popup.js` / `options.js` | (없음) | 각 화면의 진입점 |
+| `src/theme.js` | `ThemeManager` | 확장 테마 모드 해석, 저장, 적용, 토글 연결 |
+| `src/data.js` | `MASTER_SITE_LIST`, `SITE_CATEGORIES` | 지원 서비스 목록과 카테고리 목록 |
+| `src/shared.js` | `LinKHUShared` | 팝업과 설정이 함께 쓰는 규칙 |
+| `src/version.js` | `VersionManager` | 현재 버전 표시, 최신 릴리스 비교, 스토어 링크 |
+| `src/feedback.js` | `Feedback` | 문의 폼 전송과 화면 연결 |
+| `src/popup.js`, `src/options.js` | 없음 | 각 화면의 진입점 |
+| `landing/theme.js` | `LandingTheme` | 랜딩 테마 모드 해석, 저장, 적용 |
+| `landing/landing.js` | 없음 | 랜딩 검색, 변경 이력, 문의, 휴대폰 설치 안내 |
 
-ES 모듈로 전환하지 않고 classic script를 유지한다. 검증 스크립트와 테스트 하네스가 이 로딩 방식에 묶여 있다.
-
-**의존 대상은 반드시 자신보다 먼저 로드되어야 한다**. `popup.js`는 `MASTER_SITE_LIST`와 `LinKHUShared`가 이미 정의되어 있다고 가정하고 실행된다.
-
-`shared.js`, `version.js`, `feedback.js`, `landing/landing.js`는 끝에 `module.exports` 가드를 둔다. 브라우저에서는 무시되며 Node 테스트에서는 `require`로 불러오는 장치다. 새 공용 모듈도 같은 패턴을 따른다.
-
-문의 폼은 유형 선택을 포함해 팝업과 설정이 **같은 요소 id를 쓴다**. `feedback.js`가 `DOMContentLoaded`에서 한 번 와이어링하므로, 각 화면이 따로 구현하지 않는다. 랜딩은 자기 문의 대화상자에 같은 [폼 필드 계약](5-CONTRACT.md#5-3-google-forms)을 적용한다.
-
-## 4-4-3 공용 유틸
-
-`LinKHUShared`(`src/shared.js`)는 팝업과 설정이 함께 쓰는 검색·정렬 규칙과 화면 공통 동작을 담는다.
-
-| 함수 | 보장하는 것 |
+| 규칙 | 이유 |
 | --- | --- |
-| `normalize(value)` | `ko-KR` 기준 소문자화 + 모든 공백 제거 |
-| `scoreSite(site, q)` | 0~4 점수. 낮을수록 상위. 해당 없으면 `Infinity` |
-| `rankSites(sites, q)` | 점수 오름차순, 동점이면 원본 배열 순서 유지 |
-| `getDefaultOrder(list)` | 기본 목록(`DEFAULT_SITE_IDS`) 중 `list`에 있는 서비스의 id 배열. 이름 `ko-KR` 가나다순 |
-| `iconSrc(imgSrc, theme)` | `dark`면 `images/` 아래 경로를 `images/dark/`로 바꾼 경로. 그 외는 원본 그대로 |
-| `applyIconTheme(theme)` | 문서 안 `img[data-icon-src]`의 `src`만 `iconSrc` 결과로 바꾼다. 목록을 다시 그리지 않는다 |
-| `cardDisplayName(site)` | `CARD_LINE_BREAKS`에 있으면 첫 줄 뒤에 ZWSP를 넣은 이름. 첫 줄이 접두사가 아니면 원본 그대로 |
-| `isShortcutEvent(event)` | 입력 요소(`INPUT`·`TEXTAREA`·`SELECT`·contentEditable)나 Ctrl·Alt·Meta·반복 입력이면 `false`. 화면 단축키는 `true`일 때만 반응한다 |
+| ES 모듈이 아닌 classic script로 불러온다 | 데이터 검증기와 테스트가 소스 파일을 격리된 환경에서 평가해 전역을 꺼내 쓴다 |
+| 공용 파일은 끝에서 `module`이 있을 때만 내보낸다 | 브라우저에서는 전역으로 쓰고 Node 테스트에서는 `require`로 불러온다. 새 공용 파일도 같은 방식이다 |
+| 팝업과 설정의 문의 폼은 같은 요소 id를 쓰고, 문의 스크립트가 문서 로드 후 한 번 연결한다 | 각 화면이 문의 폼을 따로 구현하지 않는다 |
 
-`rankSites`는 동점 처리에 원본 인덱스를 쓴다. 정렬이 안정적이지 않으면 같은 검색어에 결과 순서가 달라진다.
+<br>
 
-랜딩은 같은 규칙을 자기 쪽에 따로 구현한다. **검색 규칙을 바꿀 때는 양쪽을 함께 바꾼다.** 두 구현의 결과가 같은지는 테스트가 고정한다.
+## 4-4-3 공용 규칙
+
+팝업과 설정은 `src/shared.js` 하나에 담긴 규칙을 함께 쓴다. 한 화면에서만 쓰는 규칙은 공용 파일에 넣지 않는다.
+
+| 공용 규칙 | 보장하는 것 |
+| --- | --- |
+| 검색어 정규화 | 팝업과 설정이 같은 기준으로 검색어와 대상을 비교한다 |
+| 검색 점수와 정렬 | 팝업 검색 결과의 순서를 정한다. 설정 페이지는 순위 없이 걸러 내기만 한다 |
+| 기본 목록과 순서 | 저장한 순서가 없는 사용자에게 같은 기본 목록을 같은 순서로 보인다 |
+| 테마별 서비스 아이콘 경로 | 다크에서는 `images/` 아래 경로를 `images/dark/`로 바꾼다. 테마가 바뀌면 이미 그려진 아이콘의 경로만 바꾸고 목록을 다시 그리지 않는다 |
+| 카드 이름 줄바꿈 | 줄바꿈 표에 있는 이름은 첫 줄 뒤에 보이지 않는 줄바꿈 기회 문자를 넣는다. 표의 첫 줄이 이름의 앞부분이 아니면 이름을 그대로 둔다 |
+| 화면 단축키 판정 | 입력 요소(입력창, 여러 줄 입력, 선택 상자, 편집 가능한 영역)에 포커스가 있거나 `Ctrl`, `Alt`, `Cmd`가 함께 눌렸거나 반복 입력이면 단축키로 받지 않는다 |
