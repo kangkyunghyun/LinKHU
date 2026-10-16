@@ -10,26 +10,26 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 
 | 문서 | 정하는 것 | 상태 |
 | --- | --- | --- |
-| [1-BACKGROUND](1-BACKGROUND.md) | 제품 정의, 문제와 가치, 하지 않는 것, 기술 스택, 저장소 구조, 용어 | 작성 완료 |
-| [2-1-USER-STORIES](2-1-USER-STORIES.md) | 학생 사용자가 하려는 일과 완료 조건 | 작성 완료 |
-| [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 메인테이너의 운영 작업과 보장할 것. 데이터 갱신, 릴리스, 스토어, 문의, 기여 | 작성 완료 |
+| [1-BACKGROUND](1-BACKGROUND.md) | 도메인, 서비스 배경, 문제와 가치, 이용 흐름과 주체, 하지 않는 것, 용어 | 작성 완료 |
+| [2-1-USER-STORIES](2-1-USER-STORIES.md) | 사용자와 쓰임별 기대 | 작성 완료 |
+| [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 운영 주체, 핵심 기준 요약, 데이터 갱신, 릴리스, 스토어, 문의, 기여 | 작성 완료 |
 | [3-INFORMATION-ARCHITECTURE](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리와 서비스 수, 화면별 범위, 기본 목록, 검색 대상과 순위 | 작성 완료 |
 | [4-1-LAYOUT](4-1-LAYOUT.md) | 팝업과 설정의 영역 순서와 치수, 설정 목록 격자, 카드 폭 계산과 줄바꿈 표 | 작성 완료 |
 | [4-2-UI-SYSTEM](4-2-UI-SYSTEM.md) | 공식 색상, 토큰 원본과 이름 규칙, 랜딩 값 동기, 확장 우선 원칙, UI 아이콘 | 작성 완료 |
 | [4-3-THEME](4-3-THEME.md) | 세 모드, 저장과 되돌리기, 선택 UI, 색 토큰 값, 대비 기준, 랜딩 다크 팔레트 | 작성 완료 |
-| [4-4-SOFTWARE-ARCHITECTURE](4-4-SOFTWARE-ARCHITECTURE.md) | 세 화면의 경계, 스크립트 로드 순서와 전역, 공용 규칙 | 작성 완료 |
+| [4-4-SOFTWARE-ARCHITECTURE](4-4-SOFTWARE-ARCHITECTURE.md) | 개요와 외부 시스템, 배경과 목표, 품질 속성, 실행 기반과 권한, 모듈 구조, 의존 방향 | 작성 완료 |
 | [4-5-STATE](4-5-STATE.md) | 저장 키, 사용자 설정과 내부 캐시, 즉시 반영형 설정, 비동기 결과의 순서 | 작성 완료 |
 | [4-6-SERVICE-ICON](4-6-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 | 작성 완료 |
 | [4-7-SCREENSHOT](4-7-SCREENSHOT.md) | 스크린샷 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 | 작성 완료 |
-| [5-CONTRACT](5-CONTRACT.md) | 랜딩 산출물, GitHub 릴리스 API, Google Forms, Google Analytics, 공통 원칙 | 작성 완료 |
-| [6-1-INTERACTION](6-1-INTERACTION.md) | 렌더, 키 입력, 이동, 설정 저장, 테마 적용, 단축키 안내의 처리 순서 | 작성 완료 |
+| [5-CONTRACT](5-CONTRACT.md) | 연동 대상과 방식, 랜딩 산출물, GitHub 릴리스 API, Google Forms, Google Analytics, 공통 원칙 | 작성 완료 |
+| [6-1-INTERACTION](6-1-INTERACTION.md) | 렌더, 키 입력, 이동, 설정 저장, 테마 적용, 단축키 안내, 문의 유형, 설정 필터, 랜딩 검색과 업데이트 구역, 휴대폰 설치 안내의 처리 순서 | 작성 완료 |
 | [6-2-DATA](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마와 필드 규칙, 검증과 생성 스크립트, 변경 절차 | 작성 완료 |
 | [7-1-ERROR-HANDLING](7-1-ERROR-HANDLING.md) | 데이터, 저장소, 네트워크, 자산 실패의 동작과 문구 | 작성 완료 |
 | [7-2-TEST-CASES](7-2-TEST-CASES.md) | 자동 테스트의 상황과 기대 결과, 수동 검증 항목, 검증 환경, 특별 검증 | 작성 완료 |
-| [7-4-DEPLOYMENT](7-4-DEPLOYMENT.md) | 배포 경로와 자동화 범위, CI 검증, 랜딩 배포 | 작성 완료 |
+| [7-4-DEPLOYMENT](7-4-DEPLOYMENT.md) | 배포 단위와 대상 브라우저, 배포 경로, 배포 조건, 비밀 정보, 랜딩 적용과 복구, 배포 후 확인 | 작성 완료 |
 | [7-5-RELEASE](7-5-RELEASE.md) | 버전 자리, 준비 PR과 태그 순서, 릴리스 워크플로 검사, 릴리스 후 공지 | 작성 완료 |
 | [7-6-STORE](7-6-STORE.md) | 세 스토어 제출 절차, 자격 증명, Chrome 실패 대응, 배포 후 확인 | 작성 완료 |
-| [DECISIONS](DECISIONS.md) | 무엇을 정했고 어떤 방향을 왜 거부했는지. 날짜순 로그. 덧붙이고 옛 줄은 상태만 바꿈 | 작성 완료 |
+| [DECISIONS](DECISIONS.md) | 무엇을 정했고 어떤 방향을 왜 거부했는지. 결정 하나를 표 하나로, 날짜순으로 덧붙이고 옛 결정은 상태만 바꿈 | 작성 완료 |
 
 - 처음에는 1부터 5까지 차례로 읽어 배경, 요구사항, 설계, 계약을 확인한다. 6은 구현 규약, 7은 오류, 검증, 배포를 다룬다.
 - 앞 번호의 결정이 뒤 번호의 기준이다. 구현에 맞추려고 앞 번호를 임의로 바꾸지 않는다.
@@ -45,43 +45,45 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 카테고리 추가나 변경 | [3-2 카테고리](3-INFORMATION-ARCHITECTURE.md#3-2-카테고리) | [6-2-2 필드 규칙](6-2-DATA.md#6-2-2-필드-규칙), [4-1-3 설정 페이지 목록](4-1-LAYOUT.md#4-1-3-설정-페이지-목록) |
 | 서비스 아이콘 추가나 변경 | [4-6 서비스 아이콘](4-6-SERVICE-ICON.md) | `.claude/skills/service-icon/SKILL.md`, [6-2-5 변경 절차](6-2-DATA.md#6-2-5-변경-절차) |
 | 팝업 화면이나 동작 변경 | [4-1-1 팝업 영역](4-1-LAYOUT.md#4-1-1-팝업-영역), [6-1 인터랙션](6-1-INTERACTION.md) | [2-1 사용자 스토리](2-1-USER-STORIES.md), [7-1 오류 처리](7-1-ERROR-HANDLING.md) |
-| 설정 페이지 변경 | [4-1-2 설정 영역](4-1-LAYOUT.md#4-1-2-설정-영역), [6-1-4 설정 저장](6-1-INTERACTION.md#6-1-4-설정-저장) | [2-1-5 내 바로가기 구성](2-1-USER-STORIES.md#2-1-5-내-바로가기-구성) |
+| 설정 페이지 변경 | [4-1-2 설정 영역](4-1-LAYOUT.md#4-1-2-설정-영역), [6-1-4 설정 저장](6-1-INTERACTION.md#6-1-4-설정-저장) | [2-1-2 기대](2-1-USER-STORIES.md#2-1-2-기대)의 내 바로가기 구성, [6-1-8 설정 검색과 필터](6-1-INTERACTION.md#6-1-8-설정-검색과-필터) |
 | 색, 여백, 반경, 글자 크기 변경 | [4-2-2 디자인 토큰 규칙](4-2-UI-SYSTEM.md#4-2-2-디자인-토큰-규칙) | [4-3-4 구현 방식과 토큰 계약](4-3-THEME.md#4-3-4-구현-방식과-토큰-계약), [4-3-5 대비 기준](4-3-THEME.md#4-3-5-대비-기준) |
 | 테마 동작 변경 | [4-3 테마](4-3-THEME.md) | [4-5-4 비동기 결과의 순서](4-5-STATE.md#4-5-4-비동기-결과의-순서), [6-1-5 테마 적용](6-1-INTERACTION.md#6-1-5-테마-적용) |
-| 검색 규칙 변경 | [3-5 검색이 다루는 범위](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위) | [4-4-1 세 화면](4-4-SOFTWARE-ARCHITECTURE.md#4-4-1-세-화면)의 확장과 랜딩이 같아야 하는 규칙 |
-| 문의 폼 변경 | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms) | [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
-| 바깥 호출이나 분석 이벤트 추가 | [5 계약](5-CONTRACT.md) | [1-3 하지 않는 것](1-BACKGROUND.md#1-3-하지-않는-것), [5-5 공통 원칙](5-CONTRACT.md#5-5-공통-원칙) |
+| 검색 규칙 변경 | [3-5 검색이 다루는 범위](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위) | [4-4-6 의존 방향](4-4-SOFTWARE-ARCHITECTURE.md#4-4-6-의존-방향)의 확장과 랜딩이 같아야 하는 규칙 |
+| 문의 폼 변경 | [5-4 Google Forms](5-CONTRACT.md#5-4-google-forms) | [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
+| 바깥 호출이나 분석 이벤트 추가 | [5 계약](5-CONTRACT.md) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [5-6 공통 원칙](5-CONTRACT.md#5-6-공통-원칙) |
 | 저장 키 추가 | [4-5 상태](4-5-STATE.md) | [7-1-3 저장소 실패](7-1-ERROR-HANDLING.md#7-1-3-저장소-실패) |
-| 권한이나 매니페스트 변경 | [1-4 기술 스택](1-BACKGROUND.md#1-4-기술-스택) | [1-3 하지 않는 것](1-BACKGROUND.md#1-3-하지-않는-것), [2-2-4 스토어 배포](2-2-OPERATOR-REQUIREMENTS.md#2-2-4-스토어-배포) |
+| 권한이나 매니페스트 변경 | [4-4-4 실행 기반](4-4-SOFTWARE-ARCHITECTURE.md#4-4-4-실행-기반) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [2-2-5 스토어 배포](2-2-OPERATOR-REQUIREMENTS.md#2-2-5-스토어-배포) |
 | 릴리스 준비 | [7-5 릴리스](7-5-RELEASE.md) | `.claude/skills/release-copy/SKILL.md`, [7-6 스토어 제출](7-6-STORE.md) |
 | 스크린샷 다시 찍기 | [4-7 스크린샷](4-7-SCREENSHOT.md) | [7-6-6 Whale Store](7-6-STORE.md#7-6-6-whale-store) |
-| 다른 설계 방향을 놓고 고름 | [DECISIONS](DECISIONS.md)의 쓰는 규칙 | |
+| 다른 설계 방향을 놓고 고름 | [DECISIONS](DECISIONS.md)의 기록 규칙 | |
 
 <br>
 
-### 3. 코드와 스펙의 대응
+### 3. 명세와 코드의 대응
 
-코드를 바꾸면 짝지어진 문서를 같은 PR에서 갱신한다. 문서 갱신을 후속 PR로 미루지 않는다.
+코드를 바꾸면 짝지어진 문서를 같은 PR에서 갱신한다. 문서 갱신을 후속 PR로 미루지 않는다. 숨김 파일을 뺀 `src/` 전체가 확장 패키지가 되고, `dist/`는 패키징 산출물이라 버전 관리 대상이 아니다.
 
-| 코드 | 스펙 |
-| --- | --- |
-| `src/manifest.json` | [1-4 기술 스택](1-BACKGROUND.md#1-4-기술-스택), [7-6-1 전제 조건](7-6-STORE.md#7-6-1-전제-조건) |
-| `src/data.js` | [3-2 카테고리](3-INFORMATION-ARCHITECTURE.md#3-2-카테고리), [6-2 데이터](6-2-DATA.md) |
-| `src/shared.js` | [3-4 기본 목록](3-INFORMATION-ARCHITECTURE.md#3-4-기본-목록), [3-5 검색](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위), [4-4-3 공용 규칙](4-4-SOFTWARE-ARCHITECTURE.md#4-4-3-공용-규칙), [4-1-4 팝업 카드 이름](4-1-LAYOUT.md#4-1-4-팝업-카드-이름) |
-| `src/popup.js`, `popup.html`, `popup.css` | [4-1-1 팝업 영역](4-1-LAYOUT.md#4-1-1-팝업-영역), [6-1-1 팝업 렌더](6-1-INTERACTION.md#6-1-1-팝업-렌더)~[6-1-3 이동 처리](6-1-INTERACTION.md#6-1-3-이동-처리), [6-1-6 단축키 안내](6-1-INTERACTION.md#6-1-6-단축키-안내) |
-| `src/options.js`, `options.html`, `options.css` | [4-1-2 설정 영역](4-1-LAYOUT.md#4-1-2-설정-영역), [4-1-3 설정 페이지 목록](4-1-LAYOUT.md#4-1-3-설정-페이지-목록), [6-1-4 설정 저장](6-1-INTERACTION.md#6-1-4-설정-저장), [6-1-6 단축키 안내](6-1-INTERACTION.md#6-1-6-단축키-안내) |
-| `src/theme.js`, `theme.css` | [4-2-2 디자인 토큰 규칙](4-2-UI-SYSTEM.md#4-2-2-디자인-토큰-규칙), [4-3 테마](4-3-THEME.md), [6-1-5 테마 적용](6-1-INTERACTION.md#6-1-5-테마-적용) |
-| `src/version.js` | [4-5-1 저장 키 목록](4-5-STATE.md#4-5-1-저장-키-목록), [5-2 GitHub 릴리스 API](5-CONTRACT.md#5-2-github-릴리스-api) |
-| `src/feedback.js` | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms), [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패) |
-| `src/images/` | [4-6 서비스 아이콘](4-6-SERVICE-ICON.md) |
-| `landing/assets/screenshots/` | [4-7 스크린샷](4-7-SCREENSHOT.md) |
-| `landing/` | [3-3 화면별 범위](3-INFORMATION-ARCHITECTURE.md#3-3-화면별-범위), [4-3 테마](4-3-THEME.md), [5 계약](5-CONTRACT.md), [2-1-9 휴대폰에서 랜딩 열기](2-1-USER-STORIES.md#2-1-9-휴대폰에서-랜딩-열기) |
-| `scripts/validate-data.js` | [6-2-4 검증 파이프라인](6-2-DATA.md#6-2-4-검증-파이프라인), [4-1-4 팝업 카드 이름](4-1-LAYOUT.md#4-1-4-팝업-카드-이름) |
-| `scripts/generate-landing-data.js` | [5-1 랜딩 파생 산출물](5-CONTRACT.md#5-1-랜딩-파생-산출물), [6-2-4 검증 파이프라인](6-2-DATA.md#6-2-4-검증-파이프라인) |
-| `scripts/generate-dark-icons.js` | [4-6-4 생성기와 검증](4-6-SERVICE-ICON.md#4-6-4-생성기와-검증) |
-| `scripts/package-extension.js`, `validate-release.js`, `publish-*.js` | [7-5 릴리스](7-5-RELEASE.md), [7-6 스토어 제출](7-6-STORE.md) |
-| `tests/` | [7-2 테스트 케이스](7-2-TEST-CASES.md) |
-| `.github/workflows/` | [7-4 배포](7-4-DEPLOYMENT.md), [7-5-3 태그 push](7-5-RELEASE.md#7-5-3-태그-push), [7-6 스토어 제출](7-6-STORE.md) |
+| 구성 요소 | 구현 위치 | 사용 범위 |
+| --- | --- | --- |
+| 매니페스트 | [src/manifest.json](../../src/manifest.json) | 4-4-4 실행 기반, 7-4-1 대상 브라우저, 7-6-1 전제 조건 |
+| 지원 서비스 목록 | [src/data.js](../../src/data.js) | 3-2 카테고리, 6-2 데이터 |
+| 공용 규칙 | [src/shared.js](../../src/shared.js) | 3-4 기본 목록, 3-5 검색, 4-4-5 모듈 구조, 4-1-4 팝업 카드 이름 |
+| 팝업 | [src/popup.html](../../src/popup.html), [popup.css](../../src/popup.css), [popup.js](../../src/popup.js) | 4-1-1 팝업 영역, 6-1-1~6-1-3, 6-1-6 단축키 안내 |
+| 설정 | [src/options.html](../../src/options.html), [options.css](../../src/options.css), [options.js](../../src/options.js) | 4-1-2, 4-1-3 설정, 6-1-4 설정 저장, 6-1-6 단축키 안내 |
+| 테마와 토큰 | [src/theme.js](../../src/theme.js), [theme.css](../../src/theme.css) | 4-2-2 디자인 토큰 규칙, 4-3 테마, 6-1-5 테마 적용 |
+| 버전 안내 | [src/version.js](../../src/version.js) | 4-5-1 저장 키 목록, 5-3 GitHub 릴리스 API |
+| 문의 | [src/feedback.js](../../src/feedback.js) | 5-4 Google Forms, 6-1-7 문의 유형 선택, 7-1-4 네트워크 실패 |
+| 확장 아이콘과 서비스 아이콘 | [src/icons/](../../src/icons/), [src/images/](../../src/images/), SVG 원본 [assets/icons/](../../assets/icons/) | 4-6 서비스 아이콘 |
+| 랜딩 | [landing/](../../landing/). 산출물은 `assets/services.json`, `assets/images/` | 3-3 화면별 범위, 4-3 테마, 5 계약, 6-1-9~6-1-11 랜딩 동작 |
+| 스크린샷 | [landing/assets/screenshots/](../../landing/assets/screenshots/) | 4-7 스크린샷 |
+| 데이터 검증 | [scripts/validate-data.js](../../scripts/validate-data.js) | 6-2-4 검증 파이프라인, 4-1-4 팝업 카드 이름 |
+| 랜딩 산출물 생성 | [scripts/generate-landing-data.js](../../scripts/generate-landing-data.js) | 5-2 랜딩 파생 산출물, 6-2-4 검증 파이프라인 |
+| 다크 아이콘 생성 | [scripts/generate-dark-icons.js](../../scripts/generate-dark-icons.js) | 4-6-4 생성기와 검증 |
+| 패키징과 제출 | [scripts/package-extension.js](../../scripts/package-extension.js), [validate-release.js](../../scripts/validate-release.js), [publish-chrome.js](../../scripts/publish-chrome.js), [publish-firefox.js](../../scripts/publish-firefox.js) | 7-4-1 배포 단위, 7-5 릴리스, 7-6 스토어 제출 |
+| 테스트 | [tests/](../../tests/) | 7-2 테스트 케이스 |
+| 워크플로와 템플릿 | [.github/](../../.github/) | 7-4 배포, 7-5-3 태그 push, 7-6 스토어 제출 |
+| 작업 가이드 | [.claude/skills/](../../.claude/skills/). 서비스 아이콘과 릴리스 문구 | 4-6 서비스 아이콘, 7-5 릴리스 |
+| 문서 | [docs/](../README.md). 지원 서비스 목록 사본, 스토어와 커뮤니티 문구, 릴리스 노트 | 6-2-7 손으로 적은 서비스 수, 7-5 릴리스 |
 
 <br>
 
