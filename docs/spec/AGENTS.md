@@ -29,7 +29,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | [7-4-DEPLOYMENT](7-4-DEPLOYMENT.md) | 배포 경로와 자동화 범위, CI 검증, 랜딩 배포 | 작성 완료 |
 | [7-5-RELEASE](7-5-RELEASE.md) | 버전 자리, 준비 PR과 태그 순서, 릴리스 워크플로 검사, 릴리스 후 공지 | 작성 완료 |
 | [7-6-STORE](7-6-STORE.md) | 세 스토어 제출 절차, 자격 증명, Chrome 실패 대응, 배포 후 확인 | 작성 완료 |
-| [DECISIONS](DECISIONS.md) | 무엇을 정했고 어떤 방향을 왜 거부했는지. 날짜순 로그이며 덧붙이기만 함 | 작성 완료 |
+| [DECISIONS](DECISIONS.md) | 무엇을 정했고 어떤 방향을 왜 거부했는지. 날짜순 로그. 덧붙이고 옛 줄은 상태만 바꿈 | 작성 완료 |
 
 - 처음에는 1부터 5까지 차례로 읽어 배경, 요구사항, 설계, 계약을 확인한다. 6은 구현 규약, 7은 오류, 검증, 배포를 다룬다.
 - 앞 번호의 결정이 뒤 번호의 기준이다. 구현에 맞추려고 앞 번호를 임의로 바꾸지 않는다.
@@ -49,7 +49,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 색, 여백, 반경, 글자 크기 변경 | [4-2-2 디자인 토큰 규칙](4-2-UI-SYSTEM.md#4-2-2-디자인-토큰-규칙) | [4-3-4 구현 방식과 토큰 계약](4-3-THEME.md#4-3-4-구현-방식과-토큰-계약), [4-3-5 대비 기준](4-3-THEME.md#4-3-5-대비-기준) |
 | 테마 동작 변경 | [4-3 테마](4-3-THEME.md) | [4-5-4 비동기 결과의 순서](4-5-STATE.md#4-5-4-비동기-결과의-순서), [6-1-5 테마 적용](6-1-INTERACTION.md#6-1-5-테마-적용) |
 | 검색 규칙 변경 | [3-5 검색이 다루는 범위](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위) | [4-4-1 세 화면](4-4-SOFTWARE-ARCHITECTURE.md#4-4-1-세-화면)의 확장과 랜딩이 같아야 하는 규칙 |
-| 문의 폼 변경 | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms) | [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
+| 문의 폼 변경 | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms) | [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
 | 바깥 호출이나 분석 이벤트 추가 | [5 계약](5-CONTRACT.md) | [1-3 하지 않는 것](1-BACKGROUND.md#1-3-하지-않는-것), [5-5 공통 원칙](5-CONTRACT.md#5-5-공통-원칙) |
 | 저장 키 추가 | [4-5 상태](4-5-STATE.md) | [7-1-3 저장소 실패](7-1-ERROR-HANDLING.md#7-1-3-저장소-실패) |
 | 권한이나 매니페스트 변경 | [1-4 기술 스택](1-BACKGROUND.md#1-4-기술-스택) | [1-3 하지 않는 것](1-BACKGROUND.md#1-3-하지-않는-것), [2-2-4 스토어 배포](2-2-OPERATOR-REQUIREMENTS.md#2-2-4-스토어-배포) |
@@ -72,10 +72,10 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | `src/options.js`, `options.html`, `options.css` | [4-1-2 설정 영역](4-1-LAYOUT.md#4-1-2-설정-영역), [4-1-3 설정 페이지 목록](4-1-LAYOUT.md#4-1-3-설정-페이지-목록), [6-1-4 설정 저장](6-1-INTERACTION.md#6-1-4-설정-저장), [6-1-6 단축키 안내](6-1-INTERACTION.md#6-1-6-단축키-안내) |
 | `src/theme.js`, `theme.css` | [4-2-2 디자인 토큰 규칙](4-2-UI-SYSTEM.md#4-2-2-디자인-토큰-규칙), [4-3 테마](4-3-THEME.md), [6-1-5 테마 적용](6-1-INTERACTION.md#6-1-5-테마-적용) |
 | `src/version.js` | [4-5-1 저장 키 목록](4-5-STATE.md#4-5-1-저장-키-목록), [5-2 GitHub 릴리스 API](5-CONTRACT.md#5-2-github-릴리스-api) |
-| `src/feedback.js` | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패) |
+| `src/feedback.js` | [5-3 Google Forms](5-CONTRACT.md#5-3-google-forms), [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패) |
 | `src/images/` | [4-6 서비스 아이콘](4-6-SERVICE-ICON.md) |
 | `landing/assets/screenshots/` | [4-7 스크린샷](4-7-SCREENSHOT.md) |
-| `landing/` | [3-3 화면별 범위](3-INFORMATION-ARCHITECTURE.md#3-3-화면별-범위), [4-3 테마](4-3-THEME.md), [5 계약](5-CONTRACT.md), [2-1-9 휴대폰에서 홈페이지 열기](2-1-USER-STORIES.md#2-1-9-휴대폰에서-홈페이지-열기) |
+| `landing/` | [3-3 화면별 범위](3-INFORMATION-ARCHITECTURE.md#3-3-화면별-범위), [4-3 테마](4-3-THEME.md), [5 계약](5-CONTRACT.md), [2-1-9 휴대폰에서 랜딩 열기](2-1-USER-STORIES.md#2-1-9-휴대폰에서-랜딩-열기) |
 | `scripts/validate-data.js` | [6-2-4 검증 파이프라인](6-2-DATA.md#6-2-4-검증-파이프라인), [4-1-4 팝업 카드 이름](4-1-LAYOUT.md#4-1-4-팝업-카드-이름) |
 | `scripts/generate-landing-data.js` | [5-1 랜딩 파생 산출물](5-CONTRACT.md#5-1-랜딩-파생-산출물), [6-2-4 검증 파이프라인](6-2-DATA.md#6-2-4-검증-파이프라인) |
 | `scripts/generate-dark-icons.js` | [4-6-4 생성기와 검증](4-6-SERVICE-ICON.md#4-6-4-생성기와-검증) |
@@ -124,7 +124,23 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 
 <br>
 
-### 5. 점검
+### 5. 명령
+
+| 명령 | 역할 |
+| --- | --- |
+| `npm test` | `node --test`로 저장소의 `*.test.js` 실행 |
+| `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
+| `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
+| `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |
+| `npm run generate:landing-data` | 랜딩 검색 데이터와 아이콘 사본 생성, 쓰이지 않는 사본 삭제 |
+| `npm run validate:landing-data` | 랜딩 산출물이 최신인지 확인 |
+| `npm run validate:release -- <버전>` | 입력 버전의 형식, 매니페스트 버전, 태그 존재, 태그가 HEAD를 가리키는지, 릴리스 노트 파일 확인 |
+| `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
+| `npm run build` | 검증 전부와 패키징. 순서는 [6-2-4](6-2-DATA.md#6-2-4-검증-파이프라인) |
+
+<br>
+
+### 6. 점검
 
 스펙을 고친 PR은 아래를 돌린 뒤 올린다. 검색 결과는 후보이며 문맥으로 판정하고 일괄 삭제하지 않는다.
 

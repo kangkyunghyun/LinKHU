@@ -4,8 +4,6 @@
 
 배포 경로와 자동화 범위는 배포에, 스토어 제출은 스토어 제출에, 스토어와 커뮤니티 문구의 작성 기준은 `.claude/skills/release-copy/SKILL.md`에 있다. ([7-4 배포](7-4-DEPLOYMENT.md), [7-6 스토어 제출](7-6-STORE.md))
 
-태그 push는 GitHub Release와 ZIP 첨부까지만 만든다. 사용자에게 배포되는 것은 스토어 제출이 끝난 뒤다.
-
 <br>
 
 ## 7-5-1 버전 자리
@@ -15,7 +13,7 @@
 | 릴리스 노트에 있는 절 | 버전 |
 | --- | --- |
 | `### Features`가 있음 | minor |
-| `### Fixes`만 있음 | patch |
+| `### Features` 없이 `### Fixes`가 있음 | patch |
 | `### Internal`만 있음 | patch. 사용자가 화면에서 겪는 변화가 없음 |
 
 서비스 추가처럼 데이터만 늘어난 경우도 Features다. 코드가 한 줄도 바뀌지 않아도 사용자가 새로 갈 수 있는 곳이 생겼으므로 노트의 Features에 적고, 그러면 위 기준이 minor로 정한다.

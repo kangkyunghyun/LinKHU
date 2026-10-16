@@ -50,21 +50,19 @@ Chrome과 Firefox는 수동 실행 워크플로로 제출한다. 두 워크플�
 | 확인 문자열 | `confirm_publish`에 `publish-chrome` |
 | extension ID | `ihidkmjkpfphgljieecfcikljaopcldp` (워크플로에 고정) |
 
-| 저장소 비밀값 | 내용 |
+| 저장소 비밀값 | 발급처 |
 | --- | --- |
-| `CHROME_CLIENT_ID` | OAuth 클라이언트 ID |
-| `CHROME_CLIENT_SECRET` | OAuth 클라이언트 secret |
-| `CHROME_REFRESH_TOKEN` | `chromewebstore` 스코프의 refresh token |
-| `CHROME_PUBLISHER_ID` | Chrome Web Store 게시자 ID |
+| `CHROME_CLIENT_ID` | Google Cloud Console의 OAuth 클라이언트 |
+| `CHROME_CLIENT_SECRET` | Google Cloud Console의 OAuth 클라이언트 |
+| `CHROME_REFRESH_TOKEN` | 아래 재발급 절차. `chromewebstore` 스코프 |
+| `CHROME_PUBLISHER_ID` | Chrome Web Store Developer Dashboard |
 
-워크플로는 ZIP을 올린 뒤 publish 요청까지 보내 심사에 제출한다. 실행 후 Actions 로그에서 upload, publish, fetchStatus 응답을 확인하고, Developer Dashboard에서 새 버전이 심사 제출 상태인지 본다.
+워크플로는 ZIP을 올린 뒤 publish 요청까지 보내 심사에 제출한다. 스토어 설명은 바꾸지 않는다. 실행 후 Actions 로그에서 upload, publish, fetchStatus 응답을 확인하고, Developer Dashboard에서 새 버전이 심사 제출 상태인지 본다. 스토어 설명의 업데이트 절은 Developer Dashboard에 직접 붙여 넣는다.
 
 ```bash
 gh workflow run publish-chrome.yml --ref main \
   -f version={version} -f confirm_publish=publish-chrome
 ```
-
-API 문서: [Use the Chrome Web Store API](https://developer.chrome.com/docs/webstore/using_webstore_api), [API reference](https://developer.chrome.com/docs/webstore/api/reference/rest), [OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server)
 
 <br>
 
@@ -80,6 +78,8 @@ API 문서: [Use the Chrome Web Store API](https://developer.chrome.com/docs/web
 | `Publish to Chrome Web Store` | `invalid_grant` | refresh token 문제 |
 | `Publish to Chrome Web Store` | `NOT_UPDATEABLE` | 이전 제출이 심사 중 |
 
+스토어 API 오류는 로그에 `Chrome publish failed: {단계} failed ({상태 코드}): {응답 본문}` 형식으로 남는다. 단계는 `Chrome access token request`, `Chrome package upload`, `Chrome package publish` 등이다.
+
 <br>
 
 **1. refresh token 문제, `invalid_grant`**
@@ -88,7 +88,7 @@ API 문서: [Use the Chrome Web Store API](https://developer.chrome.com/docs/web
 Chrome access token request failed (400): {"error":"invalid_grant","error_description":"Token has been expired or revoked."}
 ```
 
-OAuth 동의 화면이 테스트 상태면 refresh token이 7일 뒤 만료된다. LinKHU의 OAuth 동의 화면은 프로덕션 상태라 주기적으로 만료되지 않는다. 아래는 토큰이 폐기됐거나 클라이언트를 바꾸는 경우의 절차다.
+OAuth 동의 화면이 테스트 상태면 refresh token이 7일 뒤 만료되고, 프로덕션 상태면 주기적으로 만료되지 않는다. `invalid_grant`가 나면 먼저 Google Cloud Console에서 게시 상태를 확인한다. 토큰이 폐기됐거나 클라이언트를 바꾸면 아래 순서로 다시 발급한다.
 
 게시 상태는 경고 표시로 판별할 수 없다. Google은 `https://www.googleapis.com/auth/chromewebstore`를 민감한 스코프로 분류하므로, 프로덕션으로 전환해도 검증을 받지 않으면 "확인되지 않은 앱" 경고가 계속 나온다. 개인용 앱은 검증이 필요 없으며 **고급 → 안전하지 않은 페이지로 이동**으로 진행한다. 게시 상태는 Google Cloud Console의 OAuth 동의 화면에 있는 게시 상태 항목에서만 판별한다.
 
@@ -97,7 +97,7 @@ OAuth 동의 화면이 테스트 상태면 refresh token이 7일 뒤 만료된�
 | 1 | OAuth 클라이언트 유형을 확인한다 | **웹 애플리케이션** 유형이고 승인된 리디렉션 URI에 `https://developers.google.com/oauthplayground`가 있음 |
 | 2 | `https://accounts.google.com/o/oauth2/auth`에 아래 쿼리를 붙여 동의 URL을 만든다 | `access_type=offline`과 `prompt=consent`가 없으면 refresh token이 발급되지 않음 |
 | 3 | 브라우저에서 열어 동의한다 | 리디렉션된 주소창에 `code`가 옴 |
-| 4 | 아래 명령으로 코드를 토큰으로 바꾼다 | 응답에 `refresh_token`이 있음 |
+| 4 | 아래 명령으로 코드를 토큰으로 바꾼다. 요청 형식은 Google의 [OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server) 문서에 있다 | 응답에 `refresh_token`이 있음 |
 | 5 | `gh secret set CHROME_REFRESH_TOKEN`으로 저장한다 | |
 | 6 | 워크플로를 다시 실행한다 | |
 
@@ -130,8 +130,10 @@ curl -s -X POST https://oauth2.googleapis.com/token \
 **2. 심사 중, `NOT_UPDATEABLE`**
 
 ```text
-400: {"error":{"code":400,"message":"You may not edit or publish an item that is in review.","status":"FAILED_PRECONDITION","details":[{"reason":"NOT_UPDATEABLE"}]}}
+Chrome publish failed: Chrome package upload failed (400): {"error":{"code":400,"message":"You may not edit or publish an item that is in review.","status":"FAILED_PRECONDITION","details":[{"reason":"NOT_UPDATEABLE"}]}}
 ```
+
+publish 단계에서 막히면 `Chrome package upload` 대신 `Chrome package publish`가 찍힌다.
 
 Chrome Web Store는 심사 중인 아이템에 새 패키지를 올리거나 publish 요청을 보내는 것을 막는다. 토큰, 비밀값, 입력값은 모두 정상이라 저장소 쪽에서 고칠 것이 없다.
 
@@ -149,35 +151,40 @@ Chrome Web Store는 심사 중인 아이템에 새 패키지를 올리거나 pub
 | 워크플로 | `Publish Firefox Add-ons` |
 | 실행 브랜치 | `main`에서만 |
 | 확인 문자열 | `confirm_publish`에 `publish-firefox` |
-| add-on ID, locale, license | `linkhu`, `ko`, `MIT` (워크플로에 고정) |
+| AMO 경로 식별자(slug) | `linkhu` (워크플로에 고정). 매니페스트의 add-on ID(`browser_specific_settings.gecko.id`)와 다른 값이다 |
+| locale | `ko` (워크플로에 고정) |
+| license | `MIT` (워크플로에 고정) |
 
-| 저장소 비밀값 | 내용 |
+| 저장소 비밀값 | 발급처 |
 | --- | --- |
-| `FIREFOX_JWT_ISSUER` | AMO API key |
-| `FIREFOX_JWT_SECRET` | AMO API secret |
+| `FIREFOX_JWT_ISSUER` | AMO API credentials의 API key |
+| `FIREFOX_JWT_SECRET` | AMO API credentials의 API secret |
 
-두 비밀값은 [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/)에서 발급한다.
+두 비밀값은 [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/) 화면에서 발급한다.
 
-워크플로는 ZIP을 listed channel에 올리고 AMO 검사가 끝날 때까지 기다린 뒤 새 버전을 만든다. 릴리스 노트 파일에서 `### Internal` 절을 뺀 내용이 `ko` locale의 버전 노트가 된다. 실행 후 Actions 로그에서 upload, upload status, version create 응답을 보고, Developer Hub에서 검사 결과와 제출 상태를 확인한다. 소스 코드 패키지 제출이 필요한 변경인지도 함께 본다.
+워크플로는 ZIP을 listed channel에 올리고 AMO 검사 결과를 10초 간격으로 최대 10분 기다린 뒤 새 버전을 만든다. 릴리스 노트 파일에서 `### Internal` 절을 뺀 내용이 `ko` locale의 버전 노트가 된다. 스토어 설명은 바꾸지 않는다. 실행 후 Actions 로그에서 upload, upload status, version create 응답을 보고, Developer Hub에서 검사 결과와 제출 상태를 확인한다. 소스 코드 패키지 제출이 필요한 변경인지도 함께 본다. 스토어 설명의 업데이트 절은 Developer Hub에 직접 붙여 넣는다. 업로드와 버전 API의 형식은 [AMO External API](https://mozilla.github.io/addons-server/topics/api/addons) 문서에 있다.
 
-API 문서: [AMO External API](https://mozilla.github.io/addons-server/topics/api/), [authentication](https://mozilla.github.io/addons-server/topics/api/v4_frozen/auth.html), [upload and version API](https://mozilla.github.io/addons-server/topics/api/addons)
+| 멈춘 단계 | 응답 | 원인 |
+| --- | --- | --- |
+| `Verify release input` | `Firefox publish workflow must be run from main.` | `main`이 아닌 브랜치에서 실행 |
+| `Verify release input` | `confirm_publish must be publish-firefox.` | 확인 문자열 오류 |
+| `Publish to Firefox Add-ons` | `Firefox upload validation failed: {검사 결과}` | AMO 검사 실패. 업로드는 남고 버전은 만들어지지 않음 |
+| `Publish to Firefox Add-ons` | `Firefox upload validation timed out for {업로드 id}.` | 10분 안에 검사가 끝나지 않음. 업로드는 남고 버전은 만들어지지 않음 |
 
 <br>
 
 ## 7-6-6 Whale Store
 
-공개 배포 API가 확인되지 않아 수동 배포를 유지하며 자동화 워크플로가 없다. 릴리스 ZIP을 직접 올리고 스토어 설명을 붙여 넣는 방식이라 다른 두 스토어와 달리 사람이 빠뜨리면 그대로 누락된다.
+Whale Store는 수동으로 배포하고 자동화 워크플로가 없다. 패키지 업로드까지 사람이 하므로 빠뜨리면 그대로 누락된다.
 
 | 순서 | 할 일 |
 | --- | --- |
-| 1 | [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 로그인한다 |
+| 1 | [Whale Store 개발자 센터](https://store.whale.naver.com/developers)에 로그인한다. 등록 절차는 [Developer Center Distribution](https://whale.dev/distribution/) 문서에 있다 |
 | 2 | My extensions에서 LinKHU 항목으로 간다 |
 | 3 | 새 패키지로 `linkhu-v{version}.zip`을 올린다 |
 | 4 | 필수 정보, 권한, 버전 설명(`docs/releases/v{version}.md`)을 확인한다 |
 | 5 | 스토어 설명, 스크린샷, 카테고리 변경이 필요한지 확인한다 |
 | 6 | 제출 전 경고 메시지를 확인하고 심사를 제출한다 |
-
-참고: [Add my extensions](https://help.whale.naver.com/en/desktop/store/), [Developer Center Distribution](https://whale.dev/distribution/)
 
 <br>
 
