@@ -10,8 +10,8 @@
  * 테마는 theme.js가 문서 루트의 data-theme에 해석된 값(light/dark)을 넣어 결정한다.
  * 사용자가 고른 모드(system/light/dark)와 구분한다 — system은 여기까지 오지 않는다.
  *
- * 토큰 계약과 대비 기준은 spec/3-2-DESIGN-UI-RULES.md의 3-2-5-4, 3-2-5-5가 원본이다.
- * 간격 스케일, 반경·그림자, 글자 크기 규칙은 같은 문서의 3-2-2가 원본이다.
+ * 토큰 계약과 대비 기준은 docs/spec/4-3-THEME.md의 4-3-4, 4-3-5가 원본이다.
+ * 간격 스케일, 반경·그림자, 글자 크기 규칙은 docs/spec/4-2-UI-SYSTEM.md의 4-2-2가 원본이다.
  */
 :root,
 :root[data-theme="light"] {

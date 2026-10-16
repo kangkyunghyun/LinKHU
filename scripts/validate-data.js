@@ -7,7 +7,7 @@ const { PROJECT_ROOT, listFiles } = require("./lib");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
 const SHARED_FILE = path.join(SRC_ROOT, "shared.js");
-// 스펙 §6-2-2의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
+// 스펙 §3-2 카테고리 목록의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
 // (data.js는 브라우저 전역 스크립트라 여기서 require할 수 없어 두 벌로 둔다.)
 const ALLOWED_CATEGORIES = new Set([
   "학사·포털",
