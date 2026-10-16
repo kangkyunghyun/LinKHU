@@ -51,8 +51,8 @@ const ThemeManager = {
   resolved: false,
   onResolved: null,
 
-  // 모드가 바뀔 때 알릴 구독자들. 팝업의 상태 안내와 설정의 라디오·안내가
-  // 동시에 듣는다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
+  // 모드가 바뀔 때 알릴 구독자들. 지금은 테스트만 구독한다. 여럿이 들을 수 있게
+  // 집합으로 둔다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
   modeSubscribers: new Set(),
 
   // 화면에 칠해진 테마(light/dark)가 바뀔 때 알린다. 모드 변경뿐 아니라
@@ -240,7 +240,7 @@ const ThemeManager = {
     this.pendingWrites += 1;
     this.currentMode = nextMode;
     this.refresh();
-    // 저장을 기다리지 않고 먼저 알린다. 기다리면 그사이 토글과 라디오가 어긋난다.
+    // 저장을 기다리지 않고 먼저 알린다. 같은 화면의 표시가 바로 바뀌어야 한다.
     this.notifyModeChange();
 
     this.writeMode(nextMode, (error) => {
