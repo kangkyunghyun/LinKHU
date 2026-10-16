@@ -97,7 +97,7 @@ header h1 {
   overflow-y: auto;
   overflow-x: hidden;
 
-  /* 좌우 합 8px은 카드 글자 폭 계산에 그대로 들어간다(스펙 3-2-7). 위쪽은 hover의
+  /* 좌우 합 8px은 카드 글자 폭 계산에 그대로 들어간다(스펙 4-1-4). 위쪽은 hover의
      translateY(-3px)가 잘리지 않을 최소치다. 네 면을 같은 값으로 둔다. */
   padding: var(--space-4);
 }
@@ -300,7 +300,7 @@ header h1 {
 
 .grid-item span {
   /* 이 자리만 전용 토큰을 쓴다. 값은 --text-caption과 같지만 카드 폭이 정하는 천장이라
-     본문 크기를 올릴 때 함께 올라가면 안 된다. 이유는 theme.css와 스펙 3-2-7에 있다. */
+     본문 크기를 올릴 때 함께 올라가면 안 된다. 이유는 theme.css와 스펙 4-1-4에 있다. */
   font-size: var(--text-card-label);
   color: var(--color-text);
   font-weight: 500;
@@ -377,7 +377,7 @@ header h1 {
   border: 0;
 }
 
-/* 저장 실패는 드물고 반드시 보여야 한다(스펙 3-2-5-2). 그때만 드러낸다. */
+/* 저장 실패는 드물고 반드시 보여야 한다(스펙 4-3-2). 그때만 드러낸다. */
 .theme-status-visible {
   position: static;
   width: auto;

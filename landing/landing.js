@@ -241,7 +241,7 @@
 
   const RELEASES_API_URL =
     "https://api.github.com/repos/kangkyunghyun/LinKHU/releases";
-  // 탭 세션마다 한 번만 부른다. 자세한 이유는 스펙 3-3-18.
+  // 탭 세션마다 한 번만 부른다. 자세한 이유는 스펙 5-2.
   const RELEASES_CACHE_KEY = "linkhu-releases";
   // 최신 하나만 펼쳐 둔다. 나머지는 제목 줄만 보이고 눌러서 편다.
   const RELEASES_OPEN_COUNT = 1;
@@ -250,7 +250,7 @@
   const RELEASES_SHOW_COUNT = 5;
 
   // scripts/publish-firefox.js의 stripInternalSection과 같은 규칙이다. Node 스크립트와
-  // 브라우저라 파일을 공유할 수 없어 두 벌로 둔다(검색 랭킹과 같은 이유, 스펙 3-1).
+  // 브라우저라 파일을 공유할 수 없어 두 벌로 둔다(검색 랭킹과 같은 이유, 스펙 4-4-1).
   // 한쪽을 고치면 다른 쪽도 고친다 — tests/landing-releases.test.js가 실제
   // docs/releases/*.md로 두 구현의 결과가 같은지 검사한다.
   function stripInternalSection(releaseNotes) {
@@ -269,7 +269,7 @@
   }
 
   // 릴리스 노트가 쓰는 문법은 셋뿐이다 — "### 제목", "- 불릿", "`코드`".
-  // 마크다운 파서를 넣지 않는 이유는 스펙 3-3-1(의존성 없음)이다. 그래서 이 셋만
+  // 마크다운 파서를 넣지 않는 이유는 스펙 1-4(의존성 없음)이다. 그래서 이 셋만
   // 블록으로 나누고, 그 밖의 줄은 문단으로 그대로 보여준다. 문법이 늘면 여기를 고친다.
   function parseReleaseBody(body) {
     const blocks = [];

@@ -7,7 +7,7 @@ const { PROJECT_ROOT, listFiles } = require("./lib");
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const DATA_FILE = path.join(SRC_ROOT, "data.js");
 const SHARED_FILE = path.join(SRC_ROOT, "shared.js");
-// 스펙 §4-2의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
+// 스펙 §6-2-2의 계약값이다. src/data.js의 SITE_CATEGORIES와 같은 목록을 유지한다.
 // (data.js는 브라우저 전역 스크립트라 여기서 require할 수 없어 두 벌로 둔다.)
 const ALLOWED_CATEGORIES = new Set([
   "학사·포털",
@@ -27,7 +27,7 @@ const IMAGE_DIRECTORIES = ["images/common", "images/colleges", "images/departmen
 // 팝업 카드 한 줄에 들어가는 폭이다. 팝업 320px에서 컨테이너 패딩 40, 그리드 패딩 8,
 // 스크롤바 6, 3열 gap 24를 빼면 카드 한 칸이 80.67px이고, 거기서 카드 테두리 2와
 // 카드 패딩 8을 빼면 70.67px이다. 스크롤바가 없으면 칸이 2px씩 넓어져 72.67px이다.
-// 좁은 쪽을 기준으로 내려 잡는다. 유도 과정은 스펙 3-2-7이 원본이다.
+// 좁은 쪽을 기준으로 내려 잡는다. 유도 과정은 스펙 4-1-4가 원본이다.
 // 카드 폭에 관여하는 값(src/popup.css의 .container, .grid-container, .grid-item)이
 // 바뀌면 이 값도 같이 바뀌어야 한다.
 const CARD_LINE_WIDTH_PX = 70.6;

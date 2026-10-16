@@ -36,7 +36,7 @@ const ThemeManager = {
   currentMode: DEFAULT_THEME_MODE,
 
   // 저장이 확인된 모드. 롤백은 항상 이 값으로 돌아간다.
-  // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 3-2-5-2).
+  // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 4-3-2).
   committedMode: DEFAULT_THEME_MODE,
 
   // 진행 중인 쓰기 수. 내 요청이 떠 있는 동안에는 외부 변경으로 덮지 않는다.
