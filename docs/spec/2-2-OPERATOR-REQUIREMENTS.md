@@ -57,7 +57,7 @@
 
 ### 2-2-5 스토어 배포
 
-LinKHU는 Chrome Web Store, Firefox Add-ons, Whale Store 세 곳에 배포한다. 스토어마다 심사 주기가 달라 같은 버전도 공개 시점이 다르다.
+LinKHU는 Chrome Web Store, Firefox Add-ons, Whale Store 세 곳에 배포한다.
 
 | 보장할 것 | 기준 |
 | --- | --- |
