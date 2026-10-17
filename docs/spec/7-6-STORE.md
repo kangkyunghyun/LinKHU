@@ -46,8 +46,8 @@ ZIP 다시 만듦`"] --> D["`**스토어에 업로드**`"]
 | 규칙 | 내용 |
 | --- | --- |
 | 확인 문자열 | 실수로 제출이 시작되는 것을 막음. 없애지 않음 |
-| 버전 입력 | `v` 없는 숫자 세 부분. 다르면 `Invalid release version: {입력}`으로 실패 |
-| 모의 실행 | `CHROME_DRY_RUN`, `FIREFOX_DRY_RUN`이 `true`면 입력과 파일 확인까지만 하고 올릴 대상을 출력한 뒤 끝냄 |
+| 버전 입력 | `v` 없는 숫자 세 부분. 다르면 입력값을 보이며 실패 |
+| 모의 실행 | 모의 실행 옵션을 켜면 입력과 파일 확인까지만 하고 올릴 대상을 출력한 뒤 끝냄 |
 | ZIP | Release의 ZIP을 내려받지 않고 다시 빌드함. 재현 가능한 패키징이라 첨부 파일과 같음. Whale만 첨부 파일을 직접 씀 |
 | 스토어 설명 | 바꾸지 않음. 업데이트 절은 각 스토어 관리 화면에 직접 붙여 넣음 |
 | 오래 배포하지 않았을 때 | 릴리스 전에 배포 경로를 점검함. 자격 증명은 만료되거나 폐기될 수 있음 |
@@ -60,31 +60,31 @@ ZIP 다시 만듦`"] --> D["`**스토어에 업로드**`"]
 | 항목 | 값 |
 | --- | --- |
 | 실행 브랜치 | `main` |
-| 확인 문자열 | `confirm_publish`에 `publish-chrome` |
+| 확인 문자열 | `publish-chrome` |
 | extension ID | `ihidkmjkpfphgljieecfcikljaopcldp` |
 | 동작 | ZIP을 올리고 publish 요청까지 보내 심사에 제출함 |
-| 확인 | Actions 로그의 upload, publish, fetchStatus 응답. Developer Dashboard에서 심사 제출 상태 |
+| 확인 | 실행 로그의 업로드, 공개, 상태 조회 응답. Developer Dashboard에서 심사 제출 상태 |
 
 | 저장소 비밀값 | 발급처 |
 | --- | --- |
-| `CHROME_CLIENT_ID` | Google Cloud Console의 OAuth 클라이언트 |
-| `CHROME_CLIENT_SECRET` | Google Cloud Console의 OAuth 클라이언트 |
-| `CHROME_REFRESH_TOKEN` | 7-6-4의 재발급 절차. `chromewebstore` 스코프 |
-| `CHROME_PUBLISHER_ID` | Chrome Web Store Developer Dashboard |
+| OAuth 클라이언트 ID | Google Cloud Console의 OAuth 클라이언트 |
+| OAuth 클라이언트 비밀 | Google Cloud Console의 OAuth 클라이언트 |
+| refresh token | 7-6-4의 재발급 절차. `chromewebstore` 스코프 |
+| publisher ID | Chrome Web Store Developer Dashboard |
 
 <br>
 
 ### 7-6-4 Chrome 실패 대응
 
-스토어 API 오류는 로그에 `Chrome publish failed: {단계} failed ({상태 코드}): {응답 본문}`으로 남는다. 단계는 `Chrome access token request`, `Chrome package upload`, `Chrome package publish`, `Chrome item status fetch`다. 마지막 단계의 실패는 이미 끝난 제출을 취소하지 않는다.
+스토어 API 오류는 멈춘 단계, 상태 코드, 응답 본문과 함께 로그에 남는다. 단계는 토큰 발급, 패키지 업로드, 공개 요청, 상태 조회 넷이다. 마지막 단계의 실패는 이미 끝난 제출을 취소하지 않는다.
 
-| 멈춘 단계 | 응답 | 원인 |
-| --- | --- | --- |
-| `Verify release input` | `Chrome publish workflow must be run from main.` | `main`이 아닌 브랜치에서 실행 |
-| `Verify release input` | `confirm_publish must be publish-chrome.` | 확인 문자열 오류 |
-| `Verify release input` | `Release tag ... points to ..., but the checked out commit is ...` | 태그가 `main`의 최신 커밋이 아님 |
-| `Publish to Chrome Web Store` | `invalid_grant` | refresh token 문제 |
-| `Publish to Chrome Web Store` | `NOT_UPDATEABLE` | 이전 제출이 심사 중 |
+| 멈춘 단계 | 원인 |
+| --- | --- |
+| 입력 검증 | `main`이 아닌 브랜치에서 실행 |
+| 입력 검증 | 확인 문자열 오류 |
+| 입력 검증 | 태그가 `main`의 최신 커밋이 아님 |
+| 스토어 제출 | `invalid_grant`. refresh token 문제 |
+| 스토어 제출 | `NOT_UPDATEABLE`. 이전 제출이 심사 중 |
 
 <br>
 
@@ -109,7 +109,7 @@ flowchart LR
 리디렉션 URI`"] --> B["`**동의 URL 열기**`"] --> C["`**동의**
 주소창에 code`"] --> D["`**code를
 토큰으로 교환**`"] --> E["`**비밀값 저장**
-CHROME_REFRESH_TOKEN`"] --> F["`**워크플로 재실행**`"]
+refresh token`"] --> F["`**워크플로 재실행**`"]
     classDef comp fill:#E8F2E8,stroke:#527A59,color:#182D1D
     class A,B,C,D,E,F comp
 ```
@@ -118,15 +118,15 @@ CHROME_REFRESH_TOKEN`"] --> F["`**워크플로 재실행**`"]
 | --- | --- |
 | 리디렉션 URI | `https://developers.google.com/oauthplayground`. OAuth 클라이언트의 승인된 리디렉션 URI에 있어야 함 |
 | 동의 URL | `https://accounts.google.com/o/oauth2/auth` |
-| 동의 URL 쿼리 | `response_type=code`, `client_id`, `redirect_uri`, `scope=https://www.googleapis.com/auth/chromewebstore`, `access_type=offline`, `prompt=consent`. 뒤의 둘이 없으면 refresh token이 나오지 않음 |
-| 토큰 교환 | `https://oauth2.googleapis.com/token`에 `POST`. `code`, `client_id`, `client_secret`, `redirect_uri`, `grant_type=authorization_code`. 형식은 Google의 [OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server) |
-| 성공 | 응답에 `refresh_token`이 있음 |
+| 동의 URL에 싣는 것 | 응답 유형 code, 클라이언트 ID, 리디렉션 URI, 스코프 `https://www.googleapis.com/auth/chromewebstore`, 오프라인 접근, 동의 화면 강제. 뒤의 둘이 없으면 refresh token이 나오지 않음 |
+| 토큰 교환 | `https://oauth2.googleapis.com/token`에 받은 code, 클라이언트 ID와 비밀, 리디렉션 URI를 인증 코드 교환 방식으로 보냄. 형식은 Google의 [OAuth 2.0 for Web Server Applications](https://developers.google.com/identity/protocols/oauth2/web-server) |
+| 성공 | 응답에 refresh token이 있음 |
 
 <br>
 
 **2. 심사 중, `NOT_UPDATEABLE`**
 
-Chrome Web Store는 심사 중인 항목에 새 패키지 업로드와 publish 요청을 막는다. 업로드 단계에서 막히면 `Chrome package upload`, publish 단계에서 막히면 `Chrome package publish`가 기록된다.
+Chrome Web Store는 심사 중인 항목에 새 패키지 업로드와 publish 요청을 막는다. 로그의 멈춘 단계가 패키지 업로드인지 공개 요청인지로 어디서 막혔는지 안다.
 
 | 하지 않는 것 | 하는 것 |
 | --- | --- |
@@ -140,27 +140,27 @@ Chrome Web Store는 심사 중인 항목에 새 패키지 업로드와 publish �
 | 항목 | 값 |
 | --- | --- |
 | 실행 브랜치 | `main` |
-| 확인 문자열 | `confirm_publish`에 `publish-firefox` |
+| 확인 문자열 | `publish-firefox` |
 | AMO slug | `linkhu`. 매니페스트의 add-on ID와 다른 값 |
 | locale | `ko` |
 | license | `MIT` |
 | 인증 | 요청마다 issuer와 secret으로 5분짜리 JWT를 새로 만들어 보냄 |
 | 동작 | ZIP을 listed channel에 올리고 AMO 검사를 10초 간격으로 최대 10분 기다린 뒤 새 버전을 만듦 |
 | 버전 노트 | 릴리스 노트에서 `### Internal` 절을 뺀 내용 |
-| 확인 | Actions 로그의 upload, upload status, version create 응답. Developer Hub의 검사 결과와 제출 상태. 소스 코드 패키지 제출이 필요한 변경인지 |
+| 확인 | 실행 로그의 업로드, 검사 상태, 버전 생성 응답. Developer Hub의 검사 결과와 제출 상태. 소스 코드 패키지 제출이 필요한 변경인지 |
 | API 형식 | [AMO External API](https://mozilla.github.io/addons-server/topics/api/addons) |
 
 | 저장소 비밀값 | 발급처 |
 | --- | --- |
-| `FIREFOX_JWT_ISSUER` | [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/)의 API key |
-| `FIREFOX_JWT_SECRET` | 같은 화면의 API secret |
+| JWT issuer | [AMO API credentials](https://addons.mozilla.org/en-US/developers/addon/api/key/)의 API key |
+| JWT secret | 같은 화면의 API secret |
 
-| 멈춘 단계 | 응답 | 원인 |
-| --- | --- | --- |
-| `Verify release input` | `Firefox publish workflow must be run from main.` | `main`이 아닌 브랜치에서 실행 |
-| `Verify release input` | `confirm_publish must be publish-firefox.` | 확인 문자열 오류 |
-| `Publish to Firefox Add-ons` | `Firefox upload validation failed: {검사 결과}` | AMO 검사 실패. 업로드는 남고 버전은 만들어지지 않음 |
-| `Publish to Firefox Add-ons` | `Firefox upload validation timed out for {업로드 id}.` | 10분 안에 검사가 끝나지 않음. 업로드는 남고 버전은 만들어지지 않음 |
+| 멈춘 단계 | 원인 |
+| --- | --- |
+| 입력 검증 | `main`이 아닌 브랜치에서 실행 |
+| 입력 검증 | 확인 문자열 오류 |
+| 스토어 제출 | AMO 검사 실패. 검사 결과를 보임. 업로드는 남고 버전은 만들어지지 않음 |
+| 스토어 제출 | 10분 안에 검사가 끝나지 않음. 업로드는 남고 버전은 만들어지지 않음 |
 
 <br>
 

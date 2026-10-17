@@ -49,7 +49,7 @@ flowchart LR
 | 경로 | 트리거 | 자동화 |
 | --- | --- | --- |
 | 검증 | PR, `main` push | 전부 자동. 처음 기여하는 사람의 포크 PR은 메인테이너가 승인한 뒤 실행 |
-| GitHub Release | `v*.*.*` 태그 push | 릴리스 생성과 ZIP 첨부까지 자동 |
+| GitHub Release | `v`로 시작하는 버전 태그 push | 릴리스 생성과 ZIP 첨부까지 자동 |
 | Chrome Web Store | 수동 실행 | 워크플로. 확인 문자열 필요 |
 | Firefox Add-ons | 수동 실행 | 워크플로. 확인 문자열 필요 |
 | Whale Store | 수동 | 없음 |
