@@ -122,9 +122,12 @@ class FakeTextNode {
 }
 
 function runLandingScript({ releases, fetchReleases }) {
+  const anchors = [new FakeElement("a"), new FakeElement("a")];
+  anchors.forEach((anchor) => anchor.setAttribute("href", "#releases"));
   const elements = {
     "#releases": new FakeElement("section"),
     "#release-list": new FakeElement("div"),
+    anchors,
   };
   const stored = new Map();
   const context = {
@@ -132,7 +135,8 @@ function runLandingScript({ releases, fetchReleases }) {
     window: {
       document: {
         querySelector: (selector) => elements[selector] || null,
-        querySelectorAll: () => [],
+        querySelectorAll: (selector) =>
+          selector === 'a[href="#releases"]' ? anchors : [],
         addEventListener() {},
         createElement: (tagName) => new FakeElement(tagName),
         createTextNode: (text) => new FakeTextNode(text),
@@ -213,6 +217,31 @@ test("fetch가 실패하면 섹션이 감춰지고 예외가 새지 않는다", 
 
   assert.equal(elements["#releases"].hidden, true);
   assert.equal(elements["#release-list"].children.length, 0);
+});
+
+// 섹션이 숨으면 그 안의 GitHub 링크도 숨는다. 섹션을 가리키던 헤더·푸터 링크가
+// 빈 곳 대신 GitHub 릴리스 페이지로 가야 변경 이력에 닿는 길이 남는다(스펙 7-1-4).
+test("fetch가 실패하면 업데이트 링크가 GitHub 릴리스 페이지로 바뀐다", async () => {
+  const elements = await runLandingScript({
+    fetchReleases: () => Promise.reject(new Error("network down")),
+  });
+
+  elements.anchors.forEach((anchor) => {
+    assert.equal(anchor.attributes.href, "https://github.com/kangkyunghyun/LinKHU/releases");
+    assert.equal(anchor.attributes.target, "_blank");
+  });
+});
+
+test("릴리스를 받으면 업데이트 링크는 섹션을 그대로 가리킨다", async () => {
+  const elements = await runLandingScript({
+    releases: [
+      { tag_name: "v1.0.0", published_at: "2026-09-01T00:00:00Z", draft: false, body: "" },
+    ],
+  });
+
+  elements.anchors.forEach((anchor) => {
+    assert.equal(anchor.attributes.href, "#releases");
+  });
 });
 
 test("HTTP 오류 응답도 같은 폴백으로 처리한다", async () => {
