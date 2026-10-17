@@ -12,7 +12,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | --- | --- | --- |
 | [1-BACKGROUND](1-BACKGROUND.md) | 도메인, 서비스 배경, 문제와 가치, 이용 흐름과 주체, 하지 않는 것, 용어 | 작성 완료 |
 | [2-1-USER-STORIES](2-1-USER-STORIES.md) | 사용자와 쓰임별 기대 | 작성 완료 |
-| [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 운영 주체, 핵심 기준 요약, 데이터 갱신, 릴리스, 스토어, 문의, 기여 | 작성 완료 |
+| [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 운영 주체, 핵심 기준 요약, 데이터 갱신, 문의 대응 | 작성 완료 |
 | [3-INFORMATION-ARCHITECTURE](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리와 서비스 수, 화면별 범위, 기본 목록, 검색 대상과 순위 | 작성 완료 |
 | [4-1-LAYOUT](4-1-LAYOUT.md) | 팝업, 설정, 랜딩의 영역 순서와 문구, 치수, 설정 목록 격자, 카드 폭 계산과 줄바꿈 표, 랜딩 화면 폭 구간 | 작성 완료 |
 | [4-2-UI-SYSTEM](4-2-UI-SYSTEM.md) | 공식 색상, 토큰의 값과 쓰는 자리, 확장과 랜딩이 맞추는 값, 확장 우선 원칙, UI 아이콘 | 작성 완료 |
@@ -52,7 +52,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 문의 폼 변경 | [5-4 Google Forms](5-CONTRACT.md#5-4-google-forms) | [6-1-7 문의 유형 선택과 전송](6-1-INTERACTION.md#6-1-7-문의-유형-선택과-전송), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
 | 바깥 호출이나 분석 이벤트 추가 | [5 계약](5-CONTRACT.md) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [5-6 공통 원칙](5-CONTRACT.md#5-6-공통-원칙) |
 | 저장 키 추가 | [4-5 상태](4-5-STATE.md) | [7-1-3 저장소 실패](7-1-ERROR-HANDLING.md#7-1-3-저장소-실패) |
-| 권한이나 매니페스트 변경 | [4-4-4 실행 기반](4-4-SOFTWARE-ARCHITECTURE.md#4-4-4-실행-기반) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [2-2-5 스토어 배포](2-2-OPERATOR-REQUIREMENTS.md#2-2-5-스토어-배포) |
+| 권한이나 매니페스트 변경 | [4-4-4 실행 기반](4-4-SOFTWARE-ARCHITECTURE.md#4-4-4-실행-기반) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [7-6-1 전제 조건](7-6-STORE.md#7-6-1-전제-조건) |
 | 릴리스 준비 | [7-5 릴리스](7-5-RELEASE.md) | `.claude/skills/release-copy/SKILL.md`, [7-6 스토어 제출](7-6-STORE.md) |
 | 스크린샷 다시 찍기 | [4-7 스크린샷](4-7-SCREENSHOT.md) | [7-6-6 Whale Store](7-6-STORE.md#7-6-6-whale-store) |
 | 다른 설계 방향을 놓고 고름 | [DECISIONS](DECISIONS.md)의 기록 규칙 | |
