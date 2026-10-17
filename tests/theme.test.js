@@ -110,6 +110,7 @@ function useThemeManager({ storage = null, lastError = null, prefersDark = false
 
   ThemeManager.currentMode = ThemeManager.DEFAULT_MODE;
   ThemeManager.committedMode = ThemeManager.DEFAULT_MODE;
+  ThemeManager.committedRequestId = 0;
   ThemeManager.pendingWrites = 0;
   ThemeManager.modeSubscribers = new Set();
   ThemeManager.requestId = 0;
@@ -820,4 +821,84 @@ test("a failed save reveals the status line, and the next success hides it again
   context.toggle.click();
   assert.equal(context.status.textContent, "테마: 라이트");
   assert.equal(context.status.isVisible(), false);
+});
+
+// 저장소에는 light가 남았는데 화면이 system으로 돌아가면, 다음 실행에서 조용히 light가
+// 된다. 늦게 도착한 성공도 저장소의 실제 값이므로 롤백 기준이 되어야 한다(이슈 #236).
+test("a late success of an earlier save becomes the rollback target", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+
+  ThemeManager.setMode("light", () => {});
+  let received = "not called";
+  ThemeManager.setMode("dark", (error, mode) => {
+    received = { error, mode };
+  });
+
+  const writeLight = storage.writes.shift();
+  const writeDark = storage.writes.shift();
+
+  writeLight(null);
+  context.state.lastError = { message: "quota exceeded" };
+  writeDark({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  assert.equal(received.mode, "light");
+  assert.equal(ThemeManager.currentMode, "light");
+  assert.equal(context.theme(), "light");
+  assert.equal(storage.saved.themeMode, "light");
+});
+
+test("a success that arrives after the newer save already failed repaints to the stored mode", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+
+  ThemeManager.setMode("light", () => {});
+  ThemeManager.setMode("dark", () => {});
+
+  const writeLight = storage.writes.shift();
+  const writeDark = storage.writes.shift();
+
+  // dark가 먼저 실패해 system으로 돌아간 뒤, light의 성공이 늦게 도착한다.
+  context.state.lastError = { message: "quota exceeded" };
+  writeDark({ message: "quota exceeded" });
+  context.state.lastError = null;
+  assert.equal(context.theme(), "light", "system 해석이 light라 화면은 light지만 모드는 system");
+  assert.equal(ThemeManager.currentMode, "system");
+
+  writeLight(null);
+
+  assert.equal(ThemeManager.currentMode, "light");
+  assert.equal(ThemeManager.committedMode, "light");
+  assert.equal(storage.saved.themeMode, "light");
+});
+
+test("an external change received while a save is in flight becomes the rollback target", () => {
+  const storage = createDeferredStorage({});
+  const context = useThemeManager({ storage, prefersDark: false });
+
+  ThemeManager.init();
+  storage.reads.shift()();
+
+  let received = "not called";
+  ThemeManager.setMode("dark", (error, mode) => {
+    received = { error, mode };
+  });
+  // 다른 화면이 그사이 light를 저장했다.
+  context.storageChanged.emit("light");
+  assert.equal(ThemeManager.currentMode, "dark", "내 선택은 그대로");
+
+  context.state.lastError = { message: "quota exceeded" };
+  storage.writes.shift()({ message: "quota exceeded" });
+  context.state.lastError = null;
+
+  assert.equal(received.mode, "light");
+  assert.equal(ThemeManager.currentMode, "light");
+  assert.equal(context.theme(), "light");
 });

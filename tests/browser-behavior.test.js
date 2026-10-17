@@ -257,3 +257,72 @@ test("settings storage reports success and runtime errors", () => {
   });
   assert.equal(receivedError.message, "quota exceeded");
 });
+
+// 버전 안내는 부가 기능이다. 조회가 느리거나 캐시가 깨져도 현재 버전은 보여야 하고,
+// 캐시 쓰기만 실패하면 방금 받은 버전으로 비교해야 한다(스펙 7-1-3, 이슈 #237).
+function withVersionGlobals({ storage, fetchImpl }, run) {
+  const VersionManager = require("../src/version");
+  const elements = {
+    "current-version": { textContent: "" },
+    "update-message": {
+      textContent: "",
+      children: [],
+      replaceChildren(...nodes) {
+        this.children = nodes;
+      },
+    },
+  };
+  const saved = { chrome: global.chrome, document: global.document, fetch: global.fetch };
+  global.chrome = {
+    runtime: { getManifest: () => ({ version: "2.9.0", update_url: "https://clients2.google.com/service/update2/crx" }) },
+    storage: { local: storage },
+  };
+  global.document = {
+    getElementById: (id) => elements[id],
+    createElement: () => ({ textContent: "", className: "", title: "", href: "", target: "" }),
+  };
+  global.fetch = fetchImpl;
+  return Promise.resolve()
+    .then(() => run(VersionManager, elements))
+    .finally(() => Object.assign(global, saved));
+}
+
+const latestRelease = () =>
+  Promise.resolve({ ok: true, json: () => Promise.resolve({ tag_name: "v9.0.0" }) });
+
+test("the current version shows before the latest-version lookup settles", () =>
+  withVersionGlobals(
+    {
+      storage: { get: () => new Promise(() => {}), set: () => Promise.resolve() },
+      fetchImpl: () => new Promise(() => {}),
+    },
+    (VersionManager, elements) => {
+      VersionManager.displayVersionInfo("current-version", "update-message");
+      assert.equal(elements["current-version"].textContent, "v2.9.0");
+    },
+  ));
+
+test("a failing cache read still shows the current version and checks for updates", () =>
+  withVersionGlobals(
+    {
+      storage: { get: () => Promise.reject(new Error("storage down")), set: () => Promise.resolve() },
+      fetchImpl: latestRelease,
+    },
+    async (VersionManager, elements) => {
+      await VersionManager.displayVersionInfo("current-version", "update-message");
+      assert.equal(elements["current-version"].textContent, "v2.9.0");
+      assert.equal(elements["update-message"].children[0]?.textContent, "새 업데이트");
+    },
+  ));
+
+test("a failing cache write still compares with the version just fetched", () =>
+  withVersionGlobals(
+    {
+      storage: { get: () => Promise.resolve({}), set: () => Promise.reject(new Error("quota")) },
+      fetchImpl: latestRelease,
+    },
+    async (VersionManager, elements) => {
+      await VersionManager.displayVersionInfo("current-version", "update-message");
+      assert.equal(elements["update-message"].children[0]?.textContent, "새 업데이트");
+    },
+  ));

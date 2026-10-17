@@ -66,6 +66,7 @@ h1 {
   align-items: center;
   gap: var(--space-8);
   color: var(--color-primary);
+  font-size: var(--text-display);
   margin: 0;
   /* 세로를 줄이려고 줄 높이만 조인다. 아래 .title-logo 보정값은 line-height와 무관하다. */
   line-height: 1.1;
@@ -509,7 +510,7 @@ h1 {
 /* 문의하기 버튼 아래에 뜬다. 떠 있는 요소라 테두리와 그림자로 바닥과 분리한다. */
 .feedback-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + var(--space-8));
   right: 0;
   z-index: 10;
   width: min(320px, 90vw);

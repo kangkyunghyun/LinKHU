@@ -406,6 +406,8 @@ header h1 {
 }
 
 .shortcut-notice button {
+  display: inline-flex;
+  align-items: center;
   border: 0;
   background: transparent;
   color: var(--color-primary);
