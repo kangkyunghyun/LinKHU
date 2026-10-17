@@ -121,7 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
         chrome.tabs.create({ url }, () => {
           if (!chrome.runtime.lastError) return;
 
-          navigator.clipboard.writeText(url)
+          // 클립보드 API가 없는 브라우저에서도 catch로 가야 안내가 뜬다.
+          Promise.resolve()
+            .then(() => navigator.clipboard.writeText(url))
             .then(() => {
               alert(`${url} 주소를 복사했습니다. 주소창에 붙여넣어 이동해주세요.`);
             })

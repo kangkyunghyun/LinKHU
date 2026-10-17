@@ -353,6 +353,8 @@
   }
 
   function formatReleaseDate(value) {
+    // null이나 숫자를 그대로 넘기면 1970년이 찍힌다. 문자열이 아니면 날짜를 뺀다.
+    if (typeof value !== "string") return "";
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return "";
     return `${date.getFullYear()}. ${date.getMonth() + 1}. ${date.getDate()}.`;
@@ -612,10 +614,17 @@
     initializeLandingSearch(globalScope.document, globalScope.fetch.bind(globalScope));
     initializeLandingFeedback(globalScope.document, globalScope.fetch.bind(globalScope));
     initializeMobileInstallGuide(globalScope.document, globalScope);
+    // 저장소를 차단한 환경에서는 속성 접근 자체가 던진다. 캐시 없이 조회한다.
+    let sessionStorage = null;
+    try {
+      sessionStorage = globalScope.sessionStorage;
+    } catch {
+      sessionStorage = null;
+    }
     initializeLandingReleases(
       globalScope.document,
       globalScope.fetch.bind(globalScope),
-      globalScope.sessionStorage,
+      sessionStorage,
     );
   }
 })(typeof window !== "undefined" ? window : globalThis);

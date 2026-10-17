@@ -226,9 +226,13 @@ const ThemeManager = {
       return;
     }
 
-    storage.set({ [THEME_STORAGE_KEY]: mode }, () => {
-      callback(this.deps.lastError() || null);
-    });
+    try {
+      storage.set({ [THEME_STORAGE_KEY]: mode }, () => {
+        callback(this.deps.lastError() || null);
+      });
+    } catch (error) {
+      callback(error instanceof Error ? error : new Error(String(error)));
+    }
   },
 
   // 즉시 반영형이라 저장 버튼이 없다. 대신 저장에 실패하면 화면을 되돌려야

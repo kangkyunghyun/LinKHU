@@ -46,6 +46,8 @@ ZIP 다시 만듦`"] --> D["`**스토어에 업로드**`"]
 | 규칙 | 내용 |
 | --- | --- |
 | 확인 문자열 | 실수로 제출이 시작되는 것을 막음. 없애지 않음 |
+| 버전 입력 | `v` 없는 숫자 세 부분. 다르면 `Invalid release version: {입력}`으로 실패 |
+| 모의 실행 | `CHROME_DRY_RUN`, `FIREFOX_DRY_RUN`이 `true`면 입력과 파일 확인까지만 하고 올릴 대상을 출력한 뒤 끝냄 |
 | ZIP | Release의 ZIP을 내려받지 않고 다시 빌드함. 재현 가능한 패키징이라 첨부 파일과 같음. Whale만 첨부 파일을 직접 씀 |
 | 스토어 설명 | 바꾸지 않음. 업데이트 절은 각 스토어 관리 화면에 직접 붙여 넣음 |
 | 오래 배포하지 않았을 때 | 릴리스 전에 배포 경로를 점검함. 자격 증명은 만료되거나 폐기될 수 있음 |
@@ -74,7 +76,7 @@ ZIP 다시 만듦`"] --> D["`**스토어에 업로드**`"]
 
 ### 7-6-4 Chrome 실패 대응
 
-스토어 API 오류는 로그에 `Chrome publish failed: {단계} failed ({상태 코드}): {응답 본문}`으로 남는다. 단계는 `Chrome access token request`, `Chrome package upload`, `Chrome package publish`다.
+스토어 API 오류는 로그에 `Chrome publish failed: {단계} failed ({상태 코드}): {응답 본문}`으로 남는다. 단계는 `Chrome access token request`, `Chrome package upload`, `Chrome package publish`, `Chrome item status fetch`다. 마지막 단계의 실패는 이미 끝난 제출을 취소하지 않는다.
 
 | 멈춘 단계 | 응답 | 원인 |
 | --- | --- | --- |
@@ -142,6 +144,7 @@ Chrome Web Store는 심사 중인 아이템에 새 패키지 업로드와 publis
 | AMO slug | `linkhu`. 매니페스트의 add-on ID와 다른 값 |
 | locale | `ko` |
 | license | `MIT` |
+| 인증 | 요청마다 issuer와 secret으로 5분짜리 JWT를 새로 만들어 보냄 |
 | 동작 | ZIP을 listed channel에 올리고 AMO 검사를 10초 간격으로 최대 10분 기다린 뒤 새 버전을 만듦 |
 | 버전 노트 | 릴리스 노트에서 `### Internal` 절을 뺀 내용 |
 | 확인 | Actions 로그의 upload, upload status, version create 응답. Developer Hub의 검사 결과와 제출 상태. 소스 코드 패키지 제출이 필요한 변경인지 |

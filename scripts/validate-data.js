@@ -189,6 +189,12 @@ function validateSiteList(siteList, shared = loadShared()) {
       }
     });
 
+    Object.keys(site)
+      .filter((field) => !REQUIRED_FIELDS.includes(field))
+      .forEach((field) => {
+        errors.push(`${label}: unexpected field "${field}". Allowed fields: ${REQUIRED_FIELDS.join(", ")}.`);
+      });
+
     if (isNonEmptyString(site.id)) {
       if (!VALID_ID_PATTERN.test(site.id)) {
         errors.push(`${label}: id must use lowercase letters, numbers, or hyphens only.`);
@@ -221,8 +227,11 @@ function validateSiteList(siteList, shared = loadShared()) {
 
       const imagePath = path.join(SRC_ROOT, site.imgSrc);
       const relativePath = path.relative(SRC_ROOT, imagePath);
+      // path.join은 절대 경로를 src/ 아래로 붙여 버리므로 입력값 자체도 본다.
       const escapesSrcRoot =
-        relativePath.startsWith("..") || path.isAbsolute(relativePath);
+        path.isAbsolute(site.imgSrc) ||
+        relativePath.startsWith("..") ||
+        path.isAbsolute(relativePath);
 
       if (escapesSrcRoot) {
         errors.push(`${label}: imgSrc must stay inside src/: ${site.imgSrc}`);
