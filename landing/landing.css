@@ -76,6 +76,12 @@ a {
   outline-offset: 4px;
 }
 
+/* 주색 채움 카드 위에서는 파란 포커스 윤곽이 1.53:1로 묻힌다 (스펙 4-3-6). */
+.cta-card :focus-visible,
+.feature-card-accent :focus-visible {
+  outline-color: #ffffff;
+}
+
 .skip-link {
   position: fixed;
   top: 12px;
@@ -388,7 +394,7 @@ a {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--color-primary);
+  background: var(--color-primary-fill);
   box-shadow: 0 0 0 5px var(--color-primary-soft);
 }
 
@@ -1602,11 +1608,11 @@ kbd {
 }
 
 .landing-feedback-close {
+  display: inline-flex;
   padding: 2px 6px;
   border: 0;
   background: none;
   color: var(--color-muted);
-  font-size: 22px;
   line-height: 1;
   cursor: pointer;
 }
@@ -2070,7 +2076,8 @@ kbd {
 :root[data-theme="dark"] {
   color-scheme: dark;
   --color-primary: #ff4d52;
-  --color-primary-fill: #c4121b;
+  /* 올린 표면 #161616 위에서 3:1을 넘기는 값. 확장 토큰과 같다. */
+  --color-primary-fill: #c9131c;
   --color-primary-fill-strong: #d7141e;
   --color-primary-strong: #ff7175;
   --color-primary-soft: #2a1214;

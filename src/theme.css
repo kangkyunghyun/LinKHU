@@ -53,7 +53,8 @@
   /* 주색 계열 — 텍스트용은 채도를 지킨 채 밝게, 채움용은 짙게 유지한다.
      하나로 겸용하면 대비를 맞추다 채도를 잃어 분홍으로 보인다(스펙 4-3-4). */
   --color-primary: #ff4d52;
-  --color-primary-fill: #c4121b;
+  /* 올린 표면 #161616 위에서 3:1을 넘기는 값(3.10). #c4121b는 2.97로 미달. */
+  --color-primary-fill: #c9131c;
   /* 채움 hover. --color-primary-strong을 채움에 쓰면 흰 글자가 2.67:1로 미달한다. */
   --color-primary-fill-strong: #d7141e;
   --color-primary-strong: #ff7175;

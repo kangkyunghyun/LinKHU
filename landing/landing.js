@@ -241,6 +241,8 @@
 
   const RELEASES_API_URL =
     "https://api.github.com/repos/kangkyunghyun/LinKHU/releases";
+  // 목록을 못 받았을 때 헤더·푸터의 업데이트 링크가 대신 가는 곳.
+  const RELEASES_PAGE_URL = "https://github.com/kangkyunghyun/LinKHU/releases";
   // 탭 세션마다 한 번만 부른다. 자세한 이유는 스펙 5-3.
   const RELEASES_CACHE_KEY = "linkhu-releases";
   // 최신 하나만 펼쳐 둔다. 나머지는 제목 줄만 보이고 눌러서 편다.
@@ -403,7 +405,8 @@
   }
 
   // 실패하면 섹션을 통째로 감춘다. 빈 상자를 남기면 "불러오는 중"인지 "없는 것"인지
-  // 알 수 없다. 푸터의 GitHub 릴리스 링크가 대체 경로다.
+  // 알 수 없다. 섹션 안의 GitHub 링크도 같이 숨으므로, 섹션을 가리키던 헤더·푸터의
+  // 업데이트 링크를 GitHub 릴리스 페이지로 돌려 갈 길을 남긴다(스펙 6-1-10).
   function initializeLandingReleases(documentObject, fetchFunction, storage) {
     const section = documentObject.querySelector("#releases");
     const list = documentObject.querySelector("#release-list");
@@ -448,6 +451,11 @@
       })
       .catch(() => {
         section.hidden = true;
+        documentObject.querySelectorAll('a[href="#releases"]').forEach((anchor) => {
+          anchor.setAttribute("href", RELEASES_PAGE_URL);
+          anchor.setAttribute("target", "_blank");
+          anchor.setAttribute("rel", "noopener noreferrer");
+        });
       });
   }
 
