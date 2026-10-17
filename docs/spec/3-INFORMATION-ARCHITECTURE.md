@@ -4,6 +4,55 @@
 
 화면 배치는 레이아웃에, 확장과 랜딩의 디자인 성격은 UI 시스템에, 데이터 필드 형식과 중복 규칙은 데이터에 있다. ([4-1 레이아웃](4-1-LAYOUT.md), [4-2-3 확장 우선 원칙](4-2-UI-SYSTEM.md#4-2-3-확장-우선-원칙), [6-2 데이터](6-2-DATA.md))
 
+```mermaid
+%%{init: {"flowchart": {"curve": "basis", "nodeSpacing": 24, "rankSpacing": 48}}}%%
+flowchart TB
+    D["`**지원 서비스 목록**
+서비스 167개`"]
+    D --> C["`**카테고리 8개**
+서비스마다 하나`"]
+    D --> B["`**기본 목록**
+10개, 이름순`"]
+    D --> U["`**내 바로가기**
+사용자가 고르고 정렬`"]
+    B -.->|"`저장한 적 없으면`"| U
+    subgraph P["`**팝업**`"]
+        direction TB
+        P1["`**내 바로가기**
+평소`"]
+        P2["`**검색 결과**
+전체 대상, 점수 순`"]
+    end
+    subgraph O["`**설정**`"]
+        direction TB
+        O1["`**사용 가능한 사이트**
+카테고리 묶음
+이름순, 담은 것 제외`"]
+        O2["`**내 바로가기**
+한 열`"]
+    end
+    subgraph L["`**랜딩**`"]
+        direction TB
+        L1["`**자주 찾는 서비스**
+3개`"]
+        L2["`**검색 결과**
+전체 대상, 최대 5개`"]
+    end
+    U --> P1
+    U --> O2
+    C --> O1
+    D --> P2
+    D --> L1
+    D --> L2
+    classDef comp fill:#E8F2E8,stroke:#527A59,color:#182D1D
+    classDef store fill:#F5D9C9,stroke:#B97450,color:#452B1D
+    class D,C,B,P1,P2,O1,O2,L1,L2 comp
+    class U store
+    style P fill:#FAFAFA,stroke:#AAAAAA
+    style O fill:#FAFAFA,stroke:#AAAAAA
+    style L fill:#FAFAFA,stroke:#AAAAAA
+```
+
 <br>
 
 ### 3-1 다루는 단위
