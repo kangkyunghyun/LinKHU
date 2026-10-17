@@ -326,3 +326,52 @@ test("a failing cache write still compares with the version just fetched", () =>
       assert.equal(elements["update-message"].children[0]?.textContent, "새 업데이트");
     },
   ));
+// Firefox Add-ons는 매니페스트에 update_url을 넣지 않는다. 설치 유형을 먼저 묻지 않으면
+// AMO 설치본이 GitHub 릴리스로 안내된다(이슈 #239).
+function withInstallInfo({ installType, updateUrl }, run) {
+  const VersionManager = require("../src/version");
+  const saved = global.chrome;
+  global.chrome = {
+    runtime: { getManifest: () => (updateUrl ? { version: "2.9.0", update_url: updateUrl } : { version: "2.9.0" }) },
+    management:
+      installType === undefined
+        ? undefined
+        : { getSelf: (callback) => callback({ installType }) },
+  };
+  return Promise.resolve()
+    .then(() => run(VersionManager))
+    .finally(() => {
+      global.chrome = saved;
+    });
+}
+
+const FIREFOX_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.0; rv:140.0) Gecko/20100101 Firefox/140.0";
+const CHROME_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 Chrome/130.0 Safari/537.36";
+
+test("a Firefox store install goes to Firefox Add-ons even without update_url", () =>
+  withInstallInfo({ installType: "normal", updateUrl: undefined }, async (VersionManager) => {
+    assert.equal(
+      await VersionManager.getUpdateLink(FIREFOX_UA),
+      "https://addons.mozilla.org/ko/firefox/addon/linkhu",
+    );
+  }));
+
+test("a development install goes to GitHub releases even with update_url", () =>
+  withInstallInfo({ installType: "development", updateUrl: "https://example.com/update" }, async (VersionManager) => {
+    assert.equal(
+      await VersionManager.getUpdateLink(CHROME_UA),
+      "https://github.com/kangkyunghyun/LinKHU/releases/latest",
+    );
+  }));
+
+test("without install info the manifest update_url decides", () =>
+  withInstallInfo({ installType: undefined, updateUrl: "https://example.com/update" }, async (VersionManager) => {
+    assert.equal(
+      await VersionManager.getUpdateLink(CHROME_UA),
+      "https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp",
+    );
+    const dev = await withInstallInfo({ installType: undefined, updateUrl: undefined }, (vm) =>
+      vm.getUpdateLink(CHROME_UA),
+    );
+    assert.equal(dev, "https://github.com/kangkyunghyun/LinKHU/releases/latest");
+  }));

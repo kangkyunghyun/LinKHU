@@ -64,14 +64,33 @@ const VersionManager = {
     return 0;
   },
 
-  getUpdateLink() {
+  // 스토어 설치본인지 묻는다. 매니페스트의 update_url은 Chrome Web Store만 채워 주고
+  // Firefox Add-ons는 매니페스트를 고치지 않으므로(이슈 #239) 브라우저의 설치 정보를 먼저 본다.
+  // management.getSelf는 권한 없이 쓸 수 있다. 못 쓰는 환경에서만 update_url로 되돌아간다.
+  async isStoreInstall() {
+    try {
+      if (chrome.management?.getSelf) {
+        const info = await new Promise((resolve, reject) => {
+          chrome.management.getSelf((result) => {
+            const error = chrome.runtime?.lastError;
+            if (error) reject(new Error(error.message));
+            else resolve(result);
+          });
+        });
+        return info?.installType !== "development";
+      }
+    } catch (error) {
+      console.warn("설치 정보 확인 실패, 매니페스트로 판정:", error);
+    }
+    return Boolean(chrome.runtime.getManifest().update_url);
+  },
+
+  async getUpdateLink(userAgent = navigator.userAgent) {
     let link = "https://github.com/kangkyunghyun/LinKHU/releases/latest";
     try {
-      // 스토어 update_url이 없으면 unpacked 개발 모드로 보고 GitHub 릴리스로 안내한다.
-      const isDevMode = !chrome.runtime.getManifest().update_url;
-
-      if (!isDevMode) {
-        const ua = navigator.userAgent;
+      // 개발 모드(unpacked)는 스토어 페이지가 없으므로 GitHub 릴리스로 안내한다.
+      if (await this.isStoreInstall()) {
+        const ua = userAgent;
         if (ua.includes("Whale")) {
           link = "https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc";
         } else if (ua.includes("Firefox")) {
@@ -101,7 +120,7 @@ const VersionManager = {
     if (updateMessageEl && latestVersion) {
       if (this.compareVersions(currentVersion, latestVersion) < 0) {
         const updateLink = document.createElement("a");
-        updateLink.href = this.getUpdateLink();
+        updateLink.href = await this.getUpdateLink();
         updateLink.target = "_blank";
         updateLink.className = "update-link";
         // 팝업 헤더는 320px 안에서 제목·현재 버전·이 안내를 한 줄에 담아야 한다.

@@ -383,4 +383,4 @@ v{버전}`"]
 | 스토어 설치본 | 그 밖 | `https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp` |
 | 스토어 설치본이 아님 | 모두 | `https://github.com/kangkyunghyun/LinKHU/releases/latest` |
 
-스토어 설치본은 매니페스트의 스토어 업데이트 주소 유무로 판정하며 브라우저 종류는 사용자 에이전트로 판정한다.
+스토어 설치본은 브라우저가 주는 설치 유형이 개발용이 아닌지로 판정하고, 설치 유형을 얻을 수 없으면 매니페스트의 스토어 업데이트 주소 유무로 판정한다. 브라우저 종류는 사용자 에이전트로 판정한다.
