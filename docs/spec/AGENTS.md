@@ -11,7 +11,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 문서 | 정하는 것 | 상태 |
 | --- | --- | --- |
 | [1-BACKGROUND](1-BACKGROUND.md) | 도메인, 서비스 배경, 문제와 가치, 이용 흐름과 주체, 하지 않는 것, 용어 | 작성 완료 |
-| [2-1-USER-STORIES](2-1-USER-STORIES.md) | 사용자와 쓰임별 기대 | 작성 완료 |
+| [2-1-USER-STORIES](2-1-USER-STORIES.md) | 사용자, 시간순 이용 여정, 쓰임별 기대 | 작성 완료 |
 | [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 운영 주체, 핵심 기준 요약, 데이터 갱신, 문의 대응 | 작성 완료 |
 | [3-INFORMATION-ARCHITECTURE](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리와 서비스 수, 화면별 범위, 기본 목록, 검색 대상과 순위 | 작성 완료 |
 | [4-1-LAYOUT](4-1-LAYOUT.md) | 팝업, 설정, 랜딩의 영역 순서와 문구, 치수, 설정 목록 격자, 카드 폭 계산과 줄바꿈 표, 랜딩 화면 폭 구간 | 작성 완료 |
@@ -21,10 +21,10 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | [4-5-STATE](4-5-STATE.md) | 저장 키, 사용자 설정과 내부 캐시, 즉시 반영형 설정, 비동기 결과의 순서 | 작성 완료 |
 | [4-6-SERVICE-ICON](4-6-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 | 작성 완료 |
 | [4-7-SCREENSHOT](4-7-SCREENSHOT.md) | 스크린샷 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 | 작성 완료 |
-| [5-CONTRACT](5-CONTRACT.md) | 연동 대상과 방식, 랜딩 산출물, GitHub 릴리스 API, Google Forms, Google Analytics, 공통 원칙 | 작성 완료 |
+| [5-CONTRACT](5-CONTRACT.md) | 연동 대상과 시작 시점, 랜딩 산출물, GitHub 릴리스 API, Google Forms, Google Analytics와 각 예시, 공통 원칙 | 작성 완료 |
 | [6-1-INTERACTION](6-1-INTERACTION.md) | 렌더, 키 입력, 이동, 설정 저장과 드래그, 테마 적용, 단축키 안내, 문의 전송, 설정 필터, 랜딩 검색과 업데이트 구역, 휴대폰 설치 안내, 버전 안내의 처리 순서 | 작성 완료 |
 | [6-2-DATA](6-2-DATA.md) | 지원 서비스 목록 스키마와 필드 규칙, 검증과 생성, 변경 절차 | 작성 완료 |
-| [7-1-ERROR-HANDLING](7-1-ERROR-HANDLING.md) | 데이터, 저장소, 네트워크, 자산 실패의 동작과 문구 | 작성 완료 |
+| [7-1-ERROR-HANDLING](7-1-ERROR-HANDLING.md) | 데이터, 저장소, 네트워크, 자산 실패의 동작과 문구, 메인테이너 대응 | 작성 완료 |
 | [7-2-TEST-CASES](7-2-TEST-CASES.md) | 자동 테스트의 상황과 기대 결과, 수동 검증 항목, 검증 환경, 특별 검증 | 작성 완료 |
 | [7-4-DEPLOYMENT](7-4-DEPLOYMENT.md) | 배포 단위와 대상 브라우저, 배포 경로, 배포 조건, 비밀 정보, 랜딩 적용과 복구, 배포 후 확인 | 작성 완료 |
 | [7-5-RELEASE](7-5-RELEASE.md) | 버전 자리, 준비 PR과 태그 순서, 릴리스 워크플로 검사, 릴리스 후 공지 | 작성 완료 |
