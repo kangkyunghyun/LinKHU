@@ -2,12 +2,31 @@ const fs = require("fs");
 const path = require("path");
 
 const { PROJECT_ROOT, listFiles } = require("./lib");
-const { loadSiteList } = require("./validate-data");
+const { ALLOWED_CATEGORIES, loadSiteList } = require("./validate-data");
 
 const SRC_ROOT = path.join(PROJECT_ROOT, "src");
 const ASSETS_ROOT = path.join(PROJECT_ROOT, "landing", "assets");
 const OUTPUT_FILE = path.join(ASSETS_ROOT, "services.json");
 const ICON_OUTPUT_ROOT = path.join(ASSETS_ROOT, "images");
+// 지원 서비스 목록 문서. 손으로 옮긴 사본은 한 번 어긋났으므로(이슈 #243) 데이터에서 만든다.
+const SERVICES_DOC_FILE = path.join(PROJECT_ROOT, "docs", "supported-services.md");
+
+// README, 랜딩, 이슈 템플릿, 스토어 설명이 이 문서로 링크한다. 카테고리 순서는 3-2 계약값이다.
+function serializeSupportedServicesDoc(siteList) {
+  const sections = [...ALLOWED_CATEGORIES].map((category) => {
+    const names = siteList.filter((site) => site.category === category).map((site) => site.name);
+    return [`## ${category} (${names.length}개)`, "", ...names.map((name) => `- ${name}`)].join("\n");
+  });
+
+  return [
+    "# Supported Services",
+    "",
+    `LinKHU는 \`src/data.js\`의 \`MASTER_SITE_LIST\`를 기준으로 총 ${siteList.length}개 서비스를 지원한다.`,
+    "",
+    sections.join("\n\n"),
+    "",
+  ].join("\n");
+}
 
 function serializeLandingServices(siteList) {
   const services = siteList.map(({ id, name, url, category, imgSrc }) => ({
@@ -88,39 +107,47 @@ function checkLandingIcons(siteList) {
   }
 }
 
-function checkLandingData(expected) {
-  if (!fs.existsSync(OUTPUT_FILE)) {
-    throw new Error(
-      "Landing service data is missing. Run `npm run generate:landing-data`.",
-    );
+function checkGeneratedFile(file, expected, label) {
+  if (!fs.existsSync(file)) {
+    throw new Error(`${label} is missing. Run \`npm run generate:landing-data\`.`);
   }
 
-  const current = fs.readFileSync(OUTPUT_FILE, "utf8");
+  const current = fs.readFileSync(file, "utf8");
   if (current !== expected) {
-    throw new Error(
-      "Landing service data is out of date. Run `npm run generate:landing-data`.",
-    );
+    throw new Error(`${label} is out of date. Run \`npm run generate:landing-data\`.`);
   }
 
-  console.log("Landing service data is up to date.");
+  console.log(`${label} is up to date.`);
+}
+
+function checkLandingData(expected) {
+  checkGeneratedFile(OUTPUT_FILE, expected, "Landing service data");
+}
+
+function checkSupportedServicesDoc(expected) {
+  checkGeneratedFile(SERVICES_DOC_FILE, expected, "Supported services document");
 }
 
 function main() {
   const siteList = loadSiteList();
   const serializedServices = serializeLandingServices(siteList);
+  const serializedDoc = serializeSupportedServicesDoc(siteList);
 
   if (process.argv.includes("--check")) {
     checkLandingData(serializedServices);
     checkLandingIcons(siteList);
     console.log("Landing icons are up to date.");
+    checkSupportedServicesDoc(serializedDoc);
     return;
   }
 
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
   fs.writeFileSync(OUTPUT_FILE, serializedServices);
   const iconCount = syncLandingIcons(siteList);
+  fs.writeFileSync(SERVICES_DOC_FILE, serializedDoc);
   console.log(
-    `Generated landing data at ${path.relative(PROJECT_ROOT, OUTPUT_FILE)} and synced ${iconCount} icons.`,
+    `Generated landing data at ${path.relative(PROJECT_ROOT, OUTPUT_FILE)}, synced ${iconCount} icons, ` +
+      `and wrote ${path.relative(PROJECT_ROOT, SERVICES_DOC_FILE)}.`,
   );
 }
 
@@ -136,7 +163,9 @@ if (require.main === module) {
 module.exports = {
   checkLandingData,
   checkLandingIcons,
+  checkSupportedServicesDoc,
   collectUsedIconPaths,
   serializeLandingServices,
+  serializeSupportedServicesDoc,
   syncLandingIcons,
 };

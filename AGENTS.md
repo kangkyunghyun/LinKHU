@@ -119,7 +119,7 @@ PR: feat: 공통 서비스 바로가기 추가
 - `http://` URL은 가능한 경우 `https://`로 확인하되, 사이트가 HTTPS를 지원하지 않으면 유지한다.
 
 데이터를 변경한 뒤에는 `npm run generate:landing-data`로 랜딩 페이지 검색 데이터와
-서비스 아이콘(`landing/assets/images/`)을 갱신하고, `npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
+서비스 아이콘(`landing/assets/images/`), 지원 서비스 목록 문서(`docs/supported-services.md`)를 갱신하고, `npm run validate:data`를 실행한 결과를 PR 본문에 적는다.
 
 서비스 아이콘을 추가하거나 변경할 때는 [스펙 §4-6](docs/spec/4-6-SERVICE-ICON.md)를 따른다.
 

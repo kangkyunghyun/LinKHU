@@ -45,7 +45,7 @@ flowchart TD
 | [배포 문구](copy/README.md) | 스토어와 커뮤니티 문구의 읽는 순서와 책임 |
 | [1-1-STORE-LISTING.md](copy/1-1-STORE-LISTING.md) | 스토어 설명 원본 |
 | [1-2-COMMUNITY-POST.md](copy/1-2-COMMUNITY-POST.md) | 커뮤니티 홍보글 원본 |
-| [supported-services.md](supported-services.md) | 지원 서비스 목록. 데이터를 바꾸면 같은 PR에서 손으로 갱신한다 |
+| [supported-services.md](supported-services.md) | 지원 서비스 목록. `npm run generate:landing-data`가 데이터에서 생성하며 손으로 고치지 않는다 |
 
 GitHub Pages 랜딩은 [`landing/`](../landing)에 있다. 이 폴더는 사이트로 배포되지 않는다.
 

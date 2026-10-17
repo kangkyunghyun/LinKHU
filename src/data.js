@@ -175,7 +175,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "aibootcamp",
-    name: "첨단산업 부트캠프 사업단",
+    name: "첨단산업 부트캠프",
     url: "https://aibootcamp.khu.ac.kr/",
     imgSrc: "images/common/aibootcamp.png",
     category: "교육·역량",
@@ -413,7 +413,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "studio",
-    name: "교수학습 스튜디오 예약",
+    name: "교수학습 스튜디오예약",
     url: "https://studio.khu.ac.kr/",
     imgSrc: "images/common/studio.png",
     category: "캠퍼스·문화",
@@ -1147,7 +1147,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "artntech",
-    name: "아크&테크놀 러지융합전공",
+    name: "아트&테크놀로지융합전공",
     url: "http://artntech.khu.ac.kr/",
     imgSrc: "images/departments/artntech.png",
     category: "학과",

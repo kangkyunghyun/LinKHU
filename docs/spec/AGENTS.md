@@ -83,7 +83,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 테스트 | [tests/](../../tests/) | 7-2 테스트 케이스 |
 | 워크플로와 템플릿 | [.github/](../../.github/) | 7-4 배포, 7-5-3 태그 push, 7-6 스토어 제출 |
 | 작업 가이드 | [.claude/skills/](../../.claude/skills/). 서비스 아이콘과 릴리스 문구 | 4-6 서비스 아이콘, 7-5 릴리스 |
-| 문서 | [docs/](../README.md). 지원 서비스 목록 사본, 스토어와 커뮤니티 문구, 릴리스 노트 | 6-2-7 손으로 적은 서비스 수, 7-5 릴리스 |
+| 문서 | [docs/](../README.md). 생성된 지원 서비스 목록, 스토어와 커뮤니티 문구, 릴리스 노트 | 6-2-7 손으로 적은 서비스 수, 7-5 릴리스 |
 
 <br>
 
@@ -138,8 +138,8 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 데이터 검증 | `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
 | 다크 아이콘 생성 | `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
 | 다크 아이콘 짝 검증 | `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |
-| 랜딩 산출물 생성 | `npm run generate:landing-data` | `landing/assets/services.json`과 `landing/assets/images/` 생성, 쓰이지 않는 사본 삭제 |
-| 랜딩 산출물 검사 | `npm run validate:landing-data` | 랜딩 산출물이 최신인지 확인 |
+| 랜딩 산출물 생성 | `npm run generate:landing-data` | `landing/assets/services.json`, `landing/assets/images/`, `docs/supported-services.md` 생성, 쓰이지 않는 사본 삭제 |
+| 랜딩 산출물 검사 | `npm run validate:landing-data` | 랜딩 산출물과 지원 서비스 목록 문서가 최신인지 확인 |
 | 릴리스 입력 검증 | `npm run validate:release -- <버전>` | 입력 버전의 형식, 매니페스트 버전, 태그 존재, 태그가 HEAD를 가리키는지, 릴리스 노트 파일 확인 |
 | 패키징 | `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
 | 빌드 | `npm run build` | 위 검증 전부와 패키징. 순서는 [6-2-4](6-2-DATA.md#6-2-4-검증-파이프라인) |

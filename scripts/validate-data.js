@@ -21,7 +21,8 @@ const ALLOWED_CATEGORIES = new Set([
 ]);
 const REQUIRED_FIELDS = ["id", "name", "url", "imgSrc", "category"];
 const VALID_ID_PATTERN = /^[a-z0-9-]+$/;
-const VALID_IMAGE_EXTENSION_PATTERN = /\.(png|jpe?g|svg)$/i;
+// 다크 아이콘 생성기와 짝 검증이 PNG만 다룬다(스펙 4-6-1). 다른 형식은 다크 벌이 생기지 않는다.
+const VALID_IMAGE_EXTENSION_PATTERN = /\.png$/i;
 const IMAGE_DIRECTORIES = ["images/common", "images/colleges", "images/departments"];
 
 // 팝업 카드 한 줄에 들어가는 폭이다. 팝업 320px에서 컨테이너 패딩 40, 그리드 패딩 8,
@@ -77,7 +78,24 @@ function estimateCardTextWidth(text) {
   }, 0);
 }
 
+// 공백이 있는 이름이 어절 단위로 꺾였을 때 몇 줄이 되는지 센다. 카드는 두 줄까지만 보인다.
+function countWrappedLines(name) {
+  let lines = 1;
+  let current = "";
+  name.split(/\s+/).forEach((word) => {
+    const candidate = current ? `${current} ${word}` : word;
+    if (current && estimateCardTextWidth(candidate) > CARD_LINE_WIDTH_PX) {
+      lines += 1;
+      current = word;
+    } else {
+      current = candidate;
+    }
+  });
+  return lines;
+}
+
 // 공백이 있는 이름은 word-break: keep-all이 어절 단위로 꺾으므로 표가 필요 없다.
+// 대신 어절로 꺾어도 두 줄을 넘으면 세 번째 줄이 말줄임되므로 그것만 본다.
 // 공백이 없는데 한 줄을 넘는 이름은 꺾을 자리가 없어 글자 사이 아무 데서나 꺾이므로,
 // 줄바꿈 표나 예외 목록 둘 중 하나에 반드시 있어야 한다.
 function findCardLineBreakErrors(siteList, shared) {
@@ -107,7 +125,16 @@ function findCardLineBreakErrors(siteList, shared) {
       });
     }
 
-    if (/\s/.test(site.name)) return;
+    if (/\s/.test(site.name)) {
+      const lines = countWrappedLines(site.name);
+      if (lines > 2) {
+        errors.push(
+          `${site.id}: "${site.name}" wraps to ${lines} lines on a card that shows two. ` +
+            "Shorten the name or move the space.",
+        );
+      }
+      return;
+    }
     if (estimateCardTextWidth(site.name) <= CARD_LINE_WIDTH_PX) return;
     if (firstLine !== undefined || wideNames.has(site.id)) return;
 
@@ -221,7 +248,7 @@ function validateSiteList(siteList, shared = loadShared()) {
     if (isNonEmptyString(site.imgSrc)) {
       if (!VALID_IMAGE_EXTENSION_PATTERN.test(site.imgSrc)) {
         errors.push(
-          `${label}: imgSrc must be a valid image file (.png, .jpg, .jpeg, .svg).`,
+          `${label}: imgSrc must be a .png file (the dark icon generator handles PNG only).`,
         );
       }
 
@@ -303,6 +330,7 @@ if (require.main === module) {
 module.exports = {
   ALLOWED_CATEGORIES,
   CARD_LINE_WIDTH_PX,
+  countWrappedLines,
   estimateCardTextWidth,
   findCardLineBreakErrors,
   findDuplicateFieldErrors,

@@ -3,6 +3,7 @@ const test = require("node:test");
 
 const {
   CARD_LINE_WIDTH_PX,
+  countWrappedLines,
   estimateCardTextWidth,
   findCardLineBreakErrors,
   findDuplicateFieldErrors,
@@ -49,6 +50,34 @@ test("스키마 밖 필드와 절대 경로는 검증이 거부한다", () => {
 
   const absolute = validateSiteList([{ ...base, imgSrc: "/images/common/portal.png" }]).errors;
   assert.ok(absolute.some((error) => error.includes("must stay inside src/")));
+
+  // 다크 생성기가 PNG만 다루므로 다른 형식은 다크 벌이 없는 채로 배포된다.
+  const svg = validateSiteList([{ ...base, imgSrc: "images/common/portal.svg" }]).errors;
+  assert.ok(svg.some((error) => error.includes("must be a .png file")));
+});
+
+test("같은 주소를 두 서비스가 쓰면 중복 오류가 난다", () => {
+  const sites = [
+    { id: "first", name: "첫 번째", url: "https://example.com/same", imgSrc: "a.png" },
+    { id: "second", name: "두 번째", url: "https://example.com/same", imgSrc: "b.png" },
+  ];
+
+  const errors = findDuplicateFieldErrors(sites);
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /duplicate url "https:\/\/example\.com\/same" used by: first, second/);
+});
+
+// 어절 단위로 꺾이는 이름도 두 줄을 넘으면 셋째 줄이 말줄임된다(#235의 "첨단산업 부트캠프 사업단").
+test("공백이 있는 이름이 어절 단위로 두 줄을 넘으면 검증이 실패한다", () => {
+  assert.equal(countWrappedLines("첨단산업 부트캠프 사업단"), 3);
+  assert.equal(countWrappedLines("첨단산업 부트캠프"), 2);
+
+  const errors = findCardLineBreakErrors(
+    [{ id: "long", name: "첨단산업 부트캠프 사업단" }],
+    { CARD_LINE_BREAKS: {}, WIDE_CARD_NAMES: [] },
+  );
+  assert.equal(errors.length, 1);
+  assert.match(errors[0], /wraps to 3 lines/);
 });
 
 test("multiple services may intentionally share an image", () => {
