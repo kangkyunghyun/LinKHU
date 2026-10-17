@@ -1,4 +1,4 @@
-// 문의 전송 설정. docs/spec/5-CONTRACT.md §5-3의 조건대로 Google Form을 만든 뒤
+// 문의 전송 설정. docs/spec/5-CONTRACT.md §5-4의 조건대로 Google Form을 만든 뒤
 // 폼 주소와 본문 필드를 채우면 팝업/설정 페이지의 문의 기능이 활성화된다.
 // Google Forms 전송 주소는 공개돼도 안전하므로 확장 소스에 그대로 둔다.
 const FEEDBACK_CONFIG = {

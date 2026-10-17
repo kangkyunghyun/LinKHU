@@ -14,16 +14,16 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | [2-1-USER-STORIES](2-1-USER-STORIES.md) | 사용자와 쓰임별 기대 | 작성 완료 |
 | [2-2-OPERATOR-REQUIREMENTS](2-2-OPERATOR-REQUIREMENTS.md) | 운영 주체, 핵심 기준 요약, 데이터 갱신, 릴리스, 스토어, 문의, 기여 | 작성 완료 |
 | [3-INFORMATION-ARCHITECTURE](3-INFORMATION-ARCHITECTURE.md) | 서비스 단위, 카테고리와 서비스 수, 화면별 범위, 기본 목록, 검색 대상과 순위 | 작성 완료 |
-| [4-1-LAYOUT](4-1-LAYOUT.md) | 팝업과 설정의 영역 순서와 치수, 설정 목록 격자, 카드 폭 계산과 줄바꿈 표 | 작성 완료 |
-| [4-2-UI-SYSTEM](4-2-UI-SYSTEM.md) | 공식 색상, 토큰 원본과 이름 규칙, 랜딩 값 동기, 확장 우선 원칙, UI 아이콘 | 작성 완료 |
+| [4-1-LAYOUT](4-1-LAYOUT.md) | 팝업, 설정, 랜딩의 영역 순서와 문구, 치수, 설정 목록 격자, 카드 폭 계산과 줄바꿈 표, 랜딩 화면 폭 구간 | 작성 완료 |
+| [4-2-UI-SYSTEM](4-2-UI-SYSTEM.md) | 공식 색상, 토큰의 값과 쓰는 자리, 확장과 랜딩이 맞추는 값, 확장 우선 원칙, UI 아이콘 | 작성 완료 |
 | [4-3-THEME](4-3-THEME.md) | 세 모드, 저장과 되돌리기, 선택 UI, 색 토큰 값, 대비 기준, 랜딩 다크 팔레트 | 작성 완료 |
 | [4-4-SOFTWARE-ARCHITECTURE](4-4-SOFTWARE-ARCHITECTURE.md) | 개요와 외부 시스템, 배경과 목표, 품질 속성, 실행 기반과 권한, 모듈 구조, 의존 방향 | 작성 완료 |
 | [4-5-STATE](4-5-STATE.md) | 저장 키, 사용자 설정과 내부 캐시, 즉시 반영형 설정, 비동기 결과의 순서 | 작성 완료 |
 | [4-6-SERVICE-ICON](4-6-SERVICE-ICON.md) | 서비스 아이콘 팔레트, 두 벌 체계, 생성기와 검증, 추가 절차 | 작성 완료 |
 | [4-7-SCREENSHOT](4-7-SCREENSHOT.md) | 스크린샷 세 장의 규격과 촬영 방식, 포털 촬영 시 개인정보 처리 | 작성 완료 |
 | [5-CONTRACT](5-CONTRACT.md) | 연동 대상과 방식, 랜딩 산출물, GitHub 릴리스 API, Google Forms, Google Analytics, 공통 원칙 | 작성 완료 |
-| [6-1-INTERACTION](6-1-INTERACTION.md) | 렌더, 키 입력, 이동, 설정 저장, 테마 적용, 단축키 안내, 문의 유형, 설정 필터, 랜딩 검색과 업데이트 구역, 휴대폰 설치 안내의 처리 순서 | 작성 완료 |
-| [6-2-DATA](6-2-DATA.md) | `MASTER_SITE_LIST` 스키마와 필드 규칙, 검증과 생성 스크립트, 변경 절차 | 작성 완료 |
+| [6-1-INTERACTION](6-1-INTERACTION.md) | 렌더, 키 입력, 이동, 설정 저장과 드래그, 테마 적용, 단축키 안내, 문의 전송, 설정 필터, 랜딩 검색과 업데이트 구역, 휴대폰 설치 안내, 버전 안내의 처리 순서 | 작성 완료 |
+| [6-2-DATA](6-2-DATA.md) | 지원 서비스 목록 스키마와 필드 규칙, 검증과 생성, 변경 절차 | 작성 완료 |
 | [7-1-ERROR-HANDLING](7-1-ERROR-HANDLING.md) | 데이터, 저장소, 네트워크, 자산 실패의 동작과 문구 | 작성 완료 |
 | [7-2-TEST-CASES](7-2-TEST-CASES.md) | 자동 테스트의 상황과 기대 결과, 수동 검증 항목, 검증 환경, 특별 검증 | 작성 완료 |
 | [7-4-DEPLOYMENT](7-4-DEPLOYMENT.md) | 배포 단위와 대상 브라우저, 배포 경로, 배포 조건, 비밀 정보, 랜딩 적용과 복구, 배포 후 확인 | 작성 완료 |
@@ -49,7 +49,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 색, 여백, 반경, 글자 크기 변경 | [4-2-2 디자인 토큰 규칙](4-2-UI-SYSTEM.md#4-2-2-디자인-토큰-규칙) | [4-3-4 구현 방식과 토큰 계약](4-3-THEME.md#4-3-4-구현-방식과-토큰-계약), [4-3-5 대비 기준](4-3-THEME.md#4-3-5-대비-기준) |
 | 테마 동작 변경 | [4-3 테마](4-3-THEME.md) | [4-5-4 비동기 결과의 순서](4-5-STATE.md#4-5-4-비동기-결과의-순서), [6-1-5 테마 적용](6-1-INTERACTION.md#6-1-5-테마-적용) |
 | 검색 규칙 변경 | [3-5 검색이 다루는 범위](3-INFORMATION-ARCHITECTURE.md#3-5-검색이-다루는-범위) | [4-4-6 의존 방향](4-4-SOFTWARE-ARCHITECTURE.md#4-4-6-의존-방향)의 확장과 랜딩이 같아야 하는 규칙 |
-| 문의 폼 변경 | [5-4 Google Forms](5-CONTRACT.md#5-4-google-forms) | [6-1-7 문의 유형 선택](6-1-INTERACTION.md#6-1-7-문의-유형-선택), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
+| 문의 폼 변경 | [5-4 Google Forms](5-CONTRACT.md#5-4-google-forms) | [6-1-7 문의 유형 선택과 전송](6-1-INTERACTION.md#6-1-7-문의-유형-선택과-전송), [7-1-4 네트워크 실패](7-1-ERROR-HANDLING.md#7-1-4-네트워크-실패), [7-2-5 특별 검증 절차](7-2-TEST-CASES.md#7-2-5-특별-검증-절차) |
 | 바깥 호출이나 분석 이벤트 추가 | [5 계약](5-CONTRACT.md) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [5-6 공통 원칙](5-CONTRACT.md#5-6-공통-원칙) |
 | 저장 키 추가 | [4-5 상태](4-5-STATE.md) | [7-1-3 저장소 실패](7-1-ERROR-HANDLING.md#7-1-3-저장소-실패) |
 | 권한이나 매니페스트 변경 | [4-4-4 실행 기반](4-4-SOFTWARE-ARCHITECTURE.md#4-4-4-실행-기반) | [1-5 하지 않는 것](1-BACKGROUND.md#1-5-하지-않는-것), [2-2-5 스토어 배포](2-2-OPERATOR-REQUIREMENTS.md#2-2-5-스토어-배포) |
@@ -71,10 +71,10 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 팝업 | [src/popup.html](../../src/popup.html), [popup.css](../../src/popup.css), [popup.js](../../src/popup.js) | 4-1-1 팝업 영역, 6-1-1~6-1-3, 6-1-6 단축키 안내 |
 | 설정 | [src/options.html](../../src/options.html), [options.css](../../src/options.css), [options.js](../../src/options.js) | 4-1-2, 4-1-3 설정, 6-1-4 설정 저장, 6-1-6 단축키 안내 |
 | 테마와 토큰 | [src/theme.js](../../src/theme.js), [theme.css](../../src/theme.css) | 4-2-2 디자인 토큰 규칙, 4-3 테마, 6-1-5 테마 적용 |
-| 버전 안내 | [src/version.js](../../src/version.js) | 4-5-1 저장 키 목록, 5-3 GitHub 릴리스 API |
-| 문의 | [src/feedback.js](../../src/feedback.js) | 5-4 Google Forms, 6-1-7 문의 유형 선택, 7-1-4 네트워크 실패 |
+| 버전 안내 | [src/version.js](../../src/version.js) | 4-5-1 저장 키 목록, 5-3 GitHub 릴리스 API, 6-1-12 버전 안내 |
+| 문의 | [src/feedback.js](../../src/feedback.js) | 5-4 Google Forms, 6-1-7 문의 유형 선택과 전송, 7-1-4 네트워크 실패 |
 | 확장 아이콘과 서비스 아이콘 | [src/icons/](../../src/icons/), [src/images/](../../src/images/), SVG 원본 [assets/icons/](../../assets/icons/) | 4-6 서비스 아이콘 |
-| 랜딩 | [landing/](../../landing/). 산출물은 `assets/services.json`, `assets/images/` | 3-3 화면별 범위, 4-3 테마, 5 계약, 6-1-9~6-1-11 랜딩 동작 |
+| 랜딩 | [landing/](../../landing/). 산출물은 `assets/services.json`, `assets/images/` | 3-3 화면별 범위, 4-1-5 랜딩, 4-3 테마, 5 계약, 6-1-9~6-1-11 랜딩 동작 |
 | 스크린샷 | [landing/assets/screenshots/](../../landing/assets/screenshots/) | 4-7 스크린샷 |
 | 데이터 검증 | [scripts/validate-data.js](../../scripts/validate-data.js) | 6-2-4 검증 파이프라인, 4-1-4 팝업 카드 이름 |
 | 랜딩 산출물 생성 | [scripts/generate-landing-data.js](../../scripts/generate-landing-data.js) | 5-2 랜딩 파생 산출물, 6-2-4 검증 파이프라인 |
@@ -98,7 +98,8 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 현재 정한 것만 | 미정, 검토 중, 후속 과제는 이슈에 남긴다. 빈 틀이나 "미정" 문장도 두지 않는다 |
 | 이력은 쓰지 않음 | 이전 동작, 바뀐 날짜, 기준일, 정정 경위, 이슈 번호로 설명하는 경위는 DECISIONS나 PR로 보낸다. 버전 문자열이 든 외부 식별자는 그대로 둔다 |
 | 같은 사실은 한 곳 | README의 주제별 원본 자리에만 쓴다. 서비스 수처럼 계산되는 숫자는 3-2에만 둔다 |
-| 코드를 옮기지 않음 | 함수, 클래스, CSS 클래스 이름 대신 동작, 값, 조건, 분기, 실패를 쓴다. 바꾸면 코드 밖이 깨지는 이름(저장 키, 데이터 필드, 토큰, 전역, 이벤트, 외부 주소, 명령)은 원문으로 쓴다 |
+| 설계도로 쓴다 | 이 세트만 보고 구현해도 지금과 같은 결과가 나오게 동작, 값, 조건, 분기, 실패, 화면 문구를 쓴다. 코드 설명서나 코드 사본이 아니다 |
+| 이름을 쓰지 않음 | 폴더, 파일, 변수, 함수, 클래스, CSS 토큰, 명령 이름 대신 역할로 부른다. 원문으로 쓰는 것은 코드 밖이 깨지는 이름뿐이다. 저장 키, 서비스 식별자 값, 외부 주소와 외부 식별자, 분석 이벤트, 릴리스 노트 절 제목, 운영자가 입력하거나 로그에서 보는 문자열 |
 | 확인한 값만 | 코드와 설정에서 확인한 값만 쓴다. 형식을 채우려고 쓰지 않고, 정한 게 적으면 짧게 쓴다 |
 | 당연한 것과 안 하는 것 | 이름이 곧 설명인 비고는 비운다. "~하지 않는다"는 보안, 개인정보, 권한, 범위처럼 필요한 확정 제외일 때만 쓴다 |
 
@@ -109,7 +110,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 규칙 | 내용 |
 | --- | --- |
 | 도입 | 첫 문단은 "이 문서는 ~을 정한다." 한 문장. 둘째 문단은 "X는 Y에 있다." 뒤 괄호 링크 모음. 1-BACKGROUND는 둘째 문단이 없다. 첫 절 앞에는 도입과 문서 전체 규칙만 둔다 |
-| 본문 | 책임만 넘기는 문장("~를 따른다"), 링크 나열, 안내와 요약 문장을 두지 않는다. 표나 그림의 내용을 글로 다시 쓰지 않는다 |
+| 본문 | 줄글을 최소로 줄이고 표와 그림으로 쓴다. 책임만 넘기는 문장("~를 따른다"), 링크 나열, 안내와 요약 문장을 두지 않는다. 표나 그림의 내용을 글로 다시 쓰지 않는다 |
 | 제목 | 번호는 파일 번호를 포함해 세 묶음까지(`4-1-4`). 그 아래는 `**1. 소제목**` |
 | 간격 | 절과 굵은 소제목 앞에 빈 줄과 `<br>`. 바로 위가 제목이면 빈 줄만 |
 | 표 | 규칙, 조건과 처리, 단계는 표로 쓴다. 키 열은 한 칸에 하나. 설명 셀은 짧게 쓰고 독립된 조건은 `<br>`로 나눈다. 머리글과 모든 행의 열 수가 같다 |
@@ -128,17 +129,54 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 
 ### 5. 명령
 
-| 명령 | 역할 |
-| --- | --- |
-| `npm test` | `node --test`로 저장소의 `*.test.js` 실행 |
-| `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
-| `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
-| `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |
-| `npm run generate:landing-data` | 랜딩 검색 데이터와 아이콘 사본 생성, 쓰이지 않는 사본 삭제 |
-| `npm run validate:landing-data` | 랜딩 산출물이 최신인지 확인 |
-| `npm run validate:release -- <버전>` | 입력 버전의 형식, 매니페스트 버전, 태그 존재, 태그가 HEAD를 가리키는지, 릴리스 노트 파일 확인 |
-| `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
-| `npm run build` | 검증 전부와 패키징. 순서는 [6-2-4](6-2-DATA.md#6-2-4-검증-파이프라인) |
+스펙은 명령 대신 아래 "스펙에서 부르는 이름"을 쓴다.
+
+| 스펙에서 부르는 이름 | 명령 | 역할 |
+| --- | --- | --- |
+| 자동 테스트 | `npm test` | `node --test`로 `tests/`의 `*.test.js` 실행 |
+| 데이터 검증 | `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
+| 다크 아이콘 생성 | `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
+| 다크 아이콘 짝 검증 | `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |
+| 랜딩 산출물 생성 | `npm run generate:landing-data` | `landing/assets/services.json`과 `landing/assets/images/` 생성, 쓰이지 않는 사본 삭제 |
+| 랜딩 산출물 검사 | `npm run validate:landing-data` | 랜딩 산출물이 최신인지 확인 |
+| 릴리스 입력 검증 | `npm run validate:release -- <버전>` | 입력 버전의 형식, 매니페스트 버전, 태그 존재, 태그가 HEAD를 가리키는지, 릴리스 노트 파일 확인 |
+| 패키징 | `npm run package` | `dist/linkhu-v{version}.zip` 생성 |
+| 빌드 | `npm run build` | 위 검증 전부와 패키징. 순서는 [6-2-4](6-2-DATA.md#6-2-4-검증-파이프라인) |
+
+**1. 태그 push**
+
+```bash
+git switch main
+git pull --ff-only
+VERSION=$(node -p "require('./src/manifest.json').version")
+git tag "v$VERSION"
+git push origin "v$VERSION"
+```
+
+**2. Chrome 제출 실행**
+
+```bash
+gh workflow run publish-chrome.yml --ref main \
+  -f version={version} -f confirm_publish=publish-chrome
+```
+
+**3. 공개 폼 점검**
+
+[7-2-5](7-2-TEST-CASES.md#7-2-5-특별-검증-절차)의 표와 출력을 대조한다.
+
+```bash
+FORM=https://docs.google.com/forms/d/e/<폼 ID>/viewform
+curl -sL "$FORM" -o /tmp/form.html
+
+python3 - /tmp/form.html <<'PYEOF'
+import re, sys, json
+html = open(sys.argv[1], encoding="utf-8").read()
+data = json.loads(re.search(r'FB_PUBLIC_LOAD_DATA_ = (.*?);</script>', html, re.S).group(1))
+for question in data[1][1]:
+    for entry in (question[4] or []):
+        print(f'"{question[1]}"  entry.{entry[0]}  필수={"O" if entry[2] else "X"}')
+PYEOF
+```
 
 <br>
 

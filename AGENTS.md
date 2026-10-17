@@ -114,7 +114,7 @@ PR: feat: 공통 서비스 바로가기 추가
 
 - `id`가 중복되지 않는다.
 - `id`, `name`, `url`, `imgSrc`, `category`가 모두 존재한다.
-- `category`는 `src/data.js`의 `SITE_CATEGORIES` 값 하나다. 카테고리 목록은 [스펙 §3-2](docs/spec/3-INFORMATION-ARCHITECTURE.md#3-2-카테고리)가 원본이며, 값을 늘리거나 바꿀 때 함께 고칠 곳은 [스펙 §6-2-2](docs/spec/6-2-DATA.md#6-2-2-필드-규칙)에 있다.
+- `category`는 `src/data.js`의 `SITE_CATEGORIES` 값 하나다. 카테고리 목록과 값을 늘리거나 바꿀 때 함께 고칠 곳은 [스펙 §3-2](docs/spec/3-INFORMATION-ARCHITECTURE.md#3-2-카테고리)에 있다.
 - `imgSrc`는 확장 프로그램 루트인 `src/`를 기준으로 한 상대 경로이며, 실제 파일이 존재해야 한다.
 - `http://` URL은 가능한 경우 `https://`로 확인하되, 사이트가 HTTPS를 지원하지 않으면 유지한다.
 
