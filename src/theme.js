@@ -38,6 +38,8 @@ const ThemeManager = {
   // 저장이 확인된 모드. 롤백은 항상 이 값으로 돌아간다.
   // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 4-3-2).
   committedMode: DEFAULT_THEME_MODE,
+  // committedMode를 정한 요청 번호. 늦게 도착한 성공이 더 새 성공을 덮지 않게 한다.
+  committedRequestId: 0,
 
   // 진행 중인 쓰기 수. 내 요청이 떠 있는 동안에는 외부 변경으로 덮지 않는다.
   pendingWrites: 0,
@@ -250,17 +252,29 @@ const ThemeManager = {
     this.writeMode(nextMode, (error) => {
       this.pendingWrites -= 1;
 
-      // 이 요청 뒤에 다른 선택이 있었으면 이 결과는 낡았다.
-      // 롤백하면 이미 성공한 최신 선택을 되돌리게 되므로 그냥 버린다.
-      if (requestId !== this.requestId) return;
+      // 성공은 늦게 도착해도 저장소의 실제 값이므로 롤백 기준을 갱신한다.
+      // 더 새 요청의 성공이 이미 기준이면 건드리지 않는다(스펙 4-3-2).
+      if (!error && requestId > this.committedRequestId) {
+        this.committedMode = nextMode;
+        this.committedRequestId = requestId;
+      }
+
+      // 이 요청 뒤에 다른 선택이 있었으면 화면은 그 선택이 결정한다.
+      // 다만 뒤 선택이 이미 실패해 되돌아간 상태라면 저장소 값과 화면을 맞춘다.
+      if (requestId !== this.requestId) {
+        if (this.pendingWrites === 0 && this.currentMode !== this.committedMode) {
+          this.currentMode = this.committedMode;
+          this.refresh();
+          this.notifyModeChange();
+        }
+        return;
+      }
 
       if (error) {
         // 저장이 확인된 값으로 되돌린다. currentMode는 저장된 적 없을 수 있다.
         this.currentMode = this.committedMode;
         this.refresh();
         this.notifyModeChange();
-      } else {
-        this.committedMode = nextMode;
       }
 
       callback?.(error, this.currentMode);
@@ -270,10 +284,15 @@ const ThemeManager = {
   // 다른 문서가 테마를 바꾸면 열려 있는 이 화면도 따라간다.
   // 설정 탭을 열어둔 채 팝업에서 바꾸는 경우가 실제로 생긴다.
   handleExternalChange(rawValue) {
-    // 내 요청이 떠 있으면 그 결과가 최종이다. 외부 값으로 덮으면 방금 고른 값이 되돌아간다.
-    if (this.pendingWrites > 0) return;
-
     const mode = this.normalizeMode(rawValue);
+
+    // 내 요청이 떠 있으면 화면은 그 결과가 정한다. 외부 값으로 덮으면 방금 고른 값이
+    // 되돌아간다. 그래도 저장소에 실제로 쓰인 값이므로 롤백 기준에는 반영한다.
+    if (this.pendingWrites > 0) {
+      this.committedMode = mode;
+      return;
+    }
+
     if (mode === this.currentMode && mode === this.committedMode) return;
 
     this.committedMode = mode;

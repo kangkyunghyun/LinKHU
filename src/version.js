@@ -5,7 +5,13 @@ const VersionManager = {
     const CACHE_TIME_KEY = "latestReleaseVersionTime";
     const CACHE_DURATION_MS = 12 * 60 * 60 * 1000;
 
-    const result = await chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY]);
+    // 캐시를 못 읽어도 조회는 해야 한다. 캐시가 없는 것으로 보고 진행한다(스펙 7-1-3).
+    let result = {};
+    try {
+      result = (await chrome.storage.local.get([CACHE_KEY, CACHE_TIME_KEY])) || {};
+    } catch (error) {
+      console.warn("버전 캐시를 읽지 못했습니다:", error);
+    }
     const now = Date.now();
     const cachedVersion = result[CACHE_KEY];
     const cachedTime = result[CACHE_TIME_KEY];
@@ -29,10 +35,15 @@ const VersionManager = {
       const version = data.tag_name ? data.tag_name.replace(/^v/, "") : null;
 
       if (version) {
-        await chrome.storage.local.set({
-          [CACHE_KEY]: version,
-          [CACHE_TIME_KEY]: now,
-        });
+        // 캐시 쓰기 실패는 다음 조회를 한 번 더 하게 할 뿐이다. 방금 받은 버전은 그대로 쓴다.
+        try {
+          await chrome.storage.local.set({
+            [CACHE_KEY]: version,
+            [CACHE_TIME_KEY]: now,
+          });
+        } catch (error) {
+          console.warn("버전 캐시를 저장하지 못했습니다:", error);
+        }
       }
       return version;
     } catch (error) {
@@ -77,14 +88,15 @@ const VersionManager = {
 
   async displayVersionInfo(currentVersionElId, updateMessageElId) {
     const currentVersion = chrome.runtime.getManifest().version;
-    const latestVersion = await this.getLatestGithubReleaseVersion();
-
     const currentVersionEl = document.getElementById(currentVersionElId);
     const updateMessageEl = document.getElementById(updateMessageElId);
 
+    // 현재 버전은 조회와 무관하게 바로 보인다. 느린 네트워크에서 자리가 비면 안 된다.
     if (currentVersionEl) {
       currentVersionEl.textContent = `v${currentVersion}`;
     }
+
+    const latestVersion = await this.getLatestGithubReleaseVersion();
 
     if (updateMessageEl && latestVersion) {
       if (this.compareVersions(currentVersion, latestVersion) < 0) {
