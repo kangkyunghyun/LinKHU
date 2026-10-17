@@ -9,7 +9,7 @@
 // 저장된 모드가 오면 그때 보정한다. 기본값이 system이라 보정이 필요한 경우는
 // light/dark를 명시적으로 고른 사용자뿐이다.
 //
-// 규칙의 원본은 docs/spec/4-2-UI-SYSTEM.md의 4-2-5다.
+// 규칙의 원본은 docs/spec/4-3-THEME.md다.
 const THEME_STORAGE_KEY = "themeMode";
 const THEME_MODES = ["system", "light", "dark"];
 const DEFAULT_THEME_MODE = "system";
@@ -36,7 +36,7 @@ const ThemeManager = {
   currentMode: DEFAULT_THEME_MODE,
 
   // 저장이 확인된 모드. 롤백은 항상 이 값으로 돌아간다.
-  // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 3-2-5-2).
+  // currentMode를 기준으로 되돌리면 저장된 적 없는 중간값으로 갈 수 있다(스펙 4-3-2).
   committedMode: DEFAULT_THEME_MODE,
 
   // 진행 중인 쓰기 수. 내 요청이 떠 있는 동안에는 외부 변경으로 덮지 않는다.
@@ -51,8 +51,8 @@ const ThemeManager = {
   resolved: false,
   onResolved: null,
 
-  // 모드가 바뀔 때 알릴 구독자들. 팝업의 상태 안내와 설정의 라디오·안내가
-  // 동시에 듣는다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
+  // 모드가 바뀔 때 알릴 구독자들. 지금은 테스트만 구독한다. 여럿이 들을 수 있게
+  // 집합으로 둔다. 단일 슬롯이면 나중 등록이 앞 등록을 조용히 덮는다.
   modeSubscribers: new Set(),
 
   // 화면에 칠해진 테마(light/dark)가 바뀔 때 알린다. 모드 변경뿐 아니라
@@ -226,9 +226,13 @@ const ThemeManager = {
       return;
     }
 
-    storage.set({ [THEME_STORAGE_KEY]: mode }, () => {
-      callback(this.deps.lastError() || null);
-    });
+    try {
+      storage.set({ [THEME_STORAGE_KEY]: mode }, () => {
+        callback(this.deps.lastError() || null);
+      });
+    } catch (error) {
+      callback(error instanceof Error ? error : new Error(String(error)));
+    }
   },
 
   // 즉시 반영형이라 저장 버튼이 없다. 대신 저장에 실패하면 화면을 되돌려야
@@ -240,7 +244,7 @@ const ThemeManager = {
     this.pendingWrites += 1;
     this.currentMode = nextMode;
     this.refresh();
-    // 저장을 기다리지 않고 먼저 알린다. 기다리면 그사이 토글과 라디오가 어긋난다.
+    // 저장을 기다리지 않고 먼저 알린다. 같은 화면의 표시가 바로 바뀌어야 한다.
     this.notifyModeChange();
 
     this.writeMode(nextMode, (error) => {

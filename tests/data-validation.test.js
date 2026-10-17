@@ -35,6 +35,22 @@ test("duplicate service fields are detected", () => {
   assert.deepEqual(findDuplicateValues(sites, "url"), []);
 });
 
+test("스키마 밖 필드와 절대 경로는 검증이 거부한다", () => {
+  const base = {
+    id: "portal",
+    name: "인포21",
+    url: "https://portal.khu.ac.kr",
+    imgSrc: "images/common/portal.png",
+    category: "학사·포털",
+  };
+
+  const extra = validateSiteList([{ ...base, note: "x" }]).errors;
+  assert.ok(extra.some((error) => error.includes('unexpected field "note"')));
+
+  const absolute = validateSiteList([{ ...base, imgSrc: "/images/common/portal.png" }]).errors;
+  assert.ok(absolute.some((error) => error.includes("must stay inside src/")));
+});
+
 test("multiple services may intentionally share an image", () => {
   const sites = [
     {

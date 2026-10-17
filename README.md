@@ -83,7 +83,7 @@ npm run build   # 테스트 + 데이터 검증 + 패키징을 한 번에 실행
 ```
 
 개별 스크립트는 [package.json](./package.json)의 `scripts`를, 작업 규칙은 [AGENTS.md](./AGENTS.md)를 참고하세요.
-릴리스와 스토어 배포 절차는 [스펙 §7-5·§7-6](docs/spec/README.md)을 따릅니다.
+릴리스와 스토어 배포 절차는 스펙 [§7-5 릴리스](docs/spec/7-5-RELEASE.md)와 [§7-6 스토어 제출](docs/spec/7-6-STORE.md)에 있습니다.
 
 ## 📁 프로젝트 구조
 

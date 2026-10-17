@@ -71,6 +71,8 @@ const App = {
     const emptyMessage = document.getElementById("empty-message");
     const renderToken = ++this.renderToken;
     gridContainer.innerHTML = "";
+    // 격자를 비운 동안 Enter가 이전 목록의 첫 카드를 열지 않게 이동 대상도 비운다.
+    this.currentItems = [];
 
     const fragment = document.createDocumentFragment();
 

@@ -856,7 +856,6 @@ kbd {
 .search-demo-field input::placeholder {
   color: var(--color-muted);
   font-weight: 550;
-  opacity: 0.82;
 }
 
 .search-demo-field input::-webkit-search-cancel-button {
@@ -1285,7 +1284,7 @@ kbd {
 
 .release-body h4 {
   margin: 20px 0 8px;
-  color: var(--color-text);
+  color: var(--color-foreground);
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -1490,7 +1489,8 @@ kbd {
 
 .button-light {
   background: #ffffff;
-  color: var(--color-primary);
+  /* 배경이 흰색으로 고정이라 다크 주색(#ff4d52)을 올리면 3.26:1로 미달한다 (스펙 4-3-6). */
+  color: #a40f16;
   box-shadow: 0 12px 26px rgba(61, 6, 8, 0.2);
 }
 
@@ -1706,7 +1706,7 @@ kbd {
 .footer-note {
   grid-column: 1 / -1;
   margin: 6px 0 0;
-  color: #8e8e8e;
+  color: var(--color-muted);
   font-size: 12px;
 }
 
@@ -2091,7 +2091,8 @@ kbd {
 }
 
 /* 배경과 글자색은 토큰이 이미 다크 값으로 해석한다. 어두운 배경에서
-:root[data-theme="dark"] 붉은 그림자는 번짐으로 보여 깊이를 만들지 못하므로 중성으로 바꾼다. */ .button-primary {
+   붉은 그림자는 번짐으로 보여 깊이를 만들지 못하므로 중성으로 바꾼다. */
+:root[data-theme="dark"] .button-primary {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 
