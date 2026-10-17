@@ -105,13 +105,6 @@ header h1 {
 .grid-container::-webkit-scrollbar {
   width: 6px;
 }
-/* Firefox는 위 선택자를 모르고 플랫폼 스크롤바(최대 17px)를 쓴다. 그만큼 열 간격을 줄여
-   카드 한 줄 폭이 Chromium의 70.67px 아래로 내려가지 않게 한다(스펙 4-1-4). */
-@supports not selector(::-webkit-scrollbar) {
-  .grid-container {
-    column-gap: var(--space-4);
-  }
-}
 .grid-container::-webkit-scrollbar-track {
   background: transparent;
 }
