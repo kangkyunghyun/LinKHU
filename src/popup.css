@@ -395,7 +395,8 @@ header h1 {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  margin-bottom: var(--space-8);
+  /* 좌우는 검색창·카드 격자와 같은 4px이라 세 덩어리의 양 끝이 한 선에 맞는다. */
+  margin: 0 var(--space-4) var(--space-8);
   padding: var(--space-4) var(--space-8);
   border: 1px solid var(--color-primary-border);
   border-radius: var(--radius-8);
