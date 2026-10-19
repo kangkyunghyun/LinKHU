@@ -33,7 +33,12 @@
 - 학점교류로 경희사이버대 강의를 듣는다면 포털과 LMS도 추가 가능
 
 Chrome, Whale, Firefox에서 무료로 사용하실 수 있으며, 광고와 로그인은 없습니다.
-설치 링크는 아래 페이지에 정리해 두었습니다. 휴대폰으로 보고 계신다면 PC에서 열어 설치해 주세요.
+설치는 쓰시는 브라우저 링크를 눌러 바로 하실 수 있습니다.
+Chrome: https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp
+Whale: https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc
+Firefox: https://addons.mozilla.org/ko/firefox/addon/linkhu
+
+휴대폰으로 보고 계신다면 아래 홈페이지를 PC에서 열어 주세요.
 https://kangkyunghyun.github.io/LinKHU/?utm_source=everytime
 
 빠진 사이트가 있다면 댓글로 알려 주세요. 확인하는 대로 추가하겠습니다.
@@ -54,4 +59,4 @@ https://kangkyunghyun.github.io/LinKHU/?utm_source=everytime
    계속 알릴 기능은 기능 목록에 한 줄로 더하고, 지원 서비스 수 같은 숫자도 여기서 함께 고친다.
 3. **목록 밖 문장은 합쇼체로 통일한다**. 첫 문장은 독자가 겪는 불편이고, 첫 문단 안에서 이게 무엇인지 드러난다.
 4. 설치 링크와 맺음말은 그대로 두고 게시한다.
-   (모바일 유입이 많아 착지점은 스토어 직링크가 아닌 홈페이지로 유지한다).
+   PC 독자는 브라우저별 스토어 링크로 바로 설치하고, 확장을 설치할 수 없는 휴대폰 독자는 홈페이지로 보낸다.
