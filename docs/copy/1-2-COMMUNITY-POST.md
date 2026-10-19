@@ -32,7 +32,7 @@
 - 사이트 주소가 바뀌면 업데이트로 반영되어 북마크를 고칠 필요 없음
 - 학점교류로 경희사이버대 강의를 듣는다면 포털과 LMS도 추가 가능
 
-Chrome, Whale, Firefox에서 무료로 사용하실 수 있으며, 광고와 로그인은 없습니다.
+Chrome, Whale, Firefox에서 무료로 사용하실 수 있으며, 광고, 로그인, 개인정보 수집이 없습니다.
 설치는 쓰시는 브라우저 링크를 눌러 바로 하실 수 있습니다.
 Chrome: https://chromewebstore.google.com/detail/ihidkmjkpfphgljieecfcikljaopcldp
 Whale: https://store.whale.naver.com/detail/njhgalaophlilmhapklabocladclmhoc
