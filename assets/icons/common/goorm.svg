@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <defs><mask id="win"><rect width="70" height="70" fill="#fff"/><rect x="14" y="27" width="42" height="43" fill="#000"/></mask></defs>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path mask="url(#win)" d="M14 39 A11 11 0 1 1 18.04 17.77 A17 17 0 0 1 51.96 17.77 A11 11 0 1 1 56 39 Z"/>
+    <rect x="17" y="30" width="36" height="36" rx="4"/>
+  </g>
+  <path d="M17 38.5 H53" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <g fill="none" stroke="#a40f16" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M28.5 46 l-5.5 5.5 5.5 5.5 M41.5 46 l5.5 5.5 -5.5 5.5"/>
+    <path d="M37.5 45 L32.5 58"/>
+  </g>
+</svg>

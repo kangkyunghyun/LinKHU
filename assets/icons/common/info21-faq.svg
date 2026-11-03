@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <g fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M54.09 15.91 Q79.9 35 54.09 54.09 Q35 79.9 15.91 54.09 Q-9.9 35 15.91 15.91 Q35 -9.9 54.09 15.91"/>
+  </g>
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="35" cy="35" r="25"/>
+    <circle cx="35" cy="35" r="12"/>
+  </g>
+  <circle cx="35" cy="35" r="20.5" fill="none" stroke="#a40f16" stroke-width="14" stroke-dasharray="6 26.2" stroke-dashoffset="19.1"/>
+</svg>
