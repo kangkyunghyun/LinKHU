@@ -350,7 +350,7 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "oiak",
-    name: "국제교류처",
+    name: "국제처",
     url: "https://oiak.khu.ac.kr/",
     imgSrc: "images/common/oiak.png",
     category: "교육·역량",
