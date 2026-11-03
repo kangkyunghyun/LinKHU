@@ -1106,7 +1106,7 @@ const MASTER_SITE_LIST = [
   {
     id: "pm",
     name: "포스트모던 음악학과",
-    url: "http://pm.khu.ac.kr/",
+    url: "https://www.khupmm.ac.kr/",
     imgSrc: "images/departments/pm.png",
     category: "학과",
   },
