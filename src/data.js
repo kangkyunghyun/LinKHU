@@ -351,7 +351,7 @@ const MASTER_SITE_LIST = [
   {
     id: "oiak",
     name: "국제교류처",
-    url: "https://com.khu.ac.kr/oiak_hub/user/main/view.do",
+    url: "https://oiak.khu.ac.kr/",
     imgSrc: "images/common/oiak.png",
     category: "교육·역량",
   },
@@ -889,7 +889,7 @@ const MASTER_SITE_LIST = [
   {
     id: "amie",
     name: "신소재공학과",
-    url: "https://amie.khu.ac.kr/amie/user/main/view.do",
+    url: "https://mse.khu.ac.kr/",
     imgSrc: "images/departments/amie.png",
     category: "학과",
   },
@@ -938,7 +938,7 @@ const MASTER_SITE_LIST = [
   {
     id: "swcon",
     name: "소프트웨어융합학과",
-    url: "https://com.khu.ac.kr/swcon/user/main/view.do",
+    url: "https://swcon.khu.ac.kr/",
     imgSrc: "images/departments/swcon.png",
     category: "학과",
   },
@@ -1099,7 +1099,7 @@ const MASTER_SITE_LIST = [
   {
     id: "dc",
     name: "디지털콘텐츠학과",
-    url: "https://com.khu.ac.kr/dc/user/main/view.do",
+    url: "https://dc.khu.ac.kr/",
     imgSrc: "images/departments/dc.png",
     category: "학과",
   },
