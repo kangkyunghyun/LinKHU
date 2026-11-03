@@ -267,7 +267,7 @@ const MASTER_SITE_LIST = [
   {
     id: "khunews",
     name: "대학주보",
-    url: "http://media.khu.ac.kr/khunews/",
+    url: "https://media.khu.ac.kr/khunews/",
     imgSrc: "images/common/khunews.png",
     category: "캠퍼스·문화",
   },
@@ -642,14 +642,14 @@ const MASTER_SITE_LIST = [
   {
     id: "eni",
     name: "전자정보대학",
-    url: "https://eni.khu.ac.kr/eni/user/main/view.do",
+    url: "https://eni.khu.ac.kr/",
     imgSrc: "images/colleges/eni.png",
     category: "단과대",
   },
   {
     id: "software",
     name: "소프트웨어 융합대학",
-    url: "https://software.khu.ac.kr/software/user/main/view.do",
+    url: "https://software.khu.ac.kr/",
     imgSrc: "images/colleges/software.png",
     category: "단과대",
   },
@@ -861,7 +861,7 @@ const MASTER_SITE_LIST = [
   {
     id: "me",
     name: "기계공학부",
-    url: "https://me.khu.ac.kr/me/user/main/view.do",
+    url: "https://me.khu.ac.kr/",
     imgSrc: "images/departments/me.png",
     category: "학과",
   },
@@ -924,7 +924,7 @@ const MASTER_SITE_LIST = [
   {
     id: "ee",
     name: "전자공학부",
-    url: "https://ee.khu.ac.kr/ee/user/main/view.do",
+    url: "https://ee.khu.ac.kr/",
     imgSrc: "images/departments/ee.png",
     category: "학과",
   },
@@ -1071,7 +1071,7 @@ const MASTER_SITE_LIST = [
   {
     id: "id",
     name: "산업디자인 학과",
-    url: "https://id.khu.ac.kr/id/user/main/view.do",
+    url: "https://id.khu.ac.kr/",
     imgSrc: "images/departments/id.png",
     category: "학과",
   },

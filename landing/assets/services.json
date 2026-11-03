@@ -254,7 +254,7 @@
   {
     "id": "khunews",
     "name": "대학주보",
-    "url": "http://media.khu.ac.kr/khunews/",
+    "url": "https://media.khu.ac.kr/khunews/",
     "category": "캠퍼스·문화",
     "imgSrc": "images/common/khunews.png"
   },
@@ -625,14 +625,14 @@
   {
     "id": "eni",
     "name": "전자정보대학",
-    "url": "https://eni.khu.ac.kr/eni/user/main/view.do",
+    "url": "https://eni.khu.ac.kr/",
     "category": "단과대",
     "imgSrc": "images/colleges/eni.png"
   },
   {
     "id": "software",
     "name": "소프트웨어 융합대학",
-    "url": "https://software.khu.ac.kr/software/user/main/view.do",
+    "url": "https://software.khu.ac.kr/",
     "category": "단과대",
     "imgSrc": "images/colleges/software.png"
   },
@@ -842,7 +842,7 @@
   {
     "id": "me",
     "name": "기계공학부",
-    "url": "https://me.khu.ac.kr/me/user/main/view.do",
+    "url": "https://me.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/me.png"
   },
@@ -905,7 +905,7 @@
   {
     "id": "ee",
     "name": "전자공학부",
-    "url": "https://ee.khu.ac.kr/ee/user/main/view.do",
+    "url": "https://ee.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/ee.png"
   },
@@ -1052,7 +1052,7 @@
   {
     "id": "id",
     "name": "산업디자인 학과",
-    "url": "https://id.khu.ac.kr/id/user/main/view.do",
+    "url": "https://id.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/id.png"
   },
