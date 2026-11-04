@@ -2,7 +2,7 @@ name: Link Check
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '17 19 * * *'
   workflow_dispatch:
 
 permissions:
