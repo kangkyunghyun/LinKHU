@@ -79,10 +79,12 @@ LinKHU 팝업은 기본 단축키로 빠르게 열 수 있습니다.
 ## 🛠 개발
 
 ```bash
+npm run check:links -- --report /tmp/linkcheck-report.md  # 지원 서비스 실제 접속 검사
 npm run build   # 테스트 + 데이터 검증 + 패키징을 한 번에 실행
 ```
 
 개별 스크립트는 [package.json](./package.json)의 `scripts`를, 작업 규칙은 [AGENTS.md](./AGENTS.md)를 참고하세요.
+지원 서비스 접속 검사는 매일 한국 시각 09:00에 실행하며, 실패 목록을 이슈 하나로 갱신합니다. [접속 검사 워크플로](.github/workflows/link-check.yml)에서 수동으로도 실행할 수 있습니다.
 릴리스와 스토어 배포 절차는 스펙 [§7-5 릴리스](docs/spec/7-5-RELEASE.md)와 [§7-6 스토어 제출](docs/spec/7-6-STORE.md)에 있습니다.
 
 ## 📁 프로젝트 구조

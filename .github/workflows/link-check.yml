@@ -1,0 +1,74 @@
+name: Link Check
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: link-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Check service links
+        id: links
+        shell: bash
+        run: |
+          set +e
+          npm run check:links -- --report "$RUNNER_TEMP/linkcheck-report.md"
+          status=$?
+          set -e
+          if [[ "$status" -gt 1 || ! -s "$RUNNER_TEMP/linkcheck-report.md" ]]; then
+            echo "접속 검사 실행 자체가 실패했습니다."
+            exit 1
+          fi
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+
+      - name: Update link check issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          CHECK_STATUS: ${{ steps.links.outputs.status }}
+        shell: bash
+        run: |
+          gh label create link-check --force --color D93F0B --description '지원 서비스 자동 접속 검사'
+          issue_numbers=$(gh issue list --label link-check --state open --limit 1000 --json number --jq '.[].number')
+          issues=()
+          if [[ -n "$issue_numbers" ]]; then
+            while IFS= read -r issue; do
+              issues+=("$issue")
+            done <<< "$issue_numbers"
+          fi
+          if [[ "$CHECK_STATUS" == "1" ]]; then
+            count=$(sed -n 's/^검사 .*실패 \([0-9]*\)곳$/\1/p' "$RUNNER_TEMP/linkcheck-report.md")
+            [[ "$count" =~ ^[1-9][0-9]*$ ]]
+            title="[BUG] 지원 서비스 접속 실패 ${count}곳"
+            if [[ ${#issues[@]} -eq 0 ]]; then
+              gh issue create --label link-check --title "$title" --body-file "$RUNNER_TEMP/linkcheck-report.md"
+            else
+              gh issue edit "${issues[0]}" --title "$title" --body-file "$RUNNER_TEMP/linkcheck-report.md"
+              for issue in "${issues[@]:1}"; do
+                gh issue close "$issue" --comment "접속 검사 결과를 #${issues[0]} 이슈로 통합합니다."
+              done
+            fi
+          else
+            for issue in "${issues[@]}"; do
+              gh issue close "$issue" --comment '모든 지원 서비스가 정상 응답했습니다. 자동 접속 검사 이슈를 닫습니다.'
+            done
+          fi
