@@ -77,6 +77,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 랜딩 | [landing/](../../landing/). 산출물은 `assets/services.json`, `assets/images/` | 3-3 화면별 범위, 4-1-5 랜딩, 4-3 테마, 5 계약, 6-1-9~6-1-11 랜딩 동작 |
 | 스크린샷 | [landing/assets/screenshots/](../../landing/assets/screenshots/) | 4-7 스크린샷 |
 | 데이터 검증 | [scripts/validate-data.js](../../scripts/validate-data.js) | 6-2-4 검증 파이프라인, 4-1-4 팝업 카드 이름 |
+| 자동 접속 검사 | [scripts/check-links.js](../../scripts/check-links.js), [.github/workflows/link-check.yml](../../.github/workflows/link-check.yml) | 2-2-3 서비스 데이터 갱신, 6-2-6 URL 점검, 7-1-7 메인테이너 대응, 7-2-1 자동 테스트, 7-4-7 예약 접속 검사 |
 | 랜딩 산출물 생성 | [scripts/generate-landing-data.js](../../scripts/generate-landing-data.js) | 5-2 랜딩 파생 산출물, 6-2-4 검증 파이프라인 |
 | 다크 아이콘 생성 | [scripts/generate-dark-icons.js](../../scripts/generate-dark-icons.js) | 4-6-4 생성기와 검증 |
 | 패키징과 제출 | [scripts/package-extension.js](../../scripts/package-extension.js), [validate-release.js](../../scripts/validate-release.js), [publish-chrome.js](../../scripts/publish-chrome.js), [publish-firefox.js](../../scripts/publish-firefox.js) | 7-4-1 배포 단위, 7-5 릴리스, 7-6 스토어 제출 |
@@ -135,6 +136,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 스펙에서 부르는 이름 | 명령 | 역할 |
 | --- | --- | --- |
 | 자동 테스트 | `npm test` | `node --test`로 `tests/`의 `*.test.js` 실행 |
+| 자동 접속 검사 | `npm run check:links -- --report <파일> --state <파일>` | 모든 지원 서비스 주소 검사와 Markdown 보고서 생성 |
 | 데이터 검증 | `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
 | 다크 아이콘 생성 | `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
 | 다크 아이콘 짝 검증 | `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |

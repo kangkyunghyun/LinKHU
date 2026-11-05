@@ -4,6 +4,7 @@
   "description": "경희대학교 주요 웹서비스 바로가기, LinKHU",
   "scripts": {
     "test": "node --test",
+    "check:links": "node scripts/check-links.js",
     "validate:data": "node scripts/validate-data.js",
     "generate:dark-icons": "node scripts/generate-dark-icons.js",
     "generate:landing-data": "node scripts/generate-landing-data.js",
