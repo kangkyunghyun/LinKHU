@@ -1128,7 +1128,7 @@ const MASTER_SITE_LIST = [
   {
     id: "gradsport",
     name: "체육대학원",
-    url: "https://gradsport.khu.ac.kr/",
+    url: "http://gradsport.khu.ac.kr/",
     imgSrc: "images/colleges/gradsport.png",
     category: "대학원",
   },
