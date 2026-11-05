@@ -308,10 +308,10 @@ const MASTER_SITE_LIST = [
   },
   {
     id: "lincplus",
-    name: "LINC 3.0 사업단",
-    url: "http://lincplus.khu.ac.kr/",
+    name: "Aladdin",
+    url: "https://aladdin.khu.ac.kr/",
     imgSrc: "images/common/lincplus.png",
-    category: "장학·진로·창업",
+    category: "교육·역량",
   },
   {
     id: "rotc",
