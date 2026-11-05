@@ -303,7 +303,7 @@
   {
     "id": "khunews",
     "name": "대학주보",
-    "url": "http://media.khu.ac.kr/khunews/",
+    "url": "https://media.khu.ac.kr/khunews/",
     "category": "캠퍼스·문화",
     "imgSrc": "images/common/khunews.png"
   },
@@ -407,8 +407,8 @@
   },
   {
     "id": "oiak",
-    "name": "국제교류처",
-    "url": "https://com.khu.ac.kr/oiak_hub/user/main/view.do",
+    "name": "국제처",
+    "url": "https://oiak.khu.ac.kr/",
     "category": "교육·역량",
     "imgSrc": "images/common/oiak.png"
   },
@@ -975,14 +975,14 @@
   {
     "id": "eni",
     "name": "전자정보대학",
-    "url": "https://eni.khu.ac.kr/eni/user/main/view.do",
+    "url": "https://eni.khu.ac.kr/",
     "category": "단과대",
     "imgSrc": "images/colleges/eni.png"
   },
   {
     "id": "software",
     "name": "소프트웨어 융합대학",
-    "url": "https://software.khu.ac.kr/software/user/main/view.do",
+    "url": "https://software.khu.ac.kr/",
     "category": "단과대",
     "imgSrc": "images/colleges/software.png"
   },
@@ -1290,7 +1290,7 @@
   {
     "id": "me",
     "name": "기계공학부",
-    "url": "https://me.khu.ac.kr/me/user/main/view.do",
+    "url": "https://me.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/me.png"
   },
@@ -1318,7 +1318,7 @@
   {
     "id": "amie",
     "name": "신소재공학과",
-    "url": "https://amie.khu.ac.kr/amie/user/main/view.do",
+    "url": "https://mse.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/amie.png"
   },
@@ -1353,7 +1353,7 @@
   {
     "id": "ee",
     "name": "전자공학부",
-    "url": "https://ee.khu.ac.kr/ee/user/main/view.do",
+    "url": "https://ee.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/ee.png"
   },
@@ -1367,7 +1367,7 @@
   {
     "id": "swcon",
     "name": "소프트웨어융합학과",
-    "url": "https://com.khu.ac.kr/swcon/user/main/view.do",
+    "url": "https://swcon.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/swcon.png"
   },
@@ -1500,7 +1500,7 @@
   {
     "id": "id",
     "name": "산업디자인 학과",
-    "url": "https://id.khu.ac.kr/id/user/main/view.do",
+    "url": "https://id.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/id.png"
   },
@@ -1528,14 +1528,14 @@
   {
     "id": "dc",
     "name": "디지털콘텐츠학과",
-    "url": "https://com.khu.ac.kr/dc/user/main/view.do",
+    "url": "https://dc.khu.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/dc.png"
   },
   {
     "id": "pm",
     "name": "포스트모던 음악학과",
-    "url": "http://pm.khu.ac.kr/",
+    "url": "https://www.khupmm.ac.kr/",
     "category": "학과",
     "imgSrc": "images/departments/pm.png"
   },
