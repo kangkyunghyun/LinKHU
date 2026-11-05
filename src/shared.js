@@ -92,12 +92,29 @@ const LinKHUShared = {
     khao: "우주과학",
     rule: "규정관리",
     iga: "국제지역",
+    support: "장애학생지원",
+    great: "장애학생지원",
+    srise: "RISE사업단",
+    grise: "RISE사업단",
+    afd: "아트퓨전",
+    gstm: "테크노경영",
+    gip: "평화복지",
+    sportscoach: "스포츠지도",
+    culinary: "조리&푸드",
+    culturetourism: "문화관광",
   },
 
   // 어느 의미 단위에서 꺾어도 한 줄이 6자를 넘는 이름이다. 12자 이하라 글자 사이
   // 아무 데서나 꺾여도 두 줄에 모두 보이므로 꺾지 않고 현재 동작을 유지한다.
   // 모르고 빠진 것이 아님을 남기려고 명시한다. scripts/validate-data.js가 이 목록을 읽는다.
-  WIDE_CARD_NAMES: ["display", "deptofenglish", "globaleng", "artntech"],
+  WIDE_CARD_NAMES: [
+    "display",
+    "deptofenglish",
+    "globaleng",
+    "artntech",
+    "communication",
+    "cultureent",
+  ],
 
   // 표에 있으면 첫 줄 뒤에 ZWSP를 넣어 그 지점에서 꺾이게 한다.
   // 표의 첫 줄이 실제 이름의 접두사가 아니면 표가 잘못된 것이므로 원본을 그대로 돌려

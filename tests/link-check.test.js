@@ -24,6 +24,12 @@ test("연결 오류는 원인을 남기고 시간 초과는 따로 표시한다"
   }
 });
 
+test("중간 인증서가 빠진 서버는 브라우저가 열므로 접속 실패로 알리지 않는다", () => {
+  const error = { message: "fetch failed", cause: { code: "UNABLE_TO_VERIFY_LEAF_SIGNATURE" } };
+  assert.equal(classifyResult({ error }), null);
+  assert.equal(classifyResult({ error: { message: "fetch failed", cause: { code: "CERT_HAS_EXPIRED" } } }), "연결 실패: CERT_HAS_EXPIRED");
+});
+
 test("보고서는 실패 항목만 담고 표 안의 특수문자를 이스케이프한다", () => {
   const results = [
     { id: "ok", name: "로그인 페이지", url: "https://example.org/login", reason: null },

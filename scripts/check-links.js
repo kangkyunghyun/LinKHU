@@ -7,6 +7,8 @@ const USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
 // HTTP 오류 전부를 장애로 보지 않는다. 로그인과 봇 차단 응답은 점검 대상에서 뺀다.
 function classifyResult({ status, error }) {
   if (error) {
+    // 중간 인증서를 보내지 않는 서버. 브라우저는 중간 인증서를 스스로 받아 열고 Node만 실패한다.
+    if ((error.cause?.code || error.code) === "UNABLE_TO_VERIFY_LEAF_SIGNATURE") return null;
     if (error.name === "TimeoutError" || error.name === "AbortError") {
       return "시간 초과 (20초)";
     }

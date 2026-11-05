@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 70 70">
+  <g fill="none" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 16 V4 H16 M54 4 H66 V16 M66 54 V66 H54 M16 66 H4 V54"/>
+    <rect x="14" y="14" width="13" height="13" rx="1.5"/>
+    <rect x="43" y="14" width="13" height="13" rx="1.5"/>
+    <rect x="14" y="43" width="13" height="13" rx="1.5"/>
+  </g>
+  <g fill="#1a1a1a">
+    <rect x="18.5" y="18.5" width="4" height="4"/><rect x="47.5" y="18.5" width="4" height="4"/><rect x="18.5" y="47.5" width="4" height="4"/>
+    <rect x="32" y="14" width="4" height="4"/><rect x="32" y="22" width="4" height="4"/><rect x="43" y="43" width="4" height="4"/>
+    <rect x="52" y="43" width="4" height="4"/><rect x="47.5" y="47.5" width="4" height="4"/><rect x="32" y="52" width="4" height="4"/><rect x="43" y="52" width="4" height="4"/><rect x="52" y="52" width="4" height="4"/>
+  </g>
+  <path d="M6 35 H64" fill="none" stroke="#a40f16" stroke-width="3.5" stroke-linecap="round"/>
+  <g fill="none" stroke="#a40f16" stroke-width="2" stroke-linecap="round" opacity="1">
+    <path d="M14 40 H56"/>
+  </g>
+</svg>
