@@ -231,6 +231,55 @@
     "imgSrc": "images/common/mall.png"
   },
   {
+    "id": "shuttle",
+    "name": "셔틀버스",
+    "url": "https://www.khu.ac.kr/kor/user/contents/view.do?menuNo=200365",
+    "category": "생활·복지",
+    "imgSrc": "images/common/shuttle.png"
+  },
+  {
+    "id": "parking",
+    "name": "정기주차권",
+    "url": "https://place.nicepark.co.kr/mcust/khu/khuHome",
+    "category": "생활·복지",
+    "imgSrc": "images/common/parking.png"
+  },
+  {
+    "id": "coop",
+    "name": "생활협동조합",
+    "url": "https://khucoop.com/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/coop.png"
+  },
+  {
+    "id": "support",
+    "name": "장애학생지원센터(서울)",
+    "url": "https://support.khu.ac.kr/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/support.png"
+  },
+  {
+    "id": "great",
+    "name": "장애학생지원센터(국제)",
+    "url": "https://great.khu.ac.kr/",
+    "category": "생활·복지",
+    "imgSrc": "images/common/great.png"
+  },
+  {
+    "id": "lostfound",
+    "name": "분실물",
+    "url": "https://www.khu.ac.kr/kor/user/bbs/BMSR00040/list.do?menuNo=200375",
+    "category": "생활·복지",
+    "imgSrc": "images/common/lostfound.png"
+  },
+  {
+    "id": "notebook",
+    "name": "노트북 대여",
+    "url": "https://www.khu.ac.kr/kor/user/contents/view.do?menuNo=200186",
+    "category": "생활·복지",
+    "imgSrc": "images/common/notebook.png"
+  },
+  {
     "id": "hrc",
     "name": "인권센터",
     "url": "https://hrc.khu.ac.kr/hrc/user/main/view.do",
@@ -301,6 +350,27 @@
     "imgSrc": "images/common/lincplus.png"
   },
   {
+    "id": "pertineo",
+    "name": "PERTINEO",
+    "url": "https://pertineo.khu.ac.kr/",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/pertineo.png"
+  },
+  {
+    "id": "uninternship",
+    "name": "UN 인턴십",
+    "url": "https://uninternship.khu.ac.kr/",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/uninternship.png"
+  },
+  {
+    "id": "campustown",
+    "name": "캠퍼스타운",
+    "url": "https://campustown.khu.ac.kr/",
+    "category": "장학·진로·창업",
+    "imgSrc": "images/common/campustown.png"
+  },
+  {
     "id": "rotc",
     "name": "학군단",
     "url": "http://rotc.khu.ac.kr/html/main.php",
@@ -341,6 +411,62 @@
     "url": "https://oiak.khu.ac.kr/",
     "category": "교육·역량",
     "imgSrc": "images/common/oiak.png"
+  },
+  {
+    "id": "copykiller",
+    "name": "카피킬러",
+    "url": "https://khu.copykiller.com/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/copykiller.png"
+  },
+  {
+    "id": "klc",
+    "name": "한국어센터",
+    "url": "https://klc.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/klc.png"
+  },
+  {
+    "id": "goorm",
+    "name": "구름EDU",
+    "url": "https://khu.goorm.io/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/goorm.png"
+  },
+  {
+    "id": "swpf",
+    "name": "SW 포트폴리오",
+    "url": "https://swpf.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/swpf.png"
+  },
+  {
+    "id": "srise",
+    "name": "RISE사업단(서울)",
+    "url": "https://srise.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/srise.png"
+  },
+  {
+    "id": "grise",
+    "name": "RISE사업단(국제)",
+    "url": "https://grise.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/grise.png"
+  },
+  {
+    "id": "ndcoss",
+    "name": "차세대디스플레이 혁신융합대학",
+    "url": "https://ndcoss21.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/ndcoss.png"
+  },
+  {
+    "id": "gcsummer",
+    "name": "GC 서머 프로그램",
+    "url": "https://summer.khu.ac.kr/",
+    "category": "교육·역량",
+    "imgSrc": "images/common/gcsummer.png"
   },
   {
     "id": "give",
@@ -406,6 +532,104 @@
     "imgSrc": "images/common/studio.png"
   },
   {
+    "id": "libseat",
+    "name": "도서관 좌석예약",
+    "url": "https://libseat.khu.ac.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/libseat.png"
+  },
+  {
+    "id": "campusmap-seoul",
+    "name": "서울캠퍼스 지도",
+    "url": "https://www.khu.ac.kr/kor/user/mapManager/view.do?menuNo=200356",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/campusmap-seoul.png"
+  },
+  {
+    "id": "campusmap-global",
+    "name": "국제캠퍼스 지도",
+    "url": "https://www.khu.ac.kr/kor/user/mapManager/view.do?menuNo=200357",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/campusmap-global.png"
+  },
+  {
+    "id": "place",
+    "name": "장소예약",
+    "url": "https://info21.khu.ac.kr/placeRsv/fcspReservation2.html",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/place.png"
+  },
+  {
+    "id": "sportsfacility",
+    "name": "체육시설",
+    "url": "https://com.khu.ac.kr/sportsfacility/user/main/view.do",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/sportsfacility.png"
+  },
+  {
+    "id": "jajudy",
+    "name": "동아리연합회",
+    "url": "https://jajudy.khu.ac.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/jajudy.png"
+  },
+  {
+    "id": "khul",
+    "name": "영자신문",
+    "url": "https://media.khu.ac.kr/khul_eng/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/khul.png"
+  },
+  {
+    "id": "vou",
+    "name": "방송국 VOU",
+    "url": "https://media.khu.ac.kr/vou/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/vou.png"
+  },
+  {
+    "id": "gnews",
+    "name": "대학원보",
+    "url": "https://khugnews.co.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/gnews.png"
+  },
+  {
+    "id": "kuma",
+    "name": "미술관",
+    "url": "https://khuart.khu.ac.kr/kuma/user/main/view.do",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/kuma.png"
+  },
+  {
+    "id": "libguides",
+    "name": "도서관 길잡이",
+    "url": "https://libguides.khu.ac.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/libguides.png"
+  },
+  {
+    "id": "ebook",
+    "name": "전자책도서관",
+    "url": "https://khu.bookcube.biz/FxLibrary/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/ebook.png"
+  },
+  {
+    "id": "khupress",
+    "name": "출판문화원",
+    "url": "https://khupress.com/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/khupress.png"
+  },
+  {
+    "id": "gsa",
+    "name": "일반대학원 총학생회(국제)",
+    "url": "http://gsa.khu.ac.kr/",
+    "category": "캠퍼스·문화",
+    "imgSrc": "images/common/gsa.png"
+  },
+  {
     "id": "safety",
     "name": "연구실 안전관리",
     "url": "https://safety.khu.ac.kr/",
@@ -446,6 +670,55 @@
     "url": "https://lms.khcu.ac.kr",
     "category": "학사·포털",
     "imgSrc": "images/common/khcu-lms.png"
+  },
+  {
+    "id": "haksa",
+    "name": "학사정보",
+    "url": "https://haksa.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/haksa.png"
+  },
+  {
+    "id": "certpia",
+    "name": "증명서 발급",
+    "url": "https://kyunghee.certpia.com/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/certpia.png"
+  },
+  {
+    "id": "smart",
+    "name": "통합앱",
+    "url": "https://smart.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/smart.png"
+  },
+  {
+    "id": "itdesk",
+    "name": "IT 도움말",
+    "url": "https://khuithelp.zendesk.com/hc/ko",
+    "category": "학사·포털",
+    "imgSrc": "images/common/itdesk.png"
+  },
+  {
+    "id": "info21-faq",
+    "name": "인포21 FAQ",
+    "url": "https://info21.zendesk.com/hc/ko",
+    "category": "학사·포털",
+    "imgSrc": "images/common/info21-faq.png"
+  },
+  {
+    "id": "scard",
+    "name": "학생증 발급",
+    "url": "https://scard.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/scard.png"
+  },
+  {
+    "id": "education",
+    "name": "교직과정",
+    "url": "https://education.khu.ac.kr/",
+    "category": "학사·포털",
+    "imgSrc": "images/common/education.png"
   },
   {
     "id": "research",
@@ -502,6 +775,83 @@
     "url": "http://vision2020.khu.ac.kr/",
     "category": "대학·행정",
     "imgSrc": "images/common/vision2020.png"
+  },
+  {
+    "id": "phone",
+    "name": "교내 전화번호",
+    "url": "https://www.khu.ac.kr/kor/user/contents/view.do?menuNo=200091",
+    "category": "대학·행정",
+    "imgSrc": "images/common/phone.png"
+  },
+  {
+    "id": "professor",
+    "name": "교원검색",
+    "url": "https://professor.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/professor.png"
+  },
+  {
+    "id": "gw",
+    "name": "전자결재",
+    "url": "https://gw.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/gw.png"
+  },
+  {
+    "id": "certpia-staff",
+    "name": "교직원 증명발급",
+    "url": "https://khu.certpia.com/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/certpia-staff.png"
+  },
+  {
+    "id": "iadmission",
+    "name": "글로벌입학팀",
+    "url": "https://iadmission.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/iadmission.png"
+  },
+  {
+    "id": "pure",
+    "name": "연구자 연구정보",
+    "url": "https://khu.elsevierpure.com/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/pure.png"
+  },
+  {
+    "id": "recruit",
+    "name": "채용시스템",
+    "url": "https://k-recruit.khu.ac.kr/hjis2/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/recruit.png"
+  },
+  {
+    "id": "bigmail",
+    "name": "대량메일",
+    "url": "https://bigmail.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/bigmail.png"
+  },
+  {
+    "id": "khua",
+    "name": "총동문회",
+    "url": "https://www.khua.or.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/khua.png"
+  },
+  {
+    "id": "vpn",
+    "name": "VPN",
+    "url": "https://vpn.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/vpn.png"
+  },
+  {
+    "id": "tlo",
+    "name": "기술이전센터",
+    "url": "https://tlo.khu.ac.kr/",
+    "category": "대학·행정",
+    "imgSrc": "images/common/tlo.png"
   },
   {
     "id": "hc",
@@ -684,6 +1034,104 @@
     "url": "https://convergence.khu.ac.kr/",
     "category": "단과대",
     "imgSrc": "images/colleges/sdl.png"
+  },
+  {
+    "id": "foreignplace",
+    "name": "외국어대학 강의실예약",
+    "url": "https://foreignplace.khu.ac.kr/",
+    "category": "단과대",
+    "imgSrc": "images/colleges/foreignplace.png"
+  },
+  {
+    "id": "nursingplace",
+    "name": "간호과학대학 장소예약",
+    "url": "https://nursingplace.khu.ac.kr/",
+    "category": "단과대",
+    "imgSrc": "images/colleges/nursingplace.png"
+  },
+  {
+    "id": "gskh",
+    "name": "일반대학원",
+    "url": "https://gskh.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gskh.png"
+  },
+  {
+    "id": "edu",
+    "name": "교육대학원",
+    "url": "https://edu.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/edu.png"
+  },
+  {
+    "id": "khmba",
+    "name": "경영대학원",
+    "url": "https://khmba.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/khmba.png"
+  },
+  {
+    "id": "pnc",
+    "name": "공공대학원",
+    "url": "https://pnc.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/pnc.png"
+  },
+  {
+    "id": "tourism",
+    "name": "관광대학원",
+    "url": "https://tourism.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/tourism.png"
+  },
+  {
+    "id": "communication",
+    "name": "미디어커뮤니케이션대학원",
+    "url": "https://communication.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/communication.png"
+  },
+  {
+    "id": "gsp",
+    "name": "국제대학원",
+    "url": "https://gsp.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gsp.png"
+  },
+  {
+    "id": "afd",
+    "name": "아트퓨전디자인대학원",
+    "url": "https://afd.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/afd.png"
+  },
+  {
+    "id": "gradsport",
+    "name": "체육대학원",
+    "url": "https://gradsport.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gradsport.png"
+  },
+  {
+    "id": "gstm",
+    "name": "테크노경영대학원",
+    "url": "https://gstm.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gstm.png"
+  },
+  {
+    "id": "gip",
+    "name": "평화복지대학원",
+    "url": "https://gip.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gip.png"
+  },
+  {
+    "id": "nursing-grad",
+    "name": "간호대학원",
+    "url": "https://nursing.khu.ac.kr/nursing_kor/user/contents/view.do?menuNo=19300060",
+    "category": "대학원",
+    "imgSrc": "images/colleges/nursing-grad.png"
   },
   {
     "id": "cs",
@@ -1167,5 +1615,187 @@
     "url": "https://sls.khu.ac.kr/sls_kor/user/contents/view.do?menuNo=20200053",
     "category": "학과",
     "imgSrc": "images/departments/hstem.png"
+  },
+  {
+    "id": "geplace",
+    "name": "자율전공학부 강의실예약",
+    "url": "https://geplace.khu.ac.kr/",
+    "category": "학과",
+    "imgSrc": "images/departments/geplace.png"
+  },
+  {
+    "id": "pharmreg",
+    "name": "규제과학과",
+    "url": "https://pharmreg.khu.ac.kr/",
+    "category": "학과",
+    "imgSrc": "images/departments/pharmreg.png"
+  },
+  {
+    "id": "pe",
+    "name": "체육학과",
+    "url": "http://sports.khu.ac.kr/02/01_01.php",
+    "category": "학과",
+    "imgSrc": "images/departments/pe.png"
+  },
+  {
+    "id": "sportscoach",
+    "name": "스포츠지도학과",
+    "url": "http://sports.khu.ac.kr/02/02_01.php",
+    "category": "학과",
+    "imgSrc": "images/departments/sportscoach.png"
+  },
+  {
+    "id": "sportsmed",
+    "name": "스포츠의학과",
+    "url": "http://sports.khu.ac.kr/02/03_01.php",
+    "category": "학과",
+    "imgSrc": "images/departments/sportsmed.png"
+  },
+  {
+    "id": "golf",
+    "name": "골프산업학과",
+    "url": "http://sports.khu.ac.kr/02/04_01.php",
+    "category": "학과",
+    "imgSrc": "images/departments/golf.png"
+  },
+  {
+    "id": "taekwondo",
+    "name": "태권도학과",
+    "url": "http://sports.khu.ac.kr/02/05_01.php",
+    "category": "학과",
+    "imgSrc": "images/departments/taekwondo.png"
+  },
+  {
+    "id": "childfamily",
+    "name": "아동가족학과",
+    "url": "https://che.khu.ac.kr/che/user/contents/view.do?menuNo=12700011",
+    "category": "학과",
+    "imgSrc": "images/departments/childfamily.png"
+  },
+  {
+    "id": "housing",
+    "name": "주거환경학과",
+    "url": "https://che.khu.ac.kr/che/user/contents/view.do?menuNo=12700012",
+    "category": "학과",
+    "imgSrc": "images/departments/housing.png"
+  },
+  {
+    "id": "clothing",
+    "name": "의상학과",
+    "url": "https://che.khu.ac.kr/che/user/contents/view.do?menuNo=12700013",
+    "category": "학과",
+    "imgSrc": "images/departments/clothing.png"
+  },
+  {
+    "id": "foodnutrition",
+    "name": "식품영양학과",
+    "url": "https://che.khu.ac.kr/che/user/contents/view.do?menuNo=12700014",
+    "category": "학과",
+    "imgSrc": "images/departments/foodnutrition.png"
+  },
+  {
+    "id": "hospitality",
+    "name": "Hospitality 경영학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900052",
+    "category": "학과",
+    "imgSrc": "images/departments/hospitality.png"
+  },
+  {
+    "id": "culinary",
+    "name": "조리&푸드디자인학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900168",
+    "category": "학과",
+    "imgSrc": "images/departments/culinary.png"
+  },
+  {
+    "id": "tour",
+    "name": "관광학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900067",
+    "category": "학과",
+    "imgSrc": "images/departments/tour.png"
+  },
+  {
+    "id": "cultureent",
+    "name": "문화엔터테인먼트학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900068",
+    "category": "학과",
+    "imgSrc": "images/departments/cultureent.png"
+  },
+  {
+    "id": "globalhospitality",
+    "name": "글로벌 Hospitality",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900185",
+    "category": "학과",
+    "imgSrc": "images/departments/globalhospitality.png"
+  },
+  {
+    "id": "culturetourism",
+    "name": "문화관광산업학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900076",
+    "category": "학과",
+    "imgSrc": "images/departments/culturetourism.png"
+  },
+  {
+    "id": "culinaryindustry",
+    "name": "조리산업학과",
+    "url": "https://hot.khu.ac.kr/hot20_kor/user/contents/view.do?menuNo=10900077",
+    "category": "학과",
+    "imgSrc": "images/departments/culinaryindustry.png"
+  },
+  {
+    "id": "composition",
+    "name": "작곡과",
+    "url": "http://music.khu.ac.kr/contents/bbs/bbs_content.html?bbs_cls_cd=002001001",
+    "category": "학과",
+    "imgSrc": "images/departments/composition.png"
+  },
+  {
+    "id": "voice",
+    "name": "성악과",
+    "url": "http://music.khu.ac.kr/contents/bbs/bbs_content.html?bbs_cls_cd=002002001",
+    "category": "학과",
+    "imgSrc": "images/departments/voice.png"
+  },
+  {
+    "id": "instrument",
+    "name": "기악과",
+    "url": "http://music.khu.ac.kr/contents/bbs/bbs_content.html?bbs_cls_cd=002003001",
+    "category": "학과",
+    "imgSrc": "images/departments/instrument.png"
+  },
+  {
+    "id": "koreanpainting",
+    "name": "한국화전공",
+    "url": "https://khuart.khu.ac.kr/khuart/user/contents/view.do?menuNo=1400102",
+    "category": "학과",
+    "imgSrc": "images/departments/koreanpainting.png"
+  },
+  {
+    "id": "painting",
+    "name": "회화전공",
+    "url": "https://khuart.khu.ac.kr/khuart/user/contents/view.do?menuNo=1400105",
+    "category": "학과",
+    "imgSrc": "images/departments/painting.png"
+  },
+  {
+    "id": "sculpture",
+    "name": "조소전공",
+    "url": "https://khuart.khu.ac.kr/khuart/user/contents/view.do?menuNo=1400109",
+    "category": "학과",
+    "imgSrc": "images/departments/sculpture.png"
+  },
+  {
+    "id": "electronic",
+    "name": "전자공학과",
+    "url": "https://ee.khu.ac.kr/ee25/user/contents/view.do?menuNo=21700009",
+    "category": "학과",
+    "imgSrc": "images/departments/electronic.png"
+  },
+  {
+    "id": "semiconductor",
+    "name": "반도체공학과",
+    "url": "https://ee.khu.ac.kr/ee25/user/contents/view.do?menuNo=21700010",
+    "category": "학과",
+    "imgSrc": "images/departments/semiconductor.png"
   }
 ]

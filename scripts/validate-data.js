@@ -17,6 +17,7 @@ const ALLOWED_CATEGORIES = new Set([
   "캠퍼스·문화",
   "대학·행정",
   "단과대",
+  "대학원",
   "학과",
 ]);
 const REQUIRED_FIELDS = ["id", "name", "url", "imgSrc", "category"];
