@@ -1036,83 +1036,6 @@
     "imgSrc": "images/colleges/sdl.png"
   },
   {
-    "id": "gskh",
-    "name": "일반대학원",
-    "url": "https://gskh.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/gskh.png"
-  },
-  {
-    "id": "edu",
-    "name": "교육대학원",
-    "url": "https://edu.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/edu.png"
-  },
-  {
-    "id": "khmba",
-    "name": "경영대학원",
-    "url": "https://khmba.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/khmba.png"
-  },
-  {
-    "id": "pnc",
-    "name": "공공대학원",
-    "url": "https://pnc.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/pnc.png"
-  },
-  {
-    "id": "tourism",
-    "name": "관광대학원",
-    "url": "https://tourism.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/tourism.png"
-  },
-  {
-    "id": "communication",
-    "name": "미디어커뮤니케이션대학원",
-    "url": "https://communication.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/communication.png"
-  },
-  {
-    "id": "gsp",
-    "name": "국제대학원",
-    "url": "https://gsp.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/gsp.png"
-  },
-  {
-    "id": "afd",
-    "name": "아트퓨전디자인대학원",
-    "url": "https://afd.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/afd.png"
-  },
-  {
-    "id": "gradsport",
-    "name": "체육대학원",
-    "url": "https://gradsport.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/gradsport.png"
-  },
-  {
-    "id": "gstm",
-    "name": "테크노경영대학원",
-    "url": "https://gstm.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/gstm.png"
-  },
-  {
-    "id": "gip",
-    "name": "평화복지대학원",
-    "url": "https://gip.khu.ac.kr/",
-    "category": "단과대",
-    "imgSrc": "images/colleges/gip.png"
-  },
-  {
     "id": "foreignplace",
     "name": "외국어대학 강의실예약",
     "url": "https://foreignplace.khu.ac.kr/",
@@ -1127,10 +1050,87 @@
     "imgSrc": "images/colleges/nursingplace.png"
   },
   {
+    "id": "gskh",
+    "name": "일반대학원",
+    "url": "https://gskh.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gskh.png"
+  },
+  {
+    "id": "edu",
+    "name": "교육대학원",
+    "url": "https://edu.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/edu.png"
+  },
+  {
+    "id": "khmba",
+    "name": "경영대학원",
+    "url": "https://khmba.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/khmba.png"
+  },
+  {
+    "id": "pnc",
+    "name": "공공대학원",
+    "url": "https://pnc.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/pnc.png"
+  },
+  {
+    "id": "tourism",
+    "name": "관광대학원",
+    "url": "https://tourism.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/tourism.png"
+  },
+  {
+    "id": "communication",
+    "name": "미디어커뮤니케이션대학원",
+    "url": "https://communication.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/communication.png"
+  },
+  {
+    "id": "gsp",
+    "name": "국제대학원",
+    "url": "https://gsp.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gsp.png"
+  },
+  {
+    "id": "afd",
+    "name": "아트퓨전디자인대학원",
+    "url": "https://afd.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/afd.png"
+  },
+  {
+    "id": "gradsport",
+    "name": "체육대학원",
+    "url": "https://gradsport.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gradsport.png"
+  },
+  {
+    "id": "gstm",
+    "name": "테크노경영대학원",
+    "url": "https://gstm.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gstm.png"
+  },
+  {
+    "id": "gip",
+    "name": "평화복지대학원",
+    "url": "https://gip.khu.ac.kr/",
+    "category": "대학원",
+    "imgSrc": "images/colleges/gip.png"
+  },
+  {
     "id": "nursing-grad",
     "name": "간호대학원",
     "url": "https://nursing.khu.ac.kr/nursing_kor/user/contents/view.do?menuNo=19300060",
-    "category": "단과대",
+    "category": "대학원",
     "imgSrc": "images/colleges/nursing-grad.png"
   },
   {
