@@ -26,12 +26,19 @@ jobs:
         with:
           node-version: 22
 
+      - name: Restore link check state
+        uses: actions/cache/restore@v6
+        with:
+          path: ${{ runner.temp }}/link-check-state.json
+          key: link-check-state-${{ github.run_id }}
+          restore-keys: link-check-state-
+
       - name: Check service links
         id: links
         shell: bash
         run: |
           set +e
-          npm run check:links -- --report "$RUNNER_TEMP/linkcheck-report.md"
+          npm run check:links -- --report "$RUNNER_TEMP/linkcheck-report.md" --state "$RUNNER_TEMP/link-check-state.json"
           status=$?
           set -e
           if [[ "$status" -gt 1 || ! -s "$RUNNER_TEMP/linkcheck-report.md" ]]; then
@@ -56,7 +63,7 @@ jobs:
             done <<< "$issue_numbers"
           fi
           if [[ "$CHECK_STATUS" == "1" ]]; then
-            count=$(sed -n 's/^검사 .*실패 \([0-9]*\)곳$/\1/p' "$RUNNER_TEMP/linkcheck-report.md")
+            count=$(sed -n 's/^수정 검토 대상 \([0-9]*\)곳, 관찰 중 .*$/\1/p' "$RUNNER_TEMP/linkcheck-report.md")
             [[ "$count" =~ ^[1-9][0-9]*$ ]]
             title="[BUG] 지원 서비스 접속 실패 ${count}곳"
             if [[ ${#issues[@]} -eq 0 ]]; then
@@ -69,6 +76,22 @@ jobs:
             fi
           else
             for issue in "${issues[@]}"; do
-              gh issue close "$issue" --comment '모든 지원 서비스가 정상 응답했습니다. 자동 접속 검사 이슈를 닫습니다.'
+              gh issue close "$issue" --comment '하루 넘게 실패한 수정 검토 대상이 없어 자동 접속 검사 이슈를 닫습니다. 오늘 처음 실패한 서비스는 관찰을 계속합니다.'
             done
           fi
+
+      - name: Check state file exists
+        id: state
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f "$RUNNER_TEMP/link-check-state.json" ]]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Save link check state
+        if: always() && steps.state.outputs.exists == 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ${{ runner.temp }}/link-check-state.json
+          key: link-check-state-${{ github.run_id }}

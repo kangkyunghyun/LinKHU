@@ -136,7 +136,7 @@ LinKHU 스펙 세트를 읽고 고칠 때 필요한 문서와 코드 위치, 작
 | 스펙에서 부르는 이름 | 명령 | 역할 |
 | --- | --- | --- |
 | 자동 테스트 | `npm test` | `node --test`로 `tests/`의 `*.test.js` 실행 |
-| 자동 접속 검사 | `npm run check:links -- --report <파일>` | 모든 지원 서비스 주소 검사와 Markdown 보고서 생성 |
+| 자동 접속 검사 | `npm run check:links -- --report <파일> --state <파일>` | 모든 지원 서비스 주소 검사와 Markdown 보고서 생성 |
 | 데이터 검증 | `npm run validate:data` | `src/data.js` 스키마와 무결성 검증 |
 | 다크 아이콘 생성 | `npm run generate:dark-icons` | 라이트 아이콘 배경 제거(원본을 고쳐 씀), 다크 벌 생성, 짝 없는 다크 아이콘 삭제 |
 | 다크 아이콘 짝 검증 | `npm run validate:dark-icons` | 라이트와 다크 아이콘 짝 검증 |

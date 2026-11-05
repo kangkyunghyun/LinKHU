@@ -23,21 +23,62 @@ function escapeCell(value) {
     .replace(/>/g, "&gt;").replace(/\|/g, "&#124;").replace(/[\r\n]+/g, " ");
 }
 
-function createReport(results) {
-  const failures = results.filter((result) => result.reason);
+function failureDays(firstFailed, today) {
+  return Math.floor((Date.parse(today) - Date.parse(firstFailed)) / 86_400_000) + 1;
+}
+
+function updateState(results, previousState, today) {
+  const state = Object.fromEntries(results.filter(({ reason }) => reason).map(({ id }) => [
+    id, Object.hasOwn(previousState, id) ? previousState[id] : today,
+  ]));
+  const review = [];
+  const observing = [];
+  results.filter(({ reason }) => reason).forEach((result) => {
+    const entry = { ...result, firstFailed: state[result.id], days: failureDays(state[result.id], today) };
+    (entry.days >= 2 ? review : observing).push(entry);
+  });
+  return { state, review, observing };
+}
+
+function loadState(file) {
+  if (!file) return {};
+  try {
+    const state = JSON.parse(fs.readFileSync(file, "utf8"));
+    if (!state || Array.isArray(state) || typeof state !== "object" ||
+      !Object.values(state).every((date) => typeof date === "string" &&
+        /^\d{4}-\d{2}-\d{2}$/.test(date) &&
+        Number.isFinite(Date.parse(date)) && new Date(date).toISOString().slice(0, 10) === date)) {
+      return {};
+    }
+    return state;
+  } catch {
+    return {};
+  }
+}
+
+function createReport(results, { review, observing }) {
+  const failures = review.length + observing.length;
   const lines = [
     "해외 러너에서는 교내망 전용 또는 해외 접속 차단 사이트가 오탐될 수 있습니다. 주소 교체 전에 직접 확인해주세요.",
     "", "## 지원 서비스 접속 검사", "",
-    `검사 ${results.length}곳, 정상 ${results.length - failures.length}곳, 실패 ${failures.length}곳`,
+    `검사 ${results.length}곳, 정상 ${results.length - failures}곳, 실패 ${failures}곳`,
+    `수정 검토 대상 ${review.length}곳, 관찰 중 ${observing.length}곳`,
     "", "실패 목록은 점검 후보이며 주소 교체는 사람이 판단합니다.", "",
   ];
-  if (failures.length) {
-    lines.push("| id | 이름 | 주소 | 사유 |", "| --- | --- | --- | --- |");
-    failures.forEach(({ id, name, url, reason }) => {
-      lines.push(`| ${[id, name, url, reason].map(escapeCell).join(" | ")} |`);
-    });
-  } else {
-    lines.push("모든 지원 서비스가 정상 응답했습니다.");
+  for (const [heading, entries] of [
+    ["수정 검토 대상(하루 넘게 실패)", review],
+    ["관찰 중(오늘 처음 실패)", observing],
+  ]) {
+    lines.push(`### ${heading}`, "", "날짜는 UTC 기준", "");
+    if (entries.length) {
+      lines.push("| id | 이름 | 주소 | 사유 | 최초 발견일 | 지속 일수 |", "| --- | --- | --- | --- | --- | --- |");
+      entries.forEach(({ id, name, url, reason, firstFailed, days }) => {
+        lines.push(`| ${[id, name, url, reason, firstFailed, `${days}일`].map(escapeCell).join(" | ")} |`);
+      });
+    } else {
+      lines.push("없음");
+    }
+    lines.push("");
   }
   return `${lines.join("\n")}\n`;
 }
@@ -77,14 +118,24 @@ async function checkSites(sites, { request = requestSite, wait = delay } = {}) {
 
 async function main() {
   const args = process.argv.slice(2);
-  if (args.length && (args.length !== 2 || args[0] !== "--report" || !args[1])) {
-    throw new Error("사용법: node scripts/check-links.js [--report <파일>]");
+  const options = {};
+  for (let index = 0; index < args.length; index += 2) {
+    const flag = args[index];
+    if (!["--report", "--state"].includes(flag) || !args[index + 1] ||
+      args[index + 1].startsWith("--") || Object.hasOwn(options, flag)) {
+      throw new Error("사용법: node scripts/check-links.js [--report <파일>] [--state <파일>]");
+    }
+    options[flag] = args[index + 1];
   }
+  const previousState = loadState(options["--state"]);
+  const today = new Date().toISOString().slice(0, 10);
   const results = await checkSites(loadSiteList());
-  const report = createReport(results);
-  if (args.length) fs.writeFileSync(args[1], report);
+  const assessment = updateState(results, previousState, today);
+  const report = createReport(results, assessment);
+  if (options["--report"]) fs.writeFileSync(options["--report"], report);
+  if (options["--state"]) fs.writeFileSync(options["--state"], `${JSON.stringify(assessment.state, null, 2)}\n`);
   console.log(report);
-  process.exitCode = results.some((result) => result.reason) ? 1 : 0;
+  process.exitCode = assessment.review.length ? 1 : 0;
 }
 
 if (require.main === module) {
@@ -94,4 +145,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { classifyResult, createReport, checkSites };
+module.exports = { classifyResult, createReport, checkSites, updateState, loadState, failureDays };
