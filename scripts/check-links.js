@@ -61,8 +61,7 @@ function loadState(file) {
 function createReport(results, { review, observing }) {
   const failures = review.length + observing.length;
   const lines = [
-    "해외 러너에서는 교내망 전용 또는 해외 접속 차단 사이트가 오탐될 수 있습니다. 주소 교체 전에 직접 확인해주세요.",
-    "", "## 지원 서비스 접속 검사", "",
+    "## 지원 서비스 접속 검사", "",
     `검사 ${results.length}곳, 정상 ${results.length - failures}곳, 실패 ${failures}곳`,
     `수정 검토 대상 ${review.length}곳, 관찰 중 ${observing.length}곳`,
     "", "실패 목록은 점검 후보이며 주소 교체는 사람이 판단합니다.", "",

@@ -36,7 +36,7 @@ test("보고서는 실패 항목만 담고 표 안의 특수문자를 이스케�
     { id: "bad", name: "이름|<태그>\n다음", url: "https://example.org/?a=1&b=2", reason: "HTTP 404" },
   ];
   const report = createReport(results, updateState(results, {}, "2026-11-04"));
-  assert.ok(report.startsWith("해외 러너에서는"));
+  assert.ok(report.startsWith("## 지원 서비스 접속 검사"));
   assert.match(report, /검사 2곳, 정상 1곳, 실패 1곳/);
   assert.match(report, /\| bad \| 이름&#124;&lt;태그&gt; 다음 \| https:\/\/example.org\/\?a=1&amp;b=2 \| HTTP 404 \| 2026-11-04 \| 1일 \|/);
   assert.ok(!report.includes("로그인 페이지"));
