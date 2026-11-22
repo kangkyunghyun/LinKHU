@@ -11,9 +11,7 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: security-${{ github.ref }}
-  cancel-in-progress: true
+# concurrency로 앞선 실행을 취소하지 않는다. main push는 그 push 범위만 보므로 취소된 push의 커밋은 다시 검사되지 않는다.
 
 jobs:
   gitleaks:
