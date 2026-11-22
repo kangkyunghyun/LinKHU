@@ -6,8 +6,7 @@
     <g fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 29h46 M11 53h48"/>
       <path d="M24 34v17 M46 34v17"/>
-      <path d="M31 36c1 3 1 5-2 8v5h12v-5c-3-3-3-5-2-8z"/>
     </g>
-    <path d="M32 42h6v6h-6z" fill="#a40f16"/>
+    <path d="M31 36c1 3 1 5-2 8v5h12v-5c-3-3-3-5-2-8z" fill="#a40f16" stroke="#a40f16" stroke-width="2" stroke-linejoin="round"/>
     <circle cx="35" cy="20" r="3.5" fill="#a40f16"/>
 </svg>
