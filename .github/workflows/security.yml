@@ -1,0 +1,57 @@
+name: Security
+
+# 비밀값 유출 검사(#275). PR은 그 PR이 더한 커밋만, push는 그 push 범위만 본다.
+# 히스토리 전체는 도입 때 로컬에서 한 번 검사했다(2026-11-22, 373커밋, 0건). 오탐이 생기면 .gitleaksignore에 커밋 지문으로 넣는다.
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+# concurrency로 앞선 실행을 취소하지 않는다. main push는 그 push 범위만 보므로 취소된 push의 커밋은 다시 검사되지 않는다.
+
+jobs:
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # gitleaks-action 대신 바이너리를 직접 받는다. 버전과 체크섬을 고정한다.
+      GITLEAKS_VERSION: 8.30.1
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          curl -sSfL -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf gitleaks.tar.gz -C "$RUNNER_TEMP" gitleaks
+          rm gitleaks.tar.gz
+
+      - name: Scan commits
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PUSH_AFTER: ${{ github.event.after }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            RANGE="$PR_BASE..$PR_HEAD"
+          elif [ -n "$PUSH_BEFORE" ] && [ "$PUSH_BEFORE" != "0000000000000000000000000000000000000000" ] \
+            && git cat-file -e "$PUSH_BEFORE^{commit}" 2>/dev/null; then
+            RANGE="$PUSH_BEFORE..$PUSH_AFTER"
+          else
+            # 새 브랜치이거나 이전 커밋을 찾을 수 없으면(강제 push) 그 커밋에서 닿는 히스토리 전체를 본다.
+            RANGE="$PUSH_AFTER"
+          fi
+          echo "검사 범위: $RANGE"
+          # --redact: 찾은 값은 로그에 남기지 않는다. 찾으면 종료 코드 1로 잡이 실패한다.
+          "$RUNNER_TEMP/gitleaks" git --redact --no-banner --verbose --log-opts="$RANGE" .
