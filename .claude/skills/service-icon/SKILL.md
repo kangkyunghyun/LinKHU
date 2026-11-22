@@ -76,26 +76,26 @@ SVG에 #a40f16  →  저장된 PNG는 #9e0007 알파 240  →  흰 카드 위에
 
 ### 2. 70×70 PNG로 내보낸다
 
-의존성을 추가하지 않고 macOS 기본 도구만 쓴다.
+의존성을 추가하지 않고 macOS 기본 도구 `sips`만 쓴다. `sips`는 SVG를 고유 크기(70×70)에서 벡터로 그리고 경계를 안티에일리어싱한다.
 
-**`qlmanage -s` 는 SVG를 확대하지 않는다.** SVG를 고유 크기(`width`/`height`)로 그린 뒤 캔버스만 키우므로, `-s 70`으로 뽑으면 작은 그림이 큰 여백 안에 놓인다. **`width`/`height`를 키운 사본을 만들어야** 한다.
+먼저 `sips`가 SVG를 읽는지 확인한다. `sips --formats | grep -i svg`에 `public.svg-image`가 나와야 한다(macOS 26.6.2에서 확인). Codex 같은 샌드박스 안에서는 SVG를 읽지 못하므로 샌드박스 밖에서 실행한다.
 
 ```bash
 ID=aikhu; CAT=common
 SVG=assets/icons/$CAT/$ID.svg
 
-# width/height만 280으로 키운 임시 사본 — viewBox는 0 0 70 70 그대로 둔다
-sed 's/width="70" height="70"/width="280" height="280"/' "$SVG" > /tmp/$ID-280.svg
-
-qlmanage -t -s 280 -o /tmp /tmp/$ID-280.svg
-sips -z 70 70 "/tmp/$ID-280.svg.png" --out "src/images/$CAT/$ID.png"
+# 흰 배경을 깐 임시 사본 — 생성기는 흰 배경 위에 그린 원본을 전제로 알파를 역산한다
+sed 's|<svg[^>]*>|&<rect x="-35" y="-35" width="140" height="140" fill="#fff"/>|' "$SVG" > /tmp/$ID.svg
+sips -s format png /tmp/$ID.svg --out "src/images/$CAT/$ID.png"
 ```
-
-280으로 뽑아 70으로 줄이는 이유는 경계 안티에일리어싱을 얻기 위해서다. 70에서 바로 뽑으면 선이 거칠다.
 
 내보낸 결과는 **흰 배경 불투명 PNG**다. 다음 단계에서 생성기가 걷어낸다.
 
-> 헤드리스 Chrome(`--screenshot`)으로도 되지만 이 저장소에서 검증하지 않았다. 위 절차를 먼저 쓴다.
+- **`sed`로 흰 사각형을 까는 단계를 빼지 않는다.** 빼면 `sips`가 배경을 투명하게 남겨 경계 픽셀이 검정 대신 반투명 `#1a1a1a`로 남고, 다크 벌에서 선이 옅어진다.
+- **`qlmanage`를 쓰지 않는다.** SVG를 약 0.933배로 줄여 왼쪽 위에 붙여 그려서, 결과가 왼쪽 위로 약 3px 치우친다(이슈 [#260](https://github.com/kangkyunghyun/LinKHU/issues/260)).
+- **크게 뽑아 70으로 줄이지 않는다.** `sips -z`로 줄이면 경계 알파가 한쪽으로 쏠린다. 70에서 바로 그린 결과가 정확하다.
+
+일부 원본은 `viewBox`가 `-2.5 -2.5 75 75`다. `qlmanage`의 축소를 감안해 크게 그렸던 도안을 가운데 기준으로 같은 비율만큼 줄인 것이다. 새 도안은 `0 0 70 70`에 맞춰 그린다.
 
 ### 3. 두 벌을 만든다
 
@@ -131,23 +131,21 @@ npm run build                   # 테스트 + 데이터·두 벌 짝·랜딩 검
 **위의 도안 규칙을 눈대중으로 맞추지 말고 실측한다.** 표의 외곽·잉크·붉은 비중은 재보지 않으면 맞는지 알 수 없다. 눈으로는 멀쩡해 보이던 도안이 세로 46 px로 나온 적이 있다(이슈 [#186](https://github.com/kangkyunghyun/LinKHU/issues/186)).
 
 ```bash
-python3 - <<'EOF'
-from PIL import Image
-def stat(p):
-    im = Image.open(p).convert("RGBA"); w, h = im.size; px = im.load()
-    xs = []; ys = []; ink = 0; red = 0
-    for y in range(h):
-        for x in range(w):
-            r, g, b, a = px[x, y]
-            if a > 20:
-                xs.append(x); ys.append(y); ink += 1
-                if r > 110 and g < 90 and b < 90: red += 1
-    return max(xs)-min(xs)+1, max(ys)-min(ys)+1, ink*100.0/(w*h), red*100.0/ink
-
-print("목표   외곽 58~66   잉크 22~35%   붉은 15~25%")
-for name in ["<id>"]:                      # 잰 아이콘 id로 바꾼다
-    bw, bh, ink, red = stat(f"src/images/common/{name}.png")
-    print(f"{name}  {bw}x{bh}  {ink:.1f}%  {red:.1f}%")
+node - common/<id> <<'EOF'                 # 잰 아이콘의 <카테고리>/<id>로 바꾼다. 여러 개 가능
+const { decodePng } = require("./scripts/generate-dark-icons");
+console.log("목표   외곽 58~66   잉크 22~35%   붉은 15~25%");
+for (const name of process.argv.slice(2)) {
+  const { width: w, height: h, pixels: p } = decodePng(`src/images/${name}.png`);
+  let x0 = w, x1 = 0, y0 = h, y1 = 0, ink = 0, red = 0;
+  for (let i = 0; i < w * h; i++) {
+    const [r, g, b, a] = p.subarray(i * 4, i * 4 + 4);
+    if (a <= 20) continue;
+    const x = i % w, y = Math.floor(i / w);
+    x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+    ink++; if (r > 110 && g < 90 && b < 90) red++;
+  }
+  console.log(`${name}  ${x1 - x0 + 1}x${y1 - y0 + 1}  ${(ink * 100 / (w * h)).toFixed(1)}%  ${(red * 100 / ink).toFixed(1)}%  좌우 여백 ${x0}/${w - 1 - x1}`);
+}
 EOF
 ```
 
