@@ -35,6 +35,8 @@
 flowchart LR
     PR["`**PR, main push**`"] --> V["`**검증 워크플로**
 빌드, ZIP 산출물`"]
+    PR --> S["`**보안 검사**
+비밀값 유출, 정적 분석`"]
     M["`**main에 랜딩 변경**`"] --> PG["`**Pages 워크플로**`"] --> L["`**GitHub Pages**`"]
     T["`**버전 태그 push**`"] --> R["`**릴리스 워크플로**`"] --> GR["`**GitHub Release**`"]
     H["`**메인테이너 수동 실행**`"] --> C["`**Chrome 제출**`"] --> CW["`**Chrome Web Store**`"]
@@ -42,13 +44,14 @@ flowchart LR
     H --> W["`**수동 업로드**`"] --> WS["`**Whale Store**`"]
     classDef comp fill:#E8F2E8,stroke:#527A59,color:#182D1D
     classDef ext fill:#F4F6F4,stroke:#9BA99E,color:#253C2C
-    class PR,V,M,PG,T,R,H,C,F,W comp
+    class PR,V,S,M,PG,T,R,H,C,F,W comp
     class L,GR,CW,FA,WS ext
 ```
 
 | 경로 | 트리거 | 자동화 |
 | --- | --- | --- |
 | 검증 | PR, `main` push | 전부 자동. 처음 기여하는 사람의 포크 PR은 메인테이너가 승인한 뒤 실행 |
+| 보안 검사 | PR, `main` push, 매주 예약 | 전부 자동. 검증 워크플로와 따로 돌아 빌드 시간을 늘리지 않음 |
 | GitHub Release | `v`로 시작하는 버전 태그 push | 릴리스 생성과 ZIP 첨부까지 자동 |
 | Chrome Web Store | 수동 실행 | 워크플로. 확인 문자열 필요 |
 | Firefox Add-ons | 수동 실행 | 워크플로. 확인 문자열 필요 |
@@ -69,6 +72,8 @@ flowchart LR
 | 확인 항목 | 기준 | 확인 위치 | 자동 여부 |
 | --- | --- | --- | --- |
 | 빌드 | 테스트, 데이터 검증, 다크 아이콘 짝 검증, 랜딩 산출물 검사, 패키징 통과. 패키징한 ZIP을 워크플로 산출물로 올림 | 검증 워크플로 | 자동 |
+| 비밀값 유출 | 그 PR·push가 더한 커밋에서 찾으면 실패. 찾은 값은 로그에서 가림. 오탐은 커밋 지문으로 제외 | 보안 검사 | 자동 |
+| 정적 분석 | 확장·랜딩·스크립트 코드와 워크플로를 분석해 저장소 보안 탭에 보고. PR을 막지 않음 | 보안 검사 | 자동 |
 | 병합 | CI가 실패한 PR은 병합하지 않음 | GitHub | 수동 |
 | 스펙 | 현재 동작이 바뀌면 같은 PR에서 스펙 갱신 | PR | 수동 |
 | 수동 검증 | 변경 유형별 확인 항목 | PR 본문 | 수동 |
